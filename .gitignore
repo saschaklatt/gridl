@@ -1,0 +1,13 @@
+# Mac OS
+.DS_Store
+
+# IDEA files
+*.iml
+.idea
+
+# NPM
+node_modules
+
+# project specific
+reports/
+.nyc_output
