@@ -485,6 +485,56 @@ describe('index', () => {
 
         });
 
+        describe('accessing data', () => {
+
+            it('should return the value at a certain index', () => {
+                const data = [
+                    [1,2,3,4],
+                    [5,6,7,8],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.valueAt(0)).to.equal(1);
+                expect(g.valueAt(2)).to.equal(3);
+                expect(g.valueAt(5)).to.equal(6);
+                expect(g.valueAt(7)).to.equal(8);
+            });
+
+            it('should return the value at a certain position', () => {
+                const data = [
+                    [1,2,3,4],
+                    [5,6,7,8],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.valueAt([0,0])).to.equal(1);
+                expect(g.valueAt([1,0])).to.equal(2);
+                expect(g.valueAt([0,1])).to.equal(5);
+                expect(g.valueAt([2,1])).to.equal(7);
+            });
+
+            it('should set the value at a certain index', () => {
+                const data = [
+                    [1,2],
+                    [3,4],
+                    [5,6],
+                    [7,8],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.valueAt([0,2])).to.equal(5);
+                g.valueAt([0,2], 666);
+                expect(g.valueAt([0,2])).to.equal(666);
+            });
+
+            it('should throw an error if index or position is invalid', () => {
+                const data = [1,2,3,4,5,6,7,8];
+                const g = gridl(data, { rows: 2 });
+                expect(() => g.valueAt('wrong')).to.throw();
+                expect(() => g.valueAt({})).to.throw();
+                expect(() => g.valueAt([])).to.throw();
+                expect(() => g.valueAt()).to.throw();
+            });
+
+        });
+
     });
 
 });

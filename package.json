@@ -1,8 +1,8 @@
 {
   "name": "gridl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lightweight and easy to use library to handle data on 2D grids.",
-  "main": "dist/gridlejs.min.js",
+  "main": "dist/gridl.min.js",
   "directories": {
     "lib": "./dist",
     "test": "./test"
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/klattiator/gridle.git"
+    "url": "git@github.com:klattiation/gridl.git"
   },
   "keywords": [
     "grid",

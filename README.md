@@ -2,6 +2,12 @@
 
 Fast, lightweight and easy to use library to handle 2d grid data.
 
+## Installation
+
+Using npm:
+
+`npm i --save gridl`
+
 ## Features
 
 **Already implemented**
@@ -11,10 +17,10 @@ Fast, lightweight and easy to use library to handle 2d grid data.
 * calculate position from index
 * calculate index from position
 * serializable
+* get/set values at position or index
 
 **TODO**
 
-* get/set values at position or index
 * get/set area at position or index
 * add/remove columns and rows
 * swap columns and rows

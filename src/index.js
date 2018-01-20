@@ -116,7 +116,7 @@ export function gridl(data, opts = {}) {
     const _opts = _mergeOptions(opts, data);
     const _data = _opts.arrayType === '1d' ? [...data] : toArray1D(data, _opts.columns, _opts.rows);
 
-    return {
+    const api = {
         // getter for dimensions
         columns: () => _opts.columns,
         rows: () => _opts.rows,
@@ -126,6 +126,21 @@ export function gridl(data, opts = {}) {
         index2pos: index => index2pos(index, _opts.columns),
         pos2index: position => pos2index(position, _opts.columns),
 
+        // data manipulation
+        valueAt: (indexOrPos, value) => {
+            const index = Array.isArray(indexOrPos) ? pos2index(indexOrPos, _opts.columns) : parseInt(indexOrPos);
+            if (isNaN(index)) {
+                throw new Error(`Trying to access value with invalid index or position. ${indexOrPos}`);
+            }
+            if (value === undefined) {
+                return _data[index];
+            }
+            else {
+                _data[index] = value;
+                return api;
+            }
+        },
+
         // exporting data
         toArray1D: () => [..._data],
         toArray2D: toArray2D.bind(this, _data, _opts.columns),
@@ -134,6 +149,7 @@ export function gridl(data, opts = {}) {
             data: _data,
         }),
     };
+    return api;
 }
 
 export default {

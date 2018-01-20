@@ -213,7 +213,7 @@ function gridl(data) {
     var _opts = _mergeOptions(opts, data);
     var _data = _opts.arrayType === '1d' ? [].concat(_toConsumableArray(data)) : toArray1D(data, _opts.columns, _opts.rows);
 
-    return {
+    var api = {
         // getter for dimensions
         columns: function columns() {
             return _opts.columns;
@@ -233,6 +233,20 @@ function gridl(data) {
             return _pos2index(position, _opts.columns);
         },
 
+        // data manipulation
+        valueAt: function valueAt(indexOrPos, value) {
+            var index = Array.isArray(indexOrPos) ? _pos2index(indexOrPos, _opts.columns) : parseInt(indexOrPos);
+            if (isNaN(index)) {
+                throw new Error('Trying to access value with invalid index or position. ' + indexOrPos);
+            }
+            if (value === undefined) {
+                return _data[index];
+            } else {
+                _data[index] = value;
+                return api;
+            }
+        },
+
         // exporting data
         toArray1D: function toArray1D() {
             return [].concat(_toConsumableArray(_data));
@@ -245,6 +259,7 @@ function gridl(data) {
             };
         }
     };
+    return api;
 }
 
 exports.default = {
