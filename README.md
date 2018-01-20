@@ -27,19 +27,14 @@ Using npm:
 * rotate grid
 * mirror grid (x- and y-axis)
 
-## Use Cases
+## Use cases
 
 * Grid based games
+* Level generator
 * Tile maps
 * Path finding
-* Level generator
 
-## Further stuff
+## Related stuff
 
-**Performance**
-
-* Use typed arrays: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays
-
-**Resources**
-
-https://rohan-paul.github.io/javascript/2016/09/09/How_to_Emulate_a_2_Dimensional_array_in_JavaScript_into_a_1_Dimensional_array/
+* [Typed arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays)
+* [2d arrays vs. 1d arrays](https://rohan-paul.github.io/javascript/2016/09/09/How_to_Emulate_a_2_Dimensional_array_in_JavaScript_into_a_1_Dimensional_array/)
