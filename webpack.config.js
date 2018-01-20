@@ -1,6 +1,5 @@
 const pkg = require('./package.json');
 const webpack = require('webpack');
-const path = require('path');
 const libName = pkg.name;
 
 const env = (function(env) {

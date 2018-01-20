@@ -83,360 +83,176 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+exports.gridl = gridl;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Point = function Point(x, y) {
-    return { x: x, y: y };
-};
-
-var add = function add(p1, p2) {
-    return {
-        x: p1.x + p2.x,
-        y: p1.y + p2.y
-    };
-};
-
-var orthogonalPoints = [new Point(0, -1), // top
-new Point(1, 0), // right
-new Point(0, 1), // bottom
-new Point(-1, 0)];
-
-var diagonalPoints = [new Point(1, -1), // top right
-new Point(1, 1), // bottom right
-new Point(-1, 1), // bottom left
-new Point(-1, -1)];
-
-var mergedPoints = [orthogonalPoints[0], // top
-diagonalPoints[0], // top right
-orthogonalPoints[1], // right
-diagonalPoints[1], // bottom right
-orthogonalPoints[2], // bottom
-diagonalPoints[2], // bottom left
-orthogonalPoints[3], // left
-diagonalPoints[3]];
-
 /**
- * Returns the new position after a step of delta.
- * If a step goes beyond the grid, undefined is returned.
+ * Converts cell index into a cell position.
  *
- * @param {Point} position - The starting position.
- * @param {Point} delta - The step to take from the starting position.
- * @param {Number} columns - The number of columns.
- * @param {Number} rows - The number of rows.
- * @returns {(Point|undefined)} The new position or undefined if none is available.
+ * @param {Integer} index - The index of the cell.
+ * @param {Integer} columns - The number of columns the grid has.
+ * @returns {Array} - The equivalent position within the grid as [x, y].
  */
-var stepBounded = exports.stepBounded = function stepBounded(position, delta, columns, rows) {
-    var newPos = add(position, delta);
-
-    var maxX = columns - 1;
-    if (newPos.x > maxX || newPos.x < 0) {
-        return undefined;
-    }
-
-    var maxY = rows - 1;
-    if (newPos.y > maxY || newPos.y < 0) {
-        return undefined;
-    }
-
-    return newPos;
+var _index2pos = function _index2pos(index, columns) {
+    return [index % columns, Math.floor(index / columns)];
 };
 
 /**
- * Returns the new position after a step of delta.
- * If a the step goes beyond the grid, the position will continue on the opposite side of the grid.
+ * Converts a position into cell index.
  *
- * CAUTION: Might not work if delta.x/delta.y are bigger than the number of rows/columns!
- *
- * @param {Point} position - The starting position.
- * @param {Point} delta - The step to take from the starting position.
- * @param {Number} columns - The number of columns.
- * @param {Number} rows - The number of rows.
- * @returns {Point} The new position.
+ * @param {Array} position - The two dimensional position array as [x, y].
+ * @param {Integer} columns - The number of columns the grid has.
+ * @returns {Integer} - The equivalent index within the grid.
  */
-var stepUnbounded = exports.stepUnbounded = function stepUnbounded(position, delta, columns, rows) {
-    var newPos = add(position, delta);
-
-    var maxX = columns - 1;
-    if (newPos.x > maxX) {
-        newPos.x = newPos.x - maxX - 1;
-    } else if (newPos.x < 0) {
-        newPos.x = maxX - newPos.x - 1;
-    }
-
-    var maxY = rows - 1;
-    if (newPos.y > maxY) {
-        newPos.y = newPos.y - maxY - 1;
-    } else if (newPos.y < 0) {
-        newPos.y = maxY - newPos.y - 1;
-    }
-
-    return newPos;
+exports.index2pos = _index2pos;
+var _pos2index = function _pos2index(position, columns) {
+    return position[0] + position[1] * columns;
 };
 
-var toMap2D = exports.toMap2D = function toMap2D(data, columns) {
-    return data.reduce(function (res, cell, index) {
+/**
+ * Converts an one-dimensional grid array into a two-dimensional grid.
+ *
+ * @param {Array} array1D - The one dimensional array.
+ * @param {Integer} columns - The number columns the new array should have.
+ * @returns {Array} - The two-dimensional array.
+ */
+exports.pos2index = _pos2index;
+var toArray2D = exports.toArray2D = function toArray2D(array1D, columns) {
+    return array1D.reduce(function (res, cell, index) {
         var pos = _index2pos(index, columns);
-        if (!res[pos.y]) {
-            res[pos.y] = [];
+        if (!res[pos[1]]) {
+            res[pos[1]] = [];
         }
-        res[pos.y][pos.x] = cell;
+        res[pos[1]][pos[0]] = cell;
         return res;
     }, []);
 };
 
-var _index2pos = function _index2pos(index, columns) {
-    if (isNaN(columns)) {
-        throw new Error("The number of columns must be a number. Given: " + columns);
+/**
+ * Convert a two-dimensional array into a one-dimensional array.
+ *
+ * @param {Array} array2D - The two dimensional array to convert.
+ * @param {Integer} columns - The number of columns.
+ * @param {Integer} rows - The number of rows.
+ * @returns {Array} - The flattened one-dimensional array.
+ */
+var toArray1D = exports.toArray1D = function toArray1D(array2D, columns, rows) {
+    if (rows !== array2D.length) {
+        var dataStr = '(expected: ' + rows + ', actually: ' + array2D.length + ')';
+        throw new Error('Trying to convert invalid array2D with invalid number of rows to array1D. ' + dataStr);
     }
-    return new Point(index % columns, Math.floor(index / columns));
-};
-
-exports.index2pos = _index2pos;
-var _pos2index = function _pos2index(pos, columns) {
-    if (isNaN(columns)) {
-        throw new Error("The number of columns must be a number. Given: " + columns);
-    }
-    return pos.x + pos.y * columns;
+    return array2D.reduce(function (res, row) {
+        if (columns !== row.length) {
+            var _dataStr = '(expected: ' + columns + ', actually: ' + row.length + ')';
+            throw new Error('Trying to convert invalid array2D with invalid number of columns to array1D. ' + _dataStr);
+        }
+        return [].concat(_toConsumableArray(res), _toConsumableArray(row));
+    }, []);
 };
 
 /**
- * Get all neighbours in clockwise order.
+ * Enhance the options with number of rows and columns if they're not provided by the user.
  *
+ * @param {Object} opts - The given options.
+ * @param {Array} data - One- or two-dimensional data array.
+ * @returns {Object} - The options with rows and columns field.
  * @private
- * @param {Array} data - The one dimensional data array.
- * @param {Number} index - The starting index
- * @param {Boolean} includeDiagonal - Whether to include diagonal neighbours or not.
- * @param {Number} columns - The number of columns the grid has.
- * @param {Number} rows - The number of rows the grid has.
- * @param {Function} doStep - Function that resolves a single neighbour.
- * @returns {Array} The neighbours.
  */
-exports.pos2index = _pos2index;
-var getNeighbours = function getNeighbours(data, index, includeDiagonal, columns, rows, doStep) {
-    var pointSet = includeDiagonal ? mergedPoints : orthogonalPoints;
-    var pos = _index2pos(index, columns);
-    return pointSet.map(function (point) {
-        var neighbour = doStep(pos, point, columns, rows);
-        return neighbour ? data[_pos2index(neighbour, columns)] : undefined;
-    });
-};
+var _guessDimensions = function _guessDimensions(opts, data) {
+    var numCells = opts.arrayType === '1d' ? data.length : data.reduce(function (res, row) {
+        return res + row.length;
+    }, 0);
 
-var _getNeighboursBounded = function _getNeighboursBounded(data, index, columns, rows) {
-    var includeDiagonal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-
-    return getNeighbours(data, index, includeDiagonal, columns, rows, stepBounded);
-};
-
-exports.getNeighboursBounded = _getNeighboursBounded;
-var _getNeighboursUnbounded = function _getNeighboursUnbounded(data, index, columns, rows) {
-    var includeDiagonal = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-
-    return getNeighbours(data, index, includeDiagonal, columns, rows, stepUnbounded);
-};
-
-exports.getNeighboursUnbounded = _getNeighboursUnbounded;
-
-var Grid = exports.Grid = function () {
-    function Grid(_ref) {
-        var rows = _ref.rows,
-            columns = _ref.columns,
-            _ref$data = _ref.data,
-            data = _ref$data === undefined ? null : _ref$data;
-
-        _classCallCheck(this, Grid);
-
-        this._rows = rows;
-        this._cols = columns;
-
-        if (data) {
-            this.importData(data);
-        } else {
-            this.fillAllWith(null);
+    if (!opts.columns && !opts.rows) {
+        if (opts.arrayType === '2d') {
+            opts.rows = data.length;
+            opts.columns = data[0].length;
+        } else if (opts.arrayType === '1d') {
+            opts.rows = 1;
+            opts.columns = data.length;
         }
+    } else if (opts.columns && !opts.rows && numCells % opts.columns === 0) {
+        opts.rows = numCells / opts.columns;
+    } else if (!opts.columns && opts.rows && numCells % opts.rows === 0) {
+        opts.columns = numCells / opts.rows;
     }
 
-    _createClass(Grid, [{
-        key: "importData",
-        value: function importData(data) {
-            if (data.length !== this.numCells()) {
-                throw new Error("Importing data failed. Length of [" + data.length + "] doesn't fit [" + this.numCells() + "].");
-            }
-            this._data = data;
-        }
-    }, {
-        key: "exportData",
-        value: function exportData() {
-            return [].concat(_toConsumableArray(this._data));
-        }
-    }, {
-        key: "fillAllWith",
-        value: function fillAllWith(cell) {
-            var length = this._rows * this._cols;
-            this._data = Array.from({ length: length }, function () {
-                return cell;
-            });
-        }
-    }, {
-        key: "getNeighboursBounded",
-        value: function getNeighboursBounded(index) {
-            var includeDiagonal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    return opts;
+};
 
-            return _getNeighboursBounded(this._data, index, this._cols, this._rows, includeDiagonal);
-        }
-    }, {
-        key: "getNeighboursUnbounded",
-        value: function getNeighboursUnbounded(index) {
-            var includeDiagonal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+var _defaultOpts = {
+    arrayType: '1d'
+};
 
-            return _getNeighboursUnbounded(this._data, index, this._cols, this._rows, includeDiagonal);
-        }
-    }, {
-        key: "getNextIndex",
-        value: function getNextIndex(indexOrPos, delta) {
-            var pos = isNaN(indexOrPos) ? indexOrPos : _index2pos(indexOrPos, this._cols);
-            var nextPos = stepUnbounded(pos, delta, this._cols, this._rows);
-            return _pos2index(nextPos, this._cols);
-        }
-    }, {
-        key: "center",
-        value: function center() {
-            return new Point(Math.floor((this._cols - 1) * .5), Math.floor((this._rows - 1) * .5));
-        }
-    }, {
-        key: "getSize",
-        value: function getSize() {
+var _mergeOptions = function _mergeOptions(opts, data) {
+    return Object.assign({}, _defaultOpts, _guessDimensions(Object.assign({}, _defaultOpts, opts), data));
+};
+
+var _validArrayTypes = Object.freeze(['1d', '2d']);
+
+/**
+ * The gridl base function.
+ *
+ * @param {Array} data
+ * @param {{ arrayType, columns, rows }} opts
+ * @returns {{ toArray1D, toArray2D, index2pos, pos2index, rows, columns }}
+ */
+function gridl(data) {
+    var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+
+    if (!Array.isArray(data)) {
+        throw new Error('Trying to use gridl with none-array value for data.');
+    }
+
+    if (opts.arrayType && !_validArrayTypes.includes(opts.arrayType)) {
+        throw new Error('Trying to use invalid arrayType. expected: (' + _validArrayTypes.join('|') + '), actually: ' + opts.arrayType);
+    }
+
+    var _opts = _mergeOptions(opts, data);
+    var _data = _opts.arrayType === '1d' ? [].concat(_toConsumableArray(data)) : toArray1D(data, _opts.columns, _opts.rows);
+
+    return {
+        // getter for dimensions
+        columns: function columns() {
+            return _opts.columns;
+        },
+        rows: function rows() {
+            return _opts.rows;
+        },
+        size: function size() {
+            return [_opts.columns, _opts.rows];
+        },
+
+        // position calculations
+        index2pos: function index2pos(index) {
+            return _index2pos(index, _opts.columns);
+        },
+        pos2index: function pos2index(position) {
+            return _pos2index(position, _opts.columns);
+        },
+
+        // exporting data
+        toArray1D: function toArray1D() {
+            return [].concat(_toConsumableArray(_data));
+        },
+        toArray2D: toArray2D.bind(this, _data, _opts.columns),
+        serialize: function serialize() {
             return {
-                columns: this._cols,
-                rows: this._rows
+                opts: _opts,
+                data: _data
             };
         }
-    }, {
-        key: "numCells",
-        value: function numCells() {
-            return this._rows * this._cols;
-        }
-    }, {
-        key: "setCellAtPos",
-        value: function setCellAtPos(cell, pos) {
-            var index = _pos2index(pos, this._cols);
-            this.setCellAtIndex(cell, index);
-        }
-    }, {
-        key: "setCellAtIndex",
-        value: function setCellAtIndex(cell, index) {
-            this._data[index] = cell;
-        }
-    }, {
-        key: "index2pos",
-        value: function index2pos(index) {
-            return _index2pos(index, this._cols);
-        }
-    }, {
-        key: "pos2index",
-        value: function pos2index(pos) {
-            return _pos2index(pos, this._cols);
-        }
-    }, {
-        key: "mergeGridAtIndex",
-        value: function mergeGridAtIndex(area, index) {
-            var _this = this;
-
-            var pos = this.index2pos(index);
-            area.forEach(function (row, r) {
-                row.forEach(function (cell, c) {
-                    _this.setCellAtPos(cell, new Point(pos.x + c, pos.y + r));
-                });
-            });
-        }
-    }, {
-        key: "includesAreaOnlyThisValue",
-        value: function includesAreaOnlyThisValue(startIndex, area, value) {
-            var pos = this.index2pos(startIndex);
-
-            if (!area.length) {
-                // console.warn('area is empty');
-                return true;
-            }
-
-            // area too high
-            if (pos.y + area.length < this._data.length) {
-                return false;
-            }
-
-            // area too wide
-            if (pos.x + area[0].length < this._data[0].length) {
-                return false;
-            }
-
-            // search for values
-            for (var r = pos.y; r < area.length; r++) {
-                for (var c = pos.x; c < area[r].length; c++) {
-                    if (this._data[r][c] !== value) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-    }, {
-        key: "removeCellAtPos",
-        value: function removeCellAtPos(pos) {
-            var index = _pos2index(pos, this._cols);
-            this.removeCellAtIndex(index);
-        }
-    }, {
-        key: "removeCellAtIndex",
-        value: function removeCellAtIndex(index) {
-            this._data[index] = null;
-        }
-    }, {
-        key: "getAtPosition",
-        value: function getAtPosition(pos) {
-            return this.getAtIndex(_pos2index(pos, this._cols));
-        }
-    }, {
-        key: "getAtIndex",
-        value: function getAtIndex(index) {
-            return this._data[index];
-        }
-    }, {
-        key: "serialilze",
-        value: function serialilze() {
-            return {
-                rows: this._rows,
-                columns: this._cols,
-                data: [].concat(_toConsumableArray(this._data))
-            };
-        }
-    }, {
-        key: "rows",
-        get: function get() {
-            return this._rows;
-        }
-    }, {
-        key: "columns",
-        get: function get() {
-            return this._cols;
-        }
-    }]);
-
-    return Grid;
-}();
+    };
+}
 
 exports.default = {
-    Grid: Grid,
-    getNeighboursBounded: _getNeighboursBounded,
-    getNeighboursUnbounded: _getNeighboursUnbounded,
     pos2index: _pos2index,
     index2pos: _index2pos,
-    toMap2D: toMap2D,
-    stepBounded: stepBounded,
-    stepUnbounded: stepUnbounded
+    toArray2D: toArray2D,
+    toArray1D: toArray1D,
+    gridl: gridl
 };
 
 /***/ })

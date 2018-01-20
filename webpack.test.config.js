@@ -1,4 +1,3 @@
-const pkg = require('./package.json');
 const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
 const path = require('path');
