@@ -18,10 +18,10 @@ Using npm:
 * calculate index from position
 * serializable
 * get/set values at position or index
+* get/set area at position or index
 
 **TODO**
 
-* get/set area at position or index
 * finding values within a certain area
 * moving cells from A to B
 * getting adjacent cells (neighbours) of a certain index or position (orthogonal, diagonal, both)
@@ -62,7 +62,7 @@ The grid data as one- or two-dimensional array.
 
 Converting a one-dimensional array into a two-dimensional grid:
 
-```
+```javascript
 const data = [5, 6, 4, 2, 3, 20]; 
 const array2D = gridl(data, { rows: 2 }).toArray2D();
 
@@ -74,7 +74,7 @@ const array2D = gridl(data, { rows: 2 }).toArray2D();
 
 ```
 
-```
+```javascript
 const data = [1, 2, 3, 4, 5, 6, 7, 8]; 
 const array2D = gridl(data, { columns: 2 }).toArray2D();
 
@@ -90,7 +90,7 @@ const array2D = gridl(data, { columns: 2 }).toArray2D();
 
 Flatten a two-dimensional grid into a one-dimensional array:
 
-```
+```javascript
 const data = [
     [1, 2, 3],
     [4, 5, 6],
@@ -104,7 +104,7 @@ const array1D = gridl(data, { arrayType: '2d' }).toArray1D();
 
 Getting values at a certain position or at a certain index:
 
-```
+```javascript
 const data = [
     [1, 2, 3],
     [4, 5, 6],
@@ -121,7 +121,7 @@ const valueAtIndex = gridl(data, { arrayType: '2d' }).valueAt(4);
 
 Setting values at a certain position or at a certain index:
 
-```
+```javascript
 const data = [
     [1, 2, 3],
     [4, 5, 6],
@@ -139,7 +139,7 @@ const newGrid = gridl(data, { arrayType: '2d' }).valueAt([1, 2], 'Hi').toArray2D
 
 Setting a whole area at a certain position:
 
-```
+```javascript
 const data = [
     [ 1,  2,  3,  4,  5,  6],
     [ 7,  8,  9, 10, 11, 12],
@@ -159,6 +159,25 @@ const newGrid = gridl(data, { arrayType: '2d' }).setAreaAt(position, area).toArr
 //     [ 7,  8,  9,  4,  1,  8],
 //     [13, 14, 15,  5,  3,  9],
 //     [19, 20, 21, 22, 23, 24],
+// ]
+```
+
+Extracting a subset of the grid:
+```javascript
+const data = [
+    [ 1,  2,  3,  4,  5,  6],
+    [ 7,  8,  9, 10, 11, 12],
+    [13, 14, 15, 16, 17, 18],
+    [19, 20, 21, 22, 23, 24],
+];
+const size = [3, 2];
+const position = [1, 2];
+const area = gridl(data, { arrayType: '2d' }).getAreaAt(position, size);
+
+// area would look like this:
+// [
+//     [14, 15, 16],
+//     [20, 21, 22],
 // ]
 ```
 

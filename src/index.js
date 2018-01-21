@@ -114,6 +114,44 @@ function _valueAt(_data, columns, indexOrPos, value) {
     }
 }
 
+function _setAreaAt(api, columns, rows, indexOrPos, area) {
+    const pos = _toPosition(indexOrPos, columns);
+    area.forEach((row, r) => {
+        const targetPos = [0, r + pos[1]];
+        if (targetPos[1] >= rows) {
+            return;
+        }
+        row.forEach((cell, c) => {
+            targetPos[0] = c + pos[0];
+            if (targetPos[0] >= columns) {
+                return;
+            }
+            api.valueAt(targetPos, cell);
+        });
+    });
+    return api;
+}
+
+function _getAreaAt(api, columns, rows, indexOrPos, size) {
+    const pos = _toPosition(indexOrPos, columns);
+    const end = [
+        Math.min(pos[0] + size[0], columns),
+        Math.min(pos[1] + size[1], rows),
+    ];
+    const area = [];
+    for (let r = pos[1]; r < end[1]; r++) {
+        const rArea = r - pos[1];
+        if (!area[rArea]) {
+            area[rArea] = [];
+        }
+        for (let c = pos[0]; c < end[0]; c++) {
+            const cArea = c - pos[0];
+            area[rArea][cArea] = api.valueAt([c, r]);
+        }
+    }
+    return area;
+}
+
 /**
  * The gridl base function.
  *
@@ -132,42 +170,28 @@ export function gridl(data, opts = {}) {
     }
 
     const _opts = _mergeOptions(opts, data);
-    const _data = _opts.arrayType === '1d' ? [...data] : toArray1D(data, _opts.columns, _opts.rows);
+    const { columns, rows } = _opts;
+    const _data = _opts.arrayType === '1d' ? [...data] : toArray1D(data, columns, rows);
 
     const api = {};
 
     // getter for dimensions
-    api.columns = () => _opts.columns;
-    api.rows = () => _opts.rows;
-    api.size = () => [_opts.columns, _opts.rows];
+    api.columns = () => columns;
+    api.rows = () => rows;
+    api.size = () => [columns, rows];
 
     // position calculations
-    api.index2pos = index => index2pos(index, _opts.columns);
-    api.pos2index = position => pos2index(position, _opts.columns);
+    api.index2pos = index => index2pos(index, columns);
+    api.pos2index = position => pos2index(position, columns);
 
-    // data manipulation
-    api.valueAt = _valueAt.bind(api, _data, _opts.columns);
-    api.setAreaAt = (indexOrPos, area) => {
-        const pos = _toPosition(indexOrPos, _opts.columns);
-        area.forEach((row, r) => {
-            const targetPos = [0, r + pos[1]];
-            if (targetPos[1] >= _opts.rows) {
-                return;
-            }
-            row.forEach((cell, c) => {
-                targetPos[0] = c + pos[0];
-                if (targetPos[0] >= _opts.columns) {
-                    return;
-                }
-                api.valueAt(targetPos, cell);
-            });
-        });
-        return api;
-    };
+    // accessing data
+    api.valueAt = _valueAt.bind(api, _data, columns);
+    api.setAreaAt = (indexOrPos, area) => _setAreaAt(api, columns, rows, indexOrPos, area);
+    api.getAreaAt = (indexOrPos, size) => _getAreaAt(api, columns, rows, indexOrPos, size);
 
     // exporting data
     api.toArray1D = () => [..._data];
-    api.toArray2D = toArray2D.bind(api, _data, _opts.columns);
+    api.toArray2D = toArray2D.bind(api, _data, columns);
     api.serialize = () => ({
         opts: _opts,
         data: _data,

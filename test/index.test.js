@@ -548,7 +548,7 @@ describe('index', () => {
 
         });
 
-        describe('areaAt', () => {
+        describe('setAreaAt', () => {
 
             it('should set an area at a given position', () => {
                 const data = [
@@ -611,6 +611,38 @@ describe('index', () => {
                     [13, 14, 15, 16, 17, 18],
                     [19, 20, 21, 22,  4,  1],
                 ]);
+            });
+
+        });
+
+        describe('getAreaAt', () => {
+
+            it('should return the area with a given size at a given location', () => {
+                const data = [
+                    [ 1,  2,  3,  4,  5,  6],
+                    [ 7,  8,  9, 10, 11, 12],
+                    [13, 14, 15, 16, 17, 18],
+                    [19, 20, 21, 22, 23, 24],
+                ];
+                const size = [3, 2];
+                const position = [1, 2];
+                const area = gridl(data, { arrayType: '2d' }).getAreaAt(position, size);
+                expect(area).to.deep.equal([
+                    [14, 15, 16],
+                    [20, 21, 22],
+                ]);
+            });
+
+            it('should ignore values that are out of scope', () => {
+                const data = [
+                    [ 1,  2,  3],
+                    [ 7,  8,  9],
+                    [13, 14, 15],
+                ];
+                const size = [3, 2];
+                const position = [1, 2];
+                const area = gridl(data, { arrayType: '2d' }).getAreaAt(position, size);
+                expect(area).to.deep.equal([[14, 15]]);
             });
 
         });
