@@ -96,9 +96,21 @@ const _mergeOptions = (opts, data) => ({
     ..._guessDimensions({ ..._defaultOpts, ...opts }, data),
 });
 
-const _toIndex = (indexOrPos, columns) => Array.isArray(indexOrPos) ? pos2index(indexOrPos, columns) : parseInt(indexOrPos);
+const _toIndex = (indexOrPos, columns) => {
+    if (!columns) {
+        throw new Error('_toIndex() needs to know the number of columns.');
+    }
+    return Array.isArray(indexOrPos) ? pos2index(indexOrPos, columns) : parseInt(indexOrPos);
+};
 
-const _toPosition = (indexOrPos, columns) => Array.isArray(indexOrPos) ? indexOrPos : index2pos(indexOrPos, columns);
+const _toPosition = (indexOrPos, columns) => {
+    if (!columns) {
+        throw new Error('_toPosition() needs to know the number of columns.');
+    }
+    return Array.isArray(indexOrPos) ? indexOrPos : index2pos(indexOrPos, columns);
+};
+
+const _flatten = array2D => array2D.reduce((res, row) => [...res, ...row], []);
 
 function _valueAt(_data, columns, indexOrPos, value) {
     const index = _toIndex(indexOrPos, columns);
@@ -152,6 +164,38 @@ function _getAreaAt(api, columns, rows, indexOrPos, size) {
     return area;
 }
 
+function _findPosition(api, data, callback) {
+    const index = data.findIndex(callback);
+    return (index >= 0) ? api.index2pos(index) : undefined;
+}
+
+function _findPositionInArea(api, columns, indexOrPos, size, callback) {
+    const area = api.getAreaAt(indexOrPos, size);
+    const flat = _flatten(area);
+    const areaIndex = flat.findIndex(callback);
+    if (areaIndex >= 0) {
+        const areaColumns = area[0].length;
+        const areaPos = _toPosition(indexOrPos, columns);
+        const posInArea = index2pos(areaIndex, areaColumns);
+        return [
+            areaPos[0] + posInArea[0],
+            areaPos[1] + posInArea[1],
+        ];
+    }
+}
+
+function _findIndexInArea(api, columns, indexOrPos, size, callback) {
+    const pos = api.findPositionInArea(indexOrPos, size, callback);
+    return pos ? api.pos2index(pos) : -1;
+}
+
+function _checkAreaFitsAt(columns, rows, indexOrPos, area) {
+    const pos = _toPosition(indexOrPos, columns);
+    const fitsHorizontally = pos[0] + area[0].length <= columns;
+    const fitsVertically = pos[1] + area.length <= rows;
+    return fitsHorizontally && fitsVertically;
+}
+
 /**
  * The gridl base function.
  *
@@ -188,6 +232,11 @@ export function gridl(data, opts = {}) {
     api.valueAt = _valueAt.bind(api, _data, columns);
     api.setAreaAt = (indexOrPos, area) => _setAreaAt(api, columns, rows, indexOrPos, area);
     api.getAreaAt = (indexOrPos, size) => _getAreaAt(api, columns, rows, indexOrPos, size);
+    api.findIndex = callback => _data.findIndex(callback);
+    api.findPosition = callback => _findPosition(api, _data, callback);
+    api.findPositionInArea = (indexOrPos, size, callback) => _findPositionInArea(api, columns, indexOrPos, size, callback);
+    api.findIndexInArea = (indexOrPos, size, callback) => _findIndexInArea(api, columns, indexOrPos, size, callback);
+    api.checkAreaFitsAt = (indexOrPos, area) => _checkAreaFitsAt(columns, rows, indexOrPos, area);
 
     // exporting data
     api.toArray1D = () => [..._data];

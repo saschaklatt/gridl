@@ -19,13 +19,14 @@ Using npm:
 * serializable
 * get/set values at position or index
 * get/set area at position or index
+* finding values in the grid or within a certain area on the grid
+* check if an area would fit into the grid at a certain position or index
 
 **TODO**
 
-* finding values within a certain area
-* moving cells from A to B
 * getting adjacent cells (neighbours) of a certain index or position (orthogonal, diagonal, both)
-* generate grids 
+* moving cells from A to B
+* generating grids 
 * add/remove columns and rows from all sides
 * swap columns and rows
 * rotate grid
@@ -179,6 +180,50 @@ const area = gridl(data, { arrayType: '2d' }).getAreaAt(position, size);
 //     [14, 15, 16],
 //     [20, 21, 22],
 // ]
+```
+
+Find the position of the cell with value 5 in the grid (first occurrence):
+```javascript
+const data = [
+    [1,2,3],
+    [4,2,5],
+    [6,5,4],
+];
+const position = gridl(data, { arrayType: '2d' }).findPosition(v => v === 5);
+
+// position would be [2,1] 
+```
+
+Find the position of the cell with value 7 within a given area (first occurrence):
+```javascript
+const data = [
+    [0,7,3,2,8],
+    [4,2,5,7,8],
+    [6,6,6,6,7],
+];
+const areaPosition = [2,1];
+const areaSize = [3,2];
+const result = gridl(data, { arrayType: '2d' }).findPositionInArea(areaPosition, areaSize, v => v === 7);
+
+// result would be [3,1]
+```
+
+Check if an area would fit into the grid at a certain position:
+```javascript
+const data = [
+    [1,1,1,1,1,1],
+    [1,1,1,1,1,1],
+    [1,1,1,1,1,1],
+    [1,1,1,1,1,1],
+];
+const area = [
+    [2,2,2],
+    [2,2,2],
+];
+gridl(data, { arrayType: '2d' }).checkAreaFitsAt([0,0], area); // true
+gridl(data, { arrayType: '2d' }).checkAreaFitsAt([3,2], area); // true
+gridl(data, { arrayType: '2d' }).checkAreaFitsAt([4,0], area); // false
+gridl(data, { arrayType: '2d' }).checkAreaFitsAt([1,3], area); // false
 ```
 
 ## Related stuff

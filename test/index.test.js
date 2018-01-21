@@ -401,68 +401,64 @@ describe('index', () => {
 
         });
 
-        describe('positioning', () => {
+        describe('index2pos', () => {
 
-            describe('index2pos', () => {
-
-                it('should convert an index to the correct position', () => {
-                    const data = [
-                        [1,2,3,4],
-                        [5,6,7,8],
-                        [9,10,11,12],
-                    ];
-                    const g = gridl(data, { arrayType: '2d' });
-                    expect(g.index2pos(0)).to.deep.equal([0, 0]);
-                    expect(g.index2pos(2)).to.deep.equal([2, 0]);
-                    expect(g.index2pos(3)).to.deep.equal([3, 0]);
-                    expect(g.index2pos(4)).to.deep.equal([0, 1]);
-                    expect(g.index2pos(7)).to.deep.equal([3, 1]);
-                    expect(g.index2pos(9)).to.deep.equal([1, 2]);
-                });
-
-                it('should convert an index to the correct position, even if it\'s out of range', () => {
-                    const data = [
-                        [1,2,3,4],
-                        [5,6,7,8],
-                        [9,10,11,12],
-                    ];
-                    const g = gridl(data, { arrayType: '2d' });
-                    expect(g.index2pos(12)).to.deep.equal([0, 3]);
-                    expect(g.index2pos(15)).to.deep.equal([3, 3]);
-                    expect(g.index2pos(17)).to.deep.equal([1, 4]);
-                });
-
+            it('should convert an index to the correct position', () => {
+                const data = [
+                    [1,2,3,4],
+                    [5,6,7,8],
+                    [9,10,11,12],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.index2pos(0)).to.deep.equal([0, 0]);
+                expect(g.index2pos(2)).to.deep.equal([2, 0]);
+                expect(g.index2pos(3)).to.deep.equal([3, 0]);
+                expect(g.index2pos(4)).to.deep.equal([0, 1]);
+                expect(g.index2pos(7)).to.deep.equal([3, 1]);
+                expect(g.index2pos(9)).to.deep.equal([1, 2]);
             });
 
-            describe('pos2index', () => {
+            it('should convert an index to the correct position, even if it\'s out of range', () => {
+                const data = [
+                    [1,2,3,4],
+                    [5,6,7,8],
+                    [9,10,11,12],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.index2pos(12)).to.deep.equal([0, 3]);
+                expect(g.index2pos(15)).to.deep.equal([3, 3]);
+                expect(g.index2pos(17)).to.deep.equal([1, 4]);
+            });
 
-                it('should convert a position to the correct index', () => {
-                    const data = [
-                        [1,2,3,4],
-                        [5,6,7,8],
-                        [9,10,11,12],
-                    ];
-                    const g = gridl(data, { arrayType: '2d' });
-                    expect(g.pos2index([0, 0])).to.deep.equal(0);
-                    expect(g.pos2index([2, 0])).to.deep.equal(2);
-                    expect(g.pos2index([3, 0])).to.deep.equal(3);
-                    expect(g.pos2index([0, 1])).to.deep.equal(4);
-                    expect(g.pos2index([3, 1])).to.deep.equal(7);
-                    expect(g.pos2index([1, 2])).to.deep.equal(9);
-                });
+        });
 
-                it('should convert a position to the correct index, even if it\'s out of range', () => {
-                    const data = [
-                        [1,2,3,4],
-                        [5,6,7,8],
-                        [9,10,11,12],
-                    ];
-                    const g = gridl(data, { arrayType: '2d' });
-                    expect(g.pos2index([0, 3])).to.deep.equal(12);
-                    expect(g.pos2index([3, 3])).to.deep.equal(15);
-                    expect(g.pos2index([1, 4])).to.deep.equal(17);
-                });
+        describe('pos2index', () => {
 
+            it('should convert a position to the correct index', () => {
+                const data = [
+                    [1,2,3,4],
+                    [5,6,7,8],
+                    [9,10,11,12],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.pos2index([0, 0])).to.deep.equal(0);
+                expect(g.pos2index([2, 0])).to.deep.equal(2);
+                expect(g.pos2index([3, 0])).to.deep.equal(3);
+                expect(g.pos2index([0, 1])).to.deep.equal(4);
+                expect(g.pos2index([3, 1])).to.deep.equal(7);
+                expect(g.pos2index([1, 2])).to.deep.equal(9);
+            });
+
+            it('should convert a position to the correct index, even if it\'s out of range', () => {
+                const data = [
+                    [1,2,3,4],
+                    [5,6,7,8],
+                    [9,10,11,12],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.pos2index([0, 3])).to.deep.equal(12);
+                expect(g.pos2index([3, 3])).to.deep.equal(15);
+                expect(g.pos2index([1, 4])).to.deep.equal(17);
             });
 
         });
@@ -643,6 +639,234 @@ describe('index', () => {
                 const position = [1, 2];
                 const area = gridl(data, { arrayType: '2d' }).getAreaAt(position, size);
                 expect(area).to.deep.equal([[14, 15]]);
+            });
+
+        });
+
+        describe('findIndex', () => {
+
+            it('should return the index of the first occurence', () => {
+                const data = [
+                    [1,2,3],
+                    [4,5,5],
+                    [6,6,6],
+                ];
+                const index = gridl(data, { arrayType: '2d' }).findIndex(v => v === 5);
+                expect(index).to.equal(4);
+            });
+
+            it('should return -1 if the are no findings', () => {
+                const data = [
+                    [1,2,3],
+                    [4,5,5],
+                    [6,6,6],
+                ];
+                const index = gridl(data, { arrayType: '2d' }).findIndex(v => v === 'something else');
+                expect(index).to.equal(-1);
+            });
+
+        });
+
+        describe('findPosition', () => {
+
+            it('should return the position of the first occurrence', () => {
+                const data = [
+                    [1,2,3],
+                    [4,2,5],
+                    [6,5,4],
+                ];
+                const position = gridl(data, { arrayType: '2d' }).findPosition(v => v === 5);
+                expect(position).to.deep.equal([2,1]);
+            });
+
+            it('should return -1 if the are no findings', () => {
+                const data = [
+                    [1,2,3],
+                    [4,2,5],
+                    [6,6,6],
+                ];
+                const index = gridl(data, { arrayType: '2d' }).findPosition(v => v === 'something else');
+                expect(index).to.equal(undefined);
+            });
+
+        });
+
+        describe('findPositionInArea', () => {
+
+            it('should return the position of the first occurrence with a given position', () => {
+                const data = [
+                    [0,7,3,2,8],
+                    [4,2,5,7,8],
+                    [6,6,6,6,7],
+                ];
+                const areaPos = [2,1];
+                const areaSize = [3,2];
+                const result = gridl(data, { arrayType: '2d' }).findPositionInArea(areaPos, areaSize, v => v === 7);
+                expect(result).to.deep.equal([3,1]);
+            });
+
+            it('should return the position of the first occurrence with a given index', () => {
+                const data = [
+                    [0,7,3,2,8],
+                    [4,2,5,7,8],
+                    [6,6,6,6,7],
+                ];
+                const areaIndex = 6;
+                const areaSize = [3,2];
+                const result = gridl(data, { arrayType: '2d' }).findPositionInArea(areaIndex, areaSize, v => v === 7);
+                expect(result).to.deep.equal([3,1]);
+            });
+
+            it('should return undefined if the are no findings', () => {
+                const data = [
+                    [0,7,3,2,8],
+                    [4,2,5,7,8],
+                    [6,6,6,6,7],
+                ];
+                const areaPos = [2,1];
+                const areaSize = [3,2];
+                const result = gridl(data, { arrayType: '2d' }).findPositionInArea(areaPos, areaSize, v => v === 9);
+                expect(result).to.equal(undefined);
+            });
+
+        });
+
+        describe('findIndexInArea', () => {
+
+            it('should return the position of the first occurrence with a given position', () => {
+                const data = [
+                    [0,7,3,2,8],
+                    [4,2,5,7,8],
+                    [6,6,6,6,7],
+                ];
+                const areaPos = [2,1];
+                const areaSize = [3,2];
+                const result = gridl(data, { arrayType: '2d' }).findIndexInArea(areaPos, areaSize, v => v === 7);
+                expect(result).to.equal(8);
+            });
+
+            it('should return the position of the first occurrence with a given index', () => {
+                const data = [
+                    [0,7,3,2,8],
+                    [4,2,5,7,8],
+                    [6,6,6,6,7],
+                ];
+                const areaIndex = 6;
+                const areaSize = [3,2];
+                const result = gridl(data, { arrayType: '2d' }).findIndexInArea(areaIndex, areaSize, v => v === 7);
+                expect(result).to.equal(8);
+            });
+
+            it('should return -1 if the are no findings', () => {
+                const data = [
+                    [0,7,3,2,8],
+                    [4,2,5,7,8],
+                    [6,6,6,6,7],
+                ];
+                const areaPos = [2,1];
+                const areaSize = [3,2];
+                const result = gridl(data, { arrayType: '2d' }).findIndexInArea(areaPos, areaSize, v => v === 9);
+                expect(result).to.equal(-1);
+            });
+
+        });
+
+        describe('checkAreaFitsAt', () => {
+
+            it('should fit with a given position', () => {
+                const data = [
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                ];
+                const area = [
+                    [2,2,2],
+                    [2,2,2],
+                ];
+                const areaPos = [3,2];
+                const result = gridl(data, { arrayType: '2d' }).checkAreaFitsAt(areaPos, area);
+                expect(result).to.equal(true);
+            });
+
+            it('should fit with a given index', () => {
+                const data = [
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                ];
+                const area = [
+                    [2,2,2],
+                    [2,2,2],
+                ];
+                const areaIndex = 13;
+                const result = gridl(data, { arrayType: '2d' }).checkAreaFitsAt(areaIndex, area);
+                expect(result).to.equal(true);
+            });
+
+            it('should not fit with a given index', () => {
+                const data = [
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                ];
+                const area = [
+                    [2,2,2],
+                    [2,2,2],
+                ];
+                const areaIndex = 4;
+                const result = gridl(data, { arrayType: '2d' }).checkAreaFitsAt(areaIndex, area);
+                expect(result).to.equal(false);
+            });
+
+            it('should not fit at the right', () => {
+                const data = [
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                ];
+                const area = [
+                    [2,2,2],
+                    [2,2,2],
+                ];
+                const areaPos = [4,0];
+                const result = gridl(data, { arrayType: '2d' }).checkAreaFitsAt(areaPos, area);
+                expect(result).to.equal(false);
+            });
+
+            it('should not fit at the bottom', () => {
+                const data = [
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                ];
+                const area = [
+                    [2,2,2],
+                    [2,2,2],
+                ];
+                const areaPos = [1,3];
+                const result = gridl(data, { arrayType: '2d' }).checkAreaFitsAt(areaPos, area);
+                expect(result).to.equal(false);
+            });
+
+            it('should not fit at the right and the bottom', () => {
+                const data = [
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                ];
+                const area = [
+                    [2,2,2],
+                    [2,2,2],
+                ];
+                const areaPos = [4,3];
+                const result = gridl(data, { arrayType: '2d' }).checkAreaFitsAt(areaPos, area);
+                expect(result).to.equal(false);
             });
 
         });
