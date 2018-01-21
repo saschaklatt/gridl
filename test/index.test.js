@@ -533,13 +533,14 @@ describe('index', () => {
                 checkApi(gridl(data, { arrayType: '2d' }).valueAt([0,2], 666));
             });
 
-            it('should throw an error if index or position is invalid', () => {
+            it('should return undefined if index or position is invalid', () => {
                 const data = [1,2,3,4,5,6,7,8];
                 const g = gridl(data, { rows: 2 });
-                expect(() => g.valueAt('wrong')).to.throw();
-                expect(() => g.valueAt({})).to.throw();
-                expect(() => g.valueAt([])).to.throw();
-                expect(() => g.valueAt()).to.throw();
+                expect(g.valueAt('wrong')).to.equal(undefined);
+                expect(g.valueAt({})).to.equal(undefined);
+                expect(g.valueAt([])).to.equal(undefined);
+                expect(g.valueAt([-1, 100])).to.equal(undefined);
+                expect(g.valueAt()).to.equal(undefined);
             });
 
         });
@@ -868,6 +869,155 @@ describe('index', () => {
                 const result = gridl(data, { arrayType: '2d' }).checkAreaFitsAt(areaPos, area);
                 expect(result).to.equal(false);
             });
+
+        });
+
+        describe('getRelativePosition', () => {
+
+            it('should get me the position relative to my start position', () => {
+                const data = [
+                    [ 1, 2, 3, 4,21],
+                    [ 5, 6, 7, 8,22],
+                    [ 9,10,11,12,23],
+                    [13,14,15,16,24],
+                    [17,18,19,20,25],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.getRelativePosition([2,3], [-2, 1])).to.deep.equal([0, 4]);
+                expect(g.getRelativePosition([2,3], [ 0, 1])).to.deep.equal([2, 4]);
+                expect(g.getRelativePosition([2,3], [ 2,-3])).to.deep.equal([4, 0]);
+                expect(g.getRelativePosition([2,3], [ 1,-1])).to.deep.equal([3, 2]);
+                expect(g.getRelativePosition([2,3], [ 0, 0])).to.deep.equal([2, 3]);
+            });
+
+            it('should get me all my neighbours', () => {
+                const data = [
+                    [ 1, 2, 3, 4,21],
+                    [ 5, 6, 7, 8,22],
+                    [ 9,10,11,12,23],
+                    [13,14,15,16,24],
+                    [17,18,19,20,25],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                const { TOP, TOP_LEFT, TOP_RIGHT, BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, LEFT, RIGHT} = gridl.directions;
+                expect(g.getRelativePosition([2,3], TOP         )).to.deep.equal([2,2]);
+                expect(g.getRelativePosition([2,3], TOP_RIGHT   )).to.deep.equal([3,2]);
+                expect(g.getRelativePosition([2,3], RIGHT       )).to.deep.equal([3,3]);
+                expect(g.getRelativePosition([2,3], BOTTOM_RIGHT)).to.deep.equal([3,4]);
+                expect(g.getRelativePosition([2,3], BOTTOM      )).to.deep.equal([2,4]);
+                expect(g.getRelativePosition([2,3], BOTTOM_LEFT )).to.deep.equal([1,4]);
+                expect(g.getRelativePosition([2,3], LEFT        )).to.deep.equal([1,3]);
+                expect(g.getRelativePosition([2,3], TOP_LEFT    )).to.deep.equal([1,2]);
+            });
+
+            it('should get me undefined for positions that are out of scope', () => {
+                const data = [
+                    [ 1, 2, 3, 4,21],
+                    [ 5, 6, 7, 8,22],
+                    [ 9,10,11,12,23],
+                    [13,14,15,16,24],
+                    [17,18,19,20,25],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.getRelativePosition([0,0], [-1, 0])).to.deep.equal(undefined);
+                expect(g.getRelativePosition([0,0], [ 0,-1])).to.deep.equal(undefined);
+                expect(g.getRelativePosition([0,0], [ 5, 5])).to.deep.equal(undefined);
+                expect(g.getRelativePosition([3,2], [ 2, 0])).to.deep.equal(undefined);
+                expect(g.getRelativePosition([3,2], [ 0, 3])).to.deep.equal(undefined);
+            });
+
+        });
+
+        describe('getRelativeIndex', () => {
+
+            it('should get me the index relative to my start position', () => {
+                const data = [
+                    [ 1, 2, 3, 4,21],
+                    [ 5, 6, 7, 8,22],
+                    [ 9,10,11,12,23],
+                    [13,14,15,16,24],
+                    [17,18,19,20,25],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.getRelativeIndex([2,3], [-2, 1])).to.equal(20);
+                expect(g.getRelativeIndex([0,0], [ 1, 0])).to.equal(1);
+                expect(g.getRelativeIndex([0,0], [ 4, 0])).to.equal(4);
+                expect(g.getRelativeIndex([1,1], [-1,-1])).to.equal(0);
+                expect(g.getRelativeIndex([2,1], [ 2, 3])).to.equal(24);
+            });
+
+            it('should get me -1 for positions out of scope', () => {
+                const data = [
+                    [ 1, 2, 3, 4,21],
+                    [ 5, 6, 7, 8,22],
+                    [ 9,10,11,12,23],
+                    [13,14,15,16,24],
+                    [17,18,19,20,25],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.getRelativeIndex([0,0], [-1, 0])).to.deep.equal(-1);
+                expect(g.getRelativeIndex([0,0], [ 0,-1])).to.deep.equal(-1);
+                expect(g.getRelativeIndex([0,0], [ 5, 5])).to.deep.equal(-1);
+                expect(g.getRelativeIndex([3,2], [ 2, 0])).to.deep.equal(-1);
+                expect(g.getRelativeIndex([3,2], [ 0, 3])).to.deep.equal(-1);
+            });
+
+        });
+
+        describe('getRelativeValue', () => {
+
+            it('should get me the value relative to my start position', () => {
+                const data = [
+                    [ 1, 2, 3, 4,21],
+                    [ 5, 6, 7, 8,22],
+                    [ 9,10,11,12,23],
+                    [13,14,15,16,24],
+                    [17,18,19,20,25],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.getRelativeValue([2,3], [-2, 1])).to.deep.equal(17);
+                expect(g.getRelativeValue([2,3], [ 0, 1])).to.deep.equal(19);
+                expect(g.getRelativeValue([2,3], [ 2,-3])).to.deep.equal(21);
+                expect(g.getRelativeValue([2,3], [ 1,-1])).to.deep.equal(12);
+                expect(g.getRelativeValue([2,3], [ 0, 0])).to.deep.equal(15);
+            });
+
+            it('should get me all my neighbours', () => {
+                const data = [
+                    [ 1, 2, 3, 4,21],
+                    [ 5, 6, 7, 8,22],
+                    [ 9,10,11,12,23],
+                    [13,14,15,16,24],
+                    [17,18,19,20,25],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                const { TOP, TOP_LEFT, TOP_RIGHT, BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, LEFT, RIGHT} = gridl.directions;
+                expect(g.getRelativeValue([2,3], TOP         )).to.deep.equal(11);
+                expect(g.getRelativeValue([2,3], TOP_RIGHT   )).to.deep.equal(12);
+                expect(g.getRelativeValue([2,3], RIGHT       )).to.deep.equal(16);
+                expect(g.getRelativeValue([2,3], BOTTOM_RIGHT)).to.deep.equal(20);
+                expect(g.getRelativeValue([2,3], BOTTOM      )).to.deep.equal(19);
+                expect(g.getRelativeValue([2,3], BOTTOM_LEFT )).to.deep.equal(18);
+                expect(g.getRelativeValue([2,3], LEFT        )).to.deep.equal(14);
+                expect(g.getRelativeValue([2,3], TOP_LEFT    )).to.deep.equal(10);
+            });
+
+            it('should get me undefined for positions out of scope', () => {
+                const data = [
+                    [ 1, 2, 3, 4,21],
+                    [ 5, 6, 7, 8,22],
+                    [ 9,10,11,12,23],
+                    [13,14,15,16,24],
+                    [17,18,19,20,25],
+                ];
+                const g = gridl(data, { arrayType: '2d' });
+                expect(g.getRelativeValue([0,0], [-1, 0])).to.deep.equal(undefined);
+                expect(g.getRelativeValue([0,0], [ 0,-1])).to.deep.equal(undefined);
+                expect(g.getRelativeValue([0,0], [ 5, 5])).to.deep.equal(undefined);
+                expect(g.getRelativeValue([3,2], [ 2, 0])).to.deep.equal(undefined);
+                expect(g.getRelativeValue([3,2], [ 0, 3])).to.deep.equal(undefined);
+            });
+
 
         });
 

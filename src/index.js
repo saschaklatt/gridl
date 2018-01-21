@@ -112,10 +112,16 @@ const _toPosition = (indexOrPos, columns) => {
 
 const _flatten = array2D => array2D.reduce((res, row) => [...res, ...row], []);
 
+const _addPositions = (p1, p2) => [
+    p1[0] + p2[0],
+    p1[1] + p2[1],
+];
+
 function _valueAt(_data, columns, indexOrPos, value) {
     const index = _toIndex(indexOrPos, columns);
     if (isNaN(index)) {
-        throw new Error(`Trying to access value with invalid index or position. ${indexOrPos}`);
+        // throw new Error(`Trying to access value with invalid index or position. ${indexOrPos}`);
+        return;
     }
     if (value === undefined) {
         return _data[index];
@@ -184,16 +190,20 @@ function _findPositionInArea(api, columns, indexOrPos, size, callback) {
     }
 }
 
-function _findIndexInArea(api, columns, indexOrPos, size, callback) {
-    const pos = api.findPositionInArea(indexOrPos, size, callback);
-    return pos ? api.pos2index(pos) : -1;
-}
-
 function _checkAreaFitsAt(columns, rows, indexOrPos, area) {
     const pos = _toPosition(indexOrPos, columns);
     const fitsHorizontally = pos[0] + area[0].length <= columns;
     const fitsVertically = pos[1] + area.length <= rows;
     return fitsHorizontally && fitsVertically;
+}
+
+function _getRelativePosition(columns, rows, indexOrPos, direction) {
+    const startPos = _toPosition(indexOrPos, columns);
+    const targetPos = _addPositions(startPos, direction);
+    if (targetPos[0] < 0 || targetPos[0] >= columns || targetPos[1] < 0 || targetPos[1] >= rows) {
+        return;
+    }
+    return targetPos;
 }
 
 /**
@@ -226,7 +236,12 @@ export function gridl(data, opts = {}) {
 
     // position calculations
     api.index2pos = index => index2pos(index, columns);
-    api.pos2index = position => pos2index(position, columns);
+    api.pos2index = position => {
+        if (!position) {
+            return -1;
+        }
+        return pos2index(position, columns);
+    };
 
     // accessing data
     api.valueAt = _valueAt.bind(api, _data, columns);
@@ -235,8 +250,11 @@ export function gridl(data, opts = {}) {
     api.findIndex = callback => _data.findIndex(callback);
     api.findPosition = callback => _findPosition(api, _data, callback);
     api.findPositionInArea = (indexOrPos, size, callback) => _findPositionInArea(api, columns, indexOrPos, size, callback);
-    api.findIndexInArea = (indexOrPos, size, callback) => _findIndexInArea(api, columns, indexOrPos, size, callback);
+    api.findIndexInArea = (indexOrPos, size, callback) => api.pos2index(api.findPositionInArea(indexOrPos, size, callback));
     api.checkAreaFitsAt = (indexOrPos, area) => _checkAreaFitsAt(columns, rows, indexOrPos, area);
+    api.getRelativePosition = (indexOrPos, direction) => _getRelativePosition(columns, rows, indexOrPos, direction);
+    api.getRelativeIndex = (indexOrPos, direction) => api.pos2index(api.getRelativePosition(indexOrPos, direction));
+    api.getRelativeValue = (indexOrPos, direction) => api.valueAt(api.getRelativePosition(indexOrPos, direction));
 
     // exporting data
     api.toArray1D = () => [..._data];
@@ -248,5 +266,16 @@ export function gridl(data, opts = {}) {
 
     return api;
 }
+
+gridl.directions = Object.freeze({
+    TOP:          [ 0, -1],
+    TOP_RIGHT:    [ 1, -1],
+    RIGHT:        [ 1,  0],
+    BOTTOM_RIGHT: [ 1,  1],
+    BOTTOM:       [ 0,  1],
+    BOTTOM_LEFT:  [-1,  1],
+    LEFT:         [-1,  0],
+    TOP_LEFT:     [-1, -1],
+});
 
 export default gridl;

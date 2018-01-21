@@ -20,23 +20,10 @@ Using npm:
 * getting/setting areas at position or index
 * finding values in the grid or within a certain area on the grid
 * check if an area would fit into the grid at a certain position or index
+* relative positions
 
 **TODO**
 
-* relative positions
-    * accessing cells by a relative position to another cell
-        * getRelativeIndex(start, direction)
-        * getRelativePosition(start, direction)
-        * getRelativeValue(start, direction)
-    * define direction constants for adjacent cells (neighbours)
-        * [ 0,-1] - TOP 
-        * [-1,-1] - TOP_LEFT
-        * [-1, 0] - LEFT
-        * [-1, 1] - BOTTOM_LEFT
-        * [ 0, 1] - BOTTOM
-        * [ 1, 1] - BOTTOM_RIGHT
-        * [ 1, 0] - RIGHT
-        * [ 1,-1] - TOP_RIGHT
 * anchor/pivot points in areas
 * moving cells from A to B
 * generating grids 
@@ -237,6 +224,22 @@ gridl(data, { arrayType: '2d' }).checkAreaFitsAt([0,0], area); // true
 gridl(data, { arrayType: '2d' }).checkAreaFitsAt([3,2], area); // true
 gridl(data, { arrayType: '2d' }).checkAreaFitsAt([4,0], area); // false
 gridl(data, { arrayType: '2d' }).checkAreaFitsAt([1,3], area); // false
+```
+
+Get a position relative to my current position:
+```javascript
+const data = [
+    [ 1, 2, 3, 4,21],
+    [ 5, 6, 7, 8,22],
+    [ 9,10,11,12,23],
+    [13,14,15,16,24],
+    [17,18,19,20,25],
+];
+const g = gridl(data, { arrayType: '2d' });
+const { TOP, LEFT } = gridl.directions;
+g.getRelativePosition([2,3], [-2, 1]); // [0, 4]
+g.getRelativePosition([2,3], TOP);     // [2,2]
+g.getRelativePosition([2,3], LEFT);    // [1,3]
 ```
 
 ## Related stuff
