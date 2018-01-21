@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { gridl, index2pos, pos2index, toArray2D, toArray1D } from '../src';
+import gridl, { index2pos, pos2index, toArray2D, toArray1D } from '../src';
 
 describe('index', () => {
 

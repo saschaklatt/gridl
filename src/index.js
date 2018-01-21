@@ -1,3 +1,9 @@
+const _defaultOpts = {
+    arrayType: '1d',
+};
+
+const _validArrayTypes = Object.freeze(['1d', '2d']);
+
 /**
  * Converts cell index into a cell position.
  *
@@ -70,7 +76,7 @@ const _guessDimensions = (opts, data) => {
             opts.rows = data.length;
             opts.columns = data[0].length;
         }
-        else if (opts.arrayType === '1d') {
+        else {
             opts.rows = 1;
             opts.columns = data.length;
         }
@@ -85,16 +91,24 @@ const _guessDimensions = (opts, data) => {
     return opts;
 };
 
-const _defaultOpts = {
-    arrayType: '1d',
-};
-
 const _mergeOptions = (opts, data) => ({
     ..._defaultOpts,
     ..._guessDimensions({ ..._defaultOpts, ...opts }, data),
 });
 
-const _validArrayTypes = Object.freeze(['1d', '2d']);
+const _valueAt = (_data, columns, indexOrPos, value) => {
+    const index = Array.isArray(indexOrPos) ? pos2index(indexOrPos, columns) : parseInt(indexOrPos);
+    if (isNaN(index)) {
+        throw new Error(`Trying to access value with invalid index or position. ${indexOrPos}`);
+    }
+    if (value === undefined) {
+        return _data[index];
+    }
+    else {
+        _data[index] = value;
+        return this;
+    }
+};
 
 /**
  * The gridl base function.
@@ -116,46 +130,29 @@ export function gridl(data, opts = {}) {
     const _opts = _mergeOptions(opts, data);
     const _data = _opts.arrayType === '1d' ? [...data] : toArray1D(data, _opts.columns, _opts.rows);
 
-    const api = {
-        // getter for dimensions
-        columns: () => _opts.columns,
-        rows: () => _opts.rows,
-        size: () => [_opts.columns, _opts.rows],
+    const api = {};
 
-        // position calculations
-        index2pos: index => index2pos(index, _opts.columns),
-        pos2index: position => pos2index(position, _opts.columns),
+    // getter for dimensions
+    api.columns = () => _opts.columns;
+    api.rows = () => _opts.rows;
+    api.size = () => [_opts.columns, _opts.rows];
 
-        // data manipulation
-        valueAt: (indexOrPos, value) => {
-            const index = Array.isArray(indexOrPos) ? pos2index(indexOrPos, _opts.columns) : parseInt(indexOrPos);
-            if (isNaN(index)) {
-                throw new Error(`Trying to access value with invalid index or position. ${indexOrPos}`);
-            }
-            if (value === undefined) {
-                return _data[index];
-            }
-            else {
-                _data[index] = value;
-                return api;
-            }
-        },
+    // position calculations
+    api.index2pos = index => index2pos(index, _opts.columns);
+    api.pos2index = position => pos2index(position, _opts.columns);
 
-        // exporting data
-        toArray1D: () => [..._data],
-        toArray2D: toArray2D.bind(this, _data, _opts.columns),
-        serialize: () => ({
-            opts: _opts,
-            data: _data,
-        }),
-    };
+    // data manipulation
+    api.valueAt = _valueAt.bind(api, _data, _opts.columns);
+
+    // exporting data
+    api.toArray1D = () => [..._data];
+    api.toArray2D = toArray2D.bind(api, _data, _opts.columns);
+    api.serialize = () => ({
+        opts: _opts,
+        data: _data,
+    });
+
     return api;
 }
 
-export default {
-    pos2index,
-    index2pos,
-    toArray2D,
-    toArray1D,
-    gridl,
-};
+export default gridl;
