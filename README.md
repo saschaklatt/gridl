@@ -14,17 +14,30 @@ Using npm:
 
 * import one-dimensional arrays
 * import two-dimensional arrays
-* calculate position from index
-* calculate index from position
+* transform position to index and index to position
 * serializable
-* get/set values at position or index
-* get/set area at position or index
+* getting/setting values at position or index
+* getting/setting areas at position or index
 * finding values in the grid or within a certain area on the grid
 * check if an area would fit into the grid at a certain position or index
 
 **TODO**
 
-* getting adjacent cells (neighbours) of a certain index or position (orthogonal, diagonal, both)
+* relative positions
+    * accessing cells by a relative position to another cell
+        * getRelativeIndex(start, direction)
+        * getRelativePosition(start, direction)
+        * getRelativeValue(start, direction)
+    * define direction constants for adjacent cells (neighbours)
+        * [ 0,-1] - TOP 
+        * [-1,-1] - TOP_LEFT
+        * [-1, 0] - LEFT
+        * [-1, 1] - BOTTOM_LEFT
+        * [ 0, 1] - BOTTOM
+        * [ 1, 1] - BOTTOM_RIGHT
+        * [ 1, 0] - RIGHT
+        * [ 1,-1] - TOP_RIGHT
+* anchor/pivot points in areas
 * moving cells from A to B
 * generating grids 
 * add/remove columns and rows from all sides

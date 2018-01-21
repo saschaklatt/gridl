@@ -46,6 +46,7 @@
     "chai": "^4.1.2",
     "eslint": "^4.16.0",
     "eslint-loader": "^1.9.0",
+    "husky": "0.15.0-beta.16",
     "mocha": "^4.1.0",
     "mocha-webpack": "^1.0.1",
     "nyc": "^11.4.1",
@@ -62,5 +63,12 @@
       ".tmp",
       "test"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test && npm build",
+      "pre-publish": "npm test && npm build"
+    }
   }
 }
