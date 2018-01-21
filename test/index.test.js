@@ -467,7 +467,7 @@ describe('index', () => {
 
         });
 
-        describe('serialization', () => {
+        describe('serialize', () => {
 
             it('should serialize the data and options', () => {
                 const data = [
@@ -488,7 +488,7 @@ describe('index', () => {
 
         });
 
-        describe('accessing data', () => {
+        describe('valueAt', () => {
 
             it('should return the value at a certain index', () => {
                 const data = [
@@ -544,6 +544,73 @@ describe('index', () => {
                 expect(() => g.valueAt({})).to.throw();
                 expect(() => g.valueAt([])).to.throw();
                 expect(() => g.valueAt()).to.throw();
+            });
+
+        });
+
+        describe('areaAt', () => {
+
+            it('should set an area at a given position', () => {
+                const data = [
+                    [ 1,  2,  3,  4,  5,  6],
+                    [ 7,  8,  9, 10, 11, 12],
+                    [13, 14, 15, 16, 17, 18],
+                    [19, 20, 21, 22, 23, 24],
+                ];
+                const area = [
+                    [4,  1,  8],
+                    [5,  3,  9],
+                ];
+                const position = [3, 1];
+                const grid = gridl(data, { arrayType: '2d' }).setAreaAt(position, area).toArray2D();
+                expect(grid).to.deep.equal([
+                    [ 1,  2,  3,  4,  5,  6],
+                    [ 7,  8,  9,  4,  1,  8],
+                    [13, 14, 15,  5,  3,  9],
+                    [19, 20, 21, 22, 23, 24],
+                ]);
+            });
+
+            it('should set an area at a given index', () => {
+                const data = [
+                    [ 1,  2,  3,  4,  5,  6],
+                    [ 7,  8,  9, 10, 11, 12],
+                    [13, 14, 15, 16, 17, 18],
+                    [19, 20, 21, 22, 23, 24],
+                ];
+                const area = [
+                    [4,  1,  8],
+                    [5,  3,  9],
+                ];
+                const index = 9;
+                const grid = gridl(data, { arrayType: '2d' }).setAreaAt(index, area).toArray2D();
+                expect(grid).to.deep.equal([
+                    [ 1,  2,  3,  4,  5,  6],
+                    [ 7,  8,  9,  4,  1,  8],
+                    [13, 14, 15,  5,  3,  9],
+                    [19, 20, 21, 22, 23, 24],
+                ]);
+            });
+
+            it('should ignore values that are out of scope', () => {
+                const data = [
+                    [ 1,  2,  3,  4,  5,  6],
+                    [ 7,  8,  9, 10, 11, 12],
+                    [13, 14, 15, 16, 17, 18],
+                    [19, 20, 21, 22, 23, 24],
+                ];
+                const area = [
+                    [4,  1,  8],
+                    [5,  3,  9],
+                ];
+                const position = [4, 3];
+                const grid = gridl(data, { arrayType: '2d' }).setAreaAt(position, area).toArray2D();
+                expect(grid).to.deep.equal([
+                    [ 1,  2,  3,  4,  5,  6],
+                    [ 7,  8,  9, 10, 11, 12],
+                    [13, 14, 15, 16, 17, 18],
+                    [19, 20, 21, 22,  4,  1],
+                ]);
             });
 
         });

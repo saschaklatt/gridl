@@ -96,8 +96,12 @@ const _mergeOptions = (opts, data) => ({
     ..._guessDimensions({ ..._defaultOpts, ...opts }, data),
 });
 
+const _toIndex = (indexOrPos, columns) => Array.isArray(indexOrPos) ? pos2index(indexOrPos, columns) : parseInt(indexOrPos);
+
+const _toPosition = (indexOrPos, columns) => Array.isArray(indexOrPos) ? indexOrPos : index2pos(indexOrPos, columns);
+
 function _valueAt(_data, columns, indexOrPos, value) {
-    const index = Array.isArray(indexOrPos) ? pos2index(indexOrPos, columns) : parseInt(indexOrPos);
+    const index = _toIndex(indexOrPos, columns);
     if (isNaN(index)) {
         throw new Error(`Trying to access value with invalid index or position. ${indexOrPos}`);
     }
@@ -143,6 +147,23 @@ export function gridl(data, opts = {}) {
 
     // data manipulation
     api.valueAt = _valueAt.bind(api, _data, _opts.columns);
+    api.setAreaAt = (indexOrPos, area) => {
+        const pos = _toPosition(indexOrPos, _opts.columns);
+        area.forEach((row, r) => {
+            const targetPos = [0, r + pos[1]];
+            if (targetPos[1] >= _opts.rows) {
+                return;
+            }
+            row.forEach((cell, c) => {
+                targetPos[0] = c + pos[0];
+                if (targetPos[0] >= _opts.columns) {
+                    return;
+                }
+                api.valueAt(targetPos, cell);
+            });
+        });
+        return api;
+    };
 
     // exporting data
     api.toArray1D = () => [..._data];

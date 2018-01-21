@@ -22,7 +22,11 @@ Using npm:
 **TODO**
 
 * get/set area at position or index
-* add/remove columns and rows
+* finding values within a certain area
+* moving cells from A to B
+* getting adjacent cells (neighbours) of a certain index or position (orthogonal, diagonal, both)
+* generate grids 
+* add/remove columns and rows from all sides
 * swap columns and rows
 * rotate grid
 * mirror grid (x- and y-axis)
@@ -131,6 +135,31 @@ const newGrid = gridl(data, { arrayType: '2d' }).valueAt([1, 2], 'Hi').toArray2D
 //     [4, 5, 6],
 //     [7, 'Hi', 9],
 // ];
+```
+
+Setting a whole area at a certain position:
+
+```
+const data = [
+    [ 1,  2,  3,  4,  5,  6],
+    [ 7,  8,  9, 10, 11, 12],
+    [13, 14, 15, 16, 17, 18],
+    [19, 20, 21, 22, 23, 24],
+];
+const area = [
+    [4,  1,  8],
+    [5,  3,  9],
+];
+const position = [3, 1];
+const newGrid = gridl(data, { arrayType: '2d' }).setAreaAt(position, area).toArray2D();
+
+// newGrid would look like this:
+// [
+//     [ 1,  2,  3,  4,  5,  6],
+//     [ 7,  8,  9,  4,  1,  8],
+//     [13, 14, 15,  5,  3,  9],
+//     [19, 20, 21, 22, 23, 24],
+// ]
 ```
 
 ## Related stuff
