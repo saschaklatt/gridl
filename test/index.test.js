@@ -2,6 +2,17 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import gridl, { index2pos, pos2index, toArray2D, toArray1D } from '../src';
 
+const checkApi = api => {
+    expect(api).to.have.property('columns');
+    expect(api).to.have.property('rows');
+    expect(api).to.have.property('size');
+    expect(api).to.have.property('index2pos');
+    expect(api).to.have.property('pos2index');
+    expect(api).to.have.property('toArray1D');
+    expect(api).to.have.property('toArray2D');
+    expect(api).to.have.property('serialize');
+};
+
 describe('index', () => {
 
     describe('helpers', () => {
@@ -131,15 +142,7 @@ describe('index', () => {
             it('should return the expected api', () => {
                 const data = [];
                 const opts = {};
-                const g = gridl(data, opts);
-                expect(g).to.have.property('columns');
-                expect(g).to.have.property('rows');
-                expect(g).to.have.property('size');
-                expect(g).to.have.property('index2pos');
-                expect(g).to.have.property('pos2index');
-                expect(g).to.have.property('toArray1D');
-                expect(g).to.have.property('toArray2D');
-                expect(g).to.have.property('serialize');
+                checkApi(gridl(data, opts));
             });
 
         });
@@ -520,8 +523,18 @@ describe('index', () => {
                 ];
                 const g = gridl(data, { arrayType: '2d' });
                 expect(g.valueAt([0,2])).to.equal(5);
-                g.valueAt([0,2], 666);
+                checkApi(g.valueAt([0,2], 666));
                 expect(g.valueAt([0,2])).to.equal(666);
+            });
+
+            it('should return the api when setting valueAt', () => {
+                const data = [
+                    [1,2],
+                    [3,4],
+                    [5,6],
+                    [7,8],
+                ];
+                checkApi(gridl(data, { arrayType: '2d' }).valueAt([0,2], 666));
             });
 
             it('should throw an error if index or position is invalid', () => {
@@ -531,6 +544,68 @@ describe('index', () => {
                 expect(() => g.valueAt({})).to.throw();
                 expect(() => g.valueAt([])).to.throw();
                 expect(() => g.valueAt()).to.throw();
+            });
+
+        });
+
+        describe('examples', () => {
+
+            it('should convert a one-dimensional array into a two-dimensional grid (only rows given)', () => {
+                const data = [5, 6, 4, 2, 3, 20];
+                const array2D = gridl(data, { rows: 2 }).toArray2D();
+                expect(array2D).to.deep.equal([
+                    [5, 6, 4],
+                    [2, 3, 20],
+                ]);
+            });
+
+            it('should convert a one-dimensional array into a two-dimensional grid (only columns given)', () => {
+                const data = [1, 2, 3, 4, 5, 6, 7, 8];
+                const array2D = gridl(data, { columns: 2 }).toArray2D();
+                expect(array2D).to.deep.equal([
+                    [1, 2],
+                    [3, 4],
+                    [5, 6],
+                    [7, 8],
+                ]);
+            });
+
+            it('should flatten a two-dimensional grid into a one-dimensional array', () => {
+                const data = [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ];
+                const array1D = gridl(data, { arrayType: '2d' }).toArray1D();
+                expect(array1D).to.deep.equal([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+            });
+
+            it('should get a value at a certain position or index', () => {
+                const data = [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ];
+
+                const valueAtPosition = gridl(data, { arrayType: '2d' }).valueAt([1, 2]);
+                expect(valueAtPosition).to.equal(8);
+
+                const valueAtIndex = gridl(data, { arrayType: '2d' }).valueAt(4);
+                expect(valueAtIndex).to.equal(5);
+            });
+
+            it('should set value at position', () => {
+                const data = [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ];
+                const newGrid = gridl(data, { arrayType: '2d' }).valueAt([1, 2], 'Hi').toArray2D();
+                expect(newGrid).to.deep.equal([
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 'Hi', 9],
+                ]);
             });
 
         });

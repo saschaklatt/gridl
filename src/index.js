@@ -68,7 +68,7 @@ export const toArray1D = (array2D, columns, rows) => {
  * @returns {Object} - The options with rows and columns field.
  * @private
  */
-const _guessDimensions = (opts, data) => {
+function _guessDimensions(opts, data) {
     const numCells = opts.arrayType === '1d' ? data.length : data.reduce((res, row) => res + row.length, 0);
 
     if (!opts.columns && !opts.rows) {
@@ -89,14 +89,14 @@ const _guessDimensions = (opts, data) => {
     }
 
     return opts;
-};
+}
 
 const _mergeOptions = (opts, data) => ({
     ..._defaultOpts,
     ..._guessDimensions({ ..._defaultOpts, ...opts }, data),
 });
 
-const _valueAt = (_data, columns, indexOrPos, value) => {
+function _valueAt(_data, columns, indexOrPos, value) {
     const index = Array.isArray(indexOrPos) ? pos2index(indexOrPos, columns) : parseInt(indexOrPos);
     if (isNaN(index)) {
         throw new Error(`Trying to access value with invalid index or position. ${indexOrPos}`);
@@ -108,7 +108,7 @@ const _valueAt = (_data, columns, indexOrPos, value) => {
         _data[index] = value;
         return this;
     }
-};
+}
 
 /**
  * The gridl base function.
