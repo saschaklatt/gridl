@@ -8,8 +8,9 @@
     "test": "./test"
   },
   "scripts": {
-    "build": "WEBPACK_ENV=build webpack",
-    "dev": "WEBPACK_ENV=dev webpack --progress --colors --watch",
+    "build": "npm run build-dev && npm run build-dist",
+    "build-dist": "WEBPACK_ENV=build webpack",
+    "build-dev": "WEBPACK_ENV=dev webpack",
     "test": "mocha-webpack --webpack-config webpack.test.config.js \"test/**/*.test.js\" --recursive",
     "test-and-watch": "mocha-webpack --webpack-config webpack.test.config.js \"test/**/*.test.js\" --recursive --watch",
     "coverage": "nyc mocha-webpack --timeout 30000 --webpack-config webpack.coverage.config.js \"test/**/*.test.js\""
@@ -67,7 +68,6 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm test",
-      "pre-push": "npm test && npm build",
       "pre-publish": "npm test && npm build"
     }
   }
