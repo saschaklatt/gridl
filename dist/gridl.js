@@ -209,10 +209,15 @@ var _flatten = function _flatten(array2D) {
     }, []);
 };
 
+var _addPositions = function _addPositions(p1, p2) {
+    return [p1[0] + p2[0], p1[1] + p2[1]];
+};
+
 function _valueAt(_data, columns, indexOrPos, value) {
     var index = _toIndex(indexOrPos, columns);
     if (isNaN(index)) {
-        throw new Error('Trying to access value with invalid index or position. ' + indexOrPos);
+        // throw new Error(`Trying to access value with invalid index or position. ${indexOrPos}`);
+        return;
     }
     if (value === undefined) {
         return _data[index];
@@ -274,16 +279,20 @@ function _findPositionInArea(api, columns, indexOrPos, size, callback) {
     }
 }
 
-function _findIndexInArea(api, columns, indexOrPos, size, callback) {
-    var pos = api.findPositionInArea(indexOrPos, size, callback);
-    return pos ? api.pos2index(pos) : -1;
-}
-
 function _checkAreaFitsAt(columns, rows, indexOrPos, area) {
     var pos = _toPosition(indexOrPos, columns);
     var fitsHorizontally = pos[0] + area[0].length <= columns;
     var fitsVertically = pos[1] + area.length <= rows;
     return fitsHorizontally && fitsVertically;
+}
+
+function _getRelativePosition(columns, rows, indexOrPos, direction) {
+    var startPos = _toPosition(indexOrPos, columns);
+    var targetPos = _addPositions(startPos, direction);
+    if (targetPos[0] < 0 || targetPos[0] >= columns || targetPos[1] < 0 || targetPos[1] >= rows) {
+        return;
+    }
+    return targetPos;
 }
 
 /**
@@ -329,6 +338,9 @@ function gridl(data) {
         return index2pos(index, columns);
     };
     api.pos2index = function (position) {
+        if (!position) {
+            return -1;
+        }
         return pos2index(position, columns);
     };
 
@@ -350,10 +362,19 @@ function gridl(data) {
         return _findPositionInArea(api, columns, indexOrPos, size, callback);
     };
     api.findIndexInArea = function (indexOrPos, size, callback) {
-        return _findIndexInArea(api, columns, indexOrPos, size, callback);
+        return api.pos2index(api.findPositionInArea(indexOrPos, size, callback));
     };
     api.checkAreaFitsAt = function (indexOrPos, area) {
         return _checkAreaFitsAt(columns, rows, indexOrPos, area);
+    };
+    api.getRelativePosition = function (indexOrPos, direction) {
+        return _getRelativePosition(columns, rows, indexOrPos, direction);
+    };
+    api.getRelativeIndex = function (indexOrPos, direction) {
+        return api.pos2index(api.getRelativePosition(indexOrPos, direction));
+    };
+    api.getRelativeValue = function (indexOrPos, direction) {
+        return api.valueAt(api.getRelativePosition(indexOrPos, direction));
     };
 
     // exporting data
@@ -370,6 +391,17 @@ function gridl(data) {
 
     return api;
 }
+
+gridl.directions = Object.freeze({
+    TOP: [0, -1],
+    TOP_RIGHT: [1, -1],
+    RIGHT: [1, 0],
+    BOTTOM_RIGHT: [1, 1],
+    BOTTOM: [0, 1],
+    BOTTOM_LEFT: [-1, 1],
+    LEFT: [-1, 0],
+    TOP_LEFT: [-1, -1]
+});
 
 exports.default = gridl;
 
