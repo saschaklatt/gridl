@@ -12,14 +12,12 @@ Using npm:
 
 **Already implemented**
 
-* import one-dimensional arrays
-* import two-dimensional arrays
-* transform position to index and index to position
-* getting/setting values at position or index
-* getting/setting areas at position or index
+* importing two-dimensional arrays
+* getting/setting values at a certain position
+* getting/setting areas at  a certain position
 * finding values in the grid or within a certain area on the grid
 * check if an area would fit into the grid at a certain position
-* relative positions
+* get values relative positions
 * generating grids
 
 **TODO**
