@@ -154,7 +154,7 @@ function _getRelativePosition(columns, rows, startPos, direction) {
  * @param {{ arrayType, columns, rows }} opts
  * @returns {{ toArray1D, toArray2D, index2pos, pos2index, rows, columns }}
  */
-export function gridl(data) {
+function gridl(data) {
 
     _isValidGridArray(data);
 
@@ -197,5 +197,23 @@ gridl.directions = Object.freeze({
     LEFT:         [-1,  0],
     TOP_LEFT:     [-1, -1],
 });
+
+gridl.generateData = (columns, rows, callback) => {
+    const parsedColumns = parseInt(columns);
+    const parsedRows = parseInt(rows);
+    if (parsedColumns < 1 || isNaN(parsedColumns)) {
+        throw new Error(`You need to specify at least one column. Given: ${columns}`);
+    }
+    if (parsedRows < 1 || isNaN(parsedRows)) {
+        throw new Error(`You need to specify at least one row. Given: ${rows}`);
+    }
+    return Array.from({ length: parsedRows }, (vr, row) => {
+        return Array.from({ length: parsedColumns }, (vc, column) => {
+            return callback({ column, row });
+        });
+    });
+};
+
+gridl.generate = (columns, rows, callback) => gridl(gridl.generateData(columns, rows, callback));
 
 export default gridl;

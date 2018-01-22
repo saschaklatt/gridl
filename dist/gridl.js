@@ -83,7 +83,6 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.gridl = gridl;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -316,7 +315,28 @@ gridl.directions = Object.freeze({
     TOP_LEFT: [-1, -1]
 });
 
+gridl.generateData = function (columns, rows, callback) {
+    var parsedColumns = parseInt(columns);
+    var parsedRows = parseInt(rows);
+    if (parsedColumns < 1 || isNaN(parsedColumns)) {
+        throw new Error('You need to specify at least one column. Given: ' + columns);
+    }
+    if (parsedRows < 1 || isNaN(parsedRows)) {
+        throw new Error('You need to specify at least one row. Given: ' + rows);
+    }
+    return Array.from({ length: parsedRows }, function (vr, row) {
+        return Array.from({ length: parsedColumns }, function (vc, column) {
+            return callback({ column: column, row: row });
+        });
+    });
+};
+
+gridl.generate = function (columns, rows, callback) {
+    return gridl(gridl.generateData(columns, rows, callback));
+};
+
 exports.default = gridl;
+module.exports = exports['default'];
 
 /***/ })
 /******/ ]);
