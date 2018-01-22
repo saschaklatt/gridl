@@ -11,7 +11,7 @@ const _validArrayTypes = Object.freeze(['1d', '2d']);
  * @param {Integer} columns - The number of columns the grid has.
  * @returns {Array} - The equivalent position within the grid as [x, y].
  */
-export const index2pos = (index, columns) => [index % columns, Math.floor(index / columns)];
+const _index2pos = (index, columns) => [index % columns, Math.floor(index / columns)];
 
 /**
  * Converts a position into cell index.
@@ -20,7 +20,7 @@ export const index2pos = (index, columns) => [index % columns, Math.floor(index 
  * @param {Integer} columns - The number of columns the grid has.
  * @returns {Integer} - The equivalent index within the grid.
  */
-export const pos2index = (position, columns) => position[0] + position[1] * columns;
+const _pos2index = (position, columns) => position[0] + position[1] * columns;
 
 /**
  * Converts an one-dimensional grid array into a two-dimensional grid.
@@ -29,8 +29,8 @@ export const pos2index = (position, columns) => position[0] + position[1] * colu
  * @param {Integer} columns - The number columns the new array should have.
  * @returns {Array} - The two-dimensional array.
  */
-export const toArray2D = (array1D, columns) => array1D.reduce((res, cell, index) => {
-    const pos = index2pos(index, columns);
+const _toArray2D = (array1D, columns) => array1D.reduce((res, cell, index) => {
+    const pos = _index2pos(index, columns);
     if (!res[pos[1]]) {
         res[pos[1]] = [];
     }
@@ -46,7 +46,7 @@ export const toArray2D = (array1D, columns) => array1D.reduce((res, cell, index)
  * @param {Integer} rows - The number of rows.
  * @returns {Array} - The flattened one-dimensional array.
  */
-export const toArray1D = (array2D, columns, rows) => {
+const _toArray1D = (array2D, columns, rows) => {
     if (rows !== array2D.length) {
         const dataStr = `(expected: ${rows}, actually: ${array2D.length})`;
         throw new Error(`Trying to convert invalid array2D with invalid number of rows to array1D. ${dataStr}`);
@@ -100,14 +100,14 @@ const _toIndex = (indexOrPos, columns) => {
     if (!columns) {
         throw new Error('_toIndex() needs to know the number of columns.');
     }
-    return Array.isArray(indexOrPos) ? pos2index(indexOrPos, columns) : parseInt(indexOrPos);
+    return Array.isArray(indexOrPos) ? _pos2index(indexOrPos, columns) : parseInt(indexOrPos);
 };
 
 const _toPosition = (indexOrPos, columns) => {
     if (!columns) {
         throw new Error('_toPosition() needs to know the number of columns.');
     }
-    return Array.isArray(indexOrPos) ? indexOrPos : index2pos(indexOrPos, columns);
+    return Array.isArray(indexOrPos) ? indexOrPos : _index2pos(indexOrPos, columns);
 };
 
 const _flatten = array2D => array2D.reduce((res, row) => [...res, ...row], []);
@@ -182,7 +182,7 @@ function _findPositionInArea(api, columns, indexOrPos, size, callback) {
     if (areaIndex >= 0) {
         const areaColumns = area[0].length;
         const areaPos = _toPosition(indexOrPos, columns);
-        const posInArea = index2pos(areaIndex, areaColumns);
+        const posInArea = _index2pos(areaIndex, areaColumns);
         return [
             areaPos[0] + posInArea[0],
             areaPos[1] + posInArea[1],
@@ -225,7 +225,7 @@ export function gridl(data, opts = {}) {
 
     const _opts = _mergeOptions(opts, data);
     const { columns, rows } = _opts;
-    const _data = _opts.arrayType === '1d' ? [...data] : toArray1D(data, columns, rows);
+    const _data = _opts.arrayType === '1d' ? [...data] : _toArray1D(data, columns, rows);
 
     const api = {};
 
@@ -235,12 +235,12 @@ export function gridl(data, opts = {}) {
     api.size = () => [columns, rows];
 
     // position calculations
-    api.index2pos = index => index2pos(index, columns);
+    api.index2pos = index => _index2pos(index, columns);
     api.pos2index = position => {
         if (!position) {
             return -1;
         }
-        return pos2index(position, columns);
+        return _pos2index(position, columns);
     };
 
     // accessing data
@@ -258,7 +258,7 @@ export function gridl(data, opts = {}) {
 
     // exporting data
     api.toArray1D = () => [..._data];
-    api.toArray2D = toArray2D.bind(api, _data, columns);
+    api.toArray2D = _toArray2D.bind(api, _data, columns);
     api.serialize = () => ({
         opts: _opts,
         data: _data,
