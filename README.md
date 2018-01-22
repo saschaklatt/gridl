@@ -28,6 +28,8 @@ Using npm:
     * scrap arrayType
     * stop importing 1d arrays (deserialize only)
     * stop exporting array1D
+    * remove options {rows, columns} - should always be derived from data structure
+    * validate data is a valid 2d grid array
     * stop exposing index-related stuff, go for position only
     * stop exposing helper functions
 * deserializable
@@ -54,61 +56,11 @@ As a basis for:
 
 ### Basic usage
 
-`gridl(data, importOptions)`
+`gridl(data)`
 
-**data:** 
-
-The grid data as one- or two-dimensional array.
-
-**importOptions:** 
-
-* **arrayType:** '1d' to import a one-dimensional array or '2d' to import a two-dimensional array. (default: '1d')
-* **rows:** (optional) the number of rows your grid has. If you don't provide this option, gridl will try to guess it based on data structure and arrayType.
-* **columns:** (optional) the number of columns your grid has. If you don't provide this option, gridl will try to guess it based on the data structure and arrayType.
+* **data:** The grid data as a two-dimensional array.
  
 ### Examples
-
-Converting a one-dimensional array into a two-dimensional grid:
-
-```javascript
-const data = [5, 6, 4, 2, 3, 20]; 
-const array2D = gridl(data, { rows: 2 }).toArray2D();
-
-// array2D would look like this:
-// [
-//     [5, 6, 4], 
-//     [2, 3, 20], 
-// ]
-
-```
-
-```javascript
-const data = [1, 2, 3, 4, 5, 6, 7, 8]; 
-const array2D = gridl(data, { columns: 2 }).toArray2D();
-
-// array2D would look like this:
-// [
-//     [1, 2], 
-//     [3, 4], 
-//     [5, 6], 
-//     [7, 8], 
-// ]
-
-```
-
-Flatten a two-dimensional grid into a one-dimensional array:
-
-```javascript
-const data = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-]; 
-const array1D = gridl(data, { arrayType: '2d' }).toArray1D();
-
-// array1D would look like this:
-// [1, 2, 3, 4, 5, 6, 7, 8, 9]
-```
 
 Getting values at a certain position or at a certain index:
 
@@ -117,25 +69,20 @@ const data = [
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9],
-]; 
+];
 
-const valueAtPosition = gridl(data, { arrayType: '2d' }).valueAt([1, 2]);
-// valueAtPosition with position = [1, 2] would be 8
-
-const valueAtIndex = gridl(data, { arrayType: '2d' }).valueAt(4);
-// valueAtIndex with index = 4 would be 5 
-// (the index is derived from the one-dimensional array gridl uses internally)
+gridl(data).getValueAt([1, 2]); // would be 8
 ```
 
-Setting values at a certain position or at a certain index:
+Setting values at a certain position:
 
 ```javascript
 const data = [
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9],
-]; 
-const newGrid = gridl(data, { arrayType: '2d' }).valueAt([1, 2], 'Hi').toArray2D();
+];
+const newGrid = gridl(data).setValueAt([1, 2], 'Hi').toArray2D();
 
 // newGrid would look like this:
 // [
@@ -159,7 +106,7 @@ const area = [
     [5,  3,  9],
 ];
 const position = [3, 1];
-const newGrid = gridl(data, { arrayType: '2d' }).setAreaAt(position, area).toArray2D();
+const newGrid = gridl(data).setAreaAt(position, area).toArray2D();
 
 // newGrid would look like this:
 // [
@@ -180,7 +127,7 @@ const data = [
 ];
 const size = [3, 2];
 const position = [1, 2];
-const area = gridl(data, { arrayType: '2d' }).getAreaAt(position, size);
+const area = gridl(data).getAreaAt(position, size);
 
 // area would look like this:
 // [
@@ -196,9 +143,7 @@ const data = [
     [4,2,5],
     [6,5,4],
 ];
-const position = gridl(data, { arrayType: '2d' }).findPosition(v => v === 5);
-
-// position would be [2,1] 
+gridl(data).findPosition(v => v === 5); // would be [2,1] 
 ```
 
 Find the position of the cell with value 7 within a given area (first occurrence):
@@ -210,9 +155,7 @@ const data = [
 ];
 const areaPosition = [2,1];
 const areaSize = [3,2];
-const result = gridl(data, { arrayType: '2d' }).findPositionInArea(areaPosition, areaSize, v => v === 7);
-
-// result would be [3,1]
+gridl(data).findPositionInArea(areaPosition, areaSize, v => v === 7); // result would be [3,1]
 ```
 
 Check if an area would fit into the grid at a certain position:
@@ -227,10 +170,10 @@ const area = [
     [2,2,2],
     [2,2,2],
 ];
-gridl(data, { arrayType: '2d' }).checkAreaFitsAt([0,0], area); // true
-gridl(data, { arrayType: '2d' }).checkAreaFitsAt([3,2], area); // true
-gridl(data, { arrayType: '2d' }).checkAreaFitsAt([4,0], area); // false
-gridl(data, { arrayType: '2d' }).checkAreaFitsAt([1,3], area); // false
+gridl(data).checkAreaFitsAt([0,0], area); // true
+gridl(data).checkAreaFitsAt([3,2], area); // true
+gridl(data).checkAreaFitsAt([4,0], area); // false
+gridl(data).checkAreaFitsAt([1,3], area); // false
 ```
 
 Get a position relative to my current position:
@@ -242,9 +185,9 @@ const data = [
     [13,14,15,16,24],
     [17,18,19,20,25],
 ];
-const g = gridl(data, { arrayType: '2d' });
+const g = gridl(data);
 const { TOP, LEFT } = gridl.directions;
-g.getRelativePosition([2,3], [-2, 1]); // [0, 4]
+g.getRelativePosition([2,3], [-2, 1]); // [0,4]
 g.getRelativePosition([2,3], TOP);     // [2,2]
 g.getRelativePosition([2,3], LEFT);    // [1,3]
 ```
