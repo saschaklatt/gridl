@@ -242,55 +242,53 @@ function _getRelativePosition(columns, rows, startPos, direction) {
  * The gridl base function.
  *
  * @param {Array} data
- * @param {{ arrayType, columns, rows }} opts
  * @returns {{ toArray1D, toArray2D, index2pos, pos2index, rows, columns }}
  */
 function gridl(data) {
 
     _isValidGridArray(data);
 
-    var rows = data.length;
-    var columns = data[0].length;
-
-    var _data = _flatten(data, columns, rows);
+    var _rows = data.length;
+    var _columns = data[0].length;
+    var _data = _flatten(data);
 
     var api = {};
 
     // getter for dimensions
     api.columns = function () {
-        return columns;
+        return _columns;
     };
     api.rows = function () {
-        return rows;
+        return _rows;
     };
     api.size = function () {
-        return [columns, rows];
+        return [_columns, _rows];
     };
 
     // accessing data
     api.getValueAt = function (pos) {
-        return _getValueAt(_data, columns, pos);
+        return _getValueAt(_data, _columns, pos);
     };
     api.setValueAt = function (pos, value) {
-        return _setValueAt(api, _data, columns, pos, value);
+        return _setValueAt(api, _data, _columns, pos, value);
     };
     api.setAreaAt = function (pos, area) {
-        return _setAreaAt(api, columns, rows, pos, area);
+        return _setAreaAt(api, _columns, _rows, pos, area);
     };
     api.getAreaAt = function (pos, size) {
-        return _getAreaAt(api, columns, rows, pos, size);
+        return _getAreaAt(api, _columns, _rows, pos, size);
     };
     api.findPosition = function (callback) {
-        return _findPosition(columns, _data, callback);
+        return _findPosition(_columns, _data, callback);
     };
     api.findPositionInArea = function (pos, size, callback) {
-        return _findPositionInArea(api, columns, pos, size, callback);
+        return _findPositionInArea(api, _columns, pos, size, callback);
     };
     api.checkAreaFitsAt = function (pos, area) {
-        return _checkAreaFitsAt(columns, rows, pos, area);
+        return _checkAreaFitsAt(_columns, _rows, pos, area);
     };
     api.getRelativePosition = function (pos, direction) {
-        return _getRelativePosition(columns, rows, pos, direction);
+        return _getRelativePosition(_columns, _rows, pos, direction);
     };
     api.getRelativeValue = function (pos, direction) {
         return api.getValueAt(api.getRelativePosition(pos, direction));
@@ -298,7 +296,7 @@ function gridl(data) {
 
     // exporting data
     api.getData = function () {
-        return _toArray2D(_data, columns);
+        return _toArray2D(_data, _columns);
     };
 
     return api;
