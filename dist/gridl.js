@@ -87,11 +87,22 @@ exports.gridl = gridl;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var _defaultOpts = {
-    arrayType: '1d'
-};
-
-var _validArrayTypes = Object.freeze(['1d', '2d']);
+function _isValidGridArray(data) {
+    if (!Array.isArray(data)) {
+        throw new Error('Trying to import data that is not an array.');
+    }
+    data.forEach(function (row, i) {
+        if (!Array.isArray(row)) {
+            throw new Error('Trying to import data that is not an array.');
+        }
+        if (i > 0 && data[i - 1].length !== row.length) {
+            throw new Error('Trying to import data with different row lengths.');
+        }
+        if (row.length < 1) {
+            throw new Error('Trying to import grid without any columns. You need to provide at least one column.');
+        }
+    });
+}
 
 /**
  * Converts cell index into a cell position.
@@ -100,7 +111,7 @@ var _validArrayTypes = Object.freeze(['1d', '2d']);
  * @param {Integer} columns - The number of columns the grid has.
  * @returns {Array} - The equivalent position within the grid as [x, y].
  */
-var index2pos = exports.index2pos = function index2pos(index, columns) {
+var _index2pos = function _index2pos(index, columns) {
     return [index % columns, Math.floor(index / columns)];
 };
 
@@ -111,8 +122,8 @@ var index2pos = exports.index2pos = function index2pos(index, columns) {
  * @param {Integer} columns - The number of columns the grid has.
  * @returns {Integer} - The equivalent index within the grid.
  */
-var pos2index = exports.pos2index = function pos2index(position, columns) {
-    return position[0] + position[1] * columns;
+var _pos2index = function _pos2index(position, columns) {
+    return position && position[0] + position[1] * columns;
 };
 
 /**
@@ -122,9 +133,9 @@ var pos2index = exports.pos2index = function pos2index(position, columns) {
  * @param {Integer} columns - The number columns the new array should have.
  * @returns {Array} - The two-dimensional array.
  */
-var toArray2D = exports.toArray2D = function toArray2D(array1D, columns) {
+var _toArray2D = function _toArray2D(array1D, columns) {
     return array1D.reduce(function (res, cell, index) {
-        var pos = index2pos(index, columns);
+        var pos = _index2pos(index, columns);
         if (!res[pos[1]]) {
             res[pos[1]] = [];
         }
@@ -137,72 +148,8 @@ var toArray2D = exports.toArray2D = function toArray2D(array1D, columns) {
  * Convert a two-dimensional array into a one-dimensional array.
  *
  * @param {Array} array2D - The two dimensional array to convert.
- * @param {Integer} columns - The number of columns.
- * @param {Integer} rows - The number of rows.
  * @returns {Array} - The flattened one-dimensional array.
  */
-var toArray1D = exports.toArray1D = function toArray1D(array2D, columns, rows) {
-    if (rows !== array2D.length) {
-        var dataStr = '(expected: ' + rows + ', actually: ' + array2D.length + ')';
-        throw new Error('Trying to convert invalid array2D with invalid number of rows to array1D. ' + dataStr);
-    }
-    return array2D.reduce(function (res, row) {
-        if (columns !== row.length) {
-            var _dataStr = '(expected: ' + columns + ', actually: ' + row.length + ')';
-            throw new Error('Trying to convert invalid array2D with invalid number of columns to array1D. ' + _dataStr);
-        }
-        return [].concat(_toConsumableArray(res), _toConsumableArray(row));
-    }, []);
-};
-
-/**
- * Enhance the options with number of rows and columns if they're not provided by the user.
- *
- * @param {Object} opts - The given options.
- * @param {Array} data - One- or two-dimensional data array.
- * @returns {Object} - The options with rows and columns field.
- * @private
- */
-function _guessDimensions(opts, data) {
-    var numCells = opts.arrayType === '1d' ? data.length : data.reduce(function (res, row) {
-        return res + row.length;
-    }, 0);
-
-    if (!opts.columns && !opts.rows) {
-        if (opts.arrayType === '2d') {
-            opts.rows = data.length;
-            opts.columns = data[0].length;
-        } else {
-            opts.rows = 1;
-            opts.columns = data.length;
-        }
-    } else if (opts.columns && !opts.rows && numCells % opts.columns === 0) {
-        opts.rows = numCells / opts.columns;
-    } else if (!opts.columns && opts.rows && numCells % opts.rows === 0) {
-        opts.columns = numCells / opts.rows;
-    }
-
-    return opts;
-}
-
-var _mergeOptions = function _mergeOptions(opts, data) {
-    return Object.assign({}, _defaultOpts, _guessDimensions(Object.assign({}, _defaultOpts, opts), data));
-};
-
-var _toIndex = function _toIndex(indexOrPos, columns) {
-    if (!columns) {
-        throw new Error('_toIndex() needs to know the number of columns.');
-    }
-    return Array.isArray(indexOrPos) ? pos2index(indexOrPos, columns) : parseInt(indexOrPos);
-};
-
-var _toPosition = function _toPosition(indexOrPos, columns) {
-    if (!columns) {
-        throw new Error('_toPosition() needs to know the number of columns.');
-    }
-    return Array.isArray(indexOrPos) ? indexOrPos : index2pos(indexOrPos, columns);
-};
-
 var _flatten = function _flatten(array2D) {
     return array2D.reduce(function (res, row) {
         return [].concat(_toConsumableArray(res), _toConsumableArray(row));
@@ -213,22 +160,23 @@ var _addPositions = function _addPositions(p1, p2) {
     return [p1[0] + p2[0], p1[1] + p2[1]];
 };
 
-function _valueAt(_data, columns, indexOrPos, value) {
-    var index = _toIndex(indexOrPos, columns);
+function _getValueAt(_data, columns, pos) {
+    var index = _pos2index(pos, columns);
     if (isNaN(index)) {
-        // throw new Error(`Trying to access value with invalid index or position. ${indexOrPos}`);
         return;
     }
-    if (value === undefined) {
-        return _data[index];
-    } else {
-        _data[index] = value;
-        return this;
-    }
+    return _data[index];
 }
 
-function _setAreaAt(api, columns, rows, indexOrPos, area) {
-    var pos = _toPosition(indexOrPos, columns);
+function _setValueAt(api, _data, columns, pos, value) {
+    var index = _pos2index(pos, columns);
+    if (!isNaN(index)) {
+        _data[index] = value;
+    }
+    return api;
+}
+
+function _setAreaAt(api, columns, rows, pos, area) {
     area.forEach(function (row, r) {
         var targetPos = [0, r + pos[1]];
         if (targetPos[1] >= rows) {
@@ -239,14 +187,13 @@ function _setAreaAt(api, columns, rows, indexOrPos, area) {
             if (targetPos[0] >= columns) {
                 return;
             }
-            api.valueAt(targetPos, cell);
+            api.setValueAt(targetPos, cell);
         });
     });
     return api;
 }
 
-function _getAreaAt(api, columns, rows, indexOrPos, size) {
-    var pos = _toPosition(indexOrPos, columns);
+function _getAreaAt(api, columns, rows, pos, size) {
     var end = [Math.min(pos[0] + size[0], columns), Math.min(pos[1] + size[1], rows)];
     var area = [];
     for (var r = pos[1]; r < end[1]; r++) {
@@ -256,38 +203,35 @@ function _getAreaAt(api, columns, rows, indexOrPos, size) {
         }
         for (var c = pos[0]; c < end[0]; c++) {
             var cArea = c - pos[0];
-            area[rArea][cArea] = api.valueAt([c, r]);
+            area[rArea][cArea] = api.getValueAt([c, r]);
         }
     }
     return area;
 }
 
-function _findPosition(api, data, callback) {
+function _findPosition(columns, data, callback) {
     var index = data.findIndex(callback);
-    return index >= 0 ? api.index2pos(index) : undefined;
+    return index >= 0 ? _index2pos(index, columns) : undefined;
 }
 
-function _findPositionInArea(api, columns, indexOrPos, size, callback) {
-    var area = api.getAreaAt(indexOrPos, size);
+function _findPositionInArea(api, columns, pos, size, callback) {
+    var area = api.getAreaAt(pos, size);
     var flat = _flatten(area);
     var areaIndex = flat.findIndex(callback);
     if (areaIndex >= 0) {
         var areaColumns = area[0].length;
-        var areaPos = _toPosition(indexOrPos, columns);
-        var posInArea = index2pos(areaIndex, areaColumns);
-        return [areaPos[0] + posInArea[0], areaPos[1] + posInArea[1]];
+        var posInArea = _index2pos(areaIndex, areaColumns);
+        return [pos[0] + posInArea[0], pos[1] + posInArea[1]];
     }
 }
 
-function _checkAreaFitsAt(columns, rows, indexOrPos, area) {
-    var pos = _toPosition(indexOrPos, columns);
+function _checkAreaFitsAt(columns, rows, pos, area) {
     var fitsHorizontally = pos[0] + area[0].length <= columns;
     var fitsVertically = pos[1] + area.length <= rows;
     return fitsHorizontally && fitsVertically;
 }
 
-function _getRelativePosition(columns, rows, indexOrPos, direction) {
-    var startPos = _toPosition(indexOrPos, columns);
+function _getRelativePosition(columns, rows, startPos, direction) {
     var targetPos = _addPositions(startPos, direction);
     if (targetPos[0] < 0 || targetPos[0] >= columns || targetPos[1] < 0 || targetPos[1] >= rows) {
         return;
@@ -303,22 +247,13 @@ function _getRelativePosition(columns, rows, indexOrPos, direction) {
  * @returns {{ toArray1D, toArray2D, index2pos, pos2index, rows, columns }}
  */
 function gridl(data) {
-    var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+    _isValidGridArray(data);
 
-    if (!Array.isArray(data)) {
-        throw new Error('Trying to use gridl with none-array value for data.');
-    }
+    var rows = data.length;
+    var columns = data[0].length;
 
-    if (opts.arrayType && !_validArrayTypes.includes(opts.arrayType)) {
-        throw new Error('Trying to use invalid arrayType. expected: (' + _validArrayTypes.join('|') + '), actually: ' + opts.arrayType);
-    }
-
-    var _opts = _mergeOptions(opts, data);
-    var columns = _opts.columns,
-        rows = _opts.rows;
-
-    var _data = _opts.arrayType === '1d' ? [].concat(_toConsumableArray(data)) : toArray1D(data, columns, rows);
+    var _data = _flatten(data, columns, rows);
 
     var api = {};
 
@@ -333,60 +268,38 @@ function gridl(data) {
         return [columns, rows];
     };
 
-    // position calculations
-    api.index2pos = function (index) {
-        return index2pos(index, columns);
-    };
-    api.pos2index = function (position) {
-        if (!position) {
-            return -1;
-        }
-        return pos2index(position, columns);
-    };
-
     // accessing data
-    api.valueAt = _valueAt.bind(api, _data, columns);
-    api.setAreaAt = function (indexOrPos, area) {
-        return _setAreaAt(api, columns, rows, indexOrPos, area);
+    api.getValueAt = function (pos) {
+        return _getValueAt(_data, columns, pos);
     };
-    api.getAreaAt = function (indexOrPos, size) {
-        return _getAreaAt(api, columns, rows, indexOrPos, size);
+    api.setValueAt = function (pos, value) {
+        return _setValueAt(api, _data, columns, pos, value);
     };
-    api.findIndex = function (callback) {
-        return _data.findIndex(callback);
+    api.setAreaAt = function (pos, area) {
+        return _setAreaAt(api, columns, rows, pos, area);
+    };
+    api.getAreaAt = function (pos, size) {
+        return _getAreaAt(api, columns, rows, pos, size);
     };
     api.findPosition = function (callback) {
-        return _findPosition(api, _data, callback);
+        return _findPosition(columns, _data, callback);
     };
-    api.findPositionInArea = function (indexOrPos, size, callback) {
-        return _findPositionInArea(api, columns, indexOrPos, size, callback);
+    api.findPositionInArea = function (pos, size, callback) {
+        return _findPositionInArea(api, columns, pos, size, callback);
     };
-    api.findIndexInArea = function (indexOrPos, size, callback) {
-        return api.pos2index(api.findPositionInArea(indexOrPos, size, callback));
+    api.checkAreaFitsAt = function (pos, area) {
+        return _checkAreaFitsAt(columns, rows, pos, area);
     };
-    api.checkAreaFitsAt = function (indexOrPos, area) {
-        return _checkAreaFitsAt(columns, rows, indexOrPos, area);
+    api.getRelativePosition = function (pos, direction) {
+        return _getRelativePosition(columns, rows, pos, direction);
     };
-    api.getRelativePosition = function (indexOrPos, direction) {
-        return _getRelativePosition(columns, rows, indexOrPos, direction);
-    };
-    api.getRelativeIndex = function (indexOrPos, direction) {
-        return api.pos2index(api.getRelativePosition(indexOrPos, direction));
-    };
-    api.getRelativeValue = function (indexOrPos, direction) {
-        return api.valueAt(api.getRelativePosition(indexOrPos, direction));
+    api.getRelativeValue = function (pos, direction) {
+        return api.getValueAt(api.getRelativePosition(pos, direction));
     };
 
     // exporting data
-    api.toArray1D = function () {
-        return [].concat(_toConsumableArray(_data));
-    };
-    api.toArray2D = toArray2D.bind(api, _data, columns);
-    api.serialize = function () {
-        return {
-            opts: _opts,
-            data: _data
-        };
+    api.getData = function () {
+        return _toArray2D(_data, columns);
     };
 
     return api;
