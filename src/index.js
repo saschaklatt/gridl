@@ -151,38 +151,36 @@ function _getRelativePosition(columns, rows, startPos, direction) {
  * The gridl base function.
  *
  * @param {Array} data
- * @param {{ arrayType, columns, rows }} opts
  * @returns {{ toArray1D, toArray2D, index2pos, pos2index, rows, columns }}
  */
 function gridl(data) {
 
     _isValidGridArray(data);
 
-    const rows = data.length;
-    const columns = data[0].length;
-
-    const _data = _flatten(data, columns, rows);
+    const _rows = data.length;
+    const _columns = data[0].length;
+    const _data = _flatten(data);
 
     const api = {};
 
     // getter for dimensions
-    api.columns = () => columns;
-    api.rows = () => rows;
-    api.size = () => [columns, rows];
+    api.columns = () => _columns;
+    api.rows = () => _rows;
+    api.size = () => [_columns, _rows];
 
     // accessing data
-    api.getValueAt = pos => _getValueAt(_data, columns, pos);
-    api.setValueAt = (pos, value) => _setValueAt(api, _data, columns, pos, value);
-    api.setAreaAt = (pos, area) => _setAreaAt(api, columns, rows, pos, area);
-    api.getAreaAt = (pos, size) => _getAreaAt(api, columns, rows, pos, size);
-    api.findPosition = callback => _findPosition(columns, _data, callback);
-    api.findPositionInArea = (pos, size, callback) => _findPositionInArea(api, columns, pos, size, callback);
-    api.checkAreaFitsAt = (pos, area) => _checkAreaFitsAt(columns, rows, pos, area);
-    api.getRelativePosition = (pos, direction) => _getRelativePosition(columns, rows, pos, direction);
+    api.getValueAt = pos => _getValueAt(_data, _columns, pos);
+    api.setValueAt = (pos, value) => _setValueAt(api, _data, _columns, pos, value);
+    api.setAreaAt = (pos, area) => _setAreaAt(api, _columns, _rows, pos, area);
+    api.getAreaAt = (pos, size) => _getAreaAt(api, _columns, _rows, pos, size);
+    api.findPosition = callback => _findPosition(_columns, _data, callback);
+    api.findPositionInArea = (pos, size, callback) => _findPositionInArea(api, _columns, pos, size, callback);
+    api.checkAreaFitsAt = (pos, area) => _checkAreaFitsAt(_columns, _rows, pos, area);
+    api.getRelativePosition = (pos, direction) => _getRelativePosition(_columns, _rows, pos, direction);
     api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));
 
     // exporting data
-    api.getData = () => _toArray2D(_data, columns);
+    api.getData = () => _toArray2D(_data, _columns);
 
     return api;
 }
