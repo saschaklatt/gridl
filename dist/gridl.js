@@ -232,11 +232,31 @@ function _checkAreaFitsAt(columns, rows, pos, area) {
 
 function _getRelativePosition(columns, rows, startPos, direction) {
     var targetPos = _addPositions(startPos, direction);
-    if (targetPos[0] < 0 || targetPos[0] >= columns || targetPos[1] < 0 || targetPos[1] >= rows) {
+    if (_isNotInArea([columns, rows], targetPos)) {
         return;
     }
     return targetPos;
 }
+
+function _moveCell(api, data, columns, rows, from, to) {
+    var fromIndex = _pos2index(from, columns);
+    var size = [columns, rows];
+    if (isNaN(fromIndex) || _isNotInArea(size, from)) {
+        throw new Error('Trying to move cell from an invalid position. Given: [' + from + ']');
+    }
+    var toIndex = _pos2index(to, columns);
+    if (isNaN(toIndex) || _isNotInArea(size, to)) {
+        throw new Error('Trying to move cell to an invalid position. Given: [' + to + ']');
+    }
+    var cell = data[fromIndex];
+    data.splice(fromIndex, 1);
+    data.splice(toIndex, 0, cell);
+    return api;
+}
+
+var _isNotInArea = function _isNotInArea(areaSize, position) {
+    return position[0] < 0 || position[0] >= areaSize[0] || position[1] < 0 || position[1] >= areaSize[1];
+};
 
 /**
  * The gridl base function.
@@ -292,6 +312,9 @@ function gridl(data) {
     };
     api.getRelativeValue = function (pos, direction) {
         return api.getValueAt(api.getRelativePosition(pos, direction));
+    };
+    api.moveCell = function (from, to) {
+        return _moveCell(api, _data, _columns, _rows, from, to);
     };
 
     // exporting data
