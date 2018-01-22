@@ -722,7 +722,7 @@ describe('gridl', () => {
 
     describe('moveCell', () => {
 
-        it('should move a cell from lower index to higher index', () => {
+        it('should move a cell from lower to a higher index', () => {
             const grid = [
                 [ 1, 2, 3, 4, 5, 6],
                 [ 7, 8, 9,10,11,12],
@@ -741,7 +741,7 @@ describe('gridl', () => {
             ]);
         });
 
-        it('should move a cell from higher index to lower index', () => {
+        it('should move a cell from higher to a lower index', () => {
             const grid = [
                 [ 1, 2, 3, 4, 5, 6],
                 [ 7, 8, 9,10,11,12],
@@ -827,6 +827,118 @@ describe('gridl', () => {
                 () => gridl(grid).moveCell([1,4], 'balderdash')
             ).to.throw(
                 'Trying to move cell to an invalid position. Given: [balderdash]'
+            );
+        });
+
+    });
+
+    describe('moveCellFrom', () => {
+
+        it('should move a cell from a lower to a higher index', () => {
+            const grid = [
+                [ 1, 2, 3, 4, 5, 6],
+                [ 7, 8, 9,10,11,12],
+                [13,14,15,16,17,18],
+                [19,20,21,22,23,24],
+                [25,26,27,28,29,30],
+            ];
+            const position = [1,2];
+            const direction = [3,2];
+            expect(gridl(grid).moveCellFrom(position, direction).getData()).to.deep.equal([
+                [ 1, 2, 3, 4, 5, 6],
+                [ 7, 8, 9,10,11,12],
+                [13,15,16,17,18,19],
+                [20,21,22,23,24,25],
+                [26,27,28,29,14,30],
+            ]);
+        });
+
+        it('should move a cell from a higher to a lower index', () => {
+            const grid = [
+                [ 1, 2, 3, 4, 5, 6],
+                [ 7, 8, 9,10,11,12],
+                [13,14,15,16,17,18],
+                [19,20,21,22,23,24],
+                [25,26,27,28,29,30],
+            ];
+            const position = [4,3];
+            const direction = [-2,-1];
+            expect(gridl(grid).moveCellFrom(position, direction).getData()).to.deep.equal([
+                [ 1, 2, 3, 4, 5, 6],
+                [ 7, 8, 9,10,11,12],
+                [13,14,23,15,16,17],
+                [18,19,20,21,22,24],
+                [25,26,27,28,29,30],
+            ]);
+        });
+
+        it('should throw an error if "position" is invalid', () => {
+            const grid = [
+                [ 1, 2, 3, 4, 5, 6],
+                [ 7, 8, 9,10,11,12],
+                [13,14,15,16,17,18],
+                [19,20,21,22,23,24],
+                [25,26,27,28,29,30],
+            ];
+            expect(
+                () => gridl(grid).moveCellFrom([-1,0], [1,4])
+            ).to.throw(
+                'Trying to move cell from an invalid position. Given: [-1,0]'
+            );
+            expect(
+                () => gridl(grid).moveCellFrom([0,-1], [1,4])
+            ).to.throw(
+                'Trying to move cell from an invalid position. Given: [0,-1]'
+            );
+            expect(
+                () => gridl(grid).moveCellFrom([1,5], [1,4])
+            ).to.throw(
+                'Trying to move cell from an invalid position. Given: [1,5]'
+            );
+            expect(
+                () => gridl(grid).moveCellFrom([6,0], [1,4])
+            ).to.throw(
+                'Trying to move cell from an invalid position. Given: [6,0]'
+            );
+            expect(
+                () => gridl(grid).moveCellFrom('balderdash', [1,4])
+            ).to.throw(
+                'Trying to move cell from an invalid position. Given: [balderdash]'
+            );
+        });
+
+        it('should throw an error if "direction" is invalid', () => {
+            const grid = [
+                [ 1, 2, 3, 4, 5, 6],
+                [ 7, 8, 9,10,11,12],
+                [13,14,15,16,17,18],
+                [19,20,21,22,23,24],
+                [25,26,27,28,29,30],
+            ];
+            expect(
+                () => gridl(grid).moveCellFrom([1,4], [0,1])
+            ).to.throw(
+                'Trying to move cell to an invalid position. Given: [1,5]'
+            );
+            expect(
+                () => gridl(grid).moveCellFrom([1,4], [0,-5])
+            ).to.throw(
+                'Trying to move cell to an invalid position. Given: [1,-1]'
+            );
+            expect(
+                () => gridl(grid).moveCellFrom([1,4], [-2,0])
+            ).to.throw(
+                'Trying to move cell to an invalid position. Given: [-1,4]'
+            );
+            expect(
+                () => gridl(grid).moveCellFrom([1,4], [5,0])
+            ).to.throw(
+                'Trying to move cell to an invalid position. Given: [6,4]'
+            );
+            expect(
+                () => gridl(grid).moveCellFrom([1,4], 'balderdash')
+            ).to.throw(
+                'Trying to move cell to an invalid position. Given: [1b,4a]' // FIXME: improve error message: [1b,4a]
             );
         });
 

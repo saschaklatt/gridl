@@ -190,11 +190,14 @@ function gridl(data) {
     api.size = () => [_columns, _rows];
 
     // single value operations
-    api.getValueAt = pos => _getValueAt(_data, _columns, pos);
-    api.setValueAt = (pos, value) => _setValueAt(api, _data, _columns, pos, value);
-    api.getRelativePosition = (pos, direction) => _getRelativePosition(_columns, _rows, pos, direction);
-    api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));
+    api.getValueAt = pos => _getValueAt(_data, _columns, pos);                                                          // TODO: merge with getRelativeValue
+    api.setValueAt = (pos, value) => _setValueAt(api, _data, _columns, pos, value);                                     // TODO: provide optional relative offset (direction)
+    api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));                 // TODO: merge this functionality into getValueAt() with an optional parameter "direction" that defaults to [0,0]
+    api.getRelativePosition = (pos, direction) => _getRelativePosition(_columns, _rows, pos, direction);                // TODO: rename to "getPositionFrom"
+
+    // moving cells
     api.moveCell = (from, to) => _moveCell(api, _data, _columns, _rows, from, to);
+    api.moveCellFrom = (position, direction) => api.moveCell(position, _addPositions(position, direction));
 
     // area operations
     api.setAreaAt = (pos, area) => _setAreaAt(api, _columns, _rows, pos, area);
@@ -209,6 +212,7 @@ function gridl(data) {
     api.getData = () => _toArray2D(_data, _columns);
 
     return api;
+
 }
 
 gridl.directions = Object.freeze({
@@ -241,3 +245,17 @@ gridl.generateData = (columns, rows, callback) => {
 gridl.generate = (columns, rows, callback) => gridl(gridl.generateData(columns, rows, callback));
 
 export default gridl;
+
+/*
+ * TODO: support fancy syntax like:
+ *
+ * - moveCellAt(pos).to(destination)
+ * - moveCellAt(pos).direction(dir)
+ * - goto(pos).move.to(destination)
+ * - goto(pos).move.direction(direction)
+ * - goto(pos).value.get(value)
+ * - goto(pos).value.set(value)
+ * - goto(pos).checkAreaFits(area)
+ * ...
+ *
+ */
