@@ -189,17 +189,21 @@ function gridl(data) {
     api.rows = () => _rows;
     api.size = () => [_columns, _rows];
 
-    // accessing data
+    // single value operations
     api.getValueAt = pos => _getValueAt(_data, _columns, pos);
     api.setValueAt = (pos, value) => _setValueAt(api, _data, _columns, pos, value);
-    api.setAreaAt = (pos, area) => _setAreaAt(api, _columns, _rows, pos, area);
-    api.getAreaAt = (pos, size) => _getAreaAt(api, _columns, _rows, pos, size);
-    api.findPosition = callback => _findPosition(_columns, _data, callback);
-    api.findPositionInArea = (pos, size, callback) => _findPositionInArea(api, _columns, pos, size, callback);
-    api.checkAreaFitsAt = (pos, area) => _checkAreaFitsAt(_columns, _rows, pos, area);
     api.getRelativePosition = (pos, direction) => _getRelativePosition(_columns, _rows, pos, direction);
     api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));
     api.moveCell = (from, to) => _moveCell(api, _data, _columns, _rows, from, to);
+
+    // area operations
+    api.setAreaAt = (pos, area) => _setAreaAt(api, _columns, _rows, pos, area);
+    api.getAreaAt = (pos, size) => _getAreaAt(api, _columns, _rows, pos, size);
+    api.checkAreaFitsAt = (pos, area) => _checkAreaFitsAt(_columns, _rows, pos, area);
+
+    // finding
+    api.findPosition = callback => _findPosition(_columns, _data, callback);
+    api.findPositionInArea = (pos, size, callback) => _findPositionInArea(api, _columns, pos, size, callback);
 
     // exporting data
     api.getData = () => _toArray2D(_data, _columns);
