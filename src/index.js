@@ -141,11 +141,32 @@ function _checkAreaFitsAt(columns, rows, pos, area) {
 
 function _getRelativePosition(columns, rows, startPos, direction) {
     const targetPos = _addPositions(startPos, direction);
-    if (targetPos[0] < 0 || targetPos[0] >= columns || targetPos[1] < 0 || targetPos[1] >= rows) {
+    if (_isNotInArea([columns, rows], targetPos)) {
         return;
     }
     return targetPos;
 }
+
+function _moveCell(api, data, columns, rows, from, to) {
+    const fromIndex = _pos2index(from, columns);
+    const size = [columns, rows];
+    if (isNaN(fromIndex) || _isNotInArea(size, from)) {
+        throw new Error(`Trying to move cell from an invalid position. Given: [${from}]`);
+    }
+    const toIndex = _pos2index(to, columns);
+    if (isNaN(toIndex) || _isNotInArea(size, to)) {
+        throw new Error(`Trying to move cell to an invalid position. Given: [${to}]`);
+    }
+    const cell = data[fromIndex];
+    data.splice(fromIndex, 1);
+    data.splice(toIndex, 0, cell);
+    return api;
+}
+
+const _isNotInArea = (areaSize, position) => (
+    position[0] < 0 || position[0] >= areaSize[0] ||
+    position[1] < 0 || position[1] >= areaSize[1]
+);
 
 /**
  * The gridl base function.
@@ -178,6 +199,7 @@ function gridl(data) {
     api.checkAreaFitsAt = (pos, area) => _checkAreaFitsAt(_columns, _rows, pos, area);
     api.getRelativePosition = (pos, direction) => _getRelativePosition(_columns, _rows, pos, direction);
     api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));
+    api.moveCell = (from, to) => _moveCell(api, _data, _columns, _rows, from, to);
 
     // exporting data
     api.getData = () => _toArray2D(_data, _columns);

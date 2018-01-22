@@ -185,6 +185,29 @@ g.getRelativePosition([2,3], TOP);     // [2,2]
 g.getRelativePosition([2,3], LEFT);    // [1,3]
 ```
 
+Move a cell from one position to another absolute position:
+```javascript
+const grid = [
+    [ 1, 2, 3, 4, 5, 6],
+    [ 7, 8, 9,10,11,12],
+    [13,14,15,16,17,18],
+    [19,20,21,22,23,24],
+    [25,26,27,28,29,30],
+];
+const from = [2,1];
+const to = [3,4];
+const newGrid = gridl(grid).moveCell(from, to).getData();
+
+// newGrid would look like this:
+// [
+//     [ 1, 2, 3, 4, 5, 6],
+//     [ 7, 8,10,11,12,13],
+//     [14,15,16,17,18,19],
+//     [20,21,22,23,24,25],
+//     [26,27,28, 9,29,30],
+// ]
+```
+
 #### Generating data
 
 Generating a data array
@@ -198,7 +221,7 @@ const data = gridl.generateData(columns, rows, ({ column, row }) => `${column},$
 //     ['0,0', '1,0', '2,0', '3,0'],
 //     ['0,1', '1,1', '2,1', '3,1'],
 //     ['0,2', '1,2', '2,2', '3,2'],
-// ]);
+// ]
 ```
 
 Generating a gridl instance and perform operations on it
@@ -217,7 +240,7 @@ const data = grid.setValueAt([2,1], 'bam').getData();
 //     ['0,0', '1,0', '2,0', '3,0'],
 //     ['0,1', '1,1', 'bam', '3,1'],
 //     ['0,2', '1,2', '2,2', '3,2'],
-// ]);
+// ]
 ```
 
 ## Related stuff
