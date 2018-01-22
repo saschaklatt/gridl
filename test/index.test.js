@@ -585,6 +585,140 @@ describe('gridl', () => {
 
     });
 
+    describe('generateData', () => {
+
+        it('should generate a grid with (column, row) value pairs', () => {
+            const columns = 4;
+            const rows = 3;
+            const grid = gridl.generateData(columns, rows, ({ column, row }) => `${column},${row}`);
+            expect(grid).to.deep.equal([
+                ['0,0', '1,0', '2,0', '3,0'],
+                ['0,1', '1,1', '2,1', '3,1'],
+                ['0,2', '1,2', '2,2', '3,2'],
+            ]);
+        });
+
+        it('should generate a grid filled with "x"-values', () => {
+            const columns = 7;
+            const rows = 5;
+            const grid = gridl.generateData(columns, rows, () => 'x');
+            expect(grid).to.deep.equal([
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ]);
+        });
+
+        it('should throw an error if you provide invalid number of rows', () => {
+            expect(
+                () => gridl.generateData(4, 0, () => 'x')
+            ).to.throw(
+                'You need to specify at least one row. Given: 0'
+            );
+
+            expect(
+                () => gridl.generateData(4, -1, () => 'x')
+            ).to.throw(
+                'You need to specify at least one row. Given: -1'
+            );
+
+            expect(
+                () => gridl.generateData(4, 'ludicrous', () => 'x')
+            ).to.throw(
+                'You need to specify at least one row. Given: ludicrous'
+            );
+        });
+
+        it('should throw an error if you provide invalid number of columns', () => {
+            expect(
+                () => gridl.generateData('ludicrous', 4, () => 'x')
+            ).to.throw(
+                'You need to specify at least one column. Given: ludicrous'
+            );
+
+            expect(
+                () => gridl.generateData(-1, 4, () => 'x')
+            ).to.throw(
+                'You need to specify at least one column. Given: -1'
+            );
+
+            expect(
+                () => gridl.generateData(0, 4, () => 'x')
+            ).to.throw(
+                'You need to specify at least one column. Given: 0'
+            );
+        });
+    });
+
+    describe('generate', () => {
+
+        it('should generate a grid with (column, row) value pairs', () => {
+            const columns = 4;
+            const rows = 3;
+            const grid = gridl.generate(columns, rows, ({ column, row }) => `${column},${row}`).getData();
+            expect(grid).to.deep.equal([
+                ['0,0', '1,0', '2,0', '3,0'],
+                ['0,1', '1,1', '2,1', '3,1'],
+                ['0,2', '1,2', '2,2', '3,2'],
+            ]);
+        });
+
+        it('should generate a grid filled with "x"-values', () => {
+            const columns = 7;
+            const rows = 5;
+            const grid = gridl.generate(columns, rows, () => 'x').getData();
+            expect(grid).to.deep.equal([
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+                ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
+            ]);
+        });
+
+        it('should throw an error if you provide invalid number of rows', () => {
+            expect(
+                () => gridl.generate(4, 0, () => 'x')
+            ).to.throw(
+                'You need to specify at least one row. Given: 0'
+            );
+
+            expect(
+                () => gridl.generate(4, -1, () => 'x')
+            ).to.throw(
+                'You need to specify at least one row. Given: -1'
+            );
+
+            expect(
+                () => gridl.generate(4, 'ludicrous', () => 'x')
+            ).to.throw(
+                'You need to specify at least one row. Given: ludicrous'
+            );
+        });
+
+        it('should throw an error if you provide invalid number of columns', () => {
+            expect(
+                () => gridl.generate('ludicrous', 4, () => 'x')
+            ).to.throw(
+                'You need to specify at least one column. Given: ludicrous'
+            );
+
+            expect(
+                () => gridl.generate(-1, 4, () => 'x')
+            ).to.throw(
+                'You need to specify at least one column. Given: -1'
+            );
+
+            expect(
+                () => gridl.generate(0, 4, () => 'x')
+            ).to.throw(
+                'You need to specify at least one column. Given: 0'
+            );
+        });
+    });
+
     describe('examples', () => {
 
         it('should get a value at a certain position', () => {
@@ -608,6 +742,20 @@ describe('gridl', () => {
                 [1, 2, 3],
                 [4, 5, 6],
                 [7, 'Hi', 9],
+            ]);
+        });
+
+        it('should generate a gridl instance', () => {
+            // create a gridl instance
+            const columns = 4;
+            const rows = 3;
+            const grid = gridl.generate(columns, rows, ({ column, row }) => `${column},${row}`);
+
+            // perform gridl operations
+            expect(grid.setValueAt([2,1], 'bam').getData()).to.deep.equal([
+                ['0,0', '1,0', '2,0', '3,0'],
+                ['0,1', '1,1', 'bam', '3,1'],
+                ['0,2', '1,2', '2,2', '3,2'],
             ]);
         });
 

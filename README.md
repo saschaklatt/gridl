@@ -18,12 +18,12 @@ Using npm:
 * getting/setting values at position or index
 * getting/setting areas at position or index
 * finding values in the grid or within a certain area on the grid
-* check if an area would fit into the grid at a certain position or index
+* check if an area would fit into the grid at a certain position
 * relative positions
+* generating grids
 
 **TODO**
 
-* generating grids 
 * anchor/pivot points in areas
 * moving cells from A to B
 * iterating functions like map and forEach
@@ -52,6 +52,8 @@ As a basis for:
 * **data:** The grid data as a two-dimensional array.
  
 ### Examples
+
+#### Accessing data
 
 Getting values at a certain position or at a certain index:
 
@@ -83,7 +85,7 @@ const newGrid = gridl(data).setValueAt([1, 2], 'Hi').getData();
 // ];
 ```
 
-Setting a whole area at a certain position:
+Overwriting an entire area at a certain position:
 
 ```javascript
 const data = [
@@ -181,6 +183,41 @@ const { TOP, LEFT } = gridl.directions;
 g.getRelativePosition([2,3], [-2, 1]); // [0,4]
 g.getRelativePosition([2,3], TOP);     // [2,2]
 g.getRelativePosition([2,3], LEFT);    // [1,3]
+```
+
+#### Generating data
+
+Generating a data array
+```javascript
+const columns = 4;
+const rows = 3;
+const data = gridl.generateData(columns, rows, ({ column, row }) => `${column},${row}`);
+
+// data looks like this:
+// [
+//     ['0,0', '1,0', '2,0', '3,0'],
+//     ['0,1', '1,1', '2,1', '3,1'],
+//     ['0,2', '1,2', '2,2', '3,2'],
+// ]);
+```
+
+Generating a gridl instance and perform operations on it
+```javascript
+
+// create a gridl instance
+const columns = 4;
+const rows = 3;
+const grid = gridl.generate(columns, rows, ({ column, row }) => `${column},${row}`);
+
+// perform gridl operations
+const data = grid.setValueAt([2,1], 'bam').getData();
+
+// data looks like this:
+// [
+//     ['0,0', '1,0', '2,0', '3,0'],
+//     ['0,1', '1,1', 'bam', '3,1'],
+//     ['0,2', '1,2', '2,2', '3,2'],
+// ]);
 ```
 
 ## Related stuff
