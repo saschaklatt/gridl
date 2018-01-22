@@ -19,16 +19,21 @@ Using npm:
 * check if an area would fit into the grid at a certain position
 * get values relative positions
 * generating grids
-
-**TODO**
-
-* anchor/pivot points in areas
 * moving cells from A to B
-* iterating functions like map and forEach
-* add/remove columns and rows from all sides
-* swap columns and rows
+
+**Must haves**
+
+* move: columns and rows
+* anchor/pivot points in areas
+* insert/remove columns and rows at any position
+* swap: cells, columns, rows and areas
+* fancy syntax
+
+**Nice to haves**
+
 * rotate grid
 * mirror grid (x- and y-axis)
+* iterating functions like map and forEach
 * eternal mode
 * path finding
 
@@ -203,6 +208,29 @@ const newGrid = gridl(grid).moveCell(from, to).getData();
 //     [14,15,16,17,18,19],
 //     [20,21,22,23,24,25],
 //     [26,27,28, 9,29,30],
+// ]
+```
+
+Move cells from a position ([1,2]) into a certain direction (3 steps left, 2 steps down):
+```javascript
+const grid = [
+    [ 1, 2, 3, 4, 5, 6],
+    [ 7, 8, 9,10,11,12],
+    [13,14,15,16,17,18],
+    [19,20,21,22,23,24],
+    [25,26,27,28,29,30],
+];
+const position = [1,2];
+const direction = [3,2];
+const newGrid = gridl(grid).moveCellFrom(position, direction).getData();
+
+// newGrid would look like this:
+// [
+//     [ 1, 2, 3, 4, 5, 6],
+//     [ 7, 8, 9,10,11,12],
+//     [13,15,16,17,18,19],
+//     [20,21,22,23,24,25],
+//     [26,27,28,29,14,30],
 // ]
 ```
 

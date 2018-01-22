@@ -285,36 +285,45 @@ function gridl(data) {
         return [_columns, _rows];
     };
 
-    // accessing data
+    // single value operations
     api.getValueAt = function (pos) {
         return _getValueAt(_data, _columns, pos);
-    };
+    }; // TODO: merge with getRelativeValue
     api.setValueAt = function (pos, value) {
         return _setValueAt(api, _data, _columns, pos, value);
+    }; // TODO: provide optional relative offset (direction)
+    api.getRelativeValue = function (pos, direction) {
+        return api.getValueAt(api.getRelativePosition(pos, direction));
+    }; // TODO: merge this functionality into getValueAt() with an optional parameter "direction" that defaults to [0,0]
+    api.getRelativePosition = function (pos, direction) {
+        return _getRelativePosition(_columns, _rows, pos, direction);
+    }; // TODO: rename to "getPositionFrom"
+
+    // moving cells
+    api.moveCell = function (from, to) {
+        return _moveCell(api, _data, _columns, _rows, from, to);
     };
+    api.moveCellFrom = function (position, direction) {
+        return api.moveCell(position, _addPositions(position, direction));
+    };
+
+    // area operations
     api.setAreaAt = function (pos, area) {
         return _setAreaAt(api, _columns, _rows, pos, area);
     };
     api.getAreaAt = function (pos, size) {
         return _getAreaAt(api, _columns, _rows, pos, size);
     };
+    api.checkAreaFitsAt = function (pos, area) {
+        return _checkAreaFitsAt(_columns, _rows, pos, area);
+    };
+
+    // finding
     api.findPosition = function (callback) {
         return _findPosition(_columns, _data, callback);
     };
     api.findPositionInArea = function (pos, size, callback) {
         return _findPositionInArea(api, _columns, pos, size, callback);
-    };
-    api.checkAreaFitsAt = function (pos, area) {
-        return _checkAreaFitsAt(_columns, _rows, pos, area);
-    };
-    api.getRelativePosition = function (pos, direction) {
-        return _getRelativePosition(_columns, _rows, pos, direction);
-    };
-    api.getRelativeValue = function (pos, direction) {
-        return api.getValueAt(api.getRelativePosition(pos, direction));
-    };
-    api.moveCell = function (from, to) {
-        return _moveCell(api, _data, _columns, _rows, from, to);
     };
 
     // exporting data
@@ -357,6 +366,21 @@ gridl.generate = function (columns, rows, callback) {
 };
 
 exports.default = gridl;
+
+/*
+ * TODO: support fancy syntax like:
+ *
+ * - moveCellAt(pos).to(destination)
+ * - moveCellAt(pos).direction(dir)
+ * - goto(pos).move.to(destination)
+ * - goto(pos).move.direction(direction)
+ * - goto(pos).value.get(value)
+ * - goto(pos).value.set(value)
+ * - goto(pos).checkAreaFits(area)
+ * ...
+ *
+ */
+
 module.exports = exports['default'];
 
 /***/ })
