@@ -182,11 +182,7 @@ export function gridl(data) {
     api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));
 
     // exporting data
-    api.toArray2D = _toArray2D.bind(api, _data, columns); // TODO: rename to getGrid() or similar
-    api.serialize = () => ({
-        size: [columns, rows],
-        data: _data,
-    });
+    api.getData = () => _toArray2D(_data, columns);
 
     return api;
 }

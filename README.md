@@ -82,7 +82,7 @@ const data = [
     [4, 5, 6],
     [7, 8, 9],
 ];
-const newGrid = gridl(data).setValueAt([1, 2], 'Hi').toArray2D();
+const newGrid = gridl(data).setValueAt([1, 2], 'Hi').getData();
 
 // newGrid would look like this:
 // [
@@ -106,7 +106,7 @@ const area = [
     [5,  3,  9],
 ];
 const position = [3, 1];
-const newGrid = gridl(data).setAreaAt(position, area).toArray2D();
+const newGrid = gridl(data).setAreaAt(position, area).getData();
 
 // newGrid would look like this:
 // [
