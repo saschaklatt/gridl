@@ -24,9 +24,16 @@ Using npm:
 
 **TODO**
 
+* clean up
+    * scrap arrayType
+    * stop importing 1d arrays (deserialize only)
+    * stop exporting array1D
+    * stop exposing index-related stuff, go for position only
+    * stop exposing helper functions
+* deserializable
+* generating grids 
 * anchor/pivot points in areas
 * moving cells from A to B
-* generating grids 
 * add/remove columns and rows from all sides
 * swap columns and rows
 * rotate grid
