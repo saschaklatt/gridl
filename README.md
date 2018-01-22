@@ -15,7 +15,6 @@ Using npm:
 * import one-dimensional arrays
 * import two-dimensional arrays
 * transform position to index and index to position
-* serializable
 * getting/setting values at position or index
 * getting/setting areas at position or index
 * finding values in the grid or within a certain area on the grid
@@ -24,18 +23,10 @@ Using npm:
 
 **TODO**
 
-* clean up
-    * scrap arrayType
-    * stop importing 1d arrays (deserialize only)
-    * stop exporting array1D
-    * remove options {rows, columns} - should always be derived from data structure
-    * validate data is a valid 2d grid array
-    * stop exposing index-related stuff, go for position only
-    * stop exposing helper functions
-* deserializable
 * generating grids 
 * anchor/pivot points in areas
 * moving cells from A to B
+* iterating functions like map and forEach
 * add/remove columns and rows from all sides
 * swap columns and rows
 * rotate grid
