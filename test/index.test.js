@@ -7,7 +7,6 @@ const checkApi = api => {
     expect(api).to.have.property('columns');
     expect(api).to.have.property('rows');
     expect(api).to.have.property('size');
-    expect(api).to.have.property('toArray2D');
     expect(api).to.have.property('getValueAt');
     expect(api).to.have.property('setValueAt');
     expect(api).to.have.property('setAreaAt');
@@ -17,7 +16,7 @@ const checkApi = api => {
     expect(api).to.have.property('checkAreaFitsAt');
     expect(api).to.have.property('getRelativePosition');
     expect(api).to.have.property('getRelativeValue');
-    expect(api).to.have.property('serialize');
+    expect(api).to.have.property('getData');
 };
 
 describe('gridl', () => {
@@ -122,7 +121,7 @@ describe('gridl', () => {
 
     });
 
-    describe('toArray2D', () => {
+    describe('getData', () => {
 
         it('should export 2d without dimensions given', () => {
             const data = [
@@ -131,7 +130,7 @@ describe('gridl', () => {
                 [7, 8, 9],
             ];
             const g = gridl(data);
-            expect(g.toArray2D()).to.deep.equal([
+            expect(g.getData()).to.deep.equal([
                 [1, 2, 3],
                 [4, 5, 6],
                 [7, 8, 9],
@@ -144,7 +143,7 @@ describe('gridl', () => {
                 [4, 5, 6],
             ];
             const g = gridl(data);
-            expect(g.toArray2D()).to.deep.equal([
+            expect(g.getData()).to.deep.equal([
                 [1, 2, 3],
                 [4, 5, 6],
             ]);
@@ -156,7 +155,7 @@ describe('gridl', () => {
                 [7, 8, 9],
             ];
             const g = gridl(data);
-            expect(g.toArray2D()).to.deep.equal([
+            expect(g.getData()).to.deep.equal([
                 [4, 5, 6],
                 [7, 8, 9],
             ]);
@@ -202,23 +201,6 @@ describe('gridl', () => {
             ];
             const g = gridl(data);
             expect(g.size()).to.deep.equal([3,2]);
-        });
-
-    });
-
-    describe('serialize', () => {
-
-        it('should serialize the data and options', () => {
-            const data = [
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9,10,11,12],
-            ];
-            const res = gridl(data).serialize();
-            expect(res).to.deep.equal({
-                size: [4, 3],
-                data: [1,2,3,4,5,6,7,8,9,10,11,12],
-            });
         });
 
     });
@@ -306,7 +288,7 @@ describe('gridl', () => {
                 [5,  3,  9],
             ];
             const position = [3, 1];
-            const grid = gridl(data).setAreaAt(position, area).toArray2D();
+            const grid = gridl(data).setAreaAt(position, area).getData();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9,  4,  1,  8],
@@ -327,7 +309,7 @@ describe('gridl', () => {
                 [5,  3,  9],
             ];
             const position = [4, 3];
-            const grid = gridl(data).setAreaAt(position, area).toArray2D();
+            const grid = gridl(data).setAreaAt(position, area).getData();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -621,7 +603,7 @@ describe('gridl', () => {
                 [4, 5, 6],
                 [7, 8, 9],
             ];
-            const newGrid = gridl(data).setValueAt([1, 2], 'Hi').toArray2D();
+            const newGrid = gridl(data).setValueAt([1, 2], 'Hi').getData();
             expect(newGrid).to.deep.equal([
                 [1, 2, 3],
                 [4, 5, 6],
