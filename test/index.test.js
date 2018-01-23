@@ -297,6 +297,31 @@ describe('gridl', () => {
             ]);
         });
 
+        it('should set an irregular shaped area', () => {
+            const data = [
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+                [25, 26, 27, 28, 29, 20],
+            ];
+            const area = [
+                [0,  0,  0],
+                [0,  0],
+                [0,  0,  0,  0],
+                [0],
+            ];
+            const position = [2, 1];
+            const grid = gridl(data).setAreaAt(position, area).getData();
+            expect(grid).to.deep.equal([
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  0,  0,  0, 12],
+                [13, 14,  0,  0, 17, 18],
+                [19, 20,  0,  0,  0,  0],
+                [25, 26,  0, 28, 29, 20],
+            ]);
+        });
+
         it('should ignore values that are out of scope', () => {
             const data = [
                 [ 1,  2,  3,  4,  5,  6],
