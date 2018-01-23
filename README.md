@@ -2,6 +2,9 @@
 
 Fast, lightweight and easy to use library to handle 2d grid data.
 
+**Hint:** 
+This library is in the early stages of development and might experiences major api changes until version 1.0.0 is ready.
+
 ## Installation
 
 Using npm:
@@ -26,13 +29,15 @@ Using npm:
 * move: columns and rows
 * anchor/pivot points in areas
 * insert/remove columns and rows at any position
-* swap: cells, columns, rows and areas
-* fancy syntax
+* swapping: cells, columns, rows and areas
+* clipping
+* extracting subsets
+* rotating the grid
+* mirror the grid (x- and y-axis)
 
 **Nice to haves**
 
-* rotate grid
-* mirror grid (x- and y-axis)
+* [fancy syntax](docs/goto-syntax.md)
 * iterating functions like map and forEach
 * eternal mode
 * path finding

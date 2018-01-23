@@ -245,17 +245,3 @@ gridl.generateData = (columns, rows, callback) => {
 gridl.generate = (columns, rows, callback) => gridl(gridl.generateData(columns, rows, callback));
 
 export default gridl;
-
-/*
- * TODO: support fancy syntax like:
- *
- * - moveCellAt(pos).to(destination)
- * - moveCellAt(pos).direction(dir)
- * - goto(pos).move.to(destination)
- * - goto(pos).move.direction(direction)
- * - goto(pos).value.get(value)
- * - goto(pos).value.set(value)
- * - goto(pos).checkAreaFits(area)
- * ...
- *
- */
