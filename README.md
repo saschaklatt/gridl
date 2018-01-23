@@ -27,10 +27,10 @@ Using npm:
 **Must haves**
 
 * move: columns and rows
-* anchor/pivot points in areas
 * insert/remove columns and rows at any position
 * swapping: cells, columns, rows and areas
 * clipping
+* anchor/pivot points in areas
 * extracting subsets
 * rotating the grid
 * mirror the grid (x- and y-axis)
@@ -229,13 +229,34 @@ const position = [1,2];
 const direction = [3,2];
 const newGrid = gridl(grid).moveCellFrom(position, direction).getData();
 
-// newGrid would look like this:
+// newGrid looks like this:
 // [
 //     [ 1, 2, 3, 4, 5, 6],
 //     [ 7, 8, 9,10,11,12],
 //     [13,15,16,17,18,19],
 //     [20,21,22,23,24,25],
 //     [26,27,28,29,14,30],
+// ]
+```
+
+Move a row from y=0 to y=2:
+```javascript
+const data = [
+    [ 1, 2, 3], // move this row...
+    [ 4, 5, 6],
+    [ 7, 8, 9], // ...to this position
+    [10,11,12],
+    [13,14,15],
+];
+const newGrid = gridl(data).moveRow(0, 2).getData()
+
+// newGrid looks like this:
+// [
+//     [ 4, 5, 6],
+//     [ 7, 8, 9],
+//     [ 1, 2, 3],
+//     [10,11,12],
+//     [13,14,15],
 // ]
 ```
 

@@ -944,6 +944,76 @@ describe('gridl', () => {
 
     });
 
+    describe('moveRow', () => {
+
+        it('should move a row at y=0 to y=2', () => {
+            const data = [
+                [ 1, 2, 3],
+                [ 4, 5, 6],
+                [ 7, 8, 9],
+                [10,11,12],
+                [13,14,15],
+            ];
+            expect(gridl(data).moveRow(0, 2).getData()).to.deep.equal([
+                [ 4, 5, 6],
+                [ 7, 8, 9],
+                [ 1, 2, 3],
+                [10,11,12],
+                [13,14,15],
+            ]);
+        });
+
+        it('should move a row at y=3 to y=1', () => {
+            const data = [
+                [ 1, 2, 3],
+                [ 4, 5, 6],
+                [ 7, 8, 9],
+                [10,11,12],
+                [13,14,15],
+            ];
+            expect(gridl(data).moveRow(3, 1).getData()).to.deep.equal([
+                [ 1, 2, 3],
+                [10,11,12],
+                [ 4, 5, 6],
+                [ 7, 8, 9],
+                [13,14,15],
+            ]);
+        });
+
+        it('should throw an error if the fromY value is too low', () => {
+            const data = [
+                [1,2,3],
+                [1,2,3],
+            ];
+            expect(() => gridl(data).moveRow(-1, 0)).to.throw('Trying to move row from an invalid position. Given: -1');
+        });
+
+        it('should throw an error if the fromY value is too high', () => {
+            const data = [
+                [1,2,3],
+                [1,2,3],
+            ];
+            expect(() => gridl(data).moveRow(2, 0)).to.throw('Trying to move row from an invalid position. Given: 2');
+        });
+
+        it('should throw an error if the toY value is too low', () => {
+            const data = [
+                [1,2,3],
+                [1,2,3],
+            ];
+            expect(() => gridl(data).moveRow(1, -1)).to.throw('Trying to move row to an invalid position. Given: -1');
+        });
+
+        it('should throw an error if the toY value is too high', () => {
+            const data = [
+                [1,2,3],
+                [1,2,3],
+            ];
+            expect(() => gridl(data).moveRow(1, 3)).to.throw('Trying to move row to an invalid position. Given: 3');
+        });
+
+    });
+
     describe('examples', () => {
 
         it('should get a value at a certain position', () => {

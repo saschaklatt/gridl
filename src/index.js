@@ -62,6 +62,18 @@ const _addPositions = (p1, p2) => [
     p1[1] + p2[1],
 ];
 
+const _move = (data, fromIndex, toIndex) => {
+    const cell = data[fromIndex];
+    data.splice(fromIndex, 1);
+    data.splice(toIndex, 0, cell);
+    return data;
+};
+
+const _isNotInArea = (areaSize, position) => (
+    position[0] < 0 || position[0] >= areaSize[0] ||
+    position[1] < 0 || position[1] >= areaSize[1]
+);
+
 function _getValueAt(_data, columns, pos) {
     const index = _pos2index(pos, columns);
     if (isNaN(index)) {
@@ -157,16 +169,19 @@ function _moveCell(api, data, columns, rows, from, to) {
     if (isNaN(toIndex) || _isNotInArea(size, to)) {
         throw new Error(`Trying to move cell to an invalid position. Given: [${to}]`);
     }
-    const cell = data[fromIndex];
-    data.splice(fromIndex, 1);
-    data.splice(toIndex, 0, cell);
+    _move(data, fromIndex, toIndex);
     return api;
 }
 
-const _isNotInArea = (areaSize, position) => (
-    position[0] < 0 || position[0] >= areaSize[0] ||
-    position[1] < 0 || position[1] >= areaSize[1]
-);
+function _moveRow(_grid, _columns, _rows, yFrom, yTo) {
+    if (yFrom < 0 || yFrom >= _rows) {
+        throw new Error(`Trying to move row from an invalid position. Given: ${yFrom}`);
+    }
+    if (yTo < 0 || yTo >= _rows) {
+        throw new Error(`Trying to move row to an invalid position. Given: ${yTo}`);
+    }
+    return _flatten(_move(_grid, yFrom, yTo));
+}
 
 /**
  * The gridl base function.
@@ -178,9 +193,9 @@ function gridl(data) {
 
     _isValidGridArray(data);
 
-    const _rows = data.length;
-    const _columns = data[0].length;
-    const _data = _flatten(data);
+    let _rows = data.length;
+    let _columns = data[0].length;
+    let _data = _flatten(data);
 
     const api = {};
 
@@ -198,6 +213,10 @@ function gridl(data) {
     // moving cells
     api.moveCell = (from, to) => _moveCell(api, _data, _columns, _rows, from, to);
     api.moveCellFrom = (position, direction) => api.moveCell(position, _addPositions(position, direction));
+    api.moveRow = (yFrom, yTo) => {
+        _data = _moveRow(api.getData(), _columns, _rows, yFrom, yTo);
+        return api;
+    };
 
     // area operations
     api.setAreaAt = (pos, area) => _setAreaAt(api, _columns, _rows, pos, area);
