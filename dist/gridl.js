@@ -167,7 +167,8 @@ var _move = function _move(data, fromIndex, toIndex) {
 };
 
 var _isNotInArea = function _isNotInArea(areaSize, position) {
-    return position[0] < 0 || position[0] >= areaSize[0] || position[1] < 0 || position[1] >= areaSize[1];
+    var areaPosition = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [0, 0];
+    return position[0] < areaPosition[0] || position[0] >= areaPosition[0] + areaSize[0] || position[1] < areaPosition[1] || position[1] >= areaPosition[1] + areaSize[1];
 };
 
 function _getValueAt(_data, columns, pos) {
@@ -415,6 +416,26 @@ function gridl(data) {
         var grid = _removeColumnAt(api.getData(), _columns, x);
         _data = _flatten(grid);
         _columns = grid[0].length;
+        return api;
+    };
+
+    // clipping
+    api.clip = function (position, size) {
+        if (position[0] < 0 || position[0] >= _columns || position[1] < 0 || position[1] >= _rows) {
+            throw new Error('Trying to clip data at an invalid position. Given: ' + position);
+        }
+        var grid = api.getData();
+        var endPoint = _addPositions(position, size);
+        var newGrid = grid.filter(function (row, r) {
+            return r >= position[1] && r < endPoint[1];
+        }).map(function (row) {
+            return row.filter(function (cell, c) {
+                return c >= position[0] && c < endPoint[0];
+            });
+        });
+        _data = _flatten(newGrid);
+        _rows = newGrid.length;
+        _columns = newGrid[0].length;
         return api;
     };
 

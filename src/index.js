@@ -69,9 +69,9 @@ const _move = (data, fromIndex, toIndex) => {
     return data;
 };
 
-const _isNotInArea = (areaSize, position) => (
-    position[0] < 0 || position[0] >= areaSize[0] ||
-    position[1] < 0 || position[1] >= areaSize[1]
+const _isNotInArea = (areaSize, position, areaPosition = [0,0]) => (
+    position[0] < areaPosition[0] || position[0] >= areaPosition[0] + areaSize[0] ||
+    position[1] < areaPosition[1] || position[1] >= areaPosition[1] + areaSize[1]
 );
 
 function _getValueAt(_data, columns, pos) {
@@ -305,6 +305,26 @@ function gridl(data) {
         const grid = _removeColumnAt(api.getData(), _columns, x);
         _data = _flatten(grid);
         _columns = grid[0].length;
+        return api;
+    };
+
+    // clipping
+    api.clip = (position, size) => {
+        if (position[0] < 0 || position[0] >= _columns || position[1] < 0 || position[1] >= _rows) {
+            throw new Error(`Trying to clip data at an invalid position. Given: ${position}`);
+        }
+        const grid = api.getData();
+        const endPoint = _addPositions(position, size);
+        const newGrid = grid
+            .filter((row, r) => {
+                return r >= position[1] && r < endPoint[1];
+            })
+            .map(row => {
+                return row.filter((cell, c) => c >= position[0] && c < endPoint[0]);
+            });
+        _data = _flatten(newGrid);
+        _rows = newGrid.length;
+        _columns = newGrid[0].length;
         return api;
     };
 
