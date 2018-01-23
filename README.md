@@ -2,9 +2,6 @@
 
 Fast, lightweight and easy to use library to handle 2d grid data.
 
-**Hint:** 
-This library is in the early stages of development and might experiences major api changes until version 1.0.0 is ready.
-
 ## Installation
 
 Using npm:
@@ -40,6 +37,7 @@ Using npm:
 **Nice to haves**
 
 * [fancy syntax](docs/goto-syntax.md)
+* swapping: areas
 * iterating functions like map and forEach
 * eternal mode
 * path finding
