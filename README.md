@@ -25,11 +25,10 @@ Using npm:
 * moving cells from A to B
 * moving columns and rows
 * adding columns and rows at any position
-* removing rows from any position
+* removing rows and columns from any position
 
 **Must haves**
 
-* removing columns from any position
 * swapping: cells, columns, rows and areas
 * clipping
 * anchor/pivot points in areas
@@ -330,6 +329,21 @@ const newGrid = gridl(data).removeRowAt(1).getData();
 //     [1,2,3],
 //     [7,8,9],
 // ]);
+```
+
+Removing a column:
+```javascript
+const data = [
+    [1,2,3],
+    [4,5,6],
+];
+const newGrid = gridl(data).removeColumnAt(0).getData();
+
+// newGrid looks like this:
+// [
+//     [2,3],
+//     [5,6],
+// ]
 ```
 
 #### Generating data

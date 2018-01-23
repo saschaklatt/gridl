@@ -321,6 +321,20 @@ function _removeRowAt(grid, rows, y) {
     return grid;
 }
 
+function _removeColumnAt(grid, columns, x) {
+    if (x < 0 || x >= columns) {
+        throw new Error('Trying to remove a column at an invalid position. Given: ' + x);
+    }
+    if (columns <= 1) {
+        throw new Error('Cannot remove column because the grid would be empty after it.');
+    }
+    return grid.map(function (row) {
+        return row.filter(function (v, c) {
+            return c !== x;
+        });
+    });
+}
+
 /**
  * The gridl base function.
  *
@@ -395,6 +409,12 @@ function gridl(data) {
         var grid = _removeRowAt(api.getData(), _rows, y);
         _data = _flatten(grid);
         _rows = grid.length;
+        return api;
+    };
+    api.removeColumnAt = function (x) {
+        var grid = _removeColumnAt(api.getData(), _columns, x);
+        _data = _flatten(grid);
+        _columns = grid[0].length;
         return api;
     };
 

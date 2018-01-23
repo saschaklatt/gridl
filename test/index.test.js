@@ -1339,10 +1339,84 @@ describe('gridl', () => {
             ]).removeRowAt(2)).to.throw('Trying to remove a row at an invalid position. Given: 2');
         });
 
-        it('should throw an error if there would not be enough rows left', () => {
+        it('should throw an error if there would be empty after removing', () => {
             expect(() => gridl([
                 [1,2],
             ]).removeRowAt(0)).to.throw('Cannot remove row because the grid would be empty after it.');
+        });
+
+    });
+
+    describe('removeColumnAt', () => {
+
+        it('should remove a column from the very left', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(gridl(data).removeColumnAt(0).getData()).to.deep.equal([
+                [2,3],
+                [5,6],
+            ]);
+        });
+
+        it('should remove a column from the middle', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(gridl(data).removeColumnAt(1).getData()).to.deep.equal([
+                [1,3],
+                [4,6],
+            ]);
+        });
+
+        it('should remove a column from the very right', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(gridl(data).removeColumnAt(2).getData()).to.deep.equal([
+                [1,2],
+                [4,5],
+            ]);
+        });
+
+        it('should update the number of columns', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(gridl(data).removeColumnAt(0).columns()).to.equal(2);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            checkApi(gridl(data).removeColumnAt(0));
+        });
+
+        it('should throw an error if the position is too low', () => {
+            expect(() => gridl([
+                [1,2,3],
+                [4,5,6],
+            ]).removeColumnAt(-1)).to.throw('Trying to remove a column at an invalid position. Given: -1');
+        });
+
+        it('should throw an error if the position is too high', () => {
+            expect(() => gridl([
+                [1,2,3],
+                [4,5,6],
+            ]).removeColumnAt(3)).to.throw('Trying to remove a column at an invalid position. Given: 3');
+        });
+
+        it('should throw an error if there would not be empty after removing', () => {
+            expect(() => gridl([
+                [1],
+                [4],
+            ]).removeColumnAt(0)).to.throw('Cannot remove column because the grid would be empty after it.');
         });
 
     });
