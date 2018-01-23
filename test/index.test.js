@@ -1080,6 +1080,273 @@ describe('gridl', () => {
 
     });
 
+    describe('addRowAt', () => {
+
+        it('should add a row at the top', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const row = [7,8,9];
+            expect(gridl(data).addRowAt(row, 0).getData()).to.deep.equal([
+                [7,8,9],
+                [1,2,3],
+                [4,5,6],
+            ]);
+        });
+
+        it('should add a row at the bottom', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const row = [7,8,9];
+            expect(gridl(data).addRowAt(row, 2).getData()).to.deep.equal([
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+            ]);
+        });
+
+        it('should add a row somewhere in the middle', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const row = [7,8,9];
+            expect(gridl(data).addRowAt(row, 1).getData()).to.deep.equal([
+                [1,2,3],
+                [7,8,9],
+                [4,5,6],
+            ]);
+        });
+
+        it('should update the amount of rows', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const row = [7,8,9];
+            expect(gridl(data).addRowAt(row, 1).rows()).to.equal(3);
+        });
+
+        it('should return the api', () => {
+            checkApi(gridl([[1,2]]).addRowAt([3,4], 1));
+        });
+
+        it('should throw an error if the position is too low', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const row = [7,8,9];
+            expect(() => gridl(data).addRowAt(row, -1)).to.throw(
+                'Trying to add row at an invalid position. Given: -1'
+            );
+        });
+
+        it('should throw an error if the position is too high', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const row = [7,8,9];
+            expect(() => gridl(data).addRowAt(row, 3)).to.throw(
+                'Trying to add row at an invalid position. Given: 3'
+            );
+        });
+
+        it('should throw an error if the row contains an invalid amount of cells', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(() => gridl(data).addRowAt([7,8], 0).getData()).to.throw(
+                'Trying to add a row that contains an invalid amount of cells. Expected: 3, Given: 2'
+            );
+            expect(() => gridl(data).addRowAt([7,8,9,10], 0).getData()).to.throw(
+                'Trying to add a row that contains an invalid amount of cells. Expected: 3, Given: 4'
+            );
+        });
+
+    });
+
+    describe('addColumnAt', () => {
+
+        it('should add a column at the very left', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const column = [
+                7,
+                8,
+            ];
+            expect(gridl(data).addColumnAt(column, 0).getData()).to.deep.equal([
+                [7,1,2,3],
+                [8,4,5,6],
+            ]);
+        });
+
+        it('should add a column at the very right', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+            ];
+            const column = [
+                9,
+                9,
+                9,
+            ];
+            expect(gridl(data).addColumnAt(column, 3).getData()).to.deep.equal([
+                [1,2,3,9],
+                [4,5,6,9],
+                [7,8,9,9],
+            ]);
+        });
+
+        it('should add a column somewhere in the middle', () => {
+            const data= [
+                [1,2],
+                [4,5],
+            ];
+            const column = [
+                7,
+                8,
+            ];
+            expect(gridl(data).addColumnAt(column, 1).getData()).to.deep.equal([
+                [1,7,2],
+                [4,8,5],
+            ]);
+        });
+
+        it('should update the amount of columns', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const column = [
+                7,
+                8,
+            ];
+            expect(gridl(data).addColumnAt(column, 1).columns()).to.equal(4);
+        });
+
+        it('should return the api', () => {
+            checkApi(gridl([[1,2],[5,6]]).addColumnAt([3,4], 1));
+        });
+
+        it('should throw an error if the position is too low', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const column = [7,8];
+            expect(() => gridl(data).addColumnAt(column, -1)).to.throw(
+                'Trying to add column at an invalid position. Given: -1'
+            );
+        });
+
+        it('should throw an error if the position is too high', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const column = [7,8,9];
+            expect(() => gridl(data).addColumnAt(column, 4)).to.throw(
+                'Trying to add column at an invalid position. Given: 4'
+            );
+        });
+
+        it('should throw an error if the column contains an invalid amount of cells', () => {
+            const data= [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(() => gridl(data).addColumnAt([7], 0).getData()).to.throw(
+                'Trying to add a column that contains an invalid amount of cells. Expected: 2, Given: 1'
+            );
+            expect(() => gridl(data).addColumnAt([7,8,9], 0).getData()).to.throw(
+                'Trying to add a column that contains an invalid amount of cells. Expected: 2, Given: 3'
+            );
+        });
+
+    });
+
+    describe('removeRowAt', () => {
+
+        it('should remove a row from the top', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+            ];
+            expect(gridl(data).removeRowAt(0).getData()).to.deep.equal([
+                [4,5,6],
+                [7,8,9],
+            ]);
+        });
+
+        it('should remove a row from the middle', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+            ];
+            expect(gridl(data).removeRowAt(1).getData()).to.deep.equal([
+                [1,2,3],
+                [7,8,9],
+            ]);
+        });
+
+        it('should remove a row from the bottom', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+            ];
+            expect(gridl(data).removeRowAt(2).getData()).to.deep.equal([
+                [1,2,3],
+                [4,5,6],
+            ]);
+        });
+
+        it('should update the number of rows', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+            ];
+            expect(gridl(data).removeRowAt(1).rows()).to.equal(2);
+        });
+
+        it('should return the api', () => {
+            checkApi(gridl([[1,2],[5,6]]).removeRowAt(0));
+        });
+
+        it('should throw an error if the position is too low', () => {
+            expect(() => gridl([
+                [1,2],
+                [2,3],
+            ]).removeRowAt(-1)).to.throw('Trying to remove a row at an invalid position. Given: -1');
+        });
+
+        it('should throw an error if the position is too high', () => {
+            expect(() => gridl([
+                [1,2],
+                [2,3],
+            ]).removeRowAt(2)).to.throw('Trying to remove a row at an invalid position. Given: 2');
+        });
+
+        it('should throw an error if there would not be enough rows left', () => {
+            expect(() => gridl([
+                [1,2],
+            ]).removeRowAt(0)).to.throw('Cannot remove row because the grid would be empty after it.');
+        });
+
+    });
+
     describe('examples', () => {
 
         it('should get a value at a certain position', () => {

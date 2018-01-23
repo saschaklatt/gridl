@@ -24,16 +24,19 @@ Using npm:
 * generating grids
 * moving cells from A to B
 * moving columns and rows
+* adding columns and rows at any position
+* removing rows from any position
 
 **Must haves**
 
-* insert/remove columns and rows at any position
+* removing columns from any position
 * swapping: cells, columns, rows and areas
 * clipping
 * anchor/pivot points in areas
 * extracting subsets
 * rotating the grid
 * mirror the grid (x- and y-axis)
+* adding/removing multiple columns and rows
 
 **Nice to haves**
 
@@ -267,7 +270,7 @@ const data = [
     [ 5, 6, 7, 8],
     [ 9,10,11,12],
 ];
-newGrid = gridl(data).moveColumn(0, 2).getData();
+const newGrid = gridl(data).moveColumn(0, 2).getData();
 
 // newGrid looks like this:
 // [
@@ -275,6 +278,58 @@ newGrid = gridl(data).moveColumn(0, 2).getData();
 //     [ 6, 7, 5, 8],
 //     [10,11, 9,12],
 // ]
+```
+
+Adding a row:
+```javascript
+const data= [
+    [1,2,3],
+    [4,5,6],
+];
+const row = [7,8,9];
+const newGrid = gridl(data).addRowAt(row, 1).getData();
+
+// newGrid looks like this:
+// [
+//     [1,2,3],
+//     [7,8,9],
+//     [4,5,6],
+// ]
+```
+
+Adding a column:
+```javascript
+const data= [
+    [1,2,3],
+    [4,5,6],
+];
+const column = [
+    7,
+    8,
+];
+const newGrid = gridl(data).addColumnAt(column, 0).getData();
+
+// newGrid looks like this:
+// [
+//     [7,1,2,3],
+//     [8,4,5,6],
+// ]
+```
+
+Removing a row:
+```javascript
+const data = [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+];
+const newGrid = gridl(data).removeRowAt(1).getData();
+
+// newGrid looks like this:
+// [
+//     [1,2,3],
+//     [7,8,9],
+// ]);
 ```
 
 #### Generating data
