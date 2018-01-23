@@ -37,7 +37,8 @@ Using npm:
 **Nice to haves**
 
 * [fancy syntax](docs/goto-syntax.md)
-* swapping: areas
+* swapping areas
+* moving areas
 * iterating functions like map and forEach
 * eternal mode
 * path finding
