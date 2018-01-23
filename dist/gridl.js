@@ -366,21 +366,6 @@ gridl.generate = function (columns, rows, callback) {
 };
 
 exports.default = gridl;
-
-/*
- * TODO: support fancy syntax like:
- *
- * - moveCellAt(pos).to(destination)
- * - moveCellAt(pos).direction(dir)
- * - goto(pos).move.to(destination)
- * - goto(pos).move.direction(direction)
- * - goto(pos).value.get(value)
- * - goto(pos).value.set(value)
- * - goto(pos).checkAreaFits(area)
- * ...
- *
- */
-
 module.exports = exports['default'];
 
 /***/ })
