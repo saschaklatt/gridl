@@ -243,6 +243,16 @@ function _removeColumnAt(grid, columns, x) {
     return grid.map(row => row.filter((v, c) => c !== x));
 }
 
+function _clip(grid, _columns, _rows, position, size) {
+    if (position[0] < 0 || position[0] >= _columns || position[1] < 0 || position[1] >= _rows) {
+        throw new Error(`Trying to clip data at an invalid position. Given: ${position}`);
+    }
+    const endPoint = _addPositions(position, size);
+    return grid
+        .filter((row, r) => r >= position[1] && r < endPoint[1])
+        .map(row => row.filter((cell, c) => c >= position[0] && c < endPoint[0]));
+}
+
 /**
  * The gridl base function.
  *
@@ -310,21 +320,10 @@ function gridl(data) {
 
     // clipping
     api.clip = (position, size) => {
-        if (position[0] < 0 || position[0] >= _columns || position[1] < 0 || position[1] >= _rows) {
-            throw new Error(`Trying to clip data at an invalid position. Given: ${position}`);
-        }
-        const grid = api.getData();
-        const endPoint = _addPositions(position, size);
-        const newGrid = grid
-            .filter((row, r) => {
-                return r >= position[1] && r < endPoint[1];
-            })
-            .map(row => {
-                return row.filter((cell, c) => c >= position[0] && c < endPoint[0]);
-            });
-        _data = _flatten(newGrid);
-        _rows = newGrid.length;
-        _columns = newGrid[0].length;
+        const grid = _clip(api.getData(), _columns, _rows, position, size);
+        _data = _flatten(grid);
+        _rows = grid.length;
+        _columns = grid[0].length;
         return api;
     };
 

@@ -336,6 +336,20 @@ function _removeColumnAt(grid, columns, x) {
     });
 }
 
+function _clip(grid, _columns, _rows, position, size) {
+    if (position[0] < 0 || position[0] >= _columns || position[1] < 0 || position[1] >= _rows) {
+        throw new Error('Trying to clip data at an invalid position. Given: ' + position);
+    }
+    var endPoint = _addPositions(position, size);
+    return grid.filter(function (row, r) {
+        return r >= position[1] && r < endPoint[1];
+    }).map(function (row) {
+        return row.filter(function (cell, c) {
+            return c >= position[0] && c < endPoint[0];
+        });
+    });
+}
+
 /**
  * The gridl base function.
  *
@@ -421,21 +435,10 @@ function gridl(data) {
 
     // clipping
     api.clip = function (position, size) {
-        if (position[0] < 0 || position[0] >= _columns || position[1] < 0 || position[1] >= _rows) {
-            throw new Error('Trying to clip data at an invalid position. Given: ' + position);
-        }
-        var grid = api.getData();
-        var endPoint = _addPositions(position, size);
-        var newGrid = grid.filter(function (row, r) {
-            return r >= position[1] && r < endPoint[1];
-        }).map(function (row) {
-            return row.filter(function (cell, c) {
-                return c >= position[0] && c < endPoint[0];
-            });
-        });
-        _data = _flatten(newGrid);
-        _rows = newGrid.length;
-        _columns = newGrid[0].length;
+        var grid = _clip(api.getData(), _columns, _rows, position, size);
+        _data = _flatten(grid);
+        _rows = grid.length;
+        _columns = grid[0].length;
         return api;
     };
 
