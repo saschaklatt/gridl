@@ -1552,6 +1552,44 @@ describe('gridl', () => {
 
     });
 
+    describe('swapCells', () => {
+
+        it('should swap to two cells', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+            ];
+            expect(gridl(data).swapCells([0,0], [2,1]).getData()).to.deep.equal([
+                [7,2,3,4],
+                [5,6,1,8],
+            ]);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+            ];
+            checkApi(gridl(data).swapCells([0,0], [2,1]));
+        });
+
+        it('throw an error if the positions are invalid', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+            ];
+            expect(() => gridl(data).swapCells([-1,0], [2,1])).to.throw('Trying to swap cells with an invalid position.');
+            expect(() => gridl(data).swapCells([0,-1], [2,1])).to.throw('Trying to swap cells with an invalid position.');
+            expect(() => gridl(data).swapCells([6,0], [2,1])).to.throw('Trying to swap cells with an invalid position.');
+            expect(() => gridl(data).swapCells([1,3], [2,1])).to.throw('Trying to swap cells with an invalid position.');
+            expect(() => gridl(data).swapCells([0,0], [-1,0])).to.throw('Trying to swap cells with an invalid position.');
+            expect(() => gridl(data).swapCells([0,0], [4,0])).to.throw('Trying to swap cells with an invalid position.');
+            expect(() => gridl(data).swapCells([0,0], [0,-1])).to.throw('Trying to swap cells with an invalid position.');
+            expect(() => gridl(data).swapCells([0,0], [0,2])).to.throw('Trying to swap cells with an invalid position.');
+        });
+
+    });
+
     describe('examples', () => {
 
         it('should get a value at a certain position', () => {

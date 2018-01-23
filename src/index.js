@@ -69,9 +69,9 @@ const _move = (data, fromIndex, toIndex) => {
     return data;
 };
 
-const _isNotInArea = (areaSize, position, areaPosition = [0,0]) => (
-    position[0] < areaPosition[0] || position[0] >= areaPosition[0] + areaSize[0] ||
-    position[1] < areaPosition[1] || position[1] >= areaPosition[1] + areaSize[1]
+const _isNotInArea = (areaSize, position) => (
+    position[0] < 0 || position[0] >= areaSize[0] ||
+    position[1] < 0 || position[1] >= areaSize[1]
 );
 
 function _getValueAt(_data, columns, pos) {
@@ -253,6 +253,17 @@ function _clip(grid, _columns, _rows, position, size) {
         .map(row => row.filter((cell, c) => c >= position[0] && c < endPoint[0]));
 }
 
+function _swapCells(api, pos1, pos2) {
+    const size = api.size();
+    if (_isNotInArea(size, pos1) || _isNotInArea(size, pos2)) {
+        throw new Error('Trying to swap cells with an invalid position.');
+    }
+    const tmp = api.getValueAt(pos1);
+    api.setValueAt(pos1, api.getValueAt(pos2));
+    api.setValueAt(pos2, tmp);
+    return api;
+}
+
 /**
  * The gridl base function.
  *
@@ -326,6 +337,9 @@ function gridl(data) {
         _columns = grid[0].length;
         return api;
     };
+
+    // swapping
+    api.swapCells = (pos1, pos2) => _swapCells(api, pos1, pos2);
 
     // area operations
     api.setAreaAt = (pos, area) => _setAreaAt(api, _columns, _rows, pos, area);
