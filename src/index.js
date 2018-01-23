@@ -233,6 +233,16 @@ function _removeRowAt(grid, rows, y) {
     return grid;
 }
 
+function _removeColumnAt(grid, columns, x) {
+    if (x < 0 || x >= columns) {
+        throw new Error(`Trying to remove a column at an invalid position. Given: ${x}`);
+    }
+    if (columns <= 1) {
+        throw new Error('Cannot remove column because the grid would be empty after it.');
+    }
+    return grid.map(row => row.filter((v, c) => c !== x));
+}
+
 /**
  * The gridl base function.
  *
@@ -291,6 +301,12 @@ function gridl(data) {
         _rows = grid.length;
         return api;
     };
+    api.removeColumnAt = x => {
+        const grid = _removeColumnAt(api.getData(), _columns, x);
+        _data = _flatten(grid);
+        _columns = grid[0].length;
+        return api;
+    };
 
     // area operations
     api.setAreaAt = (pos, area) => _setAreaAt(api, _columns, _rows, pos, area);
@@ -328,11 +344,11 @@ gridl.generateData = (columns, rows, callback) => {
     if (parsedRows < 1 || isNaN(parsedRows)) {
         throw new Error(`You need to specify at least one row. Given: ${rows}`);
     }
-    return Array.from({ length: parsedRows }, (vr, row) => {
-        return Array.from({ length: parsedColumns }, (vc, column) => {
-            return callback({ column, row });
-        });
-    });
+    return Array.from({ length: parsedRows }, (vr, row) => (
+        Array.from({ length: parsedColumns }, (vc, column) => (
+            callback({ column, row })
+        ))
+    ));
 };
 
 gridl.generate = (columns, rows, callback) => gridl(gridl.generateData(columns, rows, callback));
