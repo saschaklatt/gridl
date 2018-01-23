@@ -23,10 +23,10 @@ Using npm:
 * get values relative positions
 * generating grids
 * moving cells from A to B
+* moving columns and rows
 
 **Must haves**
 
-* move: columns and rows
 * insert/remove columns and rows at any position
 * swapping: cells, columns, rows and areas
 * clipping
@@ -257,6 +257,23 @@ const newGrid = gridl(data).moveRow(0, 2).getData()
 //     [ 1, 2, 3],
 //     [10,11,12],
 //     [13,14,15],
+// ]
+```
+
+Move a column from x=0 to x=2:
+```javascript
+const data = [
+    [ 1, 2, 3, 4],
+    [ 5, 6, 7, 8],
+    [ 9,10,11,12],
+];
+newGrid = gridl(data).moveColumn(0, 2).getData();
+
+// newGrid looks like this:
+// [
+//     [ 2, 3, 1, 4],
+//     [ 6, 7, 5, 8],
+//     [10,11, 9,12],
 // ]
 ```
 

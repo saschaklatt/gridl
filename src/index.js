@@ -183,6 +183,17 @@ function _moveRow(_grid, _columns, _rows, yFrom, yTo) {
     return _flatten(_move(_grid, yFrom, yTo));
 }
 
+function _moveColumn(grid, columns, rows, xFrom, xTo) {
+    if (xFrom < 0 || xFrom >= columns) {
+        throw new Error(`Trying to move column from an invalid position. Given: ${xFrom}`);
+    }
+    if (xTo < 0 || xTo >= columns) {
+        throw new Error(`Trying to move column to an invalid position. Given: ${xTo}`);
+    }
+    const newGrid = grid.map(row => _move(row, xFrom, xTo));
+    return _flatten(newGrid);
+}
+
 /**
  * The gridl base function.
  *
@@ -215,6 +226,10 @@ function gridl(data) {
     api.moveCellFrom = (position, direction) => api.moveCell(position, _addPositions(position, direction));
     api.moveRow = (yFrom, yTo) => {
         _data = _moveRow(api.getData(), _columns, _rows, yFrom, yTo);
+        return api;
+    };
+    api.moveColumn = (xFrom, xTo) => {
+        _data = _moveColumn(api.getData(), _columns, _rows, xFrom, xTo);
         return api;
     };
 

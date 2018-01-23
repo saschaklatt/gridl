@@ -159,6 +159,17 @@ var _addPositions = function _addPositions(p1, p2) {
     return [p1[0] + p2[0], p1[1] + p2[1]];
 };
 
+var _move = function _move(data, fromIndex, toIndex) {
+    var cell = data[fromIndex];
+    data.splice(fromIndex, 1);
+    data.splice(toIndex, 0, cell);
+    return data;
+};
+
+var _isNotInArea = function _isNotInArea(areaSize, position) {
+    return position[0] < 0 || position[0] >= areaSize[0] || position[1] < 0 || position[1] >= areaSize[1];
+};
+
 function _getValueAt(_data, columns, pos) {
     var index = _pos2index(pos, columns);
     if (isNaN(index)) {
@@ -248,15 +259,32 @@ function _moveCell(api, data, columns, rows, from, to) {
     if (isNaN(toIndex) || _isNotInArea(size, to)) {
         throw new Error('Trying to move cell to an invalid position. Given: [' + to + ']');
     }
-    var cell = data[fromIndex];
-    data.splice(fromIndex, 1);
-    data.splice(toIndex, 0, cell);
+    _move(data, fromIndex, toIndex);
     return api;
 }
 
-var _isNotInArea = function _isNotInArea(areaSize, position) {
-    return position[0] < 0 || position[0] >= areaSize[0] || position[1] < 0 || position[1] >= areaSize[1];
-};
+function _moveRow(_grid, _columns, _rows, yFrom, yTo) {
+    if (yFrom < 0 || yFrom >= _rows) {
+        throw new Error('Trying to move row from an invalid position. Given: ' + yFrom);
+    }
+    if (yTo < 0 || yTo >= _rows) {
+        throw new Error('Trying to move row to an invalid position. Given: ' + yTo);
+    }
+    return _flatten(_move(_grid, yFrom, yTo));
+}
+
+function _moveColumn(grid, columns, rows, xFrom, xTo) {
+    if (xFrom < 0 || xFrom >= columns) {
+        throw new Error('Trying to move column from an invalid position. Given: ' + xFrom);
+    }
+    if (xTo < 0 || xTo >= columns) {
+        throw new Error('Trying to move column to an invalid position. Given: ' + xTo);
+    }
+    var newGrid = grid.map(function (row) {
+        return _move(row, xFrom, xTo);
+    });
+    return _flatten(newGrid);
+}
 
 /**
  * The gridl base function.
@@ -305,6 +333,14 @@ function gridl(data) {
     };
     api.moveCellFrom = function (position, direction) {
         return api.moveCell(position, _addPositions(position, direction));
+    };
+    api.moveRow = function (yFrom, yTo) {
+        _data = _moveRow(api.getData(), _columns, _rows, yFrom, yTo);
+        return api;
+    };
+    api.moveColumn = function (xFrom, xTo) {
+        _data = _moveColumn(api.getData(), _columns, _rows, xFrom, xTo);
+        return api;
     };
 
     // area operations
