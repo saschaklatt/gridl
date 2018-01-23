@@ -1014,6 +1014,72 @@ describe('gridl', () => {
 
     });
 
+    describe('moveColumn', () => {
+
+        it('should move a column at x=0 to x=2', () => {
+            const data = [
+                [ 1, 2, 3, 4],
+                [ 5, 6, 7, 8],
+                [ 9,10,11,12],
+            ];
+            expect(gridl(data).moveColumn(0, 2).getData()).to.deep.equal([
+                [ 2, 3, 1, 4],
+                [ 6, 7, 5, 8],
+                [10,11, 9,12],
+            ]);
+        });
+
+        it('should move a column at x=3 to x=1', () => {
+            const data = [
+                [ 1, 2, 3, 4],
+                [ 5, 6, 7, 8],
+                [ 9,10,11,12],
+            ];
+            expect(gridl(data).moveColumn(3, 1).getData()).to.deep.equal([
+                [ 1, 4, 2, 3],
+                [ 5, 8, 6, 7],
+                [ 9,12,10,11],
+            ]);
+        });
+
+        it('should return the api', () => {
+            checkApi(gridl([[1,2]]).moveColumn(0, 1));
+        });
+
+        it('should throw an error if the fromX value is too low', () => {
+            const data = [
+                [1,2,3],
+                [1,2,3],
+            ];
+            expect(() => gridl(data).moveColumn(-1, 0)).to.throw('Trying to move column from an invalid position. Given: -1');
+        });
+
+        it('should throw an error if the fromX value is too high', () => {
+            const data = [
+                [1,2,3],
+                [1,2,3],
+            ];
+            expect(() => gridl(data).moveColumn(3, 0)).to.throw('Trying to move column from an invalid position. Given: 3');
+        });
+
+        it('should throw an error if the toX value is too low', () => {
+            const data = [
+                [1,2,3],
+                [1,2,3],
+            ];
+            expect(() => gridl(data).moveColumn(1, -1)).to.throw('Trying to move column to an invalid position. Given: -1');
+        });
+
+        it('should throw an error if the toX value is too high', () => {
+            const data = [
+                [1,2,3],
+                [1,2,3],
+            ];
+            expect(() => gridl(data).moveColumn(1, 3)).to.throw('Trying to move column to an invalid position. Given: 3');
+        });
+
+    });
+
     describe('examples', () => {
 
         it('should get a value at a certain position', () => {
