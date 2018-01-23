@@ -194,6 +194,45 @@ function _moveColumn(grid, columns, rows, xFrom, xTo) {
     return _flatten(newGrid);
 }
 
+function _addRowAt(grid, columns, rows, row, y) {
+    if (y < 0 || y > rows) {
+        throw new Error(`Trying to add row at an invalid position. Given: ${y}`);
+    }
+    if (row.length !== columns) {
+        throw new Error(
+            `Trying to add a row that contains an invalid amount of cells. Expected: ${columns}, Given: ${row.length}`
+        );
+    }
+    grid.splice(y, 0, row);
+    return grid;
+}
+
+function _addColumnAt(grid, columns, rows, column, x) {
+    if (x < 0 || x > columns) {
+        throw new Error(`Trying to add column at an invalid position. Given: ${x}`);
+    }
+    if (column.length !== rows) {
+        throw new Error(
+            `Trying to add a column that contains an invalid amount of cells. Expected: ${rows}, Given: ${column.length}`
+        );
+    }
+    return grid.map((row, i) => {
+        row.splice(x, 0, column[i]);
+        return row;
+    });
+}
+
+function _removeRowAt(grid, rows, y) {
+    if (y < 0 || y >= rows) {
+        throw new Error(`Trying to remove a row at an invalid position. Given: ${y}`);
+    }
+    if (rows <= 1) {
+        throw new Error('Cannot remove row because the grid would be empty after it.');
+    }
+    grid.splice(y, 1);
+    return grid;
+}
+
 /**
  * The gridl base function.
  *
@@ -230,6 +269,26 @@ function gridl(data) {
     };
     api.moveColumn = (xFrom, xTo) => {
         _data = _moveColumn(api.getData(), _columns, _rows, xFrom, xTo);
+        return api;
+    };
+
+    // adding columns and rows
+    api.addRowAt = (row, y) => {
+        const grid = _addRowAt(api.getData(), _columns, _rows, row, y);
+        _data = _flatten(grid);
+        _rows = grid.length;
+        return api;
+    };
+    api.addColumnAt = (column, x) => {
+        const grid = _addColumnAt(api.getData(), _columns, _rows, column, x);
+        _data = _flatten(grid);
+        _columns = grid[0].length;
+        return api;
+    };
+    api.removeRowAt = y => {
+        const grid = _removeRowAt(api.getData(), _rows, y);
+        _data = _flatten(grid);
+        _rows = grid.length;
         return api;
     };
 
