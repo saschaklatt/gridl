@@ -270,8 +270,7 @@ function _swapCells(api, pos1, pos2) {
     return api;
 }
 
-function _swapRows(grid, rows, y1, y2)
-{
+function _swapRows(grid, rows, y1, y2) {
     if (y1 < 0 || y1 >= rows) {
         throw new Error(`Trying to swap rows from an invalid position. Given: ${y1}`);
     }
@@ -279,6 +278,20 @@ function _swapRows(grid, rows, y1, y2)
         throw new Error(`Trying to swap rows to an invalid position. Given: ${y2}`);
     }
     _swap(grid, y1, y2);
+    return _flatten(grid);
+}
+
+function _swapColumns(grid, columns, x1, x2) {
+    if (x1 < 0 || x1 >= columns) {
+        throw new Error(`Trying to swap columns from an invalid position. Given: ${x1}`);
+    }
+    if (x2 < 0 || x2 >= columns) {
+        throw new Error(`Trying to swap columns to an invalid position. Given: ${x2}`);
+    }
+    grid.map(row => {
+        _swap(row, x1, x2);
+        return row;
+    });
     return _flatten(grid);
 }
 
@@ -360,6 +373,10 @@ function gridl(data) {
     api.swapCells = (pos1, pos2) => _swapCells(api, pos1, pos2);
     api.swapRows = (y1, y2) => {
         _data = _swapRows(api.getData(), _rows, y1, y2);
+        return api;
+    };
+    api.swapColumns = (x1, x2) => {
+        _data = _swapColumns(api.getData(), _columns, x1, x2);
         return api;
     };
 

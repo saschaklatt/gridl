@@ -167,8 +167,7 @@ var _move = function _move(data, fromIndex, toIndex) {
 };
 
 var _isNotInArea = function _isNotInArea(areaSize, position) {
-    var areaPosition = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [0, 0];
-    return position[0] < areaPosition[0] || position[0] >= areaPosition[0] + areaSize[0] || position[1] < areaPosition[1] || position[1] >= areaPosition[1] + areaSize[1];
+    return position[0] < 0 || position[0] >= areaSize[0] || position[1] < 0 || position[1] >= areaSize[1];
 };
 
 function _getValueAt(_data, columns, pos) {
@@ -350,6 +349,48 @@ function _clip(grid, _columns, _rows, position, size) {
     });
 }
 
+var _swap = function _swap(arr, i1, i2) {
+    var tmp = arr[i1];
+    arr[i1] = arr[i2];
+    arr[i2] = tmp;
+};
+
+function _swapCells(api, pos1, pos2) {
+    var size = api.size();
+    if (_isNotInArea(size, pos1) || _isNotInArea(size, pos2)) {
+        throw new Error('Trying to swap cells with an invalid position.');
+    }
+    var tmp = api.getValueAt(pos1);
+    api.setValueAt(pos1, api.getValueAt(pos2));
+    api.setValueAt(pos2, tmp);
+    return api;
+}
+
+function _swapRows(grid, rows, y1, y2) {
+    if (y1 < 0 || y1 >= rows) {
+        throw new Error('Trying to swap rows from an invalid position. Given: ' + y1);
+    }
+    if (y2 < 0 || y2 >= rows) {
+        throw new Error('Trying to swap rows to an invalid position. Given: ' + y2);
+    }
+    _swap(grid, y1, y2);
+    return _flatten(grid);
+}
+
+function _swapColumns(grid, columns, x1, x2) {
+    if (x1 < 0 || x1 >= columns) {
+        throw new Error('Trying to swap columns from an invalid position. Given: ' + x1);
+    }
+    if (x2 < 0 || x2 >= columns) {
+        throw new Error('Trying to swap columns to an invalid position. Given: ' + x2);
+    }
+    grid.map(function (row) {
+        _swap(row, x1, x2);
+        return row;
+    });
+    return _flatten(grid);
+}
+
 /**
  * The gridl base function.
  *
@@ -439,6 +480,19 @@ function gridl(data) {
         _data = _flatten(grid);
         _rows = grid.length;
         _columns = grid[0].length;
+        return api;
+    };
+
+    // swapping
+    api.swapCells = function (pos1, pos2) {
+        return _swapCells(api, pos1, pos2);
+    };
+    api.swapRows = function (y1, y2) {
+        _data = _swapRows(api.getData(), _rows, y1, y2);
+        return api;
+    };
+    api.swapColumns = function (x1, x2) {
+        _data = _swapColumns(api.getData(), _columns, x1, x2);
         return api;
     };
 
