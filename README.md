@@ -14,7 +14,7 @@ Using npm:
 
 * importing two-dimensional arrays
 * getting/setting values at a certain position
-* getting/setting areas at  a certain position
+* getting/setting areas at a certain position and optional anchor points
 * finding values in the grid or within a certain area on the grid
 * check if an area would fit into the grid at a certain position
 * getting values from relative positions
@@ -25,11 +25,9 @@ Using npm:
 * removing columns and rows from any position
 * clipping: remove everything outside an area
 * swapping: cells, columns and rows
-* extracting subsets
 
 **Must haves**
 
-* anchor/pivot points in areas
 * rotating the grid
 * mirror the grid (x- and y-axis)
 * adding/removing multiple columns and rows
@@ -371,30 +369,6 @@ const rows = g.rows(); // is now 3
 //    [25,26,27],
 // ]
 ``` 
-
-Extracting an area without affecting the inner dataset:
-```javascript
-const data = [
-    [ 1, 2, 3, 4, 5],
-    [ 6, 7, 7, 8, 9],
-    [10,11,12,13,14],
-    [15,16,17,18,19],
-    [20,21,22,23,24],
-];
-const size = [2,3];
-const position = [2,1];
-const g = gridl(data);
-const newGrid = g.extract(position, size);
-const columns = g.columns(); // is still 5
-const rows = g.rows(); // is still 5
-
-// newGrid looks like this:
-// [
-//     [ 7, 8],
-//     [12,13],
-//     [17,18],
-// ]
-```
 
 Swapping two cells:
 ```javascript
