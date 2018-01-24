@@ -3,31 +3,32 @@ import { expect } from 'chai';
 import gridl from '../src';
 
 const checkApi = api => {
-    // TODO: make sure it exposes no additional properties
-    expect(api).to.have.property('columns');
-    expect(api).to.have.property('rows');
-    expect(api).to.have.property('size');
-    expect(api).to.have.property('getValueAt');
-    expect(api).to.have.property('setValueAt');
-    expect(api).to.have.property('checkAreaFitsAt');
-    expect(api).to.have.property('getRelativePosition');
-    expect(api).to.have.property('getRelativeValue');
-    expect(api).to.have.property('moveCell');
-    expect(api).to.have.property('moveCellFrom');
-    expect(api).to.have.property('moveRow');
-    expect(api).to.have.property('moveColumn');
-    expect(api).to.have.property('addRowAt');
-    expect(api).to.have.property('addColumnAt');
-    expect(api).to.have.property('removeRowAt');
-    expect(api).to.have.property('removeColumnAt');
-    expect(api).to.have.property('clip');
-    expect(api).to.have.property('swapCells');
-    expect(api).to.have.property('swapRows');
-    expect(api).to.have.property('setAreaAt');
-    expect(api).to.have.property('getAreaAt');
-    expect(api).to.have.property('findPosition');
-    expect(api).to.have.property('findPositionInArea');
-    expect(api).to.have.property('getData');
+    expect(Object.keys(api)).to.have.members([
+        'columns',
+        'rows',
+        'size',
+        'getValueAt',
+        'setValueAt',
+        'checkAreaFitsAt',
+        'getRelativePosition',
+        'getRelativeValue',
+        'moveCell',
+        'moveCellFrom',
+        'moveRow',
+        'moveColumn',
+        'addRowAt',
+        'addColumnAt',
+        'removeRowAt',
+        'removeColumnAt',
+        'clip',
+        'swapCells',
+        'swapRows',
+        'setAreaAt',
+        'getAreaAt',
+        'findPosition',
+        'findPositionInArea',
+        'getData',
+    ]);
 };
 
 describe('gridl', () => {
