@@ -24,10 +24,10 @@ Using npm:
 * adding columns and rows at any position
 * removing rows and columns from any position
 * clipping
+* swapping: cells, columns and rows
 
 **Must haves**
 
-* swapping: cells, columns and rows
 * anchor/pivot points in areas
 * extracting subsets
 * rotating the grid
@@ -398,6 +398,25 @@ const newGrid = gridl(data).swapRows(1,3).getData();
 //     [ 9,10,11,12],
 //     [ 5, 6, 7, 8],
 // ]);
+```
+
+Swapping two columns:
+```javascript
+const data = [
+    [ 1, 2, 3, 4],
+    [ 5, 6, 7, 8],
+    [ 9,10,11,12],
+    [13,14,15,16],
+];
+const newGrid = gridl(data).swapColumns(1,3).getData();
+
+// newGrid looks like this:
+// [
+//     [ 1, 4, 3, 2],
+//     [ 5, 8, 7, 6],
+//     [ 9,12,11,10],
+//     [13,16,15,14],
+// ]
 ```
 
 #### Generating data
