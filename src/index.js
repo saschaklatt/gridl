@@ -62,6 +62,12 @@ const _addPositions = (p1, p2) => [
     p1[1] + p2[1],
 ];
 
+const _swap = (arr, i1, i2) => {
+    const tmp = arr[i1];
+    arr[i1] = arr[i2];
+    arr[i2] = tmp;
+};
+
 const _move = (data, fromIndex, toIndex) => {
     const cell = data[fromIndex];
     data.splice(fromIndex, 1);
@@ -253,12 +259,6 @@ function _clip(grid, _columns, _rows, position, size) {
         .map(row => row.filter((cell, c) => c >= position[0] && c < endPoint[0]));
 }
 
-const _swap = (arr, i1, i2) => {
-    const tmp = arr[i1];
-    arr[i1] = arr[i2];
-    arr[i2] = tmp;
-};
-
 function _swapCells(api, pos1, pos2) {
     const size = api.size();
     if (_isNotInArea(size, pos1) || _isNotInArea(size, pos2)) {
@@ -368,6 +368,7 @@ function gridl(data) {
         _columns = grid[0].length;
         return api;
     };
+    api.extract = (position, size) => _clip(api.getData(), _columns, _rows, position, size);
 
     // swapping
     api.swapCells = (pos1, pos2) => _swapCells(api, pos1, pos2);

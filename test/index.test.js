@@ -28,6 +28,7 @@ const checkApi = api => {
         'getAreaAt',
         'findPosition',
         'findPositionInArea',
+        'extract',
         'getData',
     ]);
 };
@@ -1691,6 +1692,81 @@ describe('gridl', () => {
             ];
             expect(() => gridl(data).swapColumns(1,-1)).to.throw('Trying to swap columns to an invalid position. Given: -1');
             expect(() => gridl(data).swapColumns(1,4)).to.throw('Trying to swap columns to an invalid position. Given: 4');
+        });
+
+    });
+
+    describe('extract', () => {
+
+        it('should extract a subset area of the main grid', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 7, 8, 9],
+                [10,11,12,13,14],
+                [15,16,17,18,19],
+                [20,21,22,23,24],
+            ];
+            const areaSize = [2,3];
+            const areaPosition = [2,1];
+            expect(gridl(data).extract(areaPosition, areaSize)).to.deep.equal([
+                [ 7, 8],
+                [12,13],
+                [17,18],
+            ]);
+        });
+
+        it('should not affect the inner data set', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 7, 8, 9],
+                [10,11,12,13,14],
+                [15,16,17,18,19],
+                [20,21,22,23,24],
+            ];
+            const areaSize = [2,3];
+            const areaPosition = [2,1];
+            const g = gridl(data);
+            g.extract(areaPosition, areaSize);
+            expect(g.getData()).to.deep.equal([
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 7, 8, 9],
+                [10,11,12,13,14],
+                [15,16,17,18,19],
+                [20,21,22,23,24],
+            ]);
+            expect(g.columns()).to.equal(5);
+            expect(g.rows()).to.equal(5);
+        });
+
+        it('should throw an error if the position is invalid', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 7, 8, 9],
+                [10,11,12,13,14],
+                [15,16,17,18,19],
+                [20,21,22,23,24],
+            ];
+            const areaSize = [2,3];
+            expect(() => gridl(data).extract([-1,0], areaSize)).to.throw('Trying to clip data at an invalid position. Given: -1,0');
+            expect(() => gridl(data).extract([0,-1], areaSize)).to.throw('Trying to clip data at an invalid position. Given: 0,-1');
+            expect(() => gridl(data).extract([5,0], areaSize)).to.throw('Trying to clip data at an invalid position. Given: 5,0');
+            expect(() => gridl(data).extract([0,5], areaSize)).to.throw('Trying to clip data at an invalid position. Given: 0,5');
+        });
+
+        it('should ignore values that are out of scope', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 7, 8, 9],
+                [10,11,12,13,14],
+                [15,16,17,18,19],
+                [20,21,22,23,24],
+            ];
+            const areaSize = [3,3];
+            const areaPosition = [4,3];
+            expect(gridl(data).extract(areaPosition, areaSize)).to.deep.equal([
+                [19],
+                [24],
+            ]);
         });
 
     });

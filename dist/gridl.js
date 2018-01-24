@@ -159,6 +159,12 @@ var _addPositions = function _addPositions(p1, p2) {
     return [p1[0] + p2[0], p1[1] + p2[1]];
 };
 
+var _swap = function _swap(arr, i1, i2) {
+    var tmp = arr[i1];
+    arr[i1] = arr[i2];
+    arr[i2] = tmp;
+};
+
 var _move = function _move(data, fromIndex, toIndex) {
     var cell = data[fromIndex];
     data.splice(fromIndex, 1);
@@ -349,12 +355,6 @@ function _clip(grid, _columns, _rows, position, size) {
     });
 }
 
-var _swap = function _swap(arr, i1, i2) {
-    var tmp = arr[i1];
-    arr[i1] = arr[i2];
-    arr[i2] = tmp;
-};
-
 function _swapCells(api, pos1, pos2) {
     var size = api.size();
     if (_isNotInArea(size, pos1) || _isNotInArea(size, pos2)) {
@@ -481,6 +481,9 @@ function gridl(data) {
         _rows = grid.length;
         _columns = grid[0].length;
         return api;
+    };
+    api.extract = function (position, size) {
+        return _clip(api.getData(), _columns, _rows, position, size);
     };
 
     // swapping
