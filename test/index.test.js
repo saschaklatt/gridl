@@ -2080,7 +2080,7 @@ describe('gridl', () => {
             ]);
         });
 
-        it('should mirror my grid on the x-axis at a certain x-position', () => {
+        it('should mirror my grid on the x-axis at a certain y-position', () => {
             const data = [
                 [ 1, 6,11],
                 [ 2, 7,12],
@@ -2190,7 +2190,7 @@ describe('gridl', () => {
             ]);
         });
 
-        it('should mirror my grid on the y-axis at a certain y-position', () => {
+        it('should mirror my grid on the y-axis at a certain x-position', () => {
             const data = [
                 [ 1, 2, 3, 4, 5],
                 [ 6, 7, 8, 9,10],
