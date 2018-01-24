@@ -155,8 +155,10 @@ var _flatten = function _flatten(array2D) {
     }, []);
 };
 
-var _limit = function _limit(v, min, max) {
-    return isNaN(v) ? min : Math.max(Math.min(v, max), min);
+var _getColumn = function _getColumn(data, x) {
+    return data.map(function (row) {
+        return row[x];
+    });
 };
 
 var _addPositions = function _addPositions(p1, p2) {
@@ -406,6 +408,27 @@ function _swapColumns(grid, columns, x1, x2) {
     return _flatten(grid);
 }
 
+function _rotate(grid, columns, steps) {
+    var mod = steps % 4;
+    var option = mod < 0 ? mod + 4 : mod;
+    switch (option) {
+        case 0:
+            return grid;
+        case 1:
+            return Array.from({ length: columns }, function (v, i) {
+                return _getColumn(grid, i).reverse();
+            });
+        case 2:
+            return grid.reverse();
+        case 3:
+            return Array.from({ length: columns }, function (v, i) {
+                return _getColumn(grid, columns - 1 - i);
+            });
+        default:
+            throw new Error('Trying to rotate the grid with an invalid steps parameter. Given: ' + steps);
+    }
+}
+
 /**
  * The gridl base function.
  *
@@ -533,6 +556,15 @@ function gridl(data) {
     // exporting data
     api.getData = function () {
         return _toArray2D(_data, _columns);
+    };
+
+    // rotating
+    api.rotate = function (steps) {
+        var grid = _rotate(api.getData(), _columns, steps);
+        _data = _flatten(grid);
+        _rows = grid.length;
+        _columns = grid[0].length;
+        return api;
     };
 
     return api;

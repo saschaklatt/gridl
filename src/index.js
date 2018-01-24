@@ -57,7 +57,7 @@ const _toArray2D = (array1D, columns) => array1D.reduce((res, cell, index) => {
  */
 const _flatten = array2D => array2D.reduce((res, row) => [...res, ...row], []);
 
-const _limit = (v, min, max) => isNaN(v) ? min : Math.max(Math.min(v, max), min);
+const _getColumn = (data, x) => data.map(row => row[x]);
 
 const _addPositions = (p1, p2) => [
     p1[0] + p2[0],
@@ -308,6 +308,23 @@ function _swapColumns(grid, columns, x1, x2) {
     return _flatten(grid);
 }
 
+function _rotate(grid, columns, steps) {
+    const mod = steps % 4;
+    const option = mod < 0 ? mod + 4 : mod;
+    switch (option) {
+        case 0:
+            return grid;
+        case 1:
+            return Array.from({ length: columns }, (v, i) => _getColumn(grid, i).reverse());
+        case 2:
+            return grid.reverse();
+        case 3:
+            return Array.from({ length: columns }, (v, i) => _getColumn(grid, columns - 1 - i));
+        default:
+            throw new Error(`Trying to rotate the grid with an invalid steps parameter. Given: ${steps}`);
+    }
+}
+
 /**
  * The gridl base function.
  *
@@ -404,6 +421,15 @@ function gridl(data) {
 
     // exporting data
     api.getData = () => _toArray2D(_data, _columns);
+
+    // rotating
+    api.rotate = steps => {
+        const grid = _rotate(api.getData(), _columns, steps);
+        _data = _flatten(grid);
+        _rows = grid.length;
+        _columns = grid[0].length;
+        return api;
+    };
 
     return api;
 
