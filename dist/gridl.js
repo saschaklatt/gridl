@@ -155,8 +155,16 @@ var _flatten = function _flatten(array2D) {
     }, []);
 };
 
+var _limit = function _limit(v, min, max) {
+    return isNaN(v) ? min : Math.max(Math.min(v, max), min);
+};
+
 var _addPositions = function _addPositions(p1, p2) {
     return [p1[0] + p2[0], p1[1] + p2[1]];
+};
+
+var _subtractPositions = function _subtractPositions(p1, p2) {
+    return [p1[0] - p2[0], p1[1] - p2[1]];
 };
 
 var _swap = function _swap(arr, i1, i2) {
@@ -192,7 +200,10 @@ function _setValueAt(api, _data, columns, pos, value) {
     return api;
 }
 
-function _setAreaAt(api, columns, rows, pos, area) {
+function _setAreaAt(api, columns, rows, position, area) {
+    var anchor = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : [0, 0];
+
+    var pos = _subtractPositions(position, anchor);
     area.forEach(function (row, r) {
         var targetPos = [0, r + pos[1]];
         if (targetPos[1] >= rows) {
@@ -209,8 +220,12 @@ function _setAreaAt(api, columns, rows, pos, area) {
     return api;
 }
 
-function _getAreaAt(api, columns, rows, pos, size) {
-    var end = [Math.min(pos[0] + size[0], columns), Math.min(pos[1] + size[1], rows)];
+function _getAreaAt(api, columns, rows, position, size) {
+    var anchor = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : [0, 0];
+
+    var posTmp = _subtractPositions(position, anchor);
+    var end = [Math.min(posTmp[0] + size[0], columns), Math.min(posTmp[1] + size[1], rows)];
+    var pos = [Math.max(0, posTmp[0]), Math.max(0, posTmp[1])];
     var area = [];
     for (var r = pos[1]; r < end[1]; r++) {
         var rArea = r - pos[1];
@@ -482,9 +497,6 @@ function gridl(data) {
         _columns = grid[0].length;
         return api;
     };
-    api.extract = function (position, size) {
-        return _clip(api.getData(), _columns, _rows, position, size);
-    };
 
     // swapping
     api.swapCells = function (pos1, pos2) {
@@ -500,11 +512,11 @@ function gridl(data) {
     };
 
     // area operations
-    api.setAreaAt = function (pos, area) {
-        return _setAreaAt(api, _columns, _rows, pos, area);
+    api.setAreaAt = function (pos, area, anchor) {
+        return _setAreaAt(api, _columns, _rows, pos, area, anchor);
     };
-    api.getAreaAt = function (pos, size) {
-        return _getAreaAt(api, _columns, _rows, pos, size);
+    api.getAreaAt = function (pos, size, anchor) {
+        return _getAreaAt(api, _columns, _rows, pos, size, anchor);
     };
     api.checkAreaFitsAt = function (pos, area) {
         return _checkAreaFitsAt(_columns, _rows, pos, area);
