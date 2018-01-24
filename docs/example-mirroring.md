@@ -73,6 +73,6 @@ const newGrid = gridl(data).mirrorY(3).getData();
 //     [  5,  4,  3,  2,  1],
 //     [ 10,  9,  8,  7,  6],
 //     [ 15, 14, 13, 12, 11],
-// ]              ↑
-//           mirror axis
+// ]                 ↑↑
+//              mirror axis
 ```
