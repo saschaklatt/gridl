@@ -32,6 +32,8 @@ const checkApi = api => {
         'findPositionInArea',
         'getData',
         'rotate',
+        'mirrorX',
+        'mirrorY',
     ]);
 };
 
@@ -2057,6 +2059,59 @@ describe('gridl', () => {
             checkApi(gridl(data).rotate(1));
         });
 
+    });
+
+    describe('mirrorX', () => {
+
+        it('should mirror my grid on the x-axis', () => {
+            const data = [
+                [ 1, 2, 3],
+                [ 4, 5, 6],
+                [ 7, 8, 9],
+                [10,11,12],
+                [13,14,15],
+            ];
+            expect(gridl(data).mirrorX().getData()).to.deep.equal([
+                [13,14,15],
+                [10,11,12],
+                [ 7, 8, 9],
+                [ 4, 5, 6],
+                [ 1, 2, 3],
+            ]);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [ 1, 2],
+                [ 4, 5],
+            ];
+            checkApi(gridl(data).mirrorX());
+        });
+
+    });
+
+    describe('mirrorY', () => {
+
+        it('should mirror my grid on the y-axis', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 8, 9,10],
+                [11,12,13,14,15],
+            ];
+            expect(gridl(data).mirrorY().getData()).to.deep.equal([
+                [ 5, 4, 3, 2, 1],
+                [10, 9, 8, 7, 6],
+                [15,14,13,12,11],
+            ]);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [ 1, 2],
+                [ 4, 5],
+            ];
+            checkApi(gridl(data).mirrorY());
+        });
     });
 
     describe('examples', () => {

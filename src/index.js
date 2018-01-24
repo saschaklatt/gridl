@@ -323,12 +323,16 @@ function _rotate(grid, columns, steps) {
         case 1:
             return Array.from({ length: columns }, (v, i) => _getColumn(grid, i).reverse());
         case 2:
-            return grid.reverse();
+            return _mirror(grid);
         case 3:
             return Array.from({ length: columns }, (v, i) => _getColumn(grid, columns - 1 - i));
         default:
             throw new Error(`Trying to rotate the grid with an invalid steps parameter. Given: ${steps}`);
     }
+}
+
+function _mirror(grid, index) {
+    return grid.reverse();
 }
 
 /**
@@ -436,6 +440,18 @@ function gridl(data) {
         _data = _flatten(grid);
         _rows = grid.length;
         _columns = grid[0].length;
+        return api;
+    };
+
+    // mirroring
+    api.mirrorX = xPos => {
+        _data = _flatten(_mirror(api.getData(), xPos));
+        return api;
+    };
+
+    api.mirrorY = yPos => {
+        const grid = api.getData();
+        _data = _flatten(grid.map(row => _mirror(row, yPos)));
         return api;
     };
 
