@@ -57,7 +57,13 @@ const _toArray2D = (array1D, columns) => array1D.reduce((res, cell, index) => {
  */
 const _flatten = array2D => array2D.reduce((res, row) => [...res, ...row], []);
 
-const _getColumn = (data, x) => data.map(row => row[x]);
+const _getColumn = (data, x) => {
+    if (x >= 0 && x < data[0].length) {
+        return data.map(row => row[x]);
+    }
+};
+
+const _getRow = (data, y) => data[y];
 
 const _addPositions = (p1, p2) => [
     p1[0] + p2[0],
@@ -364,7 +370,9 @@ function gridl(data) {
         return api;
     };
 
-    // adding columns and rows
+    // columns and rows
+    api.getColumn = x => _getColumn(api.getData(), x);
+    api.getRow = y => _getRow(api.getData(), y);
     api.addRowAt = (row, y) => {
         const grid = _addRowAt(api.getData(), _columns, _rows, row, y);
         _data = _flatten(grid);

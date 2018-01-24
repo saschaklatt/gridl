@@ -14,6 +14,7 @@ Using npm:
 
 * importing two-dimensional arrays
 * getting/setting values at a certain position
+* getting rows and columns at certain positions
 * getting/setting areas at a certain position and optional anchor points
 * finding values in the grid or within a certain area on the grid
 * check if an area would fit into the grid at a certain position
@@ -27,7 +28,7 @@ Using npm:
 * swapping: cells, columns and rows
 * rotating the grid
 
-**Must haves**
+**In progress**
 
 * mirror the grid (x- and y-axis)
 * adding/removing multiple columns and rows
@@ -52,6 +53,10 @@ As a basis for:
 * path finding
 * level editors and generators
 * and many more...
+
+## Known issues
+
+* position error handling is inconsistent in some cases (throwing an error vs. returning undefined)
 
 ## Usage
 
@@ -78,7 +83,6 @@ gridl(data).getValueAt([1, 2]); // would be 8
 ```
 
 Setting values at a certain position:
-
 ```javascript
 const data = [
     [1, 2, 3],
@@ -95,8 +99,33 @@ const newGrid = gridl(data).setValueAt([1, 2], 'Hi').getData();
 // ];
 ```
 
-Overwriting an entire area at a certain position:
+Getting a column at a certain position:
+```javascript
+const data = [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+];
+const g = gridl(data);
+g.getColumn(0); // returns [1,4,7]
+g.getColumn(1); // returns [2,5,8]
+g.getColumn(2); // returns [3,6,9]
+```
 
+Getting a row at a certain position:
+```javascript
+const data = [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+];
+const g = gridl(data);
+g.getRow(0); // returns [1,2,3]
+g.getRow(1); // returns [4,5,6]
+g.getRow(2); // returns [7,8,9]
+```
+
+Overwriting an entire area at a certain position:
 ```javascript
 const data = [
     [ 1,  2,  3,  4,  5,  6],

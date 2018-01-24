@@ -156,9 +156,15 @@ var _flatten = function _flatten(array2D) {
 };
 
 var _getColumn = function _getColumn(data, x) {
-    return data.map(function (row) {
-        return row[x];
-    });
+    if (x >= 0 && x < data[0].length) {
+        return data.map(function (row) {
+            return row[x];
+        });
+    }
+};
+
+var _getRow = function _getRow(data, y) {
+    return data[y];
 };
 
 var _addPositions = function _addPositions(p1, p2) {
@@ -486,7 +492,13 @@ function gridl(data) {
         return api;
     };
 
-    // adding columns and rows
+    // columns and rows
+    api.getColumn = function (x) {
+        return _getColumn(api.getData(), x);
+    };
+    api.getRow = function (y) {
+        return _getRow(api.getData(), y);
+    };
     api.addRowAt = function (row, y) {
         var grid = _addRowAt(api.getData(), _columns, _rows, row, y);
         _data = _flatten(grid);
