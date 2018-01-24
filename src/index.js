@@ -75,6 +75,8 @@ const _subtractPositions = (p1, p2) => [
     p1[1] - p2[1],
 ];
 
+const _limit = (v, min, max) => Math.max(Math.min(v, max), min);
+
 const _swap = (arr, i1, i2) => {
     const tmp = arr[i1];
     arr[i1] = arr[i2];
@@ -331,8 +333,18 @@ function _rotate(grid, columns, steps) {
     }
 }
 
-function _mirror(grid, index) {
-    return grid.reverse();
+function _mirror(arr, index) {
+    if (index === undefined) {
+        return arr.reverse();
+    }
+    const limitedIdx = _limit(index, 0, arr.length - 1);
+    const left = arr.filter((v, i) => i < limitedIdx);
+    const right = arr.filter((v, i) => i > limitedIdx);
+    return [
+        ...right.reverse(),
+        arr[limitedIdx],
+        ...left.reverse(),
+    ];
 }
 
 /**

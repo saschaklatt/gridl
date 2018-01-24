@@ -175,6 +175,10 @@ var _subtractPositions = function _subtractPositions(p1, p2) {
     return [p1[0] - p2[0], p1[1] - p2[1]];
 };
 
+var _limit = function _limit(v, min, max) {
+    return Math.max(Math.min(v, max), min);
+};
+
 var _swap = function _swap(arr, i1, i2) {
     var tmp = arr[i1];
     arr[i1] = arr[i2];
@@ -435,8 +439,18 @@ function _rotate(grid, columns, steps) {
     }
 }
 
-function _mirror(grid, index) {
-    return grid.reverse();
+function _mirror(arr, index) {
+    if (index === undefined) {
+        return arr.reverse();
+    }
+    var limitedIdx = _limit(index, 0, arr.length - 1);
+    var left = arr.filter(function (v, i) {
+        return i < limitedIdx;
+    });
+    var right = arr.filter(function (v, i) {
+        return i > limitedIdx;
+    });
+    return [].concat(_toConsumableArray(right.reverse()), [arr[limitedIdx]], _toConsumableArray(left.reverse()));
 }
 
 /**

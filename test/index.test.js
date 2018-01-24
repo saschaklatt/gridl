@@ -2080,6 +2080,91 @@ describe('gridl', () => {
             ]);
         });
 
+        it('should mirror my grid on the x-axis at a certain x-position', () => {
+            const data = [
+                [ 1, 6,11],
+                [ 2, 7,12],
+                [ 3, 8,13],
+                [ 4, 9,14],
+                [ 5,10,15],
+            ];
+            expect(gridl(data).mirrorX(3).getData()).to.deep.equal([
+                [ 5,10,15],
+                [ 4, 9,14],
+                [ 3, 8,13],
+                [ 2, 7,12],
+                [ 1, 6,11],
+            ]);
+        });
+
+        it('should mirror my grid on the x-axis at the very top', () => {
+            const data = [
+                [ 1, 6,11],
+                [ 2, 7,12],
+                [ 3, 8,13],
+                [ 4, 9,14],
+                [ 5,10,15],
+            ];
+            expect(gridl(data).mirrorX(0).getData()).to.deep.equal([
+                [ 5,10,15],
+                [ 4, 9,14],
+                [ 3, 8,13],
+                [ 2, 7,12],
+                [ 1, 6,11],
+            ]);
+        });
+
+        it('should mirror my grid on the x-axis at the very bottom', () => {
+            const data = [
+                [ 1, 6,11],
+                [ 2, 7,12],
+                [ 3, 8,13],
+                [ 4, 9,14],
+                [ 5,10,15],
+            ];
+            expect(gridl(data).mirrorX(4).getData()).to.deep.equal([
+                [ 5,10,15],
+                [ 4, 9,14],
+                [ 3, 8,13],
+                [ 2, 7,12],
+                [ 1, 6,11],
+            ]);
+        });
+
+        it('should mirror my grid on the x-axis at an index outside at the top', () => {
+            const data = [
+                [ 1, 6,11],
+                [ 2, 7,12],
+                [ 3, 8,13],
+                [ 4, 9,14],
+                [ 5,10,15],
+            ];
+            expect(gridl(data).mirrorX(-1).getData()).to.deep.equal([
+                [ 5,10,15],
+                [ 4, 9,14],
+                [ 3, 8,13],
+                [ 2, 7,12],
+                [ 1, 6,11],
+            ]);
+        });
+
+        it('should mirror my grid on the x-axis at an index outside at the bottom', () => {
+            const data = [
+                [ 1, 6,11],
+                [ 2, 7,12],
+                [ 3, 8,13],
+                [ 4, 9,14],
+                [ 5,10,15],
+            ];
+            expect(gridl(data).mirrorX(5).getData()).to.deep.equal([
+                [ 5,10,15],
+                [ 4, 9,14],
+                [ 3, 8,13],
+                [ 2, 7,12],
+                [ 1, 6,11],
+            ]);
+        });
+
         it('should return the api', () => {
             const data = [
                 [ 1, 2],
@@ -2099,6 +2184,71 @@ describe('gridl', () => {
                 [11,12,13,14,15],
             ];
             expect(gridl(data).mirrorY().getData()).to.deep.equal([
+                [ 5, 4, 3, 2, 1],
+                [10, 9, 8, 7, 6],
+                [15,14,13,12,11],
+            ]);
+        });
+
+        it('should mirror my grid on the y-axis at a certain y-position', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 8, 9,10],
+                [11,12,13,14,15],
+            ];
+            expect(gridl(data).mirrorY(3).getData()).to.deep.equal([
+                [ 5, 4, 3, 2, 1],
+                [10, 9, 8, 7, 6],
+                [15,14,13,12,11],
+            ]);
+        });
+
+        it('should mirror my grid on the y-axis at the very left', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 8, 9,10],
+                [11,12,13,14,15],
+            ];
+            expect(gridl(data).mirrorY(0).getData()).to.deep.equal([
+                [ 5, 4, 3, 2, 1],
+                [10, 9, 8, 7, 6],
+                [15,14,13,12,11],
+            ]);
+        });
+
+        it('should mirror my grid on the y-axis at the very right', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 8, 9,10],
+                [11,12,13,14,15],
+            ];
+            expect(gridl(data).mirrorY(4).getData()).to.deep.equal([
+                [ 5, 4, 3, 2, 1],
+                [10, 9, 8, 7, 6],
+                [15,14,13,12,11],
+            ]);
+        });
+
+        it('should mirror my grid on the y-axis at an index outside at the left', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 8, 9,10],
+                [11,12,13,14,15],
+            ];
+            expect(gridl(data).mirrorY(-1).getData()).to.deep.equal([
+                [ 5, 4, 3, 2, 1],
+                [10, 9, 8, 7, 6],
+                [15,14,13,12,11],
+            ]);
+        });
+
+        it('should mirror my grid on the y-axis at an index outside at the right', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 8, 9,10],
+                [11,12,13,14,15],
+            ];
+            expect(gridl(data).mirrorY(5).getData()).to.deep.equal([
                 [ 5, 4, 3, 2, 1],
                 [10, 9, 8, 7, 6],
                 [15,14,13,12,11],
