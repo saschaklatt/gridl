@@ -401,7 +401,7 @@ describe('gridl', () => {
             ]);
         });
 
-        it('should set an area at a given position is outside', () => {
+        it('should set an area at a position outside the grid and ignore irrelevant values', () => {
             const data = [
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -453,6 +453,73 @@ describe('gridl', () => {
             const position = [1, 2];
             const area = gridl(data).getAreaAt(position, size);
             expect(area).to.deep.equal([[14, 15]]);
+        });
+
+        it('should get an area at a given position and a positive offset', () => {
+            const data = [
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+            ];
+            const position = [2, 1];
+            const anchor = [1, 0];
+            const size = [3, 2];
+            const grid = gridl(data).getAreaAt(position, size, anchor);
+            expect(grid).to.deep.equal([
+                [ 8,  9, 10],
+                [14, 15, 16],
+            ]);
+        });
+
+        it('should get an area at a given position and a negative offset', () => {
+            const data = [
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+            ];
+            const position = [0, 1];
+            const anchor = [-2, -1];
+            const size = [3, 2];
+            const grid = gridl(data).getAreaAt(position, size, anchor);
+            expect(grid).to.deep.equal([
+                [15, 16, 17],
+                [21, 22, 23],
+            ]);
+        });
+
+        it('should set an area at a position outside the grid and ignore irrelevant values at the top left', () => {
+            const data = [
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+            ];
+            const position = [0, 0];
+            const size = [3,2];
+            const anchor = [1, 1];
+            const grid = gridl(data).getAreaAt(position, size, anchor);
+            expect(grid).to.deep.equal([
+                [1,  2],
+            ]);
+        });
+
+        it('should set an area at a position outside the grid and ignore irrelevant values at the bottom right', () => {
+            const data = [
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+            ];
+            const position = [5, 3];
+            const size = [3,2];
+            const anchor = [1, 1];
+            const grid = gridl(data).getAreaAt(position, size, anchor);
+            expect(grid).to.deep.equal([
+                [17, 18],
+                [23, 24],
+            ]);
         });
 
     });

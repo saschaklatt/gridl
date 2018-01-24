@@ -57,6 +57,8 @@ const _toArray2D = (array1D, columns) => array1D.reduce((res, cell, index) => {
  */
 const _flatten = array2D => array2D.reduce((res, row) => [...res, ...row], []);
 
+const _limit = (v, min, max) => isNaN(v) ? min : Math.max(Math.min(v, max), min);
+
 const _addPositions = (p1, p2) => [
     p1[0] + p2[0],
     p1[1] + p2[1],
@@ -119,10 +121,15 @@ function _setAreaAt(api, columns, rows, position, area, anchor = [0,0]) {
     return api;
 }
 
-function _getAreaAt(api, columns, rows, pos, size, achor = []) {
+function _getAreaAt(api, columns, rows, position, size, anchor = [0,0]) {
+    const posTmp = _subtractPositions(position, anchor);
     const end = [
-        Math.min(pos[0] + size[0], columns),
-        Math.min(pos[1] + size[1], rows),
+        Math.min(posTmp[0] + size[0], columns),
+        Math.min(posTmp[1] + size[1], rows),
+    ];
+    const pos = [
+        Math.max(0, posTmp[0]),
+        Math.max(0, posTmp[1]),
     ];
     const area = [];
     for (let r = pos[1]; r < end[1]; r++) {
