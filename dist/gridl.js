@@ -625,7 +625,11 @@ gridl.directions = Object.freeze({
     TOP_LEFT: [-1, -1]
 });
 
-gridl.generateData = function (columns, rows, callback) {
+gridl.generateData = function (columns, rows) {
+    var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {
+        return null;
+    };
+
     var parsedColumns = parseInt(columns);
     var parsedRows = parseInt(rows);
     if (parsedColumns < 1 || isNaN(parsedColumns)) {
