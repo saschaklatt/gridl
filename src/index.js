@@ -482,7 +482,7 @@ gridl.directions = Object.freeze({
     TOP_LEFT:     [-1, -1],
 });
 
-gridl.generateData = (columns, rows, callback) => {
+gridl.generateData = (columns, rows, callback = () => null) => {
     const parsedColumns = parseInt(columns);
     const parsedRows = parseInt(rows);
     if (parsedColumns < 1 || isNaN(parsedColumns)) {

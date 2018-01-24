@@ -901,6 +901,15 @@ describe('gridl', () => {
                 'You need to specify at least one column. Given: 0'
             );
         });
+
+        it('should generate a grid with null values if no callback is specified', () => {
+            expect(gridl.generateData(4, 3)).to.deep.equal([
+                [null, null, null, null],
+                [null, null, null, null],
+                [null, null, null, null],
+            ]);
+        });
+
     });
 
     describe('generate', () => {
@@ -967,6 +976,14 @@ describe('gridl', () => {
             ).to.throw(
                 'You need to specify at least one column. Given: 0'
             );
+        });
+
+        it('should generate a grid with null values if no callback is specified', () => {
+            expect(gridl.generate(4, 3).getData()).to.deep.equal([
+                [null, null, null, null],
+                [null, null, null, null],
+                [null, null, null, null],
+            ]);
         });
 
     });
@@ -2302,6 +2319,10 @@ describe('gridl', () => {
                 ['0,1', '1,1', 'bam', '3,1'],
                 ['0,2', '1,2', '2,2', '3,2'],
             ]);
+        });
+
+        it('should demonstrate some stuff as main example', () => {
+            gridl.generate(10, 6, () => {});
         });
 
     });
