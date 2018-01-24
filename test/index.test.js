@@ -9,13 +9,24 @@ const checkApi = api => {
     expect(api).to.have.property('size');
     expect(api).to.have.property('getValueAt');
     expect(api).to.have.property('setValueAt');
+    expect(api).to.have.property('checkAreaFitsAt');
+    expect(api).to.have.property('getRelativePosition');
+    expect(api).to.have.property('getRelativeValue');
+    expect(api).to.have.property('moveCell');
+    expect(api).to.have.property('moveCellFrom');
+    expect(api).to.have.property('moveRow');
+    expect(api).to.have.property('moveColumn');
+    expect(api).to.have.property('addRowAt');
+    expect(api).to.have.property('addColumnAt');
+    expect(api).to.have.property('removeRowAt');
+    expect(api).to.have.property('removeColumnAt');
+    expect(api).to.have.property('clip');
+    expect(api).to.have.property('swapCells');
+    expect(api).to.have.property('swapRows');
     expect(api).to.have.property('setAreaAt');
     expect(api).to.have.property('getAreaAt');
     expect(api).to.have.property('findPosition');
     expect(api).to.have.property('findPositionInArea');
-    expect(api).to.have.property('checkAreaFitsAt');
-    expect(api).to.have.property('getRelativePosition');
-    expect(api).to.have.property('getRelativeValue');
     expect(api).to.have.property('getData');
 };
 
@@ -1586,6 +1597,51 @@ describe('gridl', () => {
             expect(() => gridl(data).swapCells([0,0], [4,0])).to.throw('Trying to swap cells with an invalid position.');
             expect(() => gridl(data).swapCells([0,0], [0,-1])).to.throw('Trying to swap cells with an invalid position.');
             expect(() => gridl(data).swapCells([0,0], [0,2])).to.throw('Trying to swap cells with an invalid position.');
+        });
+
+    });
+
+    describe('swapRows', () => {
+
+        it('should swap two rows', () => {
+            const data = [
+                [ 1, 2, 3, 4],
+                [ 5, 6, 7, 8],
+                [ 9,10,11,12],
+                [13,14,15,16],
+            ];
+            expect(gridl(data).swapRows(1,3).getData()).to.deep.equal([
+                [ 1, 2, 3, 4],
+                [13,14,15,16],
+                [ 9,10,11,12],
+                [ 5, 6, 7, 8],
+            ]);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [ 1, 2, 3, 4],
+                [ 5, 6, 7, 8],
+            ];
+            checkApi(gridl(data).swapRows(0,1));
+        });
+
+        it('should throw an error if "yFrom" positions is invalid', () => {
+            const data = [
+                [ 1, 2, 3, 4],
+                [ 5, 6, 7, 8],
+            ];
+            expect(() => gridl(data).swapRows(-1,1)).to.throw('Trying to swap rows from an invalid position. Given: -1');
+            expect(() => gridl(data).swapRows(2,1)).to.throw('Trying to swap rows from an invalid position. Given: 2');
+        });
+
+        it('should throw an error if "yTo" positions is invalid', () => {
+            const data = [
+                [ 1, 2, 3, 4],
+                [ 5, 6, 7, 8],
+            ];
+            expect(() => gridl(data).swapRows(0,-1)).to.throw('Trying to swap rows to an invalid position. Given: -1');
+            expect(() => gridl(data).swapRows(0,2)).to.throw('Trying to swap rows to an invalid position. Given: 2');
         });
 
     });

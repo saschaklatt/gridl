@@ -381,6 +381,25 @@ const newGrid = gridl(data).swapCells([0,0], [2,1]).getData();
 // ]
 ```
 
+Swapping two rows:
+```javascript
+const data = [
+    [ 1, 2, 3, 4],
+    [ 5, 6, 7, 8], // swap this
+    [ 9,10,11,12],
+    [13,14,15,16], // and this
+];
+const newGrid = gridl(data).swapRows(1,3).getData();
+
+// newGrid looks like this:
+// [
+//     [ 1, 2, 3, 4],
+//     [13,14,15,16],
+//     [ 9,10,11,12],
+//     [ 5, 6, 7, 8],
+// ]);
+```
+
 #### Generating data
 
 Generating a data array
