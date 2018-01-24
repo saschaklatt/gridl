@@ -37,8 +37,9 @@ Using npm:
 **Nice to haves**
 
 * [fancy syntax](docs/goto-syntax.md)
-* swapping areas
-* moving areas
+* swapping areas within the grid
+* moving areas within the grid
+* rotating areas within the grid
 * iterating functions like map and forEach
 * eternal mode
 * path finding
