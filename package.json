@@ -1,6 +1,6 @@
 {
   "name": "gridl",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "Lightweight and easy to use library to handle data on 2D grids.",
   "main": "dist/gridl.min.js",
   "directories": {
