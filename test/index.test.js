@@ -357,6 +357,72 @@ describe('gridl', () => {
             ]);
         });
 
+        it('should set an area at a given position and a positive anchor point', () => {
+            const data = [
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+            ];
+            const area = [
+                [4,  1,  8],
+                [5,  3,  9],
+            ];
+            const position = [3, 1];
+            const anchor = [2, 1];
+            const grid = gridl(data).setAreaAt(position, area, anchor).getData();
+            expect(grid).to.deep.equal([
+                [ 1,  4,  1,  8,  5,  6],
+                [ 7,  5,  3,  9, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+            ]);
+        });
+
+        it('should set an area at a given position and a negative anchor point', () => {
+            const data = [
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+            ];
+            const area = [
+                [0,0,0],
+                [0,0,0],
+            ];
+            const position = [2, 0];
+            const anchor = [-1, -2];
+            const grid = gridl(data).setAreaAt(position, area, anchor).getData();
+            expect(grid).to.deep.equal([
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15,  0,  0,  0],
+                [19, 20, 21,  0,  0,  0],
+            ]);
+        });
+
+        it('should set an area at a given position is outside', () => {
+            const data = [
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+            ];
+            const area = [
+                [0,0,0],
+                [0,0,0],
+            ];
+            const position = [2, 4];
+            const anchor = [1, 1];
+            const grid = gridl(data).setAreaAt(position, area, anchor).getData();
+            expect(grid).to.deep.equal([
+                [ 1,  2,  3,  4,  5,  6],
+                [ 7,  8,  9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19,  0,  0,  0, 23, 24],
+            ]);
+        });
+
     });
 
     describe('getAreaAt', () => {

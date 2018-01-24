@@ -62,6 +62,11 @@ const _addPositions = (p1, p2) => [
     p1[1] + p2[1],
 ];
 
+const _subtractPositions = (p1, p2) => [
+    p1[0] - p2[0],
+    p1[1] - p2[1],
+];
+
 const _swap = (arr, i1, i2) => {
     const tmp = arr[i1];
     arr[i1] = arr[i2];
@@ -96,7 +101,8 @@ function _setValueAt(api, _data, columns, pos, value) {
     return api;
 }
 
-function _setAreaAt(api, columns, rows, pos, area) {
+function _setAreaAt(api, columns, rows, position, area, anchor = [0,0]) {
+    const pos = _subtractPositions(position, anchor);
     area.forEach((row, r) => {
         const targetPos = [0, r + pos[1]];
         if (targetPos[1] >= rows) {
@@ -113,7 +119,7 @@ function _setAreaAt(api, columns, rows, pos, area) {
     return api;
 }
 
-function _getAreaAt(api, columns, rows, pos, size) {
+function _getAreaAt(api, columns, rows, pos, size, achor = []) {
     const end = [
         Math.min(pos[0] + size[0], columns),
         Math.min(pos[1] + size[1], rows),
@@ -382,8 +388,8 @@ function gridl(data) {
     };
 
     // area operations
-    api.setAreaAt = (pos, area) => _setAreaAt(api, _columns, _rows, pos, area);
-    api.getAreaAt = (pos, size) => _getAreaAt(api, _columns, _rows, pos, size);
+    api.setAreaAt = (pos, area, anchor) => _setAreaAt(api, _columns, _rows, pos, area, anchor);
+    api.getAreaAt = (pos, size, anchor) => _getAreaAt(api, _columns, _rows, pos, size, anchor);
     api.checkAreaFitsAt = (pos, area) => _checkAreaFitsAt(_columns, _rows, pos, area);
 
     // finding
