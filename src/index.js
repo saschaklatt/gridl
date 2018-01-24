@@ -381,7 +381,6 @@ function gridl(data) {
         _columns = grid[0].length;
         return api;
     };
-    api.extract = (position, size) => _clip(api.getData(), _columns, _rows, position, size);
 
     // swapping
     api.swapCells = (pos1, pos2) => _swapCells(api, pos1, pos2);
