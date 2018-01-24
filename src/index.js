@@ -253,6 +253,12 @@ function _clip(grid, _columns, _rows, position, size) {
         .map(row => row.filter((cell, c) => c >= position[0] && c < endPoint[0]));
 }
 
+const _swap = (arr, i1, i2) => {
+    const tmp = arr[i1];
+    arr[i1] = arr[i2];
+    arr[i2] = tmp;
+};
+
 function _swapCells(api, pos1, pos2) {
     const size = api.size();
     if (_isNotInArea(size, pos1) || _isNotInArea(size, pos2)) {
@@ -262,6 +268,18 @@ function _swapCells(api, pos1, pos2) {
     api.setValueAt(pos1, api.getValueAt(pos2));
     api.setValueAt(pos2, tmp);
     return api;
+}
+
+function _swapRows(grid, rows, y1, y2)
+{
+    if (y1 < 0 || y1 >= rows) {
+        throw new Error(`Trying to swap rows from an invalid position. Given: ${y1}`);
+    }
+    if (y2 < 0 || y2 >= rows) {
+        throw new Error(`Trying to swap rows to an invalid position. Given: ${y2}`);
+    }
+    _swap(grid, y1, y2);
+    return _flatten(grid);
 }
 
 /**
@@ -340,6 +358,10 @@ function gridl(data) {
 
     // swapping
     api.swapCells = (pos1, pos2) => _swapCells(api, pos1, pos2);
+    api.swapRows = (y1, y2) => {
+        _data = _swapRows(api.getData(), _rows, y1, y2);
+        return api;
+    };
 
     // area operations
     api.setAreaAt = (pos, area) => _setAreaAt(api, _columns, _rows, pos, area);
