@@ -252,12 +252,12 @@ function _getAreaAt(api, columns, rows, position, size) {
     return area;
 }
 
-function _findPosition(columns, data, callback) {
+function _find(columns, data, callback) {
     var index = data.findIndex(callback);
     return index >= 0 ? _index2pos(index, columns) : undefined;
 }
 
-function _findPositionInArea(api, columns, pos, size, callback) {
+function _findInArea(api, columns, pos, size, callback) {
     var area = api.getAreaAt(pos, size);
     var flat = _flatten(area);
     var areaIndex = flat.findIndex(callback);
@@ -576,11 +576,11 @@ function gridl(data) {
     };
 
     // finding
-    api.findPosition = function (callback) {
-        return _findPosition(_columns, _data, callback);
+    api.find = function (callback) {
+        return _find(_columns, _data, callback);
     };
-    api.findPositionInArea = function (pos, size, callback) {
-        return _findPositionInArea(api, _columns, pos, size, callback);
+    api.findInArea = function (pos, size, callback) {
+        return _findInArea(api, _columns, pos, size, callback);
     };
 
     // exporting data
