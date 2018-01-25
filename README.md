@@ -23,7 +23,7 @@ Using npm:
     * move them around
     * swap them
 * [Work with areas](docs/example-areas.md)
-    * manipulate areas (sub grids)
+    * manipulate areas
     * use anchor points to define the center
     * check if an area would fit into a grid at a certain position
 * [Finding](docs/example-finding.md)

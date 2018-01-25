@@ -2322,31 +2322,51 @@ describe('gridl', () => {
         });
 
         it('should draw a cow', () => {
-
-            const grid = gridl
-                // generate 13x6 grid that is filled with whitespaces
-                .generate(13, 6, () => ' ')
-                // draw head
-                .setAreaAt([9,0], [
-                    ['(','_','_',')'],
-                    ['(','o','o',')'],
-                    ['-','\\','/',' '],
-                ])
-                // draw body
-                .setAreaAt([0,2], [
-                    [' ',' ','/','-','-','-','-','-','-','-'],
-                    [' ','/',' ','|',' ',' ',' ',' ',' ','|','|'],
-                    ['*',' ',' ','|','|','-','-','-','-','|','|'],
-                    [' ',' ',' ','^','^',' ',' ',' ',' ','^','^'],
-                ])
-                // add line breaks at the very right
-                .addColumnAt(gridl.generateData(1, 6, () => '\n'), 13)
-                // export data grid
-                .getData()
-                // join grid to a single string
-                .reduce((res, row) => res + row.join(''), '')
+            const head = [
+                ['(','_','_',')'],
+                ['(','o','o',')'],
+                ['-','\\','/',' '],
+            ];
+            const back = [
+                ['-','-','-','-','-','-','-'],
+            ];
+            const belly = [
+                ['-','-','-','-'],
+            ];
+            const tail = [
+                [' ', ' ', '/'],
+                [' ', '/', ' '],
+                ['*', ' ', ' '],
+            ];
+            const hindLegs = [
+                ['|',' '],
+                ['|','|'],
+                ['^','^'],
+            ];
+            const foreLegs = [
+                ['|','|'],
+                ['|','|'],
+                ['^','^'],
+            ];
+            const cow = gridl
+                .generate(13, 6, () => ' ') // generate 13x6 grid that is filled with whitespaces
+                .setAreaAt([9,0], head)
+                .setAreaAt([3,2], back)
+                .setAreaAt([5,4], belly)
+                .setAreaAt([0,2], tail)
+                .setAreaAt([3,3], hindLegs)
+                .setAreaAt([9,3], foreLegs)
+                .addColumnAt(gridl.generateData(1, 6, () => '\n'), 13) // add line breaks at the very right
             ;
-            expect(grid).to.deep.equal(
+
+            function drawTheCow(cow) {
+                return cow
+                    .getData() // export grid data array
+                    .reduce((res, row) => res + row.join(''), '') // join grid to a single string
+                ;
+            }
+
+            expect(drawTheCow(cow)).to.deep.equal(
                 '         (__)\n'  +
                 '         (oo)\n'  +
                 '  /-------\\/ \n' +
@@ -2355,6 +2375,33 @@ describe('gridl', () => {
                 '   ^^    ^^  \n'
             );
 
+            // mirror the cow on the y-axis
+            cow.mirrorY();
+            expect(drawTheCow(cow)).to.deep.equal(
+                '\n)__(         ' +
+                '\n)oo(         ' +
+                '\n /\\-------/  ' +
+                '\n  ||     | / ' +
+                '\n  ||----||  *' +
+                '\n  ^^    ^^   '
+            );
+
+            // do some plastic surgery
+            cow.setValueAt([1,0], '(');
+            cow.setValueAt([4,0], ')');
+            cow.setValueAt([1,1], '(');
+            cow.setValueAt([4,1], ')');
+            cow.swapCells([2,2], [3,2]);
+            cow.setValueAt([11,2], '\\');
+            cow.setValueAt([12,3], '\\');
+            expect(drawTheCow(cow)).to.deep.equal(
+                '\n(__)         ' +
+                '\n(oo)         ' +
+                '\n \\/-------\\  ' +
+                '\n  ||     | \\ ' +
+                '\n  ||----||  *' +
+                '\n  ^^    ^^   '
+            );
         });
 
     });
