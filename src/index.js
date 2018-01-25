@@ -396,6 +396,7 @@ function gridl(data) {
     // single value operations
     api.getValue = () => _getValueAt(_data, _columns, _position);
     api.getValueAt = pos => _getValueAt(_data, _columns, pos);                                                          // TODO: merge with getRelativeValue
+    api.setValue = value => _setValueAt(api, _data, _columns, _position, value);
     api.setValueAt = (pos, value) => _setValueAt(api, _data, _columns, pos, value);                                     // TODO: provide optional relative offset (direction)
     api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));                 // TODO: merge this functionality into getValueAt() with an optional parameter "direction" that defaults to [0,0]
     api.getRelativePosition = (pos, direction) => _getRelativePosition(_columns, _rows, pos, direction);                // TODO: rename to "getPositionFrom"

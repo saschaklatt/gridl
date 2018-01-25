@@ -10,6 +10,7 @@ const checkApi = api => {
         'getValue',
         'getValueAt',
         'setValueAt',
+        'setValue',
         'getRow',
         'getColumn',
         'checkAreaFitsAt',
@@ -274,7 +275,7 @@ describe('gridl', () => {
 
     describe('setValueAt', () => {
 
-        it('should set the value at a certain position', () => {
+        it('should set a number value at a certain position', () => {
             const data = [
                 [1,2],
                 [3,4],
@@ -287,7 +288,7 @@ describe('gridl', () => {
             expect(g.getValueAt([0,2])).to.equal(666);
         });
 
-        it('should set the value at a certain position', () => {
+        it('should set a string value at a certain position', () => {
             const data = [
                 [1,2],
                 [3,4],
@@ -308,6 +309,65 @@ describe('gridl', () => {
                 [7,8],
             ];
             checkApi(gridl(data).setValueAt([0,2], 666));
+        });
+
+    });
+
+    describe('setValue', () => {
+
+        it('should set a number value at the default position (0,0)', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).setValue(666).getData()).to.deep.equal([
+                [666,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ]);
+        });
+
+        it('should set a number value at a certain position', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).goto([0,2]).setValue(666).getData()).to.deep.equal([
+                [1,2],
+                [3,4],
+                [666,6],
+                [7,8],
+            ]);
+        });
+
+        it('should set a string value at a certain position', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).goto([0,2]).setValue('awesome').getData()).to.deep.equal([
+                [1,2],
+                [3,4],
+                ['awesome',6],
+                [7,8],
+            ]);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            checkApi(gridl(data).setValue(666));
         });
 
     });
