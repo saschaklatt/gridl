@@ -106,9 +106,10 @@ const data = [
     [1,2,3,4],
     [5,6,7,8],
 ];
-const newGrid = gridl(data).swapCells([0,0], [2,1]).getData();
+const newGrid1 = gridl(data).swapCells([0,0], [2,1]).getData();
+const newGrid2 = gridl(data).goto([0,0]).swapCells([2,1]).getData();
 
-// newGrid looks like this:
+// both grids look like this:
 // [
 //     [7,2,3,4],
 //     [5,6,1,8],
