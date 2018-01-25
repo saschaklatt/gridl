@@ -95,11 +95,6 @@ const _isNotInArea = (areaSize, position) => (
     position[1] < 0 || position[1] >= areaSize[1]
 );
 
-const _isInArea = (areaSize, position) => (
-    position[0] >= 0 && position[0] < areaSize[0] &&
-    position[1] >= 0 && position[1] < areaSize[1]
-);
-
 function _getValueAt(_data, columns, pos) {
     const index = _pos2index(pos, columns);
     if (isNaN(index)) {
@@ -455,6 +450,7 @@ function gridl(data) {
 
     // swapping
     api.swapCells = (pos1, pos2) => _swapCells(api, pos1, pos2);
+    api.swapCell = pos => _swapCells(api, _position, pos);
     api.swapRows = (y1, y2) => {
         _data = _swapRows(api.getData(), _rows, y1, y2);
         return api;
