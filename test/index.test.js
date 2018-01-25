@@ -28,7 +28,7 @@ const checkApi = api => {
         'swapColumns',
         'setAreaAt',
         'getAreaAt',
-        'findPosition',
+        'find',
         'findPositionInArea',
         'getData',
         'rotate',
@@ -603,7 +603,7 @@ describe('gridl', () => {
 
     });
 
-    describe('findPosition', () => {
+    describe('find', () => {
 
         it('should return the position of the first occurrence', () => {
             const data = [
@@ -611,7 +611,7 @@ describe('gridl', () => {
                 [4,2,5],
                 [6,5,4],
             ];
-            const position = gridl(data).findPosition(v => v === 5);
+            const position = gridl(data).find(v => v === 5);
             expect(position).to.deep.equal([2,1]);
         });
 
@@ -621,7 +621,7 @@ describe('gridl', () => {
                 [4,2,5],
                 [6,6,6],
             ];
-            const index = gridl(data).findPosition(v => v === 'something else');
+            const index = gridl(data).find(v => v === 'something else');
             expect(index).to.equal(undefined);
         });
 

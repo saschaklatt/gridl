@@ -7,7 +7,7 @@ const data = [
     [4,2,5],
     [6,5,4],
 ];
-gridl(data).findPosition(v => v === 5); // would be [2,1] 
+gridl(data).find(v => v === 5); // would be [2,1] 
 ```
 
 Find the position of the cell with value 7 within a given area (first occurrence):

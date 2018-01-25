@@ -440,7 +440,7 @@ function gridl(data) {
     api.checkAreaFitsAt = (pos, area) => _checkAreaFitsAt(_columns, _rows, pos, area);
 
     // finding
-    api.findPosition = callback => _findPosition(_columns, _data, callback);
+    api.find = callback => _findPosition(_columns, _data, callback);
     api.findPositionInArea = (pos, size, callback) => _findPositionInArea(api, _columns, pos, size, callback);
 
     // exporting data
