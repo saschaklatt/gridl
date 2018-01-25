@@ -7,6 +7,7 @@ const checkApi = api => {
         'columns',
         'rows',
         'size',
+        'getValue',
         'getValueAt',
         'setValueAt',
         'getRow',
@@ -251,6 +252,22 @@ describe('gridl', () => {
             expect(g.getValueAt([])).to.equal(undefined);
             expect(g.getValueAt([-1, 100])).to.equal(undefined);
             expect(g.getValueAt()).to.equal(undefined);
+        });
+
+    });
+
+    describe('getValue', () => {
+
+        it('should return the value at a certain position', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+            ];
+            const g = gridl(data);
+            expect(g.goto([0,0]).getValue()).to.equal(1);
+            expect(g.goto([1,0]).getValue()).to.equal(2);
+            expect(g.goto([0,1]).getValue()).to.equal(5);
+            expect(g.goto([2,1]).getValue()).to.equal(7);
         });
 
     });
