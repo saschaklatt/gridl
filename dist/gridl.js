@@ -196,10 +196,6 @@ var _isNotInArea = function _isNotInArea(areaSize, position) {
     return position[0] < 0 || position[0] >= areaSize[0] || position[1] < 0 || position[1] >= areaSize[1];
 };
 
-var _isInArea = function _isInArea(areaSize, position) {
-    return position[0] >= 0 && position[0] < areaSize[0] && position[1] >= 0 && position[1] < areaSize[1];
-};
-
 function _getValueAt(_data, columns, pos) {
     var index = _pos2index(pos, columns);
     if (isNaN(index)) {
