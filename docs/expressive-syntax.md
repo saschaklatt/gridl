@@ -61,7 +61,31 @@ gridl(data).goto(position).clip(size);
 Swapping two cells:
 ```javascript
 gridl(data).goto([0,0]).swapCell([2,1]); // goto form
-gridl(data).swapCells([0,0], [2,1]); // short form
+gridl(data).swapCells([0,0], [2,1]); // absolute form
 gridl(data).swapRows(1,3);
 gridl(data).swapColumns(1,3);
 ```
+
+### Progress
+
+#### Done
+
+* goto(pos)
+* walk(dir)
+* position()
+* getValue()
+
+#### TODO
+
+* setValue(value)
+* moveAbs(pos)
+* moveRel(dir)
+* setArea(area)
+* getArea(size)
+* checkAreaFits
+* clip(pos, size) -> clipAt(pos, size)
+* clip(size)
+* swapCell
+
+
+
