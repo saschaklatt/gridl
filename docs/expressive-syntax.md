@@ -74,10 +74,10 @@ gridl(data).swapColumns(1,3);
 * walk(dir)
 * position()
 * getValue()
+* setValue(value)
 
 #### TODO
 
-* setValue(value)
 * moveAbs(pos)
 * moveRel(dir)
 * setArea(area)
