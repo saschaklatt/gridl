@@ -77,11 +77,11 @@ gridl(data).swapColumns(1,3);
 * setValue(value)
 * moveAbs(pos)
 * moveRel(dir)
+* setArea(area)
+* getArea(size)
 
 #### TODO
 
-* setArea(area)
-* getArea(size)
 * checkAreaFits
 * clip(pos, size) -> clipAt(pos, size)
 * clip(size)
