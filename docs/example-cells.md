@@ -8,8 +8,8 @@ const data = [
     [4, 5, 6],
     [7, 8, 9],
 ];
-
-gridl(data).getValueAt([1, 2]); // would be 8
+gridl(data).getValueAt([1, 2]);      // would be 8
+gridl(data).goto([1, 2]).getValue(); // does the same
 ```
 
 Setting values at a certain position:
@@ -19,9 +19,10 @@ const data = [
     [4, 5, 6],
     [7, 8, 9],
 ];
-const newGrid = gridl(data).setValueAt([1, 2], 'Hi').getData();
+const newGrid1 = gridl(data).setValueAt([1, 2], 'Hi').getData();
+const newGrid2 = gridl(data).goto([1, 2]).setValue('Hi').getData(); // does the same
 
-// newGrid would look like this:
+// the grids would look like this:
 // [
 //     [1, 2, 3],
 //     [4, 5, 6],
