@@ -41,9 +41,15 @@ const data = [
 ];
 const g = gridl(data);
 const { TOP, LEFT } = gridl.directions;
+
 g.getRelativePosition([2,3], [-2, 1]); // [0,4]
+g.goto([2,3]).walk([-2, 1]).position(); // [0,4]
+
 g.getRelativePosition([2,3], TOP);     // [2,2]
+g.goto([2,3]).walk(TOP).position();     // [2,2]
+
 g.getRelativePosition([2,3], LEFT);    // [1,3]
+g.goto([2,3]).walk(LEFT).position();    // [1,3]
 ```
 
 Move a cell from one position to another absolute position:
@@ -57,9 +63,10 @@ const grid = [
 ];
 const from = [2,1];
 const to = [3,4];
-const newGrid = gridl(grid).moveCell(from, to).getData();
+const newGrid1 = gridl(grid).moveCell(from, to).getData();
+const newGrid2 = gridl(grid).goto(from).moveAbs(to).getData();
 
-// newGrid would look like this:
+// grids would both look like this:
 // [
 //     [ 1, 2, 3, 4, 5, 6],
 //     [ 7, 8,10,11,12,13],
@@ -80,9 +87,10 @@ const grid = [
 ];
 const position = [1,2];
 const direction = [3,2];
-const newGrid = gridl(grid).moveCellFrom(position, direction).getData();
+const newGrid1 = gridl(grid).moveCellFrom(position, direction).getData();
+const newGrid2 = gridl(grid).goto(position).moveRel(direction).getData();
 
-// newGrid looks like this:
+// grids both look like this:
 // [
 //     [ 1, 2, 3, 4, 5, 6],
 //     [ 7, 8, 9,10,11,12],

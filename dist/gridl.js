@@ -507,25 +507,37 @@ function gridl(data) {
     };
 
     // single value operations
+    api.getValue = function () {
+        return _getValueAt(_data, _columns, _position);
+    };
     api.getValueAt = function (pos) {
         return _getValueAt(_data, _columns, pos);
-    }; // TODO: merge with getRelativeValue
+    };
+    api.setValue = function (value) {
+        return _setValueAt(api, _data, _columns, _position, value);
+    };
     api.setValueAt = function (pos, value) {
         return _setValueAt(api, _data, _columns, pos, value);
-    }; // TODO: provide optional relative offset (direction)
+    };
     api.getRelativeValue = function (pos, direction) {
         return api.getValueAt(api.getRelativePosition(pos, direction));
-    }; // TODO: merge this functionality into getValueAt() with an optional parameter "direction" that defaults to [0,0]
+    }; // TODO: scrap it - replaced by navigation api
     api.getRelativePosition = function (pos, direction) {
         return _getRelativePosition(_columns, _rows, pos, direction);
-    }; // TODO: rename to "getPositionFrom"
+    }; // TODO: scrap it - replaced by navigation api
 
     // moving cells
     api.moveCell = function (from, to) {
         return _moveCell(api, _data, _columns, _rows, from, to);
     };
+    api.moveAbs = function (to) {
+        return _moveCell(api, _data, _columns, _rows, _position, to);
+    };
     api.moveCellFrom = function (position, direction) {
         return api.moveCell(position, _addPositions(position, direction));
+    };
+    api.moveRel = function (direction) {
+        return api.moveCell(_position, _addPositions(_position, direction));
     };
     api.moveRow = function (yFrom, yTo) {
         _data = _moveRow(api.getData(), _columns, _rows, yFrom, yTo);
