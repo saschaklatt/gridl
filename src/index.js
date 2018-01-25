@@ -395,15 +395,17 @@ function gridl(data) {
 
     // single value operations
     api.getValue = () => _getValueAt(_data, _columns, _position);
-    api.getValueAt = pos => _getValueAt(_data, _columns, pos);                                                          // TODO: merge with getRelativeValue
+    api.getValueAt = pos => _getValueAt(_data, _columns, pos);
     api.setValue = value => _setValueAt(api, _data, _columns, _position, value);
-    api.setValueAt = (pos, value) => _setValueAt(api, _data, _columns, pos, value);                                     // TODO: provide optional relative offset (direction)
-    api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));                 // TODO: merge this functionality into getValueAt() with an optional parameter "direction" that defaults to [0,0]
-    api.getRelativePosition = (pos, direction) => _getRelativePosition(_columns, _rows, pos, direction);                // TODO: rename to "getPositionFrom"
+    api.setValueAt = (pos, value) => _setValueAt(api, _data, _columns, pos, value);
+    api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));  // TODO: scrap it - replaced by navigation api
+    api.getRelativePosition = (pos, direction) => _getRelativePosition(_columns, _rows, pos, direction); // TODO: scrap it - replaced by navigation api
 
     // moving cells
     api.moveCell = (from, to) => _moveCell(api, _data, _columns, _rows, from, to);
+    api.moveAbs = to => _moveCell(api, _data, _columns, _rows, _position, to);
     api.moveCellFrom = (position, direction) => api.moveCell(position, _addPositions(position, direction));
+    api.moveRel = direction => api.moveCell(_position, _addPositions(_position, direction));
     api.moveRow = (yFrom, yTo) => {
         _data = _moveRow(api.getData(), _columns, _rows, yFrom, yTo);
         return api;
