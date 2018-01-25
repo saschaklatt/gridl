@@ -77,6 +77,7 @@ cow.setValueAt([4,1], ')');
 cow.swapCells([2,2], [3,2]);
 cow.setValueAt([11,2], '\\');
 cow.setValueAt([12,3], '\\');
+console.log(drawTheCow(cow));
 
 // cow looks like this:
 //
