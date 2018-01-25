@@ -79,10 +79,10 @@ gridl(data).swapColumns(1,3);
 * moveRel(dir)
 * setArea(area)
 * getArea(size)
+* checkAreaFits
 
 #### TODO
 
-* checkAreaFits
 * clip(pos, size) -> clipAt(pos, size)
 * clip(size)
 * swapCell
