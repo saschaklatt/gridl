@@ -35,6 +35,9 @@ const mirroredGrid = gridl(data)
 * [Generate grids](docs/example-generating.md)
     * specify the number of rows and columns
     * generate 2d grids with a generator callback function
+* [Navigating](docs/example-navigating.md)
+    * go to absolute positions
+    * walk into directions
 * [Work with cells](docs/example-cells.md)
     * get and set values at absolute or relative positions
     * move them around
