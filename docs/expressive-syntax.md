@@ -80,11 +80,11 @@ gridl(data).swapColumns(1,3);
 * setArea(area)
 * getArea(size)
 * checkAreaFits
+* clip(pos, size) -> clipAt(pos, size)
+* clip(size)
 
 #### TODO
 
-* clip(pos, size) -> clipAt(pos, size)
-* clip(size)
 * swapCell
 
 
