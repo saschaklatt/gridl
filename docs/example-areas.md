@@ -13,9 +13,10 @@ const area = [
     [5,  3,  9],
 ];
 const position = [3, 1];
-const newGrid = gridl(data).setAreaAt(position, area).getData();
+const newGrid1 = gridl(data).setAreaAt(position, area).getData();
+const newGrid2 = gridl(data).goto(position).setAreaAt(area).getData();
 
-// newGrid would look like this:
+// grids both look like this:
 // [
 //     [ 1,  2,  3,  4,  5,  6],
 //     [ 7,  8,  9,  4,  1,  8],

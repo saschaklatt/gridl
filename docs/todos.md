@@ -23,6 +23,7 @@
 
 ## Known issues
 
+* To think about: what should happen if goto() gets a position outside of the grid like [-2,1]? Error or accepting?
 * Inconsistent getter/setter styles
     * style 1: columns(), rows(), position()
     * style 2: getValueAt(), getAreaAt()
