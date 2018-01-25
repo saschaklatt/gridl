@@ -95,6 +95,11 @@ const _isNotInArea = (areaSize, position) => (
     position[1] < 0 || position[1] >= areaSize[1]
 );
 
+const _isInArea = (areaSize, position) => (
+    position[0] >= 0 && position[0] < areaSize[0] &&
+    position[1] >= 0 && position[1] < areaSize[1]
+);
+
 function _getValueAt(_data, columns, pos) {
     const index = _pos2index(pos, columns);
     if (isNaN(index)) {
@@ -183,6 +188,24 @@ function _getRelativePosition(columns, rows, startPos, direction) {
     const targetPos = _addPositions(startPos, direction);
     if (_isNotInArea([columns, rows], targetPos)) {
         return;
+    }
+    return targetPos;
+}
+
+function _goto(columns, rows, position) {
+    if (!Array.isArray(position)) {
+        throw new Error(`Trying to go to an invalid position. Given: ${position}`);
+    }
+    if (_isNotInArea([columns, rows], position)) {
+        throw new Error(`Trying to go to an invalid position. Given: ${position}`);
+    }
+    return position;
+}
+
+function _walk(columns, rows, startPos, direction) {
+    const targetPos = _addPositions(startPos, direction);
+    if (_isNotInArea([columns, rows], targetPos)) {
+        throw new Error(`Trying to walk to an invalid position. Position: ${targetPos}`);
     }
     return targetPos;
 }
@@ -470,14 +493,21 @@ function gridl(data) {
 
     // navigating
     api.goto = position => {
-        if (!Array.isArray(position)) {
-            throw new Error(`Trying to go to an invalid position. Given: ${position}`);
-        }
-        _position[0] = position[0];
-        _position[1] = position[1];
+        const pos = _goto(_columns, _rows, position);
+        _position[0] = pos[0];
+        _position[1] = pos[1];
         return api;
     };
-    api.position = () => [..._position];
+    api.position = () => [
+        _position[0],
+        _position[1],
+    ];
+    api.walk = direction => {
+        const pos = _walk(_columns, _rows, _position, direction);
+        _position[0] = pos[0];
+        _position[1] = pos[1];
+        return api;
+    };
 
     return api;
 

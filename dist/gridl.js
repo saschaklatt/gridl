@@ -196,6 +196,10 @@ var _isNotInArea = function _isNotInArea(areaSize, position) {
     return position[0] < 0 || position[0] >= areaSize[0] || position[1] < 0 || position[1] >= areaSize[1];
 };
 
+var _isInArea = function _isInArea(areaSize, position) {
+    return position[0] >= 0 && position[0] < areaSize[0] && position[1] >= 0 && position[1] < areaSize[1];
+};
+
 function _getValueAt(_data, columns, pos) {
     var index = _pos2index(pos, columns);
     if (isNaN(index)) {
@@ -281,6 +285,24 @@ function _getRelativePosition(columns, rows, startPos, direction) {
     var targetPos = _addPositions(startPos, direction);
     if (_isNotInArea([columns, rows], targetPos)) {
         return;
+    }
+    return targetPos;
+}
+
+function _goto(columns, rows, position) {
+    if (!Array.isArray(position)) {
+        throw new Error('Trying to go to an invalid position. Given: ' + position);
+    }
+    if (_isNotInArea([columns, rows], position)) {
+        throw new Error('Trying to go to an invalid position. Given: ' + position);
+    }
+    return position;
+}
+
+function _walk(columns, rows, startPos, direction) {
+    var targetPos = _addPositions(startPos, direction);
+    if (_isNotInArea([columns, rows], targetPos)) {
+        throw new Error('Trying to walk to an invalid position. Position: ' + targetPos);
     }
     return targetPos;
 }
@@ -469,6 +491,7 @@ function gridl(data) {
     var _rows = data.length;
     var _columns = data[0].length;
     var _data = _flatten(data);
+    var _position = [0, 0];
 
     var api = {};
 
@@ -605,12 +628,28 @@ function gridl(data) {
         _data = _flatten(_mirror(api.getData(), xPos));
         return api;
     };
-
     api.mirrorY = function (yPos) {
         var grid = api.getData();
         _data = _flatten(grid.map(function (row) {
             return _mirror(row, yPos);
         }));
+        return api;
+    };
+
+    // navigating
+    api.goto = function (position) {
+        var pos = _goto(_columns, _rows, position);
+        _position[0] = pos[0];
+        _position[1] = pos[1];
+        return api;
+    };
+    api.position = function () {
+        return [_position[0], _position[1]];
+    };
+    api.walk = function (direction) {
+        var pos = _walk(_columns, _rows, _position, direction);
+        _position[0] = pos[0];
+        _position[1] = pos[1];
         return api;
     };
 
