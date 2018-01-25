@@ -361,6 +361,7 @@ function gridl(data) {
     let _rows = data.length;
     let _columns = data[0].length;
     let _data = _flatten(data);
+    let _position = [0,0];
 
     const api = {};
 
@@ -461,12 +462,22 @@ function gridl(data) {
         _data = _flatten(_mirror(api.getData(), xPos));
         return api;
     };
-
     api.mirrorY = yPos => {
         const grid = api.getData();
         _data = _flatten(grid.map(row => _mirror(row, yPos)));
         return api;
     };
+
+    // navigating
+    api.goto = position => {
+        if (!Array.isArray(position)) {
+            throw new Error(`Trying to go to an invalid position. Given: ${position}`);
+        }
+        _position[0] = position[0];
+        _position[1] = position[1];
+        return api;
+    };
+    api.position = () => [..._position];
 
     return api;
 

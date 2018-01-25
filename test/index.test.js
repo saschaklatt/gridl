@@ -34,6 +34,8 @@ const checkApi = api => {
         'rotate',
         'mirrorX',
         'mirrorY',
+        'goto',
+        'position',
     ]);
 };
 
@@ -2356,6 +2358,89 @@ describe('gridl', () => {
             ];
             checkApi(gridl(data).mirrorY());
         });
+    });
+
+    describe('goto', () => {
+
+        it('should provide the api', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            checkApi(gridl(data).goto([0,0]));
+        });
+
+        it('should throw an error if you provide an invalid position', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(() => gridl(data).goto(0)).to.throw('Trying to go to an invalid position. Given: 0');
+            expect(() => gridl(data).goto('balderdash')).to.throw('Trying to go to an invalid position. Given: balderdash');
+            expect(() => gridl(data).goto({})).to.throw('Trying to go to an invalid position. Given: [object Object]');
+        });
+
+        it('should change the position', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(gridl(data).goto([2,1]).position()).to.deep.equal([2,1]);
+        });
+
+        it('should make a copy of the position, not use a reference', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const pos = [2,1];
+            const g = gridl(data);
+            g.goto(pos);
+            pos[0] = 0;
+            pos[1] = 0;
+            expect(g.position()).to.deep.equal([2,1]);
+        });
+
+    });
+
+    describe('position', () => {
+
+        it('should return the initial position of [0,0]', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(gridl(data).goto([0,0]).position()).to.deep.equal([0,0]);
+        });
+
+        it('should change the position', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(gridl(data).goto([2,1]).position()).to.deep.equal([2,1]);
+        });
+
+        it('should return a copy, not a reference of the internal position', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            const g = gridl(data);
+            const pos = g.goto([2,1]).position();
+            pos[0] = 0;
+            pos[1] = 0;
+            expect(g.position()).to.deep.equal([2,1]);
+        });
+
+        it('should ignore extra values', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+            ];
+            expect(gridl(data).goto([2,1,3,4,1]).position()).to.deep.equal([2,1]);
+        });
+
     });
 
     describe('examples', () => {

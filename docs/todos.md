@@ -8,10 +8,10 @@
 
 * none
 
-## Nice to haves
+## Planned features
 
-* cloning
 * [expressive syntax](expressive-syntax.md)
+* cloning
 * iterator functions like map and forEach
 * generating: generateArea(), generateRow(), generateColumn()
 * shifting: rows, columns and areas (shift left, right, up, down)
