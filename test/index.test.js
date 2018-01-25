@@ -46,6 +46,8 @@ const checkApi = api => {
         'goto',
         'position',
         'walk',
+        'map',
+        'clone',
     ]);
 };
 
@@ -3312,6 +3314,75 @@ describe('gridl', () => {
             const g = gridl(data).goto([1,1]);
             expect(() => g.walk([0,1])).to.not.throw();
             expect(() => g.walk([0,1])).to.throw('Trying to walk to an invalid position. Position: 1,3');
+        });
+
+    });
+
+    describe('map', () => {
+
+        it('should map all values of the grid', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            const origin = gridl(data);
+            const copy = origin.map((value, pos, src) => {
+                const [column, row] = pos;
+                expect(value).to.equal(data[row][column]);
+                expect(src).to.deep.equal(origin);
+                return 'x';
+            });
+            expect(copy.getData()).to.deep.equal([
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+            ]);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            checkApi(gridl(data).map(v => v));
+        });
+
+        it('should return a copy, not a reference to the same gridl instance', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            const origin = gridl(data);
+            const copy = origin.map(v => v);
+            expect(origin === copy).to.equal(false);
+        });
+
+        it('should throw an error if no callback is provided', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            expect(() => gridl(data).map()).to.throw();
+        });
+
+    });
+
+    describe('clone', () => {
+
+        it('should make a copy', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+            ];
+            const master = gridl(data);
+            const clone = master.clone();
+            expect(master === clone).to.equal(false);
+            expect(clone.getData()).to.deep.equal(master.getData());
+            expect(clone.position()).to.deep.equal(master.position());
         });
 
     });

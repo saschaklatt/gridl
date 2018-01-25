@@ -63,6 +63,10 @@ const mirroredGrid = gridl(data)
 * [Mirroring](docs/example-mirroring.md)
     * mirror the grid on the x- or y-axis
     * specify where the axis is located
+* [Iterating](docs/example-iterating.md)
+    * map()
+* [Cloning](docs/example-cloning.md)
+    * Make a clone of a gridl instance
 * [Draw a cow](docs/example-cow.md)
     * just because
 

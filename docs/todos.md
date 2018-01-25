@@ -16,7 +16,6 @@
 
 ## Planned features
 
-* cloning
 * iterator functions like map and forEach
 * generating: generateArea(), generateRow(), generateColumn()
 * shifting: rows, columns and areas (shift left, right, up, down)

@@ -366,6 +366,10 @@ function _mirror(arr, index) {
     ];
 }
 
+function _clone(data, position) {
+    return gridl(data).goto(position);
+}
+
 /**
  * The gridl base function.
  *
@@ -512,6 +516,15 @@ function gridl(data) {
         _position[1] = pos[1];
         return api;
     };
+
+    // iterators
+    api.map = callback => {
+        const newData = _data.map((v, i) => callback(v, _index2pos(i, _columns), api));
+        return gridl(_toArray2D(newData, _columns));
+    };
+
+    // cloning
+    api.clone = () => gridl(_toArray2D(_data, _columns)).goto(_position);
 
     return api;
 
