@@ -1,6 +1,5 @@
 ## Clipping
 
-
 Clip out an area:
 ```javascript
 const data = [
