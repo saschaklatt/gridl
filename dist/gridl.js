@@ -268,9 +268,12 @@ function _findInArea(api, columns, pos, size, callback) {
     }
 }
 
-function _checkAreaFitsAt(columns, rows, pos, area) {
-    var fitsHorizontally = pos[0] + area[0].length <= columns;
-    var fitsVertically = pos[1] + area.length <= rows;
+function _checkAreaFitsAt(columns, rows, position, area) {
+    var anchor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [0, 0];
+
+    var pos = _subtractPositions(position, anchor);
+    var fitsHorizontally = pos[0] >= 0 && pos[0] + area[0].length <= columns;
+    var fitsVertically = pos[1] >= 0 && pos[1] + area.length <= rows;
     return fitsHorizontally && fitsVertically;
 }
 
@@ -571,8 +574,8 @@ function gridl(data) {
     api.getAreaAt = function (pos, size, anchor) {
         return _getAreaAt(api, _columns, _rows, pos, size, anchor);
     };
-    api.checkAreaFitsAt = function (pos, area) {
-        return _checkAreaFitsAt(_columns, _rows, pos, area);
+    api.checkAreaFitsAt = function (pos, area, anchor) {
+        return _checkAreaFitsAt(_columns, _rows, pos, area, anchor);
     };
 
     // finding

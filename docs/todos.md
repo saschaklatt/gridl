@@ -2,13 +2,11 @@
 
 ## Bugs
 
-* no bugs reported at the moment
+* none
 
 ## Issues
 
-* rename findPosition() to find()
-* rename findPositionInArea() to findInArea()
-* checkAreaFits should support anchors
+* none
 
 ## Nice to haves
 

@@ -721,6 +721,83 @@ describe('gridl', () => {
             expect(result).to.equal(false);
         });
 
+        it('should fit with an anchor', () => {
+            const data = [
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+            ];
+            const area = [
+                [2,2,2],
+                [2,2,2],
+            ];
+            const areaPos = [3,2];
+            const anchor = [1, 0];
+            const result = gridl(data).checkAreaFitsAt(areaPos, area, anchor);
+            expect(result).to.equal(true);
+        });
+
+        it('should not fit with an anchor at the top', () => {
+            const data = [
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+            ];
+            const area = [
+                [2,2,2],
+                [2,2,2],
+            ];
+            expect(gridl(data).checkAreaFitsAt([3,0], area, [0,0])).to.equal(true);
+            expect(gridl(data).checkAreaFitsAt([3,0], area, [0,1])).to.equal(false);
+        });
+
+        it('should not fit with an anchor at the left', () => {
+            const data = [
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+            ];
+            const area = [
+                [2,2,2],
+                [2,2,2],
+            ];
+            expect(gridl(data).checkAreaFitsAt([0,2], area, [0,0])).to.equal(true);
+            expect(gridl(data).checkAreaFitsAt([0,2], area, [1,0])).to.equal(false);
+        });
+
+        it('should not fit with an anchor at the right', () => {
+            const data = [
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+            ];
+            const area = [
+                [2,2,2],
+                [2,2,2],
+            ];
+            expect(gridl(data).checkAreaFitsAt([4,0], area, [1,0])).to.equal(true);
+            expect(gridl(data).checkAreaFitsAt([4,0], area, [0,0])).to.equal(false);
+        });
+
+        it('should not fit with an anchor at the bottom', () => {
+            const data = [
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+                [1,1,1,1,1,1],
+            ];
+            const area = [
+                [2,2,2],
+                [2,2,2],
+            ];
+            expect(gridl(data).checkAreaFitsAt([2,3], area, [1,1])).to.equal(true);
+            expect(gridl(data).checkAreaFitsAt([2,3], area, [1,0])).to.equal(false);
+        });
+
     });
 
     describe('getRelativePosition', () => {

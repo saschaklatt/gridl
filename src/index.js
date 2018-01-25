@@ -172,9 +172,10 @@ function _findInArea(api, columns, pos, size, callback) {
     }
 }
 
-function _checkAreaFitsAt(columns, rows, pos, area) {
-    const fitsHorizontally = pos[0] + area[0].length <= columns;
-    const fitsVertically = pos[1] + area.length <= rows;
+function _checkAreaFitsAt(columns, rows, position, area, anchor = [0,0]) {
+    const pos = _subtractPositions(position, anchor);
+    const fitsHorizontally = pos[0] >= 0 && pos[0] + area[0].length <= columns;
+    const fitsVertically = pos[1] >= 0 && pos[1] + area.length <= rows;
     return fitsHorizontally && fitsVertically;
 }
 
@@ -437,7 +438,7 @@ function gridl(data) {
     // area operations
     api.setAreaAt = (pos, area, anchor) => _setAreaAt(api, _columns, _rows, pos, area, anchor);
     api.getAreaAt = (pos, size, anchor) => _getAreaAt(api, _columns, _rows, pos, size, anchor);
-    api.checkAreaFitsAt = (pos, area) => _checkAreaFitsAt(_columns, _rows, pos, area);
+    api.checkAreaFitsAt = (pos, area, anchor) => _checkAreaFitsAt(_columns, _rows, pos, area, anchor);
 
     // finding
     api.find = callback => _find(_columns, _data, callback);
