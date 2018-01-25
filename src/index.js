@@ -153,12 +153,12 @@ function _getAreaAt(api, columns, rows, position, size, anchor = [0,0]) {
     return area;
 }
 
-function _findPosition(columns, data, callback) {
+function _find(columns, data, callback) {
     const index = data.findIndex(callback);
     return (index >= 0) ? _index2pos(index, columns) : undefined;
 }
 
-function _findPositionInArea(api, columns, pos, size, callback) {
+function _findInArea(api, columns, pos, size, callback) {
     const area = api.getAreaAt(pos, size);
     const flat = _flatten(area);
     const areaIndex = flat.findIndex(callback);
@@ -440,8 +440,8 @@ function gridl(data) {
     api.checkAreaFitsAt = (pos, area) => _checkAreaFitsAt(_columns, _rows, pos, area);
 
     // finding
-    api.find = callback => _findPosition(_columns, _data, callback);
-    api.findPositionInArea = (pos, size, callback) => _findPositionInArea(api, _columns, pos, size, callback);
+    api.find = callback => _find(_columns, _data, callback);
+    api.findInArea = (pos, size, callback) => _findInArea(api, _columns, pos, size, callback);
 
     // exporting data
     api.getData = () => _toArray2D(_data, _columns);

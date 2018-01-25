@@ -19,5 +19,5 @@ const data = [
 ];
 const areaPosition = [2,1];
 const areaSize = [3,2];
-gridl(data).findPositionInArea(areaPosition, areaSize, v => v === 7); // result would be [3,1]
+gridl(data).findInArea(areaPosition, areaSize, v => v === 7); // result would be [3,1]
 ```

@@ -29,7 +29,7 @@ const checkApi = api => {
         'setAreaAt',
         'getAreaAt',
         'find',
-        'findPositionInArea',
+        'findInArea',
         'getData',
         'rotate',
         'mirrorX',
@@ -627,7 +627,7 @@ describe('gridl', () => {
 
     });
 
-    describe('findPositionInArea', () => {
+    describe('findInArea', () => {
 
         it('should return the position of the first occurrence', () => {
             const data = [
@@ -637,7 +637,7 @@ describe('gridl', () => {
             ];
             const areaPos = [2,1];
             const areaSize = [3,2];
-            const result = gridl(data).findPositionInArea(areaPos, areaSize, v => v === 7);
+            const result = gridl(data).findInArea(areaPos, areaSize, v => v === 7);
             expect(result).to.deep.equal([3,1]);
         });
 
@@ -649,7 +649,7 @@ describe('gridl', () => {
             ];
             const areaPos = [2,1];
             const areaSize = [3,2];
-            const result = gridl(data).findPositionInArea(areaPos, areaSize, v => v === 9);
+            const result = gridl(data).findInArea(areaPos, areaSize, v => v === 9);
             expect(result).to.equal(undefined);
         });
 
