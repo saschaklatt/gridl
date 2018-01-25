@@ -13,11 +13,12 @@ const data = [
 const position = [4,1];
 const size = [3,2];
 const g = gridl(data);
-const newGrid = g.clip(position, size).getData();
+const newGrid1 = g.clip(position, size).getData();      // absolute syntax
+const newGrid2 = g.goto(position).clip(size).getData(); // relative syntax
 const columns = g.columns(); // is now 2
 const rows = g.rows(); // is now 3
 
-// newGrid looks like this:
+// grids both look like this:
 // [
 //    [15,16,17],
 //    [25,26,27],

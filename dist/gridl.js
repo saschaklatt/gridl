@@ -581,12 +581,15 @@ function gridl(data) {
     };
 
     // clipping
-    api.clip = function (position, size) {
+    api.clipAt = function (position, size) {
         var grid = _clip(api.getData(), _columns, _rows, position, size);
         _data = _flatten(grid);
         _rows = grid.length;
         _columns = grid[0].length;
         return api;
+    };
+    api.clip = function (size) {
+        return api.clipAt(_position, size);
     };
 
     // swapping

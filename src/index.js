@@ -444,13 +444,14 @@ function gridl(data) {
     };
 
     // clipping
-    api.clip = (position, size) => {
+    api.clipAt = (position, size) => {
         const grid = _clip(api.getData(), _columns, _rows, position, size);
         _data = _flatten(grid);
         _rows = grid.length;
         _columns = grid[0].length;
         return api;
     };
+    api.clip = size => api.clipAt(_position, size);
 
     // swapping
     api.swapCells = (pos1, pos2) => _swapCells(api, pos1, pos2);
