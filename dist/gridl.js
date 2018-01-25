@@ -612,6 +612,9 @@ function gridl(data) {
     api.getAreaAt = function (pos, size, anchor) {
         return _getAreaAt(api, _columns, _rows, pos, size, anchor);
     };
+    api.getArea = function (size, anchor) {
+        return _getAreaAt(api, _columns, _rows, _position, size, anchor);
+    };
     api.checkAreaFitsAt = function (pos, area, anchor) {
         return _checkAreaFitsAt(_columns, _rows, pos, area, anchor);
     };

@@ -35,9 +35,10 @@ const data = [
 ];
 const size = [3, 2];
 const position = [1, 2];
-const area = gridl(data).getAreaAt(position, size);
+const area1 = gridl(data).getAreaAt(position, size);
+const area2 = gridl(data).goto(position).getAreaAt(size);
 
-// area would look like this:
+// areas both look like this:
 // [
 //     [14, 15, 16],
 //     [20, 21, 22],
