@@ -596,6 +596,9 @@ function gridl(data) {
     api.swapCells = function (pos1, pos2) {
         return _swapCells(api, pos1, pos2);
     };
+    api.swapCell = function (pos) {
+        return _swapCells(api, _position, pos);
+    };
     api.swapRows = function (y1, y2) {
         _data = _swapRows(api.getData(), _rows, y1, y2);
         return api;

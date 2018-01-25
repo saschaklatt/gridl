@@ -66,26 +66,7 @@ gridl(data).swapRows(1,3);
 gridl(data).swapColumns(1,3);
 ```
 
-### Progress
 
-#### Done
-
-* goto(pos)
-* walk(dir)
-* position()
-* getValue()
-* setValue(value)
-* moveAbs(pos)
-* moveRel(dir)
-* setArea(area)
-* getArea(size)
-* checkAreaFits
-* clip(pos, size) -> clipAt(pos, size)
-* clip(size)
-
-#### TODO
-
-* swapCell
 
 
 
