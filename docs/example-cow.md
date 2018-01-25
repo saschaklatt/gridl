@@ -1,5 +1,7 @@
 ## Draw a cow
 
+Let's do some serious business stuff and draw a cow.
+
 ```javascript
 const head = [
     ['(','_','_',')'],
