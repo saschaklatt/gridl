@@ -47,6 +47,7 @@ const checkApi = api => {
         'position',
         'walk',
         'map',
+        'forEach',
         'clone',
     ]);
 };
@@ -3367,6 +3368,59 @@ describe('gridl', () => {
                 [10,11,12,13],
             ];
             expect(() => gridl(data).map()).to.throw();
+        });
+
+    });
+
+    describe('forEach', () => {
+
+        it('should execute the callback for each cell', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            const master = gridl(data);
+            const result = master.forEach((value, pos, src) => {
+                const [column, row] = pos;
+                expect(value).to.equal(data[row][column]);
+                expect(src).to.deep.equal(master);
+                return 'x';
+            });
+            expect(result.getData()).to.deep.equal([
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ]);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            checkApi(gridl(data).forEach(v => v));
+        });
+
+        it('should return the same gridl instance', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            const master = gridl(data);
+            const result = master.forEach(v => v);
+            expect(master === result).to.equal(true);
+        });
+
+        it('should throw an error if no callback is provided', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            expect(() => gridl(data).forEach()).to.throw();
         });
 
     });

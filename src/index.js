@@ -522,6 +522,10 @@ function gridl(data) {
         const newData = _data.map((v, i) => callback(v, _index2pos(i, _columns), api));
         return gridl(_toArray2D(newData, _columns));
     };
+    api.forEach = callback => {
+        _data.forEach((v, i) => callback(v, _index2pos(i, _columns), api));
+        return api;
+    };
 
     // cloning
     api.clone = () => gridl(_toArray2D(_data, _columns)).goto(_position);

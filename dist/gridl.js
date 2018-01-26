@@ -474,6 +474,10 @@ function _mirror(arr, index) {
     return [].concat(_toConsumableArray(right.reverse()), [arr[limitedIdx]], _toConsumableArray(left.reverse()));
 }
 
+function _clone(data, position) {
+    return gridl(data).goto(position);
+}
+
 /**
  * The gridl base function.
  *
@@ -674,6 +678,25 @@ function gridl(data) {
         _position[0] = pos[0];
         _position[1] = pos[1];
         return api;
+    };
+
+    // iterators
+    api.map = function (callback) {
+        var newData = _data.map(function (v, i) {
+            return callback(v, _index2pos(i, _columns), api);
+        });
+        return gridl(_toArray2D(newData, _columns));
+    };
+    api.forEach = function (callback) {
+        _data.forEach(function (v, i) {
+            return callback(v, _index2pos(i, _columns), api);
+        });
+        return api;
+    };
+
+    // cloning
+    api.clone = function () {
+        return gridl(_toArray2D(_data, _columns)).goto(_position);
     };
 
     return api;
