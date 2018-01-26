@@ -35,7 +35,7 @@ const data = [
     [10,11,12],
     [13,14,15],
 ];
-const newGrid = gridl(data).moveRow(0, 2).getData()
+const newGrid = gridl(data).moveRow(0, 2).data()
 
 // newGrid looks like this:
 // [
@@ -54,7 +54,7 @@ const data = [
     [ 5, 6, 7, 8],
     [ 9,10,11,12],
 ];
-const newGrid = gridl(data).moveColumn(0, 2).getData();
+const newGrid = gridl(data).moveColumn(0, 2).data();
 
 // newGrid looks like this:
 // [
@@ -71,7 +71,7 @@ const data= [
     [4,5,6],
 ];
 const row = [7,8,9];
-const newGrid = gridl(data).addRow(row, 1).getData();
+const newGrid = gridl(data).addRow(row, 1).data();
 
 // newGrid looks like this:
 // [
@@ -91,7 +91,7 @@ const column = [
     7,
     8,
 ];
-const newGrid = gridl(data).addColumn(column, 0).getData();
+const newGrid = gridl(data).addColumn(column, 0).data();
 
 // newGrid looks like this:
 // [
@@ -107,7 +107,7 @@ const data = [
     [4,5,6],
     [7,8,9],
 ];
-const newGrid = gridl(data).removeRow(1).getData();
+const newGrid = gridl(data).removeRow(1).data();
 
 // newGrid looks like this:
 // [
@@ -122,7 +122,7 @@ const data = [
     [1,2,3],
     [4,5,6],
 ];
-const newGrid = gridl(data).removeColumn(0).getData();
+const newGrid = gridl(data).removeColumn(0).data();
 
 // newGrid looks like this:
 // [
@@ -139,7 +139,7 @@ const data = [
     [ 9,10,11,12],
     [13,14,15,16], // and this
 ];
-const newGrid = gridl(data).swapRows(1,3).getData();
+const newGrid = gridl(data).swapRows(1,3).data();
 
 // newGrid looks like this:
 // [
@@ -158,7 +158,7 @@ const data = [
     [ 9,10,11,12],
     [13,14,15,16],
 ];
-const newGrid = gridl(data).swapColumns(1,3).getData();
+const newGrid = gridl(data).swapColumns(1,3).data();
 
 // newGrid looks like this:
 // [

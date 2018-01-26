@@ -23,7 +23,7 @@ gridl(data).goto(pos).subgrid(size)
     .getValue()
     .setArea()
     .getArea()          
-    .getData()
+    .data()
     .findPosition()     // find local position in the area
     .toGlobal(position) // calculate the global position on the main grid
     .findValue()

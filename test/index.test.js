@@ -36,7 +36,7 @@ const checkApi = api => {
         'getArea',
         'find',
         'findInArea',
-        'getData',
+        'data',
         'rotate',
         'mirrorX',
         'mirrorY',
@@ -151,7 +151,7 @@ describe('gridl', () => {
 
     });
 
-    describe('getData', () => {
+    describe('data', () => {
 
         it('should export 2d without dimensions given', () => {
             const data = [
@@ -160,7 +160,7 @@ describe('gridl', () => {
                 [7, 8, 9],
             ];
             const g = gridl(data);
-            expect(g.getData()).to.deep.equal([
+            expect(g.data()).to.deep.equal([
                 [1, 2, 3],
                 [4, 5, 6],
                 [7, 8, 9],
@@ -173,7 +173,7 @@ describe('gridl', () => {
                 [4, 5, 6],
             ];
             const g = gridl(data);
-            expect(g.getData()).to.deep.equal([
+            expect(g.data()).to.deep.equal([
                 [1, 2, 3],
                 [4, 5, 6],
             ]);
@@ -185,7 +185,7 @@ describe('gridl', () => {
                 [7, 8, 9],
             ];
             const g = gridl(data);
-            expect(g.getData()).to.deep.equal([
+            expect(g.data()).to.deep.equal([
                 [4, 5, 6],
                 [7, 8, 9],
             ]);
@@ -329,7 +329,7 @@ describe('gridl', () => {
                 [5,6],
                 [7,8],
             ];
-            expect(gridl(data).value(666).getData()).to.deep.equal([
+            expect(gridl(data).value(666).data()).to.deep.equal([
                 [666,2],
                 [3,4],
                 [5,6],
@@ -344,7 +344,7 @@ describe('gridl', () => {
                 [5,6],
                 [7,8],
             ];
-            expect(gridl(data).goto([0,2]).value(666).getData()).to.deep.equal([
+            expect(gridl(data).goto([0,2]).value(666).data()).to.deep.equal([
                 [1,2],
                 [3,4],
                 [666,6],
@@ -359,7 +359,7 @@ describe('gridl', () => {
                 [5,6],
                 [7,8],
             ];
-            expect(gridl(data).goto([0,2]).value('awesome').getData()).to.deep.equal([
+            expect(gridl(data).goto([0,2]).value('awesome').data()).to.deep.equal([
                 [1,2],
                 [3,4],
                 ['awesome',6],
@@ -428,7 +428,7 @@ describe('gridl', () => {
                 [5,6],
                 [7,8],
             ];
-            expect(gridl(data).setValue(666).getData()).to.deep.equal([
+            expect(gridl(data).setValue(666).data()).to.deep.equal([
                 [666,2],
                 [3,4],
                 [5,6],
@@ -443,7 +443,7 @@ describe('gridl', () => {
                 [5,6],
                 [7,8],
             ];
-            expect(gridl(data).goto([0,2]).setValue(666).getData()).to.deep.equal([
+            expect(gridl(data).goto([0,2]).setValue(666).data()).to.deep.equal([
                 [1,2],
                 [3,4],
                 [666,6],
@@ -458,7 +458,7 @@ describe('gridl', () => {
                 [5,6],
                 [7,8],
             ];
-            expect(gridl(data).goto([0,2]).setValue('awesome').getData()).to.deep.equal([
+            expect(gridl(data).goto([0,2]).setValue('awesome').data()).to.deep.equal([
                 [1,2],
                 [3,4],
                 ['awesome',6],
@@ -473,7 +473,7 @@ describe('gridl', () => {
                 [5,6],
                 [7,8],
             ];
-            expect(gridl(data).goto([0,2]).setValue(undefined).getData()).to.deep.equal([
+            expect(gridl(data).goto([0,2]).setValue(undefined).data()).to.deep.equal([
                 [1,2],
                 [3,4],
                 [undefined,6],
@@ -559,7 +559,7 @@ describe('gridl', () => {
                 [5,  3,  9],
             ];
             const position = [3, 1];
-            const grid = gridl(data).setAreaAt(position, area).getData();
+            const grid = gridl(data).setAreaAt(position, area).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9,  4,  1,  8],
@@ -583,7 +583,7 @@ describe('gridl', () => {
                 [0],
             ];
             const position = [2, 1];
-            const grid = gridl(data).setAreaAt(position, area).getData();
+            const grid = gridl(data).setAreaAt(position, area).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  0,  0,  0, 12],
@@ -605,7 +605,7 @@ describe('gridl', () => {
                 [5,  3,  9],
             ];
             const position = [4, 3];
-            const grid = gridl(data).setAreaAt(position, area).getData();
+            const grid = gridl(data).setAreaAt(position, area).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -627,7 +627,7 @@ describe('gridl', () => {
             ];
             const position = [3, 1];
             const anchor = [2, 1];
-            const grid = gridl(data).setAreaAt(position, area, anchor).getData();
+            const grid = gridl(data).setAreaAt(position, area, anchor).data();
             expect(grid).to.deep.equal([
                 [ 1,  4,  1,  8,  5,  6],
                 [ 7,  5,  3,  9, 11, 12],
@@ -649,7 +649,7 @@ describe('gridl', () => {
             ];
             const position = [2, 0];
             const anchor = [-1, -2];
-            const grid = gridl(data).setAreaAt(position, area, anchor).getData();
+            const grid = gridl(data).setAreaAt(position, area, anchor).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -671,7 +671,7 @@ describe('gridl', () => {
             ];
             const position = [2, 4];
             const anchor = [1, 1];
-            const grid = gridl(data).setAreaAt(position, area, anchor).getData();
+            const grid = gridl(data).setAreaAt(position, area, anchor).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -696,7 +696,7 @@ describe('gridl', () => {
                 [5,  3,  9],
             ];
             const position = [3, 1];
-            const grid = gridl(data).goto(position).setArea(area).getData();
+            const grid = gridl(data).goto(position).setArea(area).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9,  4,  1,  8],
@@ -720,7 +720,7 @@ describe('gridl', () => {
                 [0],
             ];
             const position = [2, 1];
-            const grid = gridl(data).goto(position).setArea(area).getData();
+            const grid = gridl(data).goto(position).setArea(area).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  0,  0,  0, 12],
@@ -742,7 +742,7 @@ describe('gridl', () => {
                 [5,  3,  9],
             ];
             const position = [4, 3];
-            const grid = gridl(data).goto(position).setArea(area).getData();
+            const grid = gridl(data).goto(position).setArea(area).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -764,7 +764,7 @@ describe('gridl', () => {
             ];
             const position = [3, 1];
             const anchor = [2, 1];
-            const grid = gridl(data).goto(position).setArea(area, anchor).getData();
+            const grid = gridl(data).goto(position).setArea(area, anchor).data();
             expect(grid).to.deep.equal([
                 [ 1,  4,  1,  8,  5,  6],
                 [ 7,  5,  3,  9, 11, 12],
@@ -786,7 +786,7 @@ describe('gridl', () => {
             ];
             const position = [2, 0];
             const anchor = [-1, -2];
-            const grid = gridl(data).goto(position).setArea(area, anchor).getData();
+            const grid = gridl(data).goto(position).setArea(area, anchor).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -809,7 +809,7 @@ describe('gridl', () => {
             ];
             const position = [2, 4];
             const anchor = [1, 1];
-            const grid = gridl(data).goto(position).setArea(area, anchor).getData();
+            const grid = gridl(data).goto(position).setArea(area, anchor).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -929,7 +929,7 @@ describe('gridl', () => {
             const areaPosition = [2,1];
             const g = gridl(data);
             g.getAreaAt(areaPosition, areaSize);
-            expect(g.getData()).to.deep.equal([
+            expect(g.data()).to.deep.equal([
                 [ 1, 2, 3, 4, 5],
                 [ 6, 7, 7, 8, 9],
                 [10,11,12,13,14],
@@ -1051,7 +1051,7 @@ describe('gridl', () => {
             const areaPosition = [2,1];
             const g = gridl(data);
             g.goto(areaPosition).getArea(areaSize);
-            expect(g.getData()).to.deep.equal([
+            expect(g.data()).to.deep.equal([
                 [ 1, 2, 3, 4, 5],
                 [ 6, 7, 7, 8, 9],
                 [10,11,12,13,14],
@@ -1487,7 +1487,7 @@ describe('gridl', () => {
         it('should generate a grid with (column, row) value pairs', () => {
             const columns = 4;
             const rows = 3;
-            const grid = gridl.generate(columns, rows, ({ column, row }) => `${column},${row}`).getData();
+            const grid = gridl.generate(columns, rows, ({ column, row }) => `${column},${row}`).data();
             expect(grid).to.deep.equal([
                 ['0,0', '1,0', '2,0', '3,0'],
                 ['0,1', '1,1', '2,1', '3,1'],
@@ -1498,7 +1498,7 @@ describe('gridl', () => {
         it('should generate a grid filled with "x"-values', () => {
             const columns = 7;
             const rows = 5;
-            const grid = gridl.generate(columns, rows, () => 'x').getData();
+            const grid = gridl.generate(columns, rows, () => 'x').data();
             expect(grid).to.deep.equal([
                 ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
                 ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -1549,7 +1549,7 @@ describe('gridl', () => {
         });
 
         it('should generate a grid with null values if no callback is specified', () => {
-            expect(gridl.generate(4, 3).getData()).to.deep.equal([
+            expect(gridl.generate(4, 3).data()).to.deep.equal([
                 [null, null, null, null],
                 [null, null, null, null],
                 [null, null, null, null],
@@ -1570,7 +1570,7 @@ describe('gridl', () => {
             ];
             const from = [2,1];
             const to = [3,4];
-            expect(gridl(grid).moveCell(from, to).getData()).to.deep.equal([
+            expect(gridl(grid).moveCell(from, to).data()).to.deep.equal([
                 [ 1, 2, 3, 4, 5, 6],
                 [ 7, 8,10,11,12,13],
                 [14,15,16,17,18,19],
@@ -1589,7 +1589,7 @@ describe('gridl', () => {
             ];
             const from = [4,3];
             const to = [1,0];
-            expect(gridl(grid).moveCell(from, to).getData()).to.deep.equal([
+            expect(gridl(grid).moveCell(from, to).data()).to.deep.equal([
                 [ 1,23, 2, 3, 4, 5],
                 [ 6, 7, 8, 9,10,11],
                 [12,13,14,15,16,17],
@@ -1682,7 +1682,7 @@ describe('gridl', () => {
             ];
             const from = [2,1];
             const to = [3,4];
-            expect(gridl(grid).goto(from).moveAbs(to).getData()).to.deep.equal([
+            expect(gridl(grid).goto(from).moveAbs(to).data()).to.deep.equal([
                 [ 1, 2, 3, 4, 5, 6],
                 [ 7, 8,10,11,12,13],
                 [14,15,16,17,18,19],
@@ -1701,7 +1701,7 @@ describe('gridl', () => {
             ];
             const from = [4,3];
             const to = [1,0];
-            expect(gridl(grid).goto(from).moveAbs(to).getData()).to.deep.equal([
+            expect(gridl(grid).goto(from).moveAbs(to).data()).to.deep.equal([
                 [ 1,23, 2, 3, 4, 5],
                 [ 6, 7, 8, 9,10,11],
                 [12,13,14,15,16,17],
@@ -1759,7 +1759,7 @@ describe('gridl', () => {
             ];
             const position = [1,2];
             const direction = [3,2];
-            expect(gridl(grid).goto(position).moveRel(direction).getData()).to.deep.equal([
+            expect(gridl(grid).goto(position).moveRel(direction).data()).to.deep.equal([
                 [ 1, 2, 3, 4, 5, 6],
                 [ 7, 8, 9,10,11,12],
                 [13,15,16,17,18,19],
@@ -1778,7 +1778,7 @@ describe('gridl', () => {
             ];
             const position = [4,3];
             const direction = [-2,-1];
-            expect(gridl(grid).goto(position).moveRel(direction).getData()).to.deep.equal([
+            expect(gridl(grid).goto(position).moveRel(direction).data()).to.deep.equal([
                 [ 1, 2, 3, 4, 5, 6],
                 [ 7, 8, 9,10,11,12],
                 [13,14,23,15,16,17],
@@ -1834,7 +1834,7 @@ describe('gridl', () => {
                 [10,11,12],
                 [13,14,15],
             ];
-            expect(gridl(data).moveRow(0, 2).getData()).to.deep.equal([
+            expect(gridl(data).moveRow(0, 2).data()).to.deep.equal([
                 [ 4, 5, 6],
                 [ 7, 8, 9],
                 [ 1, 2, 3],
@@ -1851,7 +1851,7 @@ describe('gridl', () => {
                 [10,11,12],
                 [13,14,15],
             ];
-            expect(gridl(data).moveRow(3, 1).getData()).to.deep.equal([
+            expect(gridl(data).moveRow(3, 1).data()).to.deep.equal([
                 [ 1, 2, 3],
                 [10,11,12],
                 [ 4, 5, 6],
@@ -1902,7 +1902,7 @@ describe('gridl', () => {
                 [ 5, 6, 7, 8],
                 [ 9,10,11,12],
             ];
-            expect(gridl(data).moveColumn(0, 2).getData()).to.deep.equal([
+            expect(gridl(data).moveColumn(0, 2).data()).to.deep.equal([
                 [ 2, 3, 1, 4],
                 [ 6, 7, 5, 8],
                 [10,11, 9,12],
@@ -1915,7 +1915,7 @@ describe('gridl', () => {
                 [ 5, 6, 7, 8],
                 [ 9,10,11,12],
             ];
-            expect(gridl(data).moveColumn(3, 1).getData()).to.deep.equal([
+            expect(gridl(data).moveColumn(3, 1).data()).to.deep.equal([
                 [ 1, 4, 2, 3],
                 [ 5, 8, 6, 7],
                 [ 9,12,10,11],
@@ -1968,7 +1968,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(gridl(data).addRow(row, 0).getData()).to.deep.equal([
+            expect(gridl(data).addRow(row, 0).data()).to.deep.equal([
                 [7,8,9],
                 [1,2,3],
                 [4,5,6],
@@ -1981,7 +1981,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(gridl(data).addRow(row, 2).getData()).to.deep.equal([
+            expect(gridl(data).addRow(row, 2).data()).to.deep.equal([
                 [1,2,3],
                 [4,5,6],
                 [7,8,9],
@@ -1994,7 +1994,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(gridl(data).addRow(row, 1).getData()).to.deep.equal([
+            expect(gridl(data).addRow(row, 1).data()).to.deep.equal([
                 [1,2,3],
                 [7,8,9],
                 [4,5,6],
@@ -2041,10 +2041,10 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(() => gridl(data).addRow([7,8], 0).getData()).to.throw(
+            expect(() => gridl(data).addRow([7,8], 0).data()).to.throw(
                 'Trying to add a row that contains an invalid amount of cells. Expected: 3, Given: 2'
             );
-            expect(() => gridl(data).addRow([7,8,9,10], 0).getData()).to.throw(
+            expect(() => gridl(data).addRow([7,8,9,10], 0).data()).to.throw(
                 'Trying to add a row that contains an invalid amount of cells. Expected: 3, Given: 4'
             );
         });
@@ -2062,7 +2062,7 @@ describe('gridl', () => {
                 7,
                 8,
             ];
-            expect(gridl(data).addColumn(column, 0).getData()).to.deep.equal([
+            expect(gridl(data).addColumn(column, 0).data()).to.deep.equal([
                 [7,1,2,3],
                 [8,4,5,6],
             ]);
@@ -2079,7 +2079,7 @@ describe('gridl', () => {
                 9,
                 9,
             ];
-            expect(gridl(data).addColumn(column, 3).getData()).to.deep.equal([
+            expect(gridl(data).addColumn(column, 3).data()).to.deep.equal([
                 [1,2,3,9],
                 [4,5,6,9],
                 [7,8,9,9],
@@ -2095,7 +2095,7 @@ describe('gridl', () => {
                 7,
                 8,
             ];
-            expect(gridl(data).addColumn(column, 1).getData()).to.deep.equal([
+            expect(gridl(data).addColumn(column, 1).data()).to.deep.equal([
                 [1,7,2],
                 [4,8,5],
             ]);
@@ -2144,10 +2144,10 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(() => gridl(data).addColumn([7], 0).getData()).to.throw(
+            expect(() => gridl(data).addColumn([7], 0).data()).to.throw(
                 'Trying to add a column that contains an invalid amount of cells. Expected: 2, Given: 1'
             );
-            expect(() => gridl(data).addColumn([7,8,9], 0).getData()).to.throw(
+            expect(() => gridl(data).addColumn([7,8,9], 0).data()).to.throw(
                 'Trying to add a column that contains an invalid amount of cells. Expected: 2, Given: 3'
             );
         });
@@ -2162,7 +2162,7 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).removeRow(0).getData()).to.deep.equal([
+            expect(gridl(data).removeRow(0).data()).to.deep.equal([
                 [4,5,6],
                 [7,8,9],
             ]);
@@ -2174,7 +2174,7 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).removeRow(1).getData()).to.deep.equal([
+            expect(gridl(data).removeRow(1).data()).to.deep.equal([
                 [1,2,3],
                 [7,8,9],
             ]);
@@ -2186,7 +2186,7 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).removeRow(2).getData()).to.deep.equal([
+            expect(gridl(data).removeRow(2).data()).to.deep.equal([
                 [1,2,3],
                 [4,5,6],
             ]);
@@ -2234,7 +2234,7 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(gridl(data).removeColumn(0).getData()).to.deep.equal([
+            expect(gridl(data).removeColumn(0).data()).to.deep.equal([
                 [2,3],
                 [5,6],
             ]);
@@ -2245,7 +2245,7 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(gridl(data).removeColumn(1).getData()).to.deep.equal([
+            expect(gridl(data).removeColumn(1).data()).to.deep.equal([
                 [1,3],
                 [4,6],
             ]);
@@ -2256,7 +2256,7 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(gridl(data).removeColumn(2).getData()).to.deep.equal([
+            expect(gridl(data).removeColumn(2).data()).to.deep.equal([
                 [1,2],
                 [4,5],
             ]);
@@ -2315,7 +2315,7 @@ describe('gridl', () => {
            const position = [4,1];
            const size = [3,2];
            const g = gridl(data);
-           expect(g.clipAt(position, size).getData()).to.deep.equal([
+           expect(g.clipAt(position, size).data()).to.deep.equal([
                [15,16,17],
                [25,26,27],
            ]);
@@ -2335,7 +2335,7 @@ describe('gridl', () => {
             const position = [0,0];
             const size = [2,4];
             const g = gridl(data);
-            expect(g.clipAt(position, size).getData()).to.deep.equal([
+            expect(g.clipAt(position, size).data()).to.deep.equal([
                 [ 1, 2],
                 [11,12],
                 [21,22],
@@ -2357,7 +2357,7 @@ describe('gridl', () => {
             const position = [8,2];
             const size = [2,4];
             const g = gridl(data);
-            expect(g.clipAt(position, size).getData()).to.deep.equal([
+            expect(g.clipAt(position, size).data()).to.deep.equal([
                 [29,30],
                 [39,40],
                 [49,50],
@@ -2376,7 +2376,7 @@ describe('gridl', () => {
             ];
             const position = [3,2];
             const size = [3,5];
-            expect(gridl(data).clipAt(position, size).getData()).to.deep.equal([
+            expect(gridl(data).clipAt(position, size).data()).to.deep.equal([
                 [14,15],
                 [19,20],
             ]);
@@ -2421,7 +2421,7 @@ describe('gridl', () => {
             const position = [4,1];
             const size = [3,2];
             const g = gridl(data);
-            expect(g.goto(position).clip(size).getData()).to.deep.equal([
+            expect(g.goto(position).clip(size).data()).to.deep.equal([
                 [15,16,17],
                 [25,26,27],
             ]);
@@ -2441,7 +2441,7 @@ describe('gridl', () => {
             const position = [0,0];
             const size = [2,4];
             const g = gridl(data);
-            expect(g.goto(position).clip(size).getData()).to.deep.equal([
+            expect(g.goto(position).clip(size).data()).to.deep.equal([
                 [ 1, 2],
                 [11,12],
                 [21,22],
@@ -2463,7 +2463,7 @@ describe('gridl', () => {
             const position = [8,2];
             const size = [2,4];
             const g = gridl(data);
-            expect(g.goto(position).clip(size).getData()).to.deep.equal([
+            expect(g.goto(position).clip(size).data()).to.deep.equal([
                 [29,30],
                 [39,40],
                 [49,50],
@@ -2482,7 +2482,7 @@ describe('gridl', () => {
             ];
             const position = [3,2];
             const size = [3,5];
-            expect(gridl(data).goto(position).clip(size).getData()).to.deep.equal([
+            expect(gridl(data).goto(position).clip(size).data()).to.deep.equal([
                 [14,15],
                 [19,20],
             ]);
@@ -2507,7 +2507,7 @@ describe('gridl', () => {
                 [1,2,3,4],
                 [5,6,7,8],
             ];
-            expect(gridl(data).swapCells([0,0], [2,1]).getData()).to.deep.equal([
+            expect(gridl(data).swapCells([0,0], [2,1]).data()).to.deep.equal([
                 [7,2,3,4],
                 [5,6,1,8],
             ]);
@@ -2545,7 +2545,7 @@ describe('gridl', () => {
                 [1,2,3,4],
                 [5,6,7,8],
             ];
-            expect(gridl(data).goto([0,0]).swapCell([2,1]).getData()).to.deep.equal([
+            expect(gridl(data).goto([0,0]).swapCell([2,1]).data()).to.deep.equal([
                 [7,2,3,4],
                 [5,6,1,8],
             ]);
@@ -2581,7 +2581,7 @@ describe('gridl', () => {
                 [ 9,10,11,12],
                 [13,14,15,16],
             ];
-            expect(gridl(data).swapRows(1,3).getData()).to.deep.equal([
+            expect(gridl(data).swapRows(1,3).data()).to.deep.equal([
                 [ 1, 2, 3, 4],
                 [13,14,15,16],
                 [ 9,10,11,12],
@@ -2626,7 +2626,7 @@ describe('gridl', () => {
                 [ 9,10,11,12],
                 [13,14,15,16],
             ];
-            expect(gridl(data).swapColumns(1,3).getData()).to.deep.equal([
+            expect(gridl(data).swapColumns(1,3).data()).to.deep.equal([
                 [ 1, 4, 3, 2],
                 [ 5, 8, 7, 6],
                 [ 9,12,11,10],
@@ -2674,7 +2674,7 @@ describe('gridl', () => {
                 [15,16,17,18,19],
                 [20,21,22,23,24],
             ];
-            expect(gridl(data).rotate(1).getData()).to.deep.equal([
+            expect(gridl(data).rotate(1).data()).to.deep.equal([
                 [20,15,10, 6, 1],
                 [21,16,11, 7, 2],
                 [22,17,12, 7, 3],
@@ -2693,7 +2693,7 @@ describe('gridl', () => {
                     [20,21,22],
                 ];
                 const g = gridl(data);
-                expect(g.rotate(steps).getData()).to.deep.equal([
+                expect(g.rotate(steps).data()).to.deep.equal([
                     [20,15,10, 6, 1],
                     [21,16,11, 7, 2],
                     [22,17,12, 7, 3],
@@ -2720,7 +2720,7 @@ describe('gridl', () => {
                     [20, 21, 22],
                 ];
                 const g = gridl(data);
-                expect(g.rotate(steps).getData()).to.deep.equal([
+                expect(g.rotate(steps).data()).to.deep.equal([
                     [22, 21, 20],
                     [17, 16, 15],
                     [12, 11, 10],
@@ -2748,7 +2748,7 @@ describe('gridl', () => {
                     [20, 21, 22],
                 ];
                 const g = gridl(data);
-                expect(g.rotate(steps).getData()).to.deep.equal([
+                expect(g.rotate(steps).data()).to.deep.equal([
                     [ 3, 8,12,17,22],
                     [ 2, 7,11,16,21],
                     [ 1, 6,10,15,20],
@@ -2775,7 +2775,7 @@ describe('gridl', () => {
                     [20, 21, 22],
                 ];
                 const g = gridl(data);
-                expect(g.rotate(steps).getData()).to.deep.equal([
+                expect(g.rotate(steps).data()).to.deep.equal([
                     [ 1,  2,  3],
                     [ 6,  7,  8],
                     [10, 11, 12],
@@ -2827,7 +2827,7 @@ describe('gridl', () => {
                 [10,11,12],
                 [13,14,15],
             ];
-            expect(gridl(data).mirrorX().getData()).to.deep.equal([
+            expect(gridl(data).mirrorX().data()).to.deep.equal([
                 [13,14,15],
                 [10,11,12],
                 [ 7, 8, 9],
@@ -2844,7 +2844,7 @@ describe('gridl', () => {
                 [ 4, 9,14],
                 [ 5,10,15],
             ];
-            expect(gridl(data).mirrorX(3).getData()).to.deep.equal([
+            expect(gridl(data).mirrorX(3).data()).to.deep.equal([
                 [ 5,10,15],
                 [ 4, 9,14],
                 [ 3, 8,13],
@@ -2861,7 +2861,7 @@ describe('gridl', () => {
                 [ 4, 9,14],
                 [ 5,10,15],
             ];
-            expect(gridl(data).mirrorX(0).getData()).to.deep.equal([
+            expect(gridl(data).mirrorX(0).data()).to.deep.equal([
                 [ 5,10,15],
                 [ 4, 9,14],
                 [ 3, 8,13],
@@ -2878,7 +2878,7 @@ describe('gridl', () => {
                 [ 4, 9,14],
                 [ 5,10,15],
             ];
-            expect(gridl(data).mirrorX(4).getData()).to.deep.equal([
+            expect(gridl(data).mirrorX(4).data()).to.deep.equal([
                 [ 5,10,15],
                 [ 4, 9,14],
                 [ 3, 8,13],
@@ -2895,7 +2895,7 @@ describe('gridl', () => {
                 [ 4, 9,14],
                 [ 5,10,15],
             ];
-            expect(gridl(data).mirrorX(-1).getData()).to.deep.equal([
+            expect(gridl(data).mirrorX(-1).data()).to.deep.equal([
                 [ 5,10,15],
                 [ 4, 9,14],
                 [ 3, 8,13],
@@ -2912,7 +2912,7 @@ describe('gridl', () => {
                 [ 4, 9,14],
                 [ 5,10,15],
             ];
-            expect(gridl(data).mirrorX(5).getData()).to.deep.equal([
+            expect(gridl(data).mirrorX(5).data()).to.deep.equal([
                 [ 5,10,15],
                 [ 4, 9,14],
                 [ 3, 8,13],
@@ -2939,7 +2939,7 @@ describe('gridl', () => {
                 [ 6, 7, 8, 9,10],
                 [11,12,13,14,15],
             ];
-            expect(gridl(data).mirrorY().getData()).to.deep.equal([
+            expect(gridl(data).mirrorY().data()).to.deep.equal([
                 [ 5, 4, 3, 2, 1],
                 [10, 9, 8, 7, 6],
                 [15,14,13,12,11],
@@ -2952,7 +2952,7 @@ describe('gridl', () => {
                 [ 6, 7, 8, 9,10],
                 [11,12,13,14,15],
             ];
-            expect(gridl(data).mirrorY(3).getData()).to.deep.equal([
+            expect(gridl(data).mirrorY(3).data()).to.deep.equal([
                 [ 5, 4, 3, 2, 1],
                 [10, 9, 8, 7, 6],
                 [15,14,13,12,11],
@@ -2965,7 +2965,7 @@ describe('gridl', () => {
                 [ 6, 7, 8, 9,10],
                 [11,12,13,14,15],
             ];
-            expect(gridl(data).mirrorY(0).getData()).to.deep.equal([
+            expect(gridl(data).mirrorY(0).data()).to.deep.equal([
                 [ 5, 4, 3, 2, 1],
                 [10, 9, 8, 7, 6],
                 [15,14,13,12,11],
@@ -2978,7 +2978,7 @@ describe('gridl', () => {
                 [ 6, 7, 8, 9,10],
                 [11,12,13,14,15],
             ];
-            expect(gridl(data).mirrorY(4).getData()).to.deep.equal([
+            expect(gridl(data).mirrorY(4).data()).to.deep.equal([
                 [ 5, 4, 3, 2, 1],
                 [10, 9, 8, 7, 6],
                 [15,14,13,12,11],
@@ -2991,7 +2991,7 @@ describe('gridl', () => {
                 [ 6, 7, 8, 9,10],
                 [11,12,13,14,15],
             ];
-            expect(gridl(data).mirrorY(-1).getData()).to.deep.equal([
+            expect(gridl(data).mirrorY(-1).data()).to.deep.equal([
                 [ 5, 4, 3, 2, 1],
                 [10, 9, 8, 7, 6],
                 [15,14,13,12,11],
@@ -3004,7 +3004,7 @@ describe('gridl', () => {
                 [ 6, 7, 8, 9,10],
                 [11,12,13,14,15],
             ];
-            expect(gridl(data).mirrorY(5).getData()).to.deep.equal([
+            expect(gridl(data).mirrorY(5).data()).to.deep.equal([
                 [ 5, 4, 3, 2, 1],
                 [10, 9, 8, 7, 6],
                 [15,14,13,12,11],
@@ -3220,7 +3220,7 @@ describe('gridl', () => {
                 expect(src).to.deep.equal(origin);
                 return 'x';
             });
-            expect(copy.getData()).to.deep.equal([
+            expect(copy.data()).to.deep.equal([
                 ['x','x','x','x'],
                 ['x','x','x','x'],
                 ['x','x','x','x'],
@@ -3273,7 +3273,7 @@ describe('gridl', () => {
                 expect(src).to.deep.equal(master);
                 return 'x';
             });
-            expect(result.getData()).to.deep.equal([
+            expect(result.data()).to.deep.equal([
                 [1,2,3,4],
                 [5,6,7,8],
                 [10,11,12,13],
@@ -3321,7 +3321,7 @@ describe('gridl', () => {
             const master = gridl(data);
             const clone = master.clone();
             expect(master === clone).to.equal(false);
-            expect(clone.getData()).to.deep.equal(master.getData());
+            expect(clone.data()).to.deep.equal(master.data());
             expect(clone.position()).to.deep.equal(master.position());
         });
 
@@ -3345,7 +3345,7 @@ describe('gridl', () => {
                 [4, 5, 6],
                 [7, 8, 9],
             ];
-            const newGrid = gridl(data).setValueAt([1, 2], 'Hi').getData();
+            const newGrid = gridl(data).setValueAt([1, 2], 'Hi').data();
             expect(newGrid).to.deep.equal([
                 [1, 2, 3],
                 [4, 5, 6],
@@ -3360,7 +3360,7 @@ describe('gridl', () => {
             const grid = gridl.generate(columns, rows, ({ column, row }) => `${column},${row}`);
 
             // perform gridl operations
-            expect(grid.setValueAt([2,1], 'bam').getData()).to.deep.equal([
+            expect(grid.setValueAt([2,1], 'bam').data()).to.deep.equal([
                 ['0,0', '1,0', '2,0', '3,0'],
                 ['0,1', '1,1', 'bam', '3,1'],
                 ['0,2', '1,2', '2,2', '3,2'],
@@ -3407,7 +3407,7 @@ describe('gridl', () => {
 
             function drawTheCow(cow) {
                 return cow
-                    .getData() // export grid data array
+                    .data() // export grid data array
                     .reduce((res, row) => res + row.join(''), '') // join grid to a single string
                 ;
             }

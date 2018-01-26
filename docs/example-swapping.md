@@ -6,8 +6,8 @@ const data = [
     [1,2,3,4],
     [5,6,7,8],
 ];
-const newGrid1 = gridl(data).swapCells([0,0], [2,1]).getData();
-const newGrid2 = gridl(data).goto([0,0]).swapCell([2,1]).getData();
+const newGrid1 = gridl(data).swapCells([0,0], [2,1]).data();
+const newGrid2 = gridl(data).goto([0,0]).swapCell([2,1]).data();
 
 // both grids look like this:
 // [
@@ -24,7 +24,7 @@ const data = [
     [ 9,10,11,12],
     [13,14,15,16], // and this
 ];
-const newGrid = gridl(data).swapRows(1,3).getData();
+const newGrid = gridl(data).swapRows(1,3).data();
 
 // newGrid looks like this:
 // [
@@ -43,7 +43,7 @@ const data = [
     [ 9,10,11,12],
     [13,14,15,16],
 ];
-const newGrid = gridl(data).swapColumns(1,3).getData();
+const newGrid = gridl(data).swapColumns(1,3).data();
 
 // newGrid looks like this:
 // [

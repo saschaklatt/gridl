@@ -13,8 +13,8 @@ const data = [
 const position = [4,1];
 const size = [3,2];
 const g = gridl(data);
-const newGrid1 = g.clip(position, size).getData();      // absolute syntax
-const newGrid2 = g.goto(position).clip(size).getData(); // relative syntax
+const newGrid1 = g.clip(position, size).data();      // absolute syntax
+const newGrid2 = g.goto(position).clip(size).data(); // relative syntax
 const columns = g.numColumns(); // is now 2
 const rows = g.numRows(); // is now 3
 

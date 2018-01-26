@@ -391,37 +391,37 @@ function gridl(data) {
     api.moveAbs = to => _moveCell(api, _data, _columns, _rows, _position, to);
     api.moveRel = direction => api.moveCell(_position, _addPositions(_position, direction));
     api.moveRow = (yFrom, yTo) => {
-        _data = _moveRow(api.getData(), _columns, _rows, yFrom, yTo);
+        _data = _moveRow(api.data(), _columns, _rows, yFrom, yTo);
         return api;
     };
     api.moveColumn = (xFrom, xTo) => {
-        _data = _moveColumn(api.getData(), _columns, _rows, xFrom, xTo);
+        _data = _moveColumn(api.data(), _columns, _rows, xFrom, xTo);
         return api;
     };
 
     // columns and rows
-    api.column = x => _getColumn(api.getData(), x);
-    api.row = y => _getRow(api.getData(), y);
+    api.column = x => _getColumn(api.data(), x);
+    api.row = y => _getRow(api.data(), y);
     api.addRow = (row, y) => {
-        const grid = _addRowAt(api.getData(), _columns, _rows, row, y);
+        const grid = _addRowAt(api.data(), _columns, _rows, row, y);
         _data = _flatten(grid);
         _rows = grid.length;
         return api;
     };
     api.addColumn = (column, x) => {
-        const grid = _addColumnAt(api.getData(), _columns, _rows, column, x);
+        const grid = _addColumnAt(api.data(), _columns, _rows, column, x);
         _data = _flatten(grid);
         _columns = grid[0].length;
         return api;
     };
     api.removeRow = y => {
-        const grid = _removeRowAt(api.getData(), _rows, y);
+        const grid = _removeRowAt(api.data(), _rows, y);
         _data = _flatten(grid);
         _rows = grid.length;
         return api;
     };
     api.removeColumn = x => {
-        const grid = _removeColumnAt(api.getData(), _columns, x);
+        const grid = _removeColumnAt(api.data(), _columns, x);
         _data = _flatten(grid);
         _columns = grid[0].length;
         return api;
@@ -429,7 +429,7 @@ function gridl(data) {
 
     // clipping
     api.clipAt = (position, size) => {
-        const grid = _clip(api.getData(), _columns, _rows, position, size);
+        const grid = _clip(api.data(), _columns, _rows, position, size);
         _data = _flatten(grid);
         _rows = grid.length;
         _columns = grid[0].length;
@@ -441,11 +441,11 @@ function gridl(data) {
     api.swapCells = (pos1, pos2) => _swapCells(api, pos1, pos2);
     api.swapCell = pos => _swapCells(api, _position, pos);
     api.swapRows = (y1, y2) => {
-        _data = _swapRows(api.getData(), _rows, y1, y2);
+        _data = _swapRows(api.data(), _rows, y1, y2);
         return api;
     };
     api.swapColumns = (x1, x2) => {
-        _data = _swapColumns(api.getData(), _columns, x1, x2);
+        _data = _swapColumns(api.data(), _columns, x1, x2);
         return api;
     };
 
@@ -462,11 +462,11 @@ function gridl(data) {
     api.findInArea = (pos, size, callback) => _findInArea(api, _columns, pos, size, callback);
 
     // exporting data
-    api.getData = () => _toArray2D(_data, _columns);
+    api.data = () => _toArray2D(_data, _columns);
 
     // rotating
     api.rotate = steps => {
-        const grid = _rotate(api.getData(), _columns, steps);
+        const grid = _rotate(api.data(), _columns, steps);
         _data = _flatten(grid);
         _rows = grid.length;
         _columns = grid[0].length;
@@ -475,11 +475,11 @@ function gridl(data) {
 
     // mirroring
     api.mirrorX = xPos => {
-        _data = _flatten(_mirror(api.getData(), xPos));
+        _data = _flatten(_mirror(api.data(), xPos));
         return api;
     };
     api.mirrorY = yPos => {
-        const grid = api.getData();
+        const grid = api.data();
         _data = _flatten(grid.map(row => _mirror(row, yPos)));
         return api;
     };

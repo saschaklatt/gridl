@@ -21,14 +21,10 @@
     * ~~removeRowAt(y)            -> removeRow(y)~~
     * ~~removeColumnAt(x)         -> removeColumn(x)~~
 * areas
-    * checkAreaFitsAt(pos, area, anchor) -> areaFitsAt(pos, area, anchor)
-    * checkAreaFits(area, anchor)        -> areaFits(area, anchor)
-    * setAreaAt(pos, area, anchor)       -> areaAt(pos, area, anchor)
-    * getAreaAt(pos, size, anchor)       -> areaAt(pos, size, anchor)
-    * setArea(area, anchor)              -> area(area, anchor)
-    * getArea(size, anchor)              -> area(size, anchor)
+    * ~~checkAreaFitsAt(pos, area, anchor) -> areaFitsAt(pos, area, anchor)~~
+    * ~~checkAreaFits(area, anchor)        -> areaFits(area, anchor)~~
 * exporting 
-    * getData() -> data()
+    * ~~data() -> data()~~
 * generating
     * generateData(columns, rows, cb)   -> makeGrid(columns, rows, cb)  `// generate two-dimensional grid array`
     * generateList(length, cb)          -> makeList(length, cb)         `// generate one-dimensional column or row array`
@@ -44,10 +40,14 @@
     * swapCell(pos)         -> ok
     * swapCells(pos1, pos2) -> ok
 * rows/columns
-    * moveRow()             -> ok
-    * moveColumn()          -> ok
-    * swapRows(y1, y2)      -> ok
-    * swapColumns(x1, x2)   -> ok
+    * moveRow()                     -> ok
+    * moveColumn()                  -> ok
+    * swapRows(y1, y2)              -> ok
+    * swapColumns(x1, x2)           -> ok
+    * setAreaAt(pos, area, anchor)  -> ok
+    * getAreaAt(pos, size, anchor)  -> ok
+    * setArea(area, anchor)         -> ok
+    * getArea(size, anchor)         -> ok
 * clipping
     * clipAt(pos, size) -> ok 
     * clip(size)        -> ok

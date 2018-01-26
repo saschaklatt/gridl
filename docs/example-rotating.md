@@ -9,7 +9,7 @@ const data = [
     [15,16,17],
     [20,21,22],
 ];
-const grid90 = gridl(data).rotate(1).getData(); // rotate 1 step clockwise, which means rotate 90 degrees
+const grid90 = gridl(data).rotate(1).data(); // rotate 1 step clockwise, which means rotate 90 degrees
 
 // grid90_cw looks like this:
 // [
@@ -18,7 +18,7 @@ const grid90 = gridl(data).rotate(1).getData(); // rotate 1 step clockwise, whic
 //     [22,17,12, 8, 3],
 // ]
 
-const grid180 = gridl(data).rotate(2).getData(); // rotate 2 steps clockwise, which means rotate 180 degrees
+const grid180 = gridl(data).rotate(2).data(); // rotate 2 steps clockwise, which means rotate 180 degrees
 
 // grid180 looks like this:
 // [
@@ -29,7 +29,7 @@ const grid180 = gridl(data).rotate(2).getData(); // rotate 2 steps clockwise, wh
 //     [ 1,  2,  3],
 // ]
 
-const grid270 = gridl(data).rotate(3).getData(); // rotate 3 steps clockwise, which means rotate 270 degrees
+const grid270 = gridl(data).rotate(3).data(); // rotate 3 steps clockwise, which means rotate 270 degrees
 
 // grid270 looks like this:
 // [
@@ -38,7 +38,7 @@ const grid270 = gridl(data).rotate(3).getData(); // rotate 3 steps clockwise, wh
 //     [ 1, 6,10,15,20],
 // ]
 
-const grid90_ccw = gridl(data).rotate(-1).getData(); // rotate 3 steps clockwise, which means rotate -90 degrees
+const grid90_ccw = gridl(data).rotate(-1).data(); // rotate 3 steps clockwise, which means rotate -90 degrees
 
 // grid90_ccw looks like this:
 // [
@@ -47,7 +47,7 @@ const grid90_ccw = gridl(data).rotate(-1).getData(); // rotate 3 steps clockwise
 //     [ 1, 6,10,15,20],
 // ]
 
-const grid180_ccw = gridl(data).rotate(-2).getData(); // rotate 2 steps counterclockwise, which means rotate -180 degrees
+const grid180_ccw = gridl(data).rotate(-2).data(); // rotate 2 steps counterclockwise, which means rotate -180 degrees
 
 // grid180_ccw looks like this:
 // [
@@ -58,7 +58,7 @@ const grid180_ccw = gridl(data).rotate(-2).getData(); // rotate 2 steps counterc
 //     [ 1,  2,  3],
 // ]
 
-const grid270_ccw = gridl(data).rotate(-3).getData(); // rotate 1 step clockwise, which means rotate 270 degrees
+const grid270_ccw = gridl(data).rotate(-3).data(); // rotate 1 step clockwise, which means rotate 270 degrees
 
 // grid270_cw looks like this:
 // [
