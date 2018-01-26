@@ -8,9 +8,9 @@ const data = [
     [7,8,9],
 ];
 const g = gridl(data);
-g.getColumn(0); // returns [1,4,7]
-g.getColumn(1); // returns [2,5,8]
-g.getColumn(2); // returns [3,6,9]
+g.column(0); // returns [1,4,7]
+g.column(1); // returns [2,5,8]
+g.column(2); // returns [3,6,9]
 ```
 
 Getting a row at a certain position:
@@ -21,9 +21,9 @@ const data = [
     [7,8,9],
 ];
 const g = gridl(data);
-g.getRow(0); // returns [1,2,3]
-g.getRow(1); // returns [4,5,6]
-g.getRow(2); // returns [7,8,9]
+g.row(0); // returns [1,2,3]
+g.row(1); // returns [4,5,6]
+g.row(2); // returns [7,8,9]
 ```
 
 Move a row from y=0 to y=2:
