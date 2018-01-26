@@ -400,8 +400,8 @@ function gridl(data) {
     };
 
     // columns and rows
-    api.getColumn = x => _getColumn(api.getData(), x);
-    api.getRow = y => _getRow(api.getData(), y);
+    api.column = x => _getColumn(api.getData(), x);
+    api.row = y => _getRow(api.getData(), y);
     api.addRowAt = (row, y) => {
         const grid = _addRowAt(api.getData(), _columns, _rows, row, y);
         _data = _flatten(grid);

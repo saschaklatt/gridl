@@ -11,8 +11,8 @@ const checkApi = api => {
         'valueAt',
         'setValueAt',
         'setValue',
-        'getRow',
-        'getColumn',
+        'row',
+        'column',
         'checkAreaFitsAt',
         'checkAreaFits',
         'moveCell',
@@ -493,7 +493,7 @@ describe('gridl', () => {
 
     });
 
-    describe('getRow', () => {
+    describe('row', () => {
 
         it('should get me the row at a certain y-position', () => {
             const data = [
@@ -501,9 +501,9 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).getRow(0)).to.deep.equal([1,2,3]);
-            expect(gridl(data).getRow(1)).to.deep.equal([4,5,6]);
-            expect(gridl(data).getRow(2)).to.deep.equal([7,8,9]);
+            expect(gridl(data).row(0)).to.deep.equal([1,2,3]);
+            expect(gridl(data).row(1)).to.deep.equal([4,5,6]);
+            expect(gridl(data).row(2)).to.deep.equal([7,8,9]);
         });
 
         it('should return undefined for positions that are outside of the grid', () => {
@@ -512,14 +512,14 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).getRow(-1)).to.deep.equal(undefined);
-            expect(gridl(data).getRow(3)).to.deep.equal(undefined);
-            expect(() => gridl(data).getRow(-1)).to.not.throw();
+            expect(gridl(data).row(-1)).to.deep.equal(undefined);
+            expect(gridl(data).row(3)).to.deep.equal(undefined);
+            expect(() => gridl(data).row(-1)).to.not.throw();
         });
 
     });
 
-    describe('getColumn', () => {
+    describe('column', () => {
 
         it('should get me the column at a certain x-position', () => {
             const data = [
@@ -527,9 +527,9 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).getColumn(0)).to.deep.equal([1,4,7]);
-            expect(gridl(data).getColumn(1)).to.deep.equal([2,5,8]);
-            expect(gridl(data).getColumn(2)).to.deep.equal([3,6,9]);
+            expect(gridl(data).column(0)).to.deep.equal([1,4,7]);
+            expect(gridl(data).column(1)).to.deep.equal([2,5,8]);
+            expect(gridl(data).column(2)).to.deep.equal([3,6,9]);
         });
 
         it('should return undefined for positions that are outside of the grid', () => {
@@ -538,9 +538,9 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).getColumn(-1)).to.deep.equal(undefined);
-            expect(gridl(data).getColumn(3)).to.deep.equal(undefined);
-            expect(() => gridl(data).getColumn(-1)).to.not.throw();
+            expect(gridl(data).column(-1)).to.deep.equal(undefined);
+            expect(gridl(data).column(3)).to.deep.equal(undefined);
+            expect(() => gridl(data).column(-1)).to.not.throw();
         });
 
     });
