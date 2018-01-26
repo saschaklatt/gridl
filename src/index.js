@@ -530,7 +530,7 @@ gridl.directions = Object.freeze({
     UP_LEFT:    [-1, -1],
 });
 
-gridl.generateData = (columns, rows, callback = () => null) => {
+gridl.makeGrid = (columns, rows, callback = () => null) => {
     const parsedColumns = parseInt(columns);
     const parsedRows = parseInt(rows);
     if (parsedColumns < 1 || isNaN(parsedColumns)) {
@@ -546,6 +546,14 @@ gridl.generateData = (columns, rows, callback = () => null) => {
     ));
 };
 
-gridl.generate = (columns, rows, callback) => gridl(gridl.generateData(columns, rows, callback));
+gridl.makeList = (length, callback = () => null) => {
+    const parsedLength = parseInt(length);
+    if (parsedLength < 1 || isNaN(parsedLength)) {
+        throw new Error(`Trying to make a list with an invalid length. Given: ${length}`);
+    }
+    return Array.from({ length: parsedLength }, (v, i) => callback(i));
+};
+
+gridl.make = (columns, rows, callback) => gridl(gridl.makeGrid(columns, rows, callback));
 
 export default gridl;

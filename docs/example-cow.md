@@ -31,14 +31,14 @@ const foreLegs = [
 ];
 
 const cow = gridl
-    .generate(13, 6, () => ' ') // generate 13x6 grid that is filled with whitespaces
+    .make(13, 6, () => ' ') // generate 13x6 grid that is filled with whitespaces
     .setAreaAt([9,0], head)
     .setAreaAt([3,2], back)
     .setAreaAt([5,4], belly)
     .setAreaAt([0,2], tail)
     .setAreaAt([3,3], hindLegs)
     .setAreaAt([9,3], foreLegs)
-    .addColumn(gridl.generateData(1, 6, () => '\n'), 13) // add line breaks at the very right
+    .addColumn(gridl.makeList(6, () => '\n'), 13) // add line breaks at the very right
 ;
 
 function drawTheCow(cow) {

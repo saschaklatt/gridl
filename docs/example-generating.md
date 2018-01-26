@@ -1,10 +1,10 @@
 ## Generating data
 
-Generating a data array
+Generating a grid data array (two-dimensional)
 ```javascript
 const columns = 4;
 const rows = 3;
-const data = gridl.generateData(columns, rows, ({ column, row }) => `${column},${row}`);
+const data = gridl.makeGrid(columns, rows, ({ column, row }) => `${column},${row}`);
 
 // data looks like this:
 // [
@@ -14,13 +14,19 @@ const data = gridl.generateData(columns, rows, ({ column, row }) => `${column},$
 // ]
 ```
 
+Generating a list data array (one-dimensional)
+```javascript
+const length = 4;
+gridl.makeList(length, (index) => `${index}`); // ['0', '1', '2', '3']
+```
+
 Generating a gridl instance and perform operations on it
 ```javascript
 
 // create a gridl instance
 const columns = 4;
 const rows = 3;
-const grid = gridl.generate(columns, rows, ({ column, row }) => `${column},${row}`);
+const grid = gridl.make(columns, rows, ({ column, row }) => `${column},${row}`);
 
 // perform gridl operations
 const data = grid.valueAt([2,1], 'bam').data();
