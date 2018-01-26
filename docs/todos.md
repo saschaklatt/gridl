@@ -6,6 +6,10 @@
 
 ## Known issues
 
+* IMPROVE THE PUBLISHING PROCESS !!!
+    * make sure distribution files are generated before publishing
+    * consider testing against dist/ files
+    * continuous integration
 * To think about: what should happen if goto() gets a position outside of the grid like [-2,1]? Error or accepting?
 * Inconsistent getter/setter styles
     * style 1: columns(), rows(), position()
