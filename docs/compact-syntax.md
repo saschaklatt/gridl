@@ -10,9 +10,9 @@
     * setValue(value)           -> value(value) + setValue(value)
     * getValueAt(pos)           -> at(pos)
     * setValueAt(pos)           -> at(pos, value) + setAt(pos, value)
-    * getRelativePosition()     -> scrap it!
-    * getRelativeValue()        -> scrap it!
-    * moveCellFrom(pos, dir)    -> scrap it!
+    * ~~getRelativePosition() -> scrap it!~~
+    * ~~getRelativeValue() -> scrap it!~~
+    * ~~moveCellFrom(pos, dir) -> scrap it!~~
 * rows/columns
     * getRow(y)                 -> row(y)
     * getColumn(x)              -> column(x)
