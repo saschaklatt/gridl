@@ -26,9 +26,9 @@
 * exporting 
     * ~~data() -> data()~~
 * generating
-    * generateData(columns, rows, cb)   -> makeGrid(columns, rows, cb)  `// generate two-dimensional grid array`
-    * generateList(length, cb)          -> makeList(length, cb)         `// generate one-dimensional column or row array`
-    * generate(columns, rows, cb)       -> make(columns, rows, cb)      `// create a new gridl instance`
+    * ~~generateData(columns, rows, cb)   -> makeGrid(columns, rows, cb)~~  `// generate two-dimensional grid array`
+    * ~~generateList(length, cb)          -> makeList(length, cb)~~         `// generate one-dimensional column or row array`
+    * ~~generate(columns, rows, cb)       -> make(columns, rows, cb)~~      `// create a new gridl instance`
 
 ### ok
 
