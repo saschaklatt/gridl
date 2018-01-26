@@ -376,8 +376,8 @@ function gridl(data) {
     const api = {};
 
     // getter for dimensions
-    api.columns = () => _columns;
-    api.rows = () => _rows;
+    api.numColumns = () => _columns;
+    api.numRows = () => _rows;
     api.size = () => [_columns, _rows];
 
     // single value operations

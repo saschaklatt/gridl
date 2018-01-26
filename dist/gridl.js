@@ -486,10 +486,10 @@ function gridl(data) {
     var api = {};
 
     // getter for dimensions
-    api.columns = function () {
+    api.numColumns = function () {
         return _columns;
     };
-    api.rows = function () {
+    api.numRows = function () {
         return _rows;
     };
     api.size = function () {

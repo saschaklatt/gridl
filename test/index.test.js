@@ -4,8 +4,8 @@ import gridl from '../src';
 
 const checkApi = api => {
     expect(Object.keys(api)).to.have.members([
-        'columns',
-        'rows',
+        'numColumns',
+        'numRows',
         'size',
         'getValue',
         'getValueAt',
@@ -200,8 +200,8 @@ describe('gridl', () => {
                 [1,2,3,4,5,6]
             ];
             const g = gridl(data);
-            expect(g.rows()).to.equal(1);
-            expect(g.columns()).to.equal(6);
+            expect(g.numRows()).to.equal(1);
+            expect(g.numColumns()).to.equal(6);
             expect(g.size()).to.deep.equal([6, 1]);
         });
 
@@ -212,7 +212,7 @@ describe('gridl', () => {
                 [5,6],
             ];
             const g = gridl(data);
-            expect(g.columns()).to.equal(2);
+            expect(g.numColumns()).to.equal(2);
         });
 
         it('should get the rows', () => {
@@ -221,7 +221,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const g = gridl(data);
-            expect(g.rows()).to.equal(2);
+            expect(g.numRows()).to.equal(2);
         });
 
         it('should get the size', () => {
@@ -822,8 +822,8 @@ describe('gridl', () => {
                 [15,16,17,18,19],
                 [20,21,22,23,24],
             ]);
-            expect(g.columns()).to.equal(5);
-            expect(g.rows()).to.equal(5);
+            expect(g.numColumns()).to.equal(5);
+            expect(g.numRows()).to.equal(5);
         });
 
     });
@@ -944,8 +944,8 @@ describe('gridl', () => {
                 [15,16,17,18,19],
                 [20,21,22,23,24],
             ]);
-            expect(g.columns()).to.equal(5);
-            expect(g.rows()).to.equal(5);
+            expect(g.numColumns()).to.equal(5);
+            expect(g.numRows()).to.equal(5);
         });
 
     });
@@ -1893,7 +1893,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(gridl(data).addRowAt(row, 1).rows()).to.equal(3);
+            expect(gridl(data).addRowAt(row, 1).numRows()).to.equal(3);
         });
 
         it('should return the api', () => {
@@ -1996,7 +1996,7 @@ describe('gridl', () => {
                 7,
                 8,
             ];
-            expect(gridl(data).addColumnAt(column, 1).columns()).to.equal(4);
+            expect(gridl(data).addColumnAt(column, 1).numColumns()).to.equal(4);
         });
 
         it('should return the api', () => {
@@ -2084,7 +2084,7 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).removeRowAt(1).rows()).to.equal(2);
+            expect(gridl(data).removeRowAt(1).numRows()).to.equal(2);
         });
 
         it('should return the api', () => {
@@ -2153,7 +2153,7 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(gridl(data).removeColumnAt(0).columns()).to.equal(2);
+            expect(gridl(data).removeColumnAt(0).numColumns()).to.equal(2);
         });
 
         it('should return the api', () => {
@@ -2205,8 +2205,8 @@ describe('gridl', () => {
                [15,16,17],
                [25,26,27],
            ]);
-           expect(g.columns()).to.equal(3);
-           expect(g.rows()).to.equal(2);
+           expect(g.numColumns()).to.equal(3);
+           expect(g.numRows()).to.equal(2);
         });
 
         it('should clip an area out of the top left corner', () => {
@@ -2227,8 +2227,8 @@ describe('gridl', () => {
                 [21,22],
                 [31,32],
             ]);
-            expect(g.columns()).to.equal(2);
-            expect(g.rows()).to.equal(4);
+            expect(g.numColumns()).to.equal(2);
+            expect(g.numRows()).to.equal(4);
         });
 
         it('should clip an area out of the bottom right corner', () => {
@@ -2249,8 +2249,8 @@ describe('gridl', () => {
                 [49,50],
                 [59,60],
             ]);
-            expect(g.columns()).to.equal(2);
-            expect(g.rows()).to.equal(4);
+            expect(g.numColumns()).to.equal(2);
+            expect(g.numRows()).to.equal(4);
         });
 
         it('should ignore values that are out of scope', () => {
@@ -2311,8 +2311,8 @@ describe('gridl', () => {
                 [15,16,17],
                 [25,26,27],
             ]);
-            expect(g.columns()).to.equal(3);
-            expect(g.rows()).to.equal(2);
+            expect(g.numColumns()).to.equal(3);
+            expect(g.numRows()).to.equal(2);
         });
 
         it('should clip an area out of the top left corner', () => {
@@ -2333,8 +2333,8 @@ describe('gridl', () => {
                 [21,22],
                 [31,32],
             ]);
-            expect(g.columns()).to.equal(2);
-            expect(g.rows()).to.equal(4);
+            expect(g.numColumns()).to.equal(2);
+            expect(g.numRows()).to.equal(4);
         });
 
         it('should clip an area out of the bottom right corner', () => {
@@ -2355,8 +2355,8 @@ describe('gridl', () => {
                 [49,50],
                 [59,60],
             ]);
-            expect(g.columns()).to.equal(2);
-            expect(g.rows()).to.equal(4);
+            expect(g.numColumns()).to.equal(2);
+            expect(g.numRows()).to.equal(4);
         });
 
         it('should ignore values that are out of scope', () => {
@@ -2584,8 +2584,8 @@ describe('gridl', () => {
                     [21,16,11, 7, 2],
                     [22,17,12, 7, 3],
                 ]);
-                expect(g.columns()).to.equal(5);
-                expect(g.rows()).to.equal(3);
+                expect(g.numColumns()).to.equal(5);
+                expect(g.numRows()).to.equal(3);
             }
             checkWithSteps(1);
             checkWithSteps(-3);
@@ -2613,8 +2613,8 @@ describe('gridl', () => {
                     [ 8,  7,  6],
                     [ 3,  2,  1],
                 ]);
-                expect(g.columns()).to.equal(3);
-                expect(g.rows()).to.equal(5);
+                expect(g.numColumns()).to.equal(3);
+                expect(g.numRows()).to.equal(5);
             }
             checkWithSteps(2);
             checkWithSteps(-2);
@@ -2639,8 +2639,8 @@ describe('gridl', () => {
                     [ 2, 7,11,16,21],
                     [ 1, 6,10,15,20],
                 ]);
-                expect(g.columns()).to.equal(5);
-                expect(g.rows()).to.equal(3);
+                expect(g.numColumns()).to.equal(5);
+                expect(g.numRows()).to.equal(3);
             }
             checkWithSteps(3);
             checkWithSteps(-1);
@@ -2668,8 +2668,8 @@ describe('gridl', () => {
                     [15, 16, 17],
                     [20, 21, 22],
                 ]);
-                expect(g.columns()).to.equal(3);
-                expect(g.rows()).to.equal(5);
+                expect(g.numColumns()).to.equal(3);
+                expect(g.numRows()).to.equal(5);
             }
             checkWithSteps(0);
             checkWithSteps(-4);
