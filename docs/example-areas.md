@@ -59,15 +59,15 @@ const area = [
 ];
 
 // absolute
-gridl(data).checkAreaFitsAt([0,0], area); // true
-gridl(data).checkAreaFitsAt([3,2], area); // true
-gridl(data).checkAreaFitsAt([4,0], area); // false
-gridl(data).checkAreaFitsAt([1,3], area); // false
+gridl(data).areaFitsAt([0,0], area); // true
+gridl(data).areaFitsAt([3,2], area); // true
+gridl(data).areaFitsAt([4,0], area); // false
+gridl(data).areaFitsAt([1,3], area); // false
 
 // with goto()
-gridl(data).goto([0,0]).checkAreaFitsAt(area); // true
-gridl(data).goto([3,2]).checkAreaFitsAt(area); // true
-gridl(data).goto([4,0]).checkAreaFitsAt(area); // false
-gridl(data).goto([1,3]).checkAreaFitsAt(area); // false
+gridl(data).goto([0,0]).areaFits(area); // true
+gridl(data).goto([3,2]).areaFits(area); // true
+gridl(data).goto([4,0]).areaFits(area); // false
+gridl(data).goto([1,3]).areaFits(area); // false
 ```
 
