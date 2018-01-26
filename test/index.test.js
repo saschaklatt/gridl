@@ -13,8 +13,8 @@ const checkApi = api => {
         'setValue',
         'row',
         'column',
-        'checkAreaFitsAt',
-        'checkAreaFits',
+        'areaFitsAt',
+        'areaFits',
         'moveCell',
         'moveAbs',
         'moveRel',
@@ -1116,7 +1116,7 @@ describe('gridl', () => {
 
     });
 
-    describe('checkAreaFitsAt', () => {
+    describe('areaFitsAt', () => {
 
         it('should fit with a given position', () => {
             const data = [
@@ -1130,7 +1130,7 @@ describe('gridl', () => {
                 [2,2,2],
             ];
             const areaPos = [3,2];
-            const result = gridl(data).checkAreaFitsAt(areaPos, area);
+            const result = gridl(data).areaFitsAt(areaPos, area);
             expect(result).to.equal(true);
         });
 
@@ -1146,7 +1146,7 @@ describe('gridl', () => {
                 [2,2,2],
             ];
             const areaPos = [4,0];
-            const result = gridl(data).checkAreaFitsAt(areaPos, area);
+            const result = gridl(data).areaFitsAt(areaPos, area);
             expect(result).to.equal(false);
         });
 
@@ -1162,7 +1162,7 @@ describe('gridl', () => {
                 [2,2,2],
             ];
             const areaPos = [1,3];
-            const result = gridl(data).checkAreaFitsAt(areaPos, area);
+            const result = gridl(data).areaFitsAt(areaPos, area);
             expect(result).to.equal(false);
         });
 
@@ -1178,7 +1178,7 @@ describe('gridl', () => {
                 [2,2,2],
             ];
             const areaPos = [4,3];
-            const result = gridl(data).checkAreaFitsAt(areaPos, area);
+            const result = gridl(data).areaFitsAt(areaPos, area);
             expect(result).to.equal(false);
         });
 
@@ -1195,7 +1195,7 @@ describe('gridl', () => {
             ];
             const areaPos = [3,2];
             const anchor = [1, 0];
-            const result = gridl(data).checkAreaFitsAt(areaPos, area, anchor);
+            const result = gridl(data).areaFitsAt(areaPos, area, anchor);
             expect(result).to.equal(true);
         });
 
@@ -1210,8 +1210,8 @@ describe('gridl', () => {
                 [2,2,2],
                 [2,2,2],
             ];
-            expect(gridl(data).checkAreaFitsAt([3,0], area, [0,0])).to.equal(true);
-            expect(gridl(data).checkAreaFitsAt([3,0], area, [0,1])).to.equal(false);
+            expect(gridl(data).areaFitsAt([3,0], area, [0,0])).to.equal(true);
+            expect(gridl(data).areaFitsAt([3,0], area, [0,1])).to.equal(false);
         });
 
         it('should not fit with an anchor at the left', () => {
@@ -1225,8 +1225,8 @@ describe('gridl', () => {
                 [2,2,2],
                 [2,2,2],
             ];
-            expect(gridl(data).checkAreaFitsAt([0,2], area, [0,0])).to.equal(true);
-            expect(gridl(data).checkAreaFitsAt([0,2], area, [1,0])).to.equal(false);
+            expect(gridl(data).areaFitsAt([0,2], area, [0,0])).to.equal(true);
+            expect(gridl(data).areaFitsAt([0,2], area, [1,0])).to.equal(false);
         });
 
         it('should not fit with an anchor at the right', () => {
@@ -1240,8 +1240,8 @@ describe('gridl', () => {
                 [2,2,2],
                 [2,2,2],
             ];
-            expect(gridl(data).checkAreaFitsAt([4,0], area, [1,0])).to.equal(true);
-            expect(gridl(data).checkAreaFitsAt([4,0], area, [0,0])).to.equal(false);
+            expect(gridl(data).areaFitsAt([4,0], area, [1,0])).to.equal(true);
+            expect(gridl(data).areaFitsAt([4,0], area, [0,0])).to.equal(false);
         });
 
         it('should not fit with an anchor at the bottom', () => {
@@ -1255,13 +1255,13 @@ describe('gridl', () => {
                 [2,2,2],
                 [2,2,2],
             ];
-            expect(gridl(data).checkAreaFitsAt([2,3], area, [1,1])).to.equal(true);
-            expect(gridl(data).checkAreaFitsAt([2,3], area, [1,0])).to.equal(false);
+            expect(gridl(data).areaFitsAt([2,3], area, [1,1])).to.equal(true);
+            expect(gridl(data).areaFitsAt([2,3], area, [1,0])).to.equal(false);
         });
 
     });
 
-    describe('checkAreaFits', () => {
+    describe('areaFits', () => {
 
         it('should fit with a given position', () => {
             const data = [
@@ -1275,7 +1275,7 @@ describe('gridl', () => {
                 [2,2,2],
             ];
             const areaPos = [3,2];
-            const result = gridl(data).goto(areaPos).checkAreaFits(area);
+            const result = gridl(data).goto(areaPos).areaFits(area);
             expect(result).to.equal(true);
         });
 
@@ -1291,7 +1291,7 @@ describe('gridl', () => {
                 [2,2,2],
             ];
             const areaPos = [4,0];
-            const result = gridl(data).goto(areaPos).checkAreaFits(area);
+            const result = gridl(data).goto(areaPos).areaFits(area);
             expect(result).to.equal(false);
         });
 
@@ -1307,7 +1307,7 @@ describe('gridl', () => {
                 [2,2,2],
             ];
             const areaPos = [1,3];
-            const result = gridl(data).goto(areaPos).checkAreaFits(area);
+            const result = gridl(data).goto(areaPos).areaFits(area);
             expect(result).to.equal(false);
         });
 
@@ -1323,7 +1323,7 @@ describe('gridl', () => {
                 [2,2,2],
             ];
             const areaPos = [4,3];
-            const result = gridl(data).goto(areaPos).checkAreaFits(area);
+            const result = gridl(data).goto(areaPos).areaFits(area);
             expect(result).to.equal(false);
         });
 
@@ -1340,7 +1340,7 @@ describe('gridl', () => {
             ];
             const areaPos = [3,2];
             const anchor = [1, 0];
-            const result = gridl(data).goto(areaPos).checkAreaFits(area, anchor);
+            const result = gridl(data).goto(areaPos).areaFits(area, anchor);
             expect(result).to.equal(true);
         });
 
@@ -1355,8 +1355,8 @@ describe('gridl', () => {
                 [2,2,2],
                 [2,2,2],
             ];
-            expect(gridl(data).goto([3,0]).checkAreaFits(area, [0,0])).to.equal(true);
-            expect(gridl(data).goto([3,0]).checkAreaFits(area, [0,1])).to.equal(false);
+            expect(gridl(data).goto([3,0]).areaFits(area, [0,0])).to.equal(true);
+            expect(gridl(data).goto([3,0]).areaFits(area, [0,1])).to.equal(false);
         });
 
         it('should not fit with an anchor at the left', () => {
@@ -1370,8 +1370,8 @@ describe('gridl', () => {
                 [2,2,2],
                 [2,2,2],
             ];
-            expect(gridl(data).goto([0,2]).checkAreaFits(area, [0,0])).to.equal(true);
-            expect(gridl(data).goto([0,2]).checkAreaFits(area, [1,0])).to.equal(false);
+            expect(gridl(data).goto([0,2]).areaFits(area, [0,0])).to.equal(true);
+            expect(gridl(data).goto([0,2]).areaFits(area, [1,0])).to.equal(false);
         });
 
         it('should not fit with an anchor at the right', () => {
@@ -1385,8 +1385,8 @@ describe('gridl', () => {
                 [2,2,2],
                 [2,2,2],
             ];
-            expect(gridl(data).goto([4,0]).checkAreaFits(area, [1,0])).to.equal(true);
-            expect(gridl(data).goto([4,0]).checkAreaFits(area, [0,0])).to.equal(false);
+            expect(gridl(data).goto([4,0]).areaFits(area, [1,0])).to.equal(true);
+            expect(gridl(data).goto([4,0]).areaFits(area, [0,0])).to.equal(false);
         });
 
         it('should not fit with an anchor at the bottom', () => {
@@ -1400,8 +1400,8 @@ describe('gridl', () => {
                 [2,2,2],
                 [2,2,2],
             ];
-            expect(gridl(data).goto([2,3]).checkAreaFits(area, [1,1])).to.equal(true);
-            expect(gridl(data).goto([2,3]).checkAreaFits(area, [1,0])).to.equal(false);
+            expect(gridl(data).goto([2,3]).areaFits(area, [1,1])).to.equal(true);
+            expect(gridl(data).goto([2,3]).areaFits(area, [1,0])).to.equal(false);
         });
 
     });
