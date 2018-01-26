@@ -7,8 +7,8 @@ const checkApi = api => {
         'numColumns',
         'numRows',
         'size',
-        'getValue',
-        'getValueAt',
+        'value',
+        'valueAt',
         'setValueAt',
         'setValue',
         'getRow',
@@ -235,7 +235,7 @@ describe('gridl', () => {
 
     });
 
-    describe('getValueAt', () => {
+    describe('valueAt as getter', () => {
 
         it('should return the value at a certain position', () => {
             const data = [
@@ -243,10 +243,10 @@ describe('gridl', () => {
                 [5,6,7,8],
             ];
             const g = gridl(data);
-            expect(g.getValueAt([0,0])).to.equal(1);
-            expect(g.getValueAt([1,0])).to.equal(2);
-            expect(g.getValueAt([0,1])).to.equal(5);
-            expect(g.getValueAt([2,1])).to.equal(7);
+            expect(g.valueAt([0,0])).to.equal(1);
+            expect(g.valueAt([1,0])).to.equal(2);
+            expect(g.valueAt([0,1])).to.equal(5);
+            expect(g.valueAt([2,1])).to.equal(7);
         });
 
         it('should return undefined position is invalid', () => {
@@ -255,16 +255,56 @@ describe('gridl', () => {
                 [5,6,7,8],
             ];
             const g = gridl(data);
-            expect(g.getValueAt('wrong')).to.equal(undefined);
-            expect(g.getValueAt({})).to.equal(undefined);
-            expect(g.getValueAt([])).to.equal(undefined);
-            expect(g.getValueAt([-1, 100])).to.equal(undefined);
-            expect(g.getValueAt()).to.equal(undefined);
+            expect(g.valueAt('wrong')).to.equal(undefined);
+            expect(g.valueAt({})).to.equal(undefined);
+            expect(g.valueAt([])).to.equal(undefined);
+            expect(g.valueAt([-1, 100])).to.equal(undefined);
+            expect(g.valueAt()).to.equal(undefined);
         });
 
     });
 
-    describe('getValue', () => {
+    describe('valueAt as setter', () => {
+
+        it('should set a number value at a certain position', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            const g = gridl(data);
+            expect(g.valueAt([0,2])).to.equal(5);
+            checkApi(g.valueAt([0,2], 666));
+            expect(g.valueAt([0,2])).to.equal(666);
+        });
+
+        it('should set a string value at a certain position', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            const g = gridl(data);
+            expect(g.valueAt([0,2])).to.equal(5);
+            checkApi(g.valueAt('ludicrous', 666));
+            expect(g.valueAt([0,2])).to.equal(5);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            checkApi(gridl(data).valueAt([0,2], 666));
+        });
+
+    });
+
+    describe('value as getter', () => {
 
         it('should return the value at a certain position', () => {
             const data = [
@@ -272,10 +312,69 @@ describe('gridl', () => {
                 [5,6,7,8],
             ];
             const g = gridl(data);
-            expect(g.goto([0,0]).getValue()).to.equal(1);
-            expect(g.goto([1,0]).getValue()).to.equal(2);
-            expect(g.goto([0,1]).getValue()).to.equal(5);
-            expect(g.goto([2,1]).getValue()).to.equal(7);
+            expect(g.goto([0,0]).value()).to.equal(1);
+            expect(g.goto([1,0]).value()).to.equal(2);
+            expect(g.goto([0,1]).value()).to.equal(5);
+            expect(g.goto([2,1]).value()).to.equal(7);
+        });
+
+    });
+
+    describe('value as setter', () => {
+
+        it('should set a number value at the default position (0,0)', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).value(666).getData()).to.deep.equal([
+                [666,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ]);
+        });
+
+        it('should set a number value at a certain position', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).goto([0,2]).value(666).getData()).to.deep.equal([
+                [1,2],
+                [3,4],
+                [666,6],
+                [7,8],
+            ]);
+        });
+
+        it('should set a string value at a certain position', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).goto([0,2]).value('awesome').getData()).to.deep.equal([
+                [1,2],
+                [3,4],
+                ['awesome',6],
+                [7,8],
+            ]);
+        });
+
+        it('should return the api', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            checkApi(gridl(data).value(666));
         });
 
     });
@@ -290,9 +389,9 @@ describe('gridl', () => {
                 [7,8],
             ];
             const g = gridl(data);
-            expect(g.getValueAt([0,2])).to.equal(5);
+            expect(g.valueAt([0,2])).to.equal(5);
             checkApi(g.setValueAt([0,2], 666));
-            expect(g.getValueAt([0,2])).to.equal(666);
+            expect(g.valueAt([0,2])).to.equal(666);
         });
 
         it('should set a string value at a certain position', () => {
@@ -303,9 +402,9 @@ describe('gridl', () => {
                 [7,8],
             ];
             const g = gridl(data);
-            expect(g.getValueAt([0,2])).to.equal(5);
+            expect(g.valueAt([0,2])).to.equal(5);
             checkApi(g.setValueAt('ludicrous', 666));
-            expect(g.getValueAt([0,2])).to.equal(5);
+            expect(g.valueAt([0,2])).to.equal(5);
         });
 
         it('should return the api', () => {
@@ -363,6 +462,21 @@ describe('gridl', () => {
                 [1,2],
                 [3,4],
                 ['awesome',6],
+                [7,8],
+            ]);
+        });
+
+        it('should set undefined value at a certain position', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).goto([0,2]).setValue(undefined).getData()).to.deep.equal([
+                [1,2],
+                [3,4],
+                [undefined,6],
                 [7,8],
             ]);
         });
@@ -3221,7 +3335,7 @@ describe('gridl', () => {
                 [4, 5, 6],
                 [7, 8, 9],
             ];
-            const valueAtPosition = gridl(data).getValueAt([1, 2]);
+            const valueAtPosition = gridl(data).valueAt([1, 2]);
             expect(valueAtPosition).to.equal(8);
         });
 
