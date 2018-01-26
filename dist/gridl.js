@@ -485,7 +485,7 @@ function gridl(data) {
 
     var api = {};
 
-    // getter for dimensions
+    // dimensions
     api.numColumns = function () {
         return _columns;
     };
@@ -521,41 +521,41 @@ function gridl(data) {
         return api.moveCell(_position, _addPositions(_position, direction));
     };
     api.moveRow = function (yFrom, yTo) {
-        _data = _moveRow(api.getData(), _columns, _rows, yFrom, yTo);
+        _data = _moveRow(api.data(), _columns, _rows, yFrom, yTo);
         return api;
     };
     api.moveColumn = function (xFrom, xTo) {
-        _data = _moveColumn(api.getData(), _columns, _rows, xFrom, xTo);
+        _data = _moveColumn(api.data(), _columns, _rows, xFrom, xTo);
         return api;
     };
 
     // columns and rows
-    api.getColumn = function (x) {
-        return _getColumn(api.getData(), x);
+    api.column = function (x) {
+        return _getColumn(api.data(), x);
     };
-    api.getRow = function (y) {
-        return _getRow(api.getData(), y);
+    api.row = function (y) {
+        return _getRow(api.data(), y);
     };
-    api.addRowAt = function (row, y) {
-        var grid = _addRowAt(api.getData(), _columns, _rows, row, y);
+    api.addRow = function (row, y) {
+        var grid = _addRowAt(api.data(), _columns, _rows, row, y);
         _data = _flatten(grid);
         _rows = grid.length;
         return api;
     };
-    api.addColumnAt = function (column, x) {
-        var grid = _addColumnAt(api.getData(), _columns, _rows, column, x);
+    api.addColumn = function (column, x) {
+        var grid = _addColumnAt(api.data(), _columns, _rows, column, x);
         _data = _flatten(grid);
         _columns = grid[0].length;
         return api;
     };
-    api.removeRowAt = function (y) {
-        var grid = _removeRowAt(api.getData(), _rows, y);
+    api.removeRow = function (y) {
+        var grid = _removeRowAt(api.data(), _rows, y);
         _data = _flatten(grid);
         _rows = grid.length;
         return api;
     };
-    api.removeColumnAt = function (x) {
-        var grid = _removeColumnAt(api.getData(), _columns, x);
+    api.removeColumn = function (x) {
+        var grid = _removeColumnAt(api.data(), _columns, x);
         _data = _flatten(grid);
         _columns = grid[0].length;
         return api;
@@ -563,7 +563,7 @@ function gridl(data) {
 
     // clipping
     api.clipAt = function (position, size) {
-        var grid = _clip(api.getData(), _columns, _rows, position, size);
+        var grid = _clip(api.data(), _columns, _rows, position, size);
         _data = _flatten(grid);
         _rows = grid.length;
         _columns = grid[0].length;
@@ -581,11 +581,11 @@ function gridl(data) {
         return _swapCells(api, _position, pos);
     };
     api.swapRows = function (y1, y2) {
-        _data = _swapRows(api.getData(), _rows, y1, y2);
+        _data = _swapRows(api.data(), _rows, y1, y2);
         return api;
     };
     api.swapColumns = function (x1, x2) {
-        _data = _swapColumns(api.getData(), _columns, x1, x2);
+        _data = _swapColumns(api.data(), _columns, x1, x2);
         return api;
     };
 
@@ -602,10 +602,10 @@ function gridl(data) {
     api.getArea = function (size, anchor) {
         return _getAreaAt(api, _columns, _rows, _position, size, anchor);
     };
-    api.checkAreaFitsAt = function (pos, area, anchor) {
+    api.areaFitsAt = function (pos, area, anchor) {
         return _checkAreaFitsAt(_columns, _rows, pos, area, anchor);
     };
-    api.checkAreaFits = function (area, anchor) {
+    api.areaFits = function (area, anchor) {
         return _checkAreaFitsAt(_columns, _rows, _position, area, anchor);
     };
 
@@ -618,13 +618,13 @@ function gridl(data) {
     };
 
     // exporting data
-    api.getData = function () {
+    api.data = function () {
         return _toArray2D(_data, _columns);
     };
 
     // rotating
     api.rotate = function (steps) {
-        var grid = _rotate(api.getData(), _columns, steps);
+        var grid = _rotate(api.data(), _columns, steps);
         _data = _flatten(grid);
         _rows = grid.length;
         _columns = grid[0].length;
@@ -633,11 +633,11 @@ function gridl(data) {
 
     // mirroring
     api.mirrorX = function (xPos) {
-        _data = _flatten(_mirror(api.getData(), xPos));
+        _data = _flatten(_mirror(api.data(), xPos));
         return api;
     };
     api.mirrorY = function (yPos) {
-        var grid = api.getData();
+        var grid = api.data();
         _data = _flatten(grid.map(function (row) {
             return _mirror(row, yPos);
         }));
@@ -694,7 +694,7 @@ gridl.directions = Object.freeze({
     UP_LEFT: [-1, -1]
 });
 
-gridl.generateData = function (columns, rows) {
+gridl.makeGrid = function (columns, rows) {
     var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {
         return null;
     };
@@ -714,8 +714,22 @@ gridl.generateData = function (columns, rows) {
     });
 };
 
-gridl.generate = function (columns, rows, callback) {
-    return gridl(gridl.generateData(columns, rows, callback));
+gridl.makeList = function (length) {
+    var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {
+        return null;
+    };
+
+    var parsedLength = parseInt(length);
+    if (parsedLength < 1 || isNaN(parsedLength)) {
+        throw new Error('Trying to make a list with an invalid length. Given: ' + length);
+    }
+    return Array.from({ length: parsedLength }, function (v, i) {
+        return callback(i);
+    });
+};
+
+gridl.make = function (columns, rows, callback) {
+    return gridl(gridl.makeGrid(columns, rows, callback));
 };
 
 exports.default = gridl;
