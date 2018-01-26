@@ -476,10 +476,6 @@ function _mirror(arr, index) {
     return [].concat(_toConsumableArray(right.reverse()), [arr[limitedIdx]], _toConsumableArray(left.reverse()));
 }
 
-function _clone(data, position) {
-    return gridl(data).goto(position);
-}
-
 /**
  * The gridl base function.
  *

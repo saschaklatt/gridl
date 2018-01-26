@@ -366,10 +366,6 @@ function _mirror(arr, index) {
     ];
 }
 
-function _clone(data, position) {
-    return gridl(data).goto(position);
-}
-
 /**
  * The gridl base function.
  *
