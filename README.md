@@ -8,11 +8,27 @@ Using npm:
 
 `npm i --save gridl`
 
-## Usage
+**node.js**
+
+```javascript
+var gridl = require('gridl');
+```
+
+**ES6**
 
 ```javascript
 import gridl from 'gridl';
+```
 
+**In a browser**
+
+```html
+<script src="gridl.min.js"></script>
+```
+
+**Usage**
+
+```javascript
 const data = [
     [ 1, 2, 3, 4, 5],
     [ 6, 7, 8, 9,10],
