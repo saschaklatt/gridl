@@ -65,6 +65,7 @@ const mirroredGrid = gridl(data)
     * specify where the axis is located
 * [Iterating](docs/example-iterating.md)
     * map()
+    * forEach()
 * [Cloning](docs/example-cloning.md)
     * Make a clone of a gridl instance
 * [Draw a cow](docs/example-cow.md)
@@ -75,9 +76,8 @@ const mirroredGrid = gridl(data)
 As a basis for:
 
 * grid based games or applications
-* table data handling
+* handle table data
 * tile maps
 * path finding
-* level editors and generators
 * and many more...
 
