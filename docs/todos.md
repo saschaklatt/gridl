@@ -21,6 +21,7 @@
 
 ## Planned features
 
+* rename "mirroring" to "flipping" 
 * shifting: rows, columns and areas (shift left, right, up, down)
 * concatenating grids (two 3x3 grids become one 6x3 grid)
 * eternal mode
@@ -30,5 +31,7 @@
 * [subgrid api](subgrid-api.md)
 * areas: swapping, moving
 * path finding
+* sorting
+* toString()
 
 
