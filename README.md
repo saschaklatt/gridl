@@ -38,6 +38,8 @@ const mirroredGrid = gridl(data)
 * [Navigating](docs/example-navigating.md)
     * go to absolute positions
     * walk into directions
+* [Dimensions](docs/example-dimensions.md)
+    * get the number of columns and rows  
 * [Work with cells](docs/example-cells.md)
     * get and set values at absolute or relative positions
     * move them around
