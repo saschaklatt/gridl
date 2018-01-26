@@ -3,13 +3,13 @@
 ### todo
 
 * dimensions
-    * columns() -> numColumns()
-    * rows()    -> numRows()
+    * ~~columns() -> numColumns()~~
+    * ~~rows()    -> numRows()~~
 * single cells
-    * getValue()                -> value()
-    * setValue(value)           -> value(value) + setValue(value)
-    * getValueAt(pos)           -> at(pos)
-    * setValueAt(pos)           -> at(pos, value) + setAt(pos, value)
+    * ~~getValue()                -> value()~~
+    * ~~setValue(value)           -> value(value) + setValue(value)~~
+    * ~~getValueAt(pos)           -> valueAt(pos)~~
+    * ~~setValueAt(pos, value)    -> valueAt(pos, value) + setValueAt(pos, value)~~
     * ~~getRelativePosition() -> scrap it!~~
     * ~~getRelativeValue() -> scrap it!~~
     * ~~moveCellFrom(pos, dir) -> scrap it!~~

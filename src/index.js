@@ -147,7 +147,7 @@ function _getAreaAt(api, columns, rows, position, size, anchor = [0,0]) {
         }
         for (let c = pos[0]; c < end[0]; c++) {
             const cArea = c - pos[0];
-            area[rArea][cArea] = api.getValueAt([c, r]);
+            area[rArea][cArea] = api.valueAt([c, r]);
         }
     }
     return area;
@@ -296,8 +296,8 @@ function _swapCells(api, pos1, pos2) {
     if (_isNotInArea(size, pos1) || _isNotInArea(size, pos2)) {
         throw new Error('Trying to swap cells with an invalid position.');
     }
-    const tmp = api.getValueAt(pos1);
-    api.setValueAt(pos1, api.getValueAt(pos2));
+    const tmp = api.valueAt(pos1);
+    api.setValueAt(pos1, api.valueAt(pos2));
     api.setValueAt(pos2, tmp);
     return api;
 }
@@ -381,10 +381,10 @@ function gridl(data) {
     api.size = () => [_columns, _rows];
 
     // single value operations
-    api.getValue = () => _getValueAt(_data, _columns, _position);
-    api.getValueAt = pos => _getValueAt(_data, _columns, pos);
     api.setValue = value => _setValueAt(api, _data, _columns, _position, value);
+    api.value = value => value === undefined ? _getValueAt(_data, _columns, _position) : _setValueAt(api, _data, _columns, _position, value);
     api.setValueAt = (pos, value) => _setValueAt(api, _data, _columns, pos, value);
+    api.valueAt = (pos, value) => value === undefined ? _getValueAt(_data, _columns, pos) : _setValueAt(api, _data, _columns, pos, value);
 
     // moving cells
     api.moveCell = (from, to) => _moveCell(api, _data, _columns, _rows, from, to);

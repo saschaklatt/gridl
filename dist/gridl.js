@@ -246,7 +246,7 @@ function _getAreaAt(api, columns, rows, position, size) {
         }
         for (var c = pos[0]; c < end[0]; c++) {
             var cArea = c - pos[0];
-            area[rArea][cArea] = api.getValueAt([c, r]);
+            area[rArea][cArea] = api.valueAt([c, r]);
         }
     }
     return area;
@@ -400,8 +400,8 @@ function _swapCells(api, pos1, pos2) {
     if (_isNotInArea(size, pos1) || _isNotInArea(size, pos2)) {
         throw new Error('Trying to swap cells with an invalid position.');
     }
-    var tmp = api.getValueAt(pos1);
-    api.setValueAt(pos1, api.getValueAt(pos2));
+    var tmp = api.valueAt(pos1);
+    api.setValueAt(pos1, api.valueAt(pos2));
     api.setValueAt(pos2, tmp);
     return api;
 }
@@ -497,17 +497,17 @@ function gridl(data) {
     };
 
     // single value operations
-    api.getValue = function () {
-        return _getValueAt(_data, _columns, _position);
-    };
-    api.getValueAt = function (pos) {
-        return _getValueAt(_data, _columns, pos);
-    };
     api.setValue = function (value) {
         return _setValueAt(api, _data, _columns, _position, value);
     };
+    api.value = function (value) {
+        return value === undefined ? _getValueAt(_data, _columns, _position) : _setValueAt(api, _data, _columns, _position, value);
+    };
     api.setValueAt = function (pos, value) {
         return _setValueAt(api, _data, _columns, pos, value);
+    };
+    api.valueAt = function (pos, value) {
+        return value === undefined ? _getValueAt(_data, _columns, pos) : _setValueAt(api, _data, _columns, pos, value);
     };
 
     // moving cells

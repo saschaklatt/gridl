@@ -72,13 +72,13 @@ console.log(drawTheCow(cow));
 //   ^^    ^^   
 
 // do some plastic surgery
-cow.setValueAt([1,0], '(');
-cow.setValueAt([4,0], ')');
-cow.setValueAt([1,1], '(');
-cow.setValueAt([4,1], ')');
+cow.valueAt([1,0], '(');
+cow.valueAt([4,0], ')');
+cow.valueAt([1,1], '(');
+cow.valueAt([4,1], ')');
 cow.swapCells([2,2], [3,2]);
-cow.setValueAt([11,2], '\\');
-cow.setValueAt([12,3], '\\');
+cow.valueAt([11,2], '\\');
+cow.valueAt([12,3], '\\');
 console.log(drawTheCow(cow));
 
 // cow looks like this:
