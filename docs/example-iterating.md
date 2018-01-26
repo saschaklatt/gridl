@@ -15,7 +15,7 @@ const origin = gridl(data);
 const copy = origin.map((value, position, src) => {
     // value: the current value
     // position: the position of the current value
-    // src: the same as data
+    // src: the same as origin (the current gridl instance, not the data array)
     return 'x';
 });
 
