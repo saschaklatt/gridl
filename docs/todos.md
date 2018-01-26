@@ -13,7 +13,8 @@
 * To think about: what should happen if goto() gets a position outside of the grid like [-2,1]? Error or accepting?
 * Inconsistent getter/setter styles
     * style 1: value(), row(), position()
-    * style 2: getValueAt(), getAreaAt()
+    * style 2: getAreaAt(), setAreaAt()
+    * solution through [subgrid api](subgrid-api.md)
 * Error handling should be improved, throw error when... 
     * area is not an 2d array
 * position error handling is inconsistent in some cases (throwing an error vs. returning undefined)
@@ -26,7 +27,7 @@
 
 ## Considering features
 
-* [subgrid api](subrid-api.md)
+* [subgrid api](subgrid-api.md)
 * areas: swapping, moving
 * path finding
 
