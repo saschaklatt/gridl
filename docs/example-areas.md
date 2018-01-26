@@ -14,7 +14,7 @@ const area = [
 ];
 const position = [3, 1];
 const newGrid1 = gridl(data).setAreaAt(position, area).data();
-const newGrid2 = gridl(data).goto(position).setAreaAt(area).data();
+const newGrid2 = gridl(data).goto(position).setArea(area).data();
 
 // grids both look like this:
 // [
@@ -36,7 +36,7 @@ const data = [
 const size = [3, 2];
 const position = [1, 2];
 const area1 = gridl(data).getAreaAt(position, size);
-const area2 = gridl(data).goto(position).getAreaAt(size);
+const area2 = gridl(data).goto(position).getArea(size);
 
 // areas both look like this:
 // [
