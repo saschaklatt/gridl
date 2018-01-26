@@ -20,10 +20,10 @@ const checkApi = api => {
         'moveRel',
         'moveRow',
         'moveColumn',
-        'addRowAt',
-        'addColumnAt',
-        'removeRowAt',
-        'removeColumnAt',
+        'addRow',
+        'addColumn',
+        'removeRow',
+        'removeColumn',
         'clipAt',
         'clip',
         'swapCell',
@@ -1960,7 +1960,7 @@ describe('gridl', () => {
 
     });
 
-    describe('addRowAt', () => {
+    describe('addRow', () => {
 
         it('should add a row at the top', () => {
             const data= [
@@ -1968,7 +1968,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(gridl(data).addRowAt(row, 0).getData()).to.deep.equal([
+            expect(gridl(data).addRow(row, 0).getData()).to.deep.equal([
                 [7,8,9],
                 [1,2,3],
                 [4,5,6],
@@ -1981,7 +1981,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(gridl(data).addRowAt(row, 2).getData()).to.deep.equal([
+            expect(gridl(data).addRow(row, 2).getData()).to.deep.equal([
                 [1,2,3],
                 [4,5,6],
                 [7,8,9],
@@ -1994,7 +1994,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(gridl(data).addRowAt(row, 1).getData()).to.deep.equal([
+            expect(gridl(data).addRow(row, 1).getData()).to.deep.equal([
                 [1,2,3],
                 [7,8,9],
                 [4,5,6],
@@ -2007,11 +2007,11 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(gridl(data).addRowAt(row, 1).numRows()).to.equal(3);
+            expect(gridl(data).addRow(row, 1).numRows()).to.equal(3);
         });
 
         it('should return the api', () => {
-            checkApi(gridl([[1,2]]).addRowAt([3,4], 1));
+            checkApi(gridl([[1,2]]).addRow([3,4], 1));
         });
 
         it('should throw an error if the position is too low', () => {
@@ -2020,7 +2020,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(() => gridl(data).addRowAt(row, -1)).to.throw(
+            expect(() => gridl(data).addRow(row, -1)).to.throw(
                 'Trying to add row at an invalid position. Given: -1'
             );
         });
@@ -2031,7 +2031,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const row = [7,8,9];
-            expect(() => gridl(data).addRowAt(row, 3)).to.throw(
+            expect(() => gridl(data).addRow(row, 3)).to.throw(
                 'Trying to add row at an invalid position. Given: 3'
             );
         });
@@ -2041,10 +2041,10 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(() => gridl(data).addRowAt([7,8], 0).getData()).to.throw(
+            expect(() => gridl(data).addRow([7,8], 0).getData()).to.throw(
                 'Trying to add a row that contains an invalid amount of cells. Expected: 3, Given: 2'
             );
-            expect(() => gridl(data).addRowAt([7,8,9,10], 0).getData()).to.throw(
+            expect(() => gridl(data).addRow([7,8,9,10], 0).getData()).to.throw(
                 'Trying to add a row that contains an invalid amount of cells. Expected: 3, Given: 4'
             );
         });
@@ -2062,7 +2062,7 @@ describe('gridl', () => {
                 7,
                 8,
             ];
-            expect(gridl(data).addColumnAt(column, 0).getData()).to.deep.equal([
+            expect(gridl(data).addColumn(column, 0).getData()).to.deep.equal([
                 [7,1,2,3],
                 [8,4,5,6],
             ]);
@@ -2079,7 +2079,7 @@ describe('gridl', () => {
                 9,
                 9,
             ];
-            expect(gridl(data).addColumnAt(column, 3).getData()).to.deep.equal([
+            expect(gridl(data).addColumn(column, 3).getData()).to.deep.equal([
                 [1,2,3,9],
                 [4,5,6,9],
                 [7,8,9,9],
@@ -2095,7 +2095,7 @@ describe('gridl', () => {
                 7,
                 8,
             ];
-            expect(gridl(data).addColumnAt(column, 1).getData()).to.deep.equal([
+            expect(gridl(data).addColumn(column, 1).getData()).to.deep.equal([
                 [1,7,2],
                 [4,8,5],
             ]);
@@ -2110,11 +2110,11 @@ describe('gridl', () => {
                 7,
                 8,
             ];
-            expect(gridl(data).addColumnAt(column, 1).numColumns()).to.equal(4);
+            expect(gridl(data).addColumn(column, 1).numColumns()).to.equal(4);
         });
 
         it('should return the api', () => {
-            checkApi(gridl([[1,2],[5,6]]).addColumnAt([3,4], 1));
+            checkApi(gridl([[1,2],[5,6]]).addColumn([3,4], 1));
         });
 
         it('should throw an error if the position is too low', () => {
@@ -2123,7 +2123,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const column = [7,8];
-            expect(() => gridl(data).addColumnAt(column, -1)).to.throw(
+            expect(() => gridl(data).addColumn(column, -1)).to.throw(
                 'Trying to add column at an invalid position. Given: -1'
             );
         });
@@ -2134,7 +2134,7 @@ describe('gridl', () => {
                 [4,5,6],
             ];
             const column = [7,8,9];
-            expect(() => gridl(data).addColumnAt(column, 4)).to.throw(
+            expect(() => gridl(data).addColumn(column, 4)).to.throw(
                 'Trying to add column at an invalid position. Given: 4'
             );
         });
@@ -2144,10 +2144,10 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(() => gridl(data).addColumnAt([7], 0).getData()).to.throw(
+            expect(() => gridl(data).addColumn([7], 0).getData()).to.throw(
                 'Trying to add a column that contains an invalid amount of cells. Expected: 2, Given: 1'
             );
-            expect(() => gridl(data).addColumnAt([7,8,9], 0).getData()).to.throw(
+            expect(() => gridl(data).addColumn([7,8,9], 0).getData()).to.throw(
                 'Trying to add a column that contains an invalid amount of cells. Expected: 2, Given: 3'
             );
         });
@@ -2162,7 +2162,7 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).removeRowAt(0).getData()).to.deep.equal([
+            expect(gridl(data).removeRow(0).getData()).to.deep.equal([
                 [4,5,6],
                 [7,8,9],
             ]);
@@ -2174,7 +2174,7 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).removeRowAt(1).getData()).to.deep.equal([
+            expect(gridl(data).removeRow(1).getData()).to.deep.equal([
                 [1,2,3],
                 [7,8,9],
             ]);
@@ -2186,7 +2186,7 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).removeRowAt(2).getData()).to.deep.equal([
+            expect(gridl(data).removeRow(2).getData()).to.deep.equal([
                 [1,2,3],
                 [4,5,6],
             ]);
@@ -2198,31 +2198,31 @@ describe('gridl', () => {
                 [4,5,6],
                 [7,8,9],
             ];
-            expect(gridl(data).removeRowAt(1).numRows()).to.equal(2);
+            expect(gridl(data).removeRow(1).numRows()).to.equal(2);
         });
 
         it('should return the api', () => {
-            checkApi(gridl([[1,2],[5,6]]).removeRowAt(0));
+            checkApi(gridl([[1,2],[5,6]]).removeRow(0));
         });
 
         it('should throw an error if the position is too low', () => {
             expect(() => gridl([
                 [1,2],
                 [2,3],
-            ]).removeRowAt(-1)).to.throw('Trying to remove a row at an invalid position. Given: -1');
+            ]).removeRow(-1)).to.throw('Trying to remove a row at an invalid position. Given: -1');
         });
 
         it('should throw an error if the position is too high', () => {
             expect(() => gridl([
                 [1,2],
                 [2,3],
-            ]).removeRowAt(2)).to.throw('Trying to remove a row at an invalid position. Given: 2');
+            ]).removeRow(2)).to.throw('Trying to remove a row at an invalid position. Given: 2');
         });
 
         it('should throw an error if there would be empty after removing', () => {
             expect(() => gridl([
                 [1,2],
-            ]).removeRowAt(0)).to.throw('Cannot remove row because the grid would be empty after it.');
+            ]).removeRow(0)).to.throw('Cannot remove row because the grid would be empty after it.');
         });
 
     });
@@ -2234,7 +2234,7 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(gridl(data).removeColumnAt(0).getData()).to.deep.equal([
+            expect(gridl(data).removeColumn(0).getData()).to.deep.equal([
                 [2,3],
                 [5,6],
             ]);
@@ -2245,7 +2245,7 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(gridl(data).removeColumnAt(1).getData()).to.deep.equal([
+            expect(gridl(data).removeColumn(1).getData()).to.deep.equal([
                 [1,3],
                 [4,6],
             ]);
@@ -2256,7 +2256,7 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(gridl(data).removeColumnAt(2).getData()).to.deep.equal([
+            expect(gridl(data).removeColumn(2).getData()).to.deep.equal([
                 [1,2],
                 [4,5],
             ]);
@@ -2267,7 +2267,7 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(gridl(data).removeColumnAt(0).numColumns()).to.equal(2);
+            expect(gridl(data).removeColumn(0).numColumns()).to.equal(2);
         });
 
         it('should return the api', () => {
@@ -2275,28 +2275,28 @@ describe('gridl', () => {
                 [1,2,3],
                 [4,5,6],
             ];
-            checkApi(gridl(data).removeColumnAt(0));
+            checkApi(gridl(data).removeColumn(0));
         });
 
         it('should throw an error if the position is too low', () => {
             expect(() => gridl([
                 [1,2,3],
                 [4,5,6],
-            ]).removeColumnAt(-1)).to.throw('Trying to remove a column at an invalid position. Given: -1');
+            ]).removeColumn(-1)).to.throw('Trying to remove a column at an invalid position. Given: -1');
         });
 
         it('should throw an error if the position is too high', () => {
             expect(() => gridl([
                 [1,2,3],
                 [4,5,6],
-            ]).removeColumnAt(3)).to.throw('Trying to remove a column at an invalid position. Given: 3');
+            ]).removeColumn(3)).to.throw('Trying to remove a column at an invalid position. Given: 3');
         });
 
         it('should throw an error if there would not be empty after removing', () => {
             expect(() => gridl([
                 [1],
                 [4],
-            ]).removeColumnAt(0)).to.throw('Cannot remove column because the grid would be empty after it.');
+            ]).removeColumn(0)).to.throw('Cannot remove column because the grid would be empty after it.');
         });
 
     });
@@ -3402,7 +3402,7 @@ describe('gridl', () => {
                 .setAreaAt([0,2], tail)
                 .setAreaAt([3,3], hindLegs)
                 .setAreaAt([9,3], foreLegs)
-                .addColumnAt(gridl.generateData(1, 6, () => '\n'), 13) // add line breaks at the very right
+                .addColumn(gridl.generateData(1, 6, () => '\n'), 13) // add line breaks at the very right
             ;
 
             function drawTheCow(cow) {
