@@ -2827,19 +2827,19 @@ describe('gridl', () => {
         it('should rotate a rectangular array 180 degrees and 180-degrees-variations', () => {
             function checkWithSteps(steps) {
                 const data = [
-                    [1, 2, 3],
-                    [6, 7, 8],
+                    [ 1,  2,  3],
+                    [ 6,  7,  8],
                     [10, 11, 12],
                     [15, 16, 17],
                     [20, 21, 22],
                 ];
                 const g = gridl(data);
                 expect(g.rotate(steps).getData()).to.deep.equal([
-                    [20, 21, 22],
-                    [15, 16, 17],
-                    [10, 11, 12],
-                    [6, 7, 8],
-                    [1, 2, 3],
+                    [22, 21, 20],
+                    [17, 16, 15],
+                    [12, 11, 10],
+                    [ 8,  7,  6],
+                    [ 3,  2,  1],
                 ]);
                 expect(g.columns()).to.equal(3);
                 expect(g.rows()).to.equal(5);

@@ -16,7 +16,6 @@
 
 ## Planned features
 
-* iterator functions like map and forEach
 * [compact syntax](compact-syntax.md)
 * generating: generateGrid(), generateList()
 * shifting: rows, columns and areas (shift left, right, up, down)

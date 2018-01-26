@@ -344,7 +344,7 @@ function _rotate(grid, columns, steps) {
         case 1:
             return Array.from({ length: columns }, (v, i) => _getColumn(grid, i).reverse());
         case 2:
-            return _mirror(grid);
+            return grid.reverse().map((row, r) => row.reverse());
         case 3:
             return Array.from({ length: columns }, (v, i) => _getColumn(grid, columns - 1 - i));
         default:

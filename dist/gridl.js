@@ -450,7 +450,9 @@ function _rotate(grid, columns, steps) {
                 return _getColumn(grid, i).reverse();
             });
         case 2:
-            return _mirror(grid);
+            return grid.reverse().map(function (row, r) {
+                return row.reverse();
+            });
         case 3:
             return Array.from({ length: columns }, function (v, i) {
                 return _getColumn(grid, columns - 1 - i);

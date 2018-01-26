@@ -57,7 +57,7 @@ const mirroredGrid = gridl(data)
 * [Clipping](docs/example-clipping.md)
     * define an area and remove everything around
 * [Swapping](docs/example-swapping.md)
-    * swap columns and rows or single cells
+    * swap columns, rows or single cells
 * [Rotating](docs/example-rotating.md)
     * rotate the entire grid clockwise or counterclockwise
 * [Mirroring](docs/example-mirroring.md)
