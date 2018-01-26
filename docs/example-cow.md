@@ -38,7 +38,7 @@ const cow = gridl
     .setAreaAt([0,2], tail)
     .setAreaAt([3,3], hindLegs)
     .setAreaAt([9,3], foreLegs)
-    .addColumnAt(gridl.generateData(1, 6, () => '\n'), 13) // add line breaks at the very right
+    .addColumn(gridl.generateData(1, 6, () => '\n'), 13) // add line breaks at the very right
 ;
 
 function drawTheCow(cow) {

@@ -402,25 +402,25 @@ function gridl(data) {
     // columns and rows
     api.column = x => _getColumn(api.getData(), x);
     api.row = y => _getRow(api.getData(), y);
-    api.addRowAt = (row, y) => {
+    api.addRow = (row, y) => {
         const grid = _addRowAt(api.getData(), _columns, _rows, row, y);
         _data = _flatten(grid);
         _rows = grid.length;
         return api;
     };
-    api.addColumnAt = (column, x) => {
+    api.addColumn = (column, x) => {
         const grid = _addColumnAt(api.getData(), _columns, _rows, column, x);
         _data = _flatten(grid);
         _columns = grid[0].length;
         return api;
     };
-    api.removeRowAt = y => {
+    api.removeRow = y => {
         const grid = _removeRowAt(api.getData(), _rows, y);
         _data = _flatten(grid);
         _rows = grid.length;
         return api;
     };
-    api.removeColumnAt = x => {
+    api.removeColumn = x => {
         const grid = _removeColumnAt(api.getData(), _columns, x);
         _data = _flatten(grid);
         _columns = grid[0].length;
