@@ -277,14 +277,6 @@ function _checkAreaFitsAt(columns, rows, position, area) {
     return fitsHorizontally && fitsVertically;
 }
 
-function _getRelativePosition(columns, rows, startPos, direction) {
-    var targetPos = _addPositions(startPos, direction);
-    if (_isNotInArea([columns, rows], targetPos)) {
-        return;
-    }
-    return targetPos;
-}
-
 function _goto(columns, rows, position) {
     if (!Array.isArray(position)) {
         throw new Error('Trying to go to an invalid position. Given: ' + position);
@@ -517,12 +509,6 @@ function gridl(data) {
     api.setValueAt = function (pos, value) {
         return _setValueAt(api, _data, _columns, pos, value);
     };
-    api.getRelativeValue = function (pos, direction) {
-        return api.getValueAt(api.getRelativePosition(pos, direction));
-    }; // TODO: scrap it - replaced by navigation api
-    api.getRelativePosition = function (pos, direction) {
-        return _getRelativePosition(_columns, _rows, pos, direction);
-    }; // TODO: scrap it - replaced by navigation api
 
     // moving cells
     api.moveCell = function (from, to) {
@@ -530,9 +516,6 @@ function gridl(data) {
     };
     api.moveAbs = function (to) {
         return _moveCell(api, _data, _columns, _rows, _position, to);
-    };
-    api.moveCellFrom = function (position, direction) {
-        return api.moveCell(position, _addPositions(position, direction));
     };
     api.moveRel = function (direction) {
         return api.moveCell(_position, _addPositions(_position, direction));

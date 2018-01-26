@@ -179,14 +179,6 @@ function _checkAreaFitsAt(columns, rows, position, area, anchor = [0,0]) {
     return fitsHorizontally && fitsVertically;
 }
 
-function _getRelativePosition(columns, rows, startPos, direction) {
-    const targetPos = _addPositions(startPos, direction);
-    if (_isNotInArea([columns, rows], targetPos)) {
-        return;
-    }
-    return targetPos;
-}
-
 function _goto(columns, rows, position) {
     if (!Array.isArray(position)) {
         throw new Error(`Trying to go to an invalid position. Given: ${position}`);
@@ -393,13 +385,10 @@ function gridl(data) {
     api.getValueAt = pos => _getValueAt(_data, _columns, pos);
     api.setValue = value => _setValueAt(api, _data, _columns, _position, value);
     api.setValueAt = (pos, value) => _setValueAt(api, _data, _columns, pos, value);
-    api.getRelativeValue = (pos, direction) => api.getValueAt(api.getRelativePosition(pos, direction));  // TODO: scrap it - replaced by navigation api
-    api.getRelativePosition = (pos, direction) => _getRelativePosition(_columns, _rows, pos, direction); // TODO: scrap it - replaced by navigation api
 
     // moving cells
     api.moveCell = (from, to) => _moveCell(api, _data, _columns, _rows, from, to);
     api.moveAbs = to => _moveCell(api, _data, _columns, _rows, _position, to);
-    api.moveCellFrom = (position, direction) => api.moveCell(position, _addPositions(position, direction));
     api.moveRel = direction => api.moveCell(_position, _addPositions(_position, direction));
     api.moveRow = (yFrom, yTo) => {
         _data = _moveRow(api.getData(), _columns, _rows, yFrom, yTo);
