@@ -43,7 +43,7 @@ const cow = gridl
 
 function drawTheCow(cow) {
     return cow
-        .getData() // export grid data array
+        .data() // export grid data array
         .reduce((res, row) => res + row.join(''), '') // join grid to a single string
     ;
 }

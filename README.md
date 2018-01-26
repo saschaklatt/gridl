@@ -20,7 +20,7 @@ const data = [
 ];
 const mirroredGrid = gridl(data)
     .mirrorY()  // mirror the grid on the y-axis
-    .getData(); // export the data array
+    .data(); // export the data array
 
 // mirroredGrid looks like this:
 // [

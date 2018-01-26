@@ -9,7 +9,7 @@ const data = [
     [ 4,  9, 14 ],
     [ 5, 10, 15 ],
 ];
-const newGrid = gridl(data).mirrorX(3).getData();
+const newGrid = gridl(data).mirrorX(3).data();
 
 // newGrid looks like this:
 // [
@@ -30,7 +30,7 @@ const data = [
     [ 4,  9, 14 ],
     [ 5, 10, 15 ],
 ];
-const newGrid = gridl(data).mirrorX(3).getData();
+const newGrid = gridl(data).mirrorX(3).data();
 
 // newGrid looks like this
 // [
@@ -49,7 +49,7 @@ const data = [
     [  6,  7,  8,  9, 10],
     [ 11, 12, 13, 14, 15],
 ];
-const newGrid = gridl(data).mirrorY().getData();
+const newGrid = gridl(data).mirrorY().data();
 
 // newGrid looks like this:
 // [
@@ -66,7 +66,7 @@ const data = [
     [  6,  7,  8,  9, 10],
     [ 11, 12, 13, 14, 15],
 ];
-const newGrid = gridl(data).mirrorY(3).getData();
+const newGrid = gridl(data).mirrorY(3).data();
 
 // newGrid looks like this
 // [

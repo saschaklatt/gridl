@@ -19,8 +19,8 @@ const data = [
     [4, 5, 6],
     [7, 8, 9],
 ];
-const newGrid1 = gridl(data).valueAt([1, 2], 'Hi').getData();
-const newGrid2 = gridl(data).goto([1, 2]).value('Hi').getData(); // does the same
+const newGrid1 = gridl(data).valueAt([1, 2], 'Hi').data();
+const newGrid2 = gridl(data).goto([1, 2]).value('Hi').data(); // does the same
 
 // the grids would look like this:
 // [
@@ -58,8 +58,8 @@ const grid = [
 ];
 const from = [2,1];
 const to = [3,4];
-const newGrid1 = gridl(grid).moveCell(from, to).getData();
-const newGrid2 = gridl(grid).goto(from).moveAbs(to).getData();
+const newGrid1 = gridl(grid).moveCell(from, to).data();
+const newGrid2 = gridl(grid).goto(from).moveAbs(to).data();
 
 // grids would both look like this:
 // [
@@ -82,7 +82,7 @@ const grid = [
 ];
 const position = [1,2];
 const direction = [3,2];
-const grid = gridl(grid).goto(position).moveRel(direction).getData();
+const grid = gridl(grid).goto(position).moveRel(direction).data();
 
 // grid looks like this:
 // [
@@ -100,8 +100,8 @@ const data = [
     [1,2,3,4],
     [5,6,7,8],
 ];
-const newGrid1 = gridl(data).swapCells([0,0], [2,1]).getData();
-const newGrid2 = gridl(data).goto([0,0]).swapCells([2,1]).getData();
+const newGrid1 = gridl(data).swapCells([0,0], [2,1]).data();
+const newGrid2 = gridl(data).goto([0,0]).swapCells([2,1]).data();
 
 // both grids look like this:
 // [

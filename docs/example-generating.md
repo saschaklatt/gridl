@@ -23,7 +23,7 @@ const rows = 3;
 const grid = gridl.generate(columns, rows, ({ column, row }) => `${column},${row}`);
 
 // perform gridl operations
-const data = grid.valueAt([2,1], 'bam').getData();
+const data = grid.valueAt([2,1], 'bam').data();
 
 // data looks like this:
 // [

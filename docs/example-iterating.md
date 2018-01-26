@@ -40,7 +40,7 @@ const copy = origin.map((value, position, src) => {
 
 const isTheSameInstance = copy === origin; // false
 
-const newData = copy.getData();
+const newData = copy.data();
 
 // newData looks like this:
 //
