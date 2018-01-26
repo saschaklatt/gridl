@@ -1322,15 +1322,15 @@ describe('gridl', () => {
                 [17,18,19,20,25],
             ];
             const g = gridl(data);
-            const { TOP, TOP_LEFT, TOP_RIGHT, BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, LEFT, RIGHT} = gridl.directions;
-            expect(g.getRelativePosition([2,3], TOP         )).to.deep.equal([2,2]);
-            expect(g.getRelativePosition([2,3], TOP_RIGHT   )).to.deep.equal([3,2]);
+            const { UP, UP_LEFT, UP_RIGHT, DOWN, DOWN_LEFT, DOWN_RIGHT, LEFT, RIGHT} = gridl.directions;
+            expect(g.getRelativePosition([2,3], UP         )).to.deep.equal([2,2]);
+            expect(g.getRelativePosition([2,3], UP_RIGHT   )).to.deep.equal([3,2]);
             expect(g.getRelativePosition([2,3], RIGHT       )).to.deep.equal([3,3]);
-            expect(g.getRelativePosition([2,3], BOTTOM_RIGHT)).to.deep.equal([3,4]);
-            expect(g.getRelativePosition([2,3], BOTTOM      )).to.deep.equal([2,4]);
-            expect(g.getRelativePosition([2,3], BOTTOM_LEFT )).to.deep.equal([1,4]);
+            expect(g.getRelativePosition([2,3], DOWN_RIGHT)).to.deep.equal([3,4]);
+            expect(g.getRelativePosition([2,3], DOWN      )).to.deep.equal([2,4]);
+            expect(g.getRelativePosition([2,3], DOWN_LEFT )).to.deep.equal([1,4]);
             expect(g.getRelativePosition([2,3], LEFT        )).to.deep.equal([1,3]);
-            expect(g.getRelativePosition([2,3], TOP_LEFT    )).to.deep.equal([1,2]);
+            expect(g.getRelativePosition([2,3], UP_LEFT    )).to.deep.equal([1,2]);
         });
 
         it('should get me undefined for positions that are out of scope', () => {
@@ -1378,15 +1378,15 @@ describe('gridl', () => {
                 [17,18,19,20,25],
             ];
             const g = gridl(data);
-            const { TOP, TOP_LEFT, TOP_RIGHT, BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, LEFT, RIGHT} = gridl.directions;
-            expect(g.getRelativeValue([2,3], TOP         )).to.deep.equal(11);
-            expect(g.getRelativeValue([2,3], TOP_RIGHT   )).to.deep.equal(12);
+            const { UP, UP_LEFT, UP_RIGHT, DOWN, DOWN_LEFT, DOWN_RIGHT, LEFT, RIGHT} = gridl.directions;
+            expect(g.getRelativeValue([2,3], UP         )).to.deep.equal(11);
+            expect(g.getRelativeValue([2,3], UP_RIGHT   )).to.deep.equal(12);
             expect(g.getRelativeValue([2,3], RIGHT       )).to.deep.equal(16);
-            expect(g.getRelativeValue([2,3], BOTTOM_RIGHT)).to.deep.equal(20);
-            expect(g.getRelativeValue([2,3], BOTTOM      )).to.deep.equal(19);
-            expect(g.getRelativeValue([2,3], BOTTOM_LEFT )).to.deep.equal(18);
+            expect(g.getRelativeValue([2,3], DOWN_RIGHT)).to.deep.equal(20);
+            expect(g.getRelativeValue([2,3], DOWN      )).to.deep.equal(19);
+            expect(g.getRelativeValue([2,3], DOWN_LEFT )).to.deep.equal(18);
             expect(g.getRelativeValue([2,3], LEFT        )).to.deep.equal(14);
-            expect(g.getRelativeValue([2,3], TOP_LEFT    )).to.deep.equal(10);
+            expect(g.getRelativeValue([2,3], UP_LEFT    )).to.deep.equal(10);
         });
 
         it('should get me undefined for positions out of scope', () => {

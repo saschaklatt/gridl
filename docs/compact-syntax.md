@@ -6,19 +6,20 @@
     * columns() -> numColumns()
     * rows()    -> numRows()
 * single cells
-    * getValue()            -> value()
-    * setValue(value)       -> value(value) + setValue(value)
-    * getValueAt(pos)       -> at(pos)
-    * setValueAt(pos)       -> at(pos, value) + setAt(pos, value)
-    * getRelativePosition() -> scrap it!
-    * getRelativeValue()    -> scrap it!
+    * getValue()                -> value()
+    * setValue(value)           -> value(value) + setValue(value)
+    * getValueAt(pos)           -> at(pos)
+    * setValueAt(pos)           -> at(pos, value) + setAt(pos, value)
+    * getRelativePosition()     -> scrap it!
+    * getRelativeValue()        -> scrap it!
+    * moveCellFrom(pos, dir)    -> scrap it!
 * rows/columns
-    * getRow(y)             -> row(y)
-    * getColumn(x)          -> column(x)
-    * addRowAt(y)           -> addRow(y)
-    * addColumnAt(y)        -> addColumn(y)
-    * removeRowAt(y)        -> removeRow(y)
-    * removeColumnAt(x)     -> removeColumn(x)
+    * getRow(y)                 -> row(y)
+    * getColumn(x)              -> column(x)
+    * addRowAt(y)               -> addRow(y)
+    * addColumnAt(y)            -> addColumn(y)
+    * removeRowAt(y)            -> removeRow(y)
+    * removeColumnAt(x)         -> removeColumn(x)
 * areas
     * checkAreaFitsAt(pos, area, anchor) -> areaFitsAt(pos, area, anchor)
     * checkAreaFits(area, anchor)        -> areaFits(area, anchor)

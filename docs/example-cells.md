@@ -40,13 +40,13 @@ const data = [
     [17,18,19,20,25],
 ];
 const g = gridl(data);
-const { TOP, LEFT } = gridl.directions;
+const { UP, LEFT } = gridl.directions;
 
 g.getRelativePosition([2,3], [-2, 1]); // [0,4]
 g.goto([2,3]).walk([-2, 1]).position(); // [0,4]
 
-g.getRelativePosition([2,3], TOP);     // [2,2]
-g.goto([2,3]).walk(TOP).position();     // [2,2]
+g.getRelativePosition([2,3], UP);     // [2,2]
+g.goto([2,3]).walk(UP).position();     // [2,2]
 
 g.getRelativePosition([2,3], LEFT);    // [1,3]
 g.goto([2,3]).walk(LEFT).position();    // [1,3]
