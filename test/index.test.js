@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import gridl from '../src';
+import gridl, { make, makeList, makeGrid } from '../src';
 
 const checkApi = api => {
     expect(Object.keys(api)).to.have.members([
@@ -49,7 +49,7 @@ const checkApi = api => {
     ]);
 };
 
-describe('gridl', () => {
+describe('gridlFactory', () => {
 
     describe('api', () => {
 
@@ -1420,7 +1420,7 @@ describe('gridl', () => {
         it('should generate a grid with (column, row) value pairs', () => {
             const columns = 4;
             const rows = 3;
-            const grid = gridl.makeGrid(columns, rows, ({ column, row }) => `${column},${row}`);
+            const grid = makeGrid(columns, rows, ({ column, row }) => `${column},${row}`);
             expect(grid).to.deep.equal([
                 ['0,0', '1,0', '2,0', '3,0'],
                 ['0,1', '1,1', '2,1', '3,1'],
@@ -1431,7 +1431,7 @@ describe('gridl', () => {
         it('should generate a grid filled with "x"-values', () => {
             const columns = 7;
             const rows = 5;
-            const grid = gridl.makeGrid(columns, rows, () => 'x');
+            const grid = makeGrid(columns, rows, () => 'x');
             expect(grid).to.deep.equal([
                 ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
                 ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -1443,19 +1443,19 @@ describe('gridl', () => {
 
         it('should throw an error if you provide invalid number of rows', () => {
             expect(
-                () => gridl.makeGrid(4, 0, () => 'x')
+                () => makeGrid(4, 0, () => 'x')
             ).to.throw(
                 'You need to specify at least one row. Given: 0'
             );
 
             expect(
-                () => gridl.makeGrid(4, -1, () => 'x')
+                () => makeGrid(4, -1, () => 'x')
             ).to.throw(
                 'You need to specify at least one row. Given: -1'
             );
 
             expect(
-                () => gridl.makeGrid(4, 'balderdash', () => 'x')
+                () => makeGrid(4, 'balderdash', () => 'x')
             ).to.throw(
                 'You need to specify at least one row. Given: balderdash'
             );
@@ -1463,26 +1463,26 @@ describe('gridl', () => {
 
         it('should throw an error if you provide invalid number of columns', () => {
             expect(
-                () => gridl.makeGrid('balderdash', 4, () => 'x')
+                () => makeGrid('balderdash', 4, () => 'x')
             ).to.throw(
                 'You need to specify at least one column. Given: balderdash'
             );
 
             expect(
-                () => gridl.makeGrid(-1, 4, () => 'x')
+                () => makeGrid(-1, 4, () => 'x')
             ).to.throw(
                 'You need to specify at least one column. Given: -1'
             );
 
             expect(
-                () => gridl.makeGrid(0, 4, () => 'x')
+                () => makeGrid(0, 4, () => 'x')
             ).to.throw(
                 'You need to specify at least one column. Given: 0'
             );
         });
 
         it('should generate a grid with null values if no callback is specified', () => {
-            expect(gridl.makeGrid(4, 3)).to.deep.equal([
+            expect(makeGrid(4, 3)).to.deep.equal([
                 [null, null, null, null],
                 [null, null, null, null],
                 [null, null, null, null],
@@ -1495,38 +1495,38 @@ describe('gridl', () => {
 
         it('should generate a array with 4 values', () => {
             const length = 4;
-            const grid = gridl.makeList(length, (index) => `${index}`);
+            const grid = makeList(length, (index) => `${index}`);
             expect(grid).to.deep.equal(['0', '1', '2', '3']);
         });
 
         it('should generate a grid filled with "x"-values', () => {
             const length = 7;
-            const grid = gridl.makeList(length, () => 'x');
+            const grid = makeList(length, () => 'x');
             expect(grid).to.deep.equal(['x', 'x', 'x', 'x', 'x', 'x', 'x']);
         });
 
         it('should throw an error if you provide invalid length', () => {
             expect(
-                () => gridl.makeList('balderdash', () => 'x')
+                () => makeList('balderdash', () => 'x')
             ).to.throw(
                 'Trying to make a list with an invalid length. Given: balderdash'
             );
 
             expect(
-                () => gridl.makeList(-1, () => 'x')
+                () => makeList(-1, () => 'x')
             ).to.throw(
                 'Trying to make a list with an invalid length. Given: -1'
             );
 
             expect(
-                () => gridl.makeList(0, () => 'x')
+                () => makeList(0, () => 'x')
             ).to.throw(
                 'Trying to make a list with an invalid length. Given: 0'
             );
         });
 
         it('should generate a grid with null values if no callback is specified', () => {
-            expect(gridl.makeList(4)).to.deep.equal([null, null, null, null]);
+            expect(makeList(4)).to.deep.equal([null, null, null, null]);
         });
 
     });
@@ -1536,7 +1536,7 @@ describe('gridl', () => {
         it('should generate a grid with (column, row) value pairs', () => {
             const columns = 4;
             const rows = 3;
-            const grid = gridl.make(columns, rows, ({ column, row }) => `${column},${row}`).data();
+            const grid = make(columns, rows, ({ column, row }) => `${column},${row}`).data();
             expect(grid).to.deep.equal([
                 ['0,0', '1,0', '2,0', '3,0'],
                 ['0,1', '1,1', '2,1', '3,1'],
@@ -1547,7 +1547,7 @@ describe('gridl', () => {
         it('should generate a grid filled with "x"-values', () => {
             const columns = 7;
             const rows = 5;
-            const grid = gridl.make(columns, rows, () => 'x').data();
+            const grid = make(columns, rows, () => 'x').data();
             expect(grid).to.deep.equal([
                 ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
                 ['x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -1559,19 +1559,19 @@ describe('gridl', () => {
 
         it('should throw an error if you provide invalid number of rows', () => {
             expect(
-                () => gridl.make(4, 0, () => 'x')
+                () => make(4, 0, () => 'x')
             ).to.throw(
                 'You need to specify at least one row. Given: 0'
             );
 
             expect(
-                () => gridl.make(4, -1, () => 'x')
+                () => make(4, -1, () => 'x')
             ).to.throw(
                 'You need to specify at least one row. Given: -1'
             );
 
             expect(
-                () => gridl.make(4, 'balderdash', () => 'x')
+                () => make(4, 'balderdash', () => 'x')
             ).to.throw(
                 'You need to specify at least one row. Given: balderdash'
             );
@@ -1579,26 +1579,26 @@ describe('gridl', () => {
 
         it('should throw an error if you provide invalid number of columns', () => {
             expect(
-                () => gridl.make('balderdash', 4, () => 'x')
+                () => make('balderdash', 4, () => 'x')
             ).to.throw(
                 'You need to specify at least one column. Given: balderdash'
             );
 
             expect(
-                () => gridl.make(-1, 4, () => 'x')
+                () => make(-1, 4, () => 'x')
             ).to.throw(
                 'You need to specify at least one column. Given: -1'
             );
 
             expect(
-                () => gridl.make(0, 4, () => 'x')
+                () => make(0, 4, () => 'x')
             ).to.throw(
                 'You need to specify at least one column. Given: 0'
             );
         });
 
         it('should generate a grid with null values if no callback is specified', () => {
-            expect(gridl.make(4, 3).data()).to.deep.equal([
+            expect(make(4, 3).data()).to.deep.equal([
                 [null, null, null, null],
                 [null, null, null, null],
                 [null, null, null, null],
@@ -3406,7 +3406,7 @@ describe('gridl', () => {
             // create a gridl instance
             const columns = 4;
             const rows = 3;
-            const grid = gridl.make(columns, rows, ({ column, row }) => `${column},${row}`);
+            const grid = make(columns, rows, ({ column, row }) => `${column},${row}`);
 
             // perform gridl operations
             expect(grid.setValueAt([2,1], 'bam').data()).to.deep.equal([
@@ -3443,15 +3443,14 @@ describe('gridl', () => {
                 ['|','|'],
                 ['^','^'],
             ];
-            const cow = gridl
-                .make(13, 6, () => ' ') // generate 13x6 grid that is filled with whitespaces
+            const cow = make(13, 6, () => ' ') // generate 13x6 grid that is filled with whitespaces
                 .setAreaAt([9,0], head)
                 .setAreaAt([3,2], back)
                 .setAreaAt([5,4], belly)
                 .setAreaAt([0,2], tail)
                 .setAreaAt([3,3], hindLegs)
                 .setAreaAt([9,3], foreLegs)
-                .addColumn(gridl.makeList(6, () => '\n'), 13) // add line breaks at the very right
+                .addColumn(makeList(6, () => '\n'), 13) // add line breaks at the very right
             ;
 
             function drawTheCow(cow) {
