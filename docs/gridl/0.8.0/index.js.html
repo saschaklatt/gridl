@@ -1,4 +1,32 @@
-function _isValidGridArray(data) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>function _isValidGridArray(data) {
     if (!Array.isArray(data)) {
         throw new Error('Trying to import data that is not an array.');
     }
@@ -6,10 +34,10 @@ function _isValidGridArray(data) {
         if (!Array.isArray(row)) {
             throw new Error('Trying to import data that is not an array.');
         }
-        if (i > 0 && data[i - 1].length !== row.length) {
+        if (i > 0 &amp;&amp; data[i - 1].length !== row.length) {
             throw new Error('Trying to import data with different row lengths.');
         }
-        if (row.length < 1) {
+        if (row.length &lt; 1) {
             throw new Error('Trying to import grid without any columns. You need to provide at least one column.');
         }
     });
@@ -17,7 +45,7 @@ function _isValidGridArray(data) {
 
 const _index2pos = (index, columns) => [index % columns, Math.floor(index / columns)];
 
-const _pos2index = (position, columns) => position && position[0] + position[1] * columns;
+const _pos2index = (position, columns) => position &amp;&amp; position[0] + position[1] * columns;
 
 const _toArray2D = (array1D, columns) => array1D.reduce((res, cell, index) => {
     const pos = _index2pos(index, columns);
@@ -31,7 +59,7 @@ const _toArray2D = (array1D, columns) => array1D.reduce((res, cell, index) => {
 const _flatten = array2D => array2D.reduce((res, row) => [...res, ...row], []);
 
 const _getColumn = (data, x) => {
-    if (x >= 0 && x < data[0].length) {
+    if (x >= 0 &amp;&amp; x &lt; data[0].length) {
         return data.map(row => row[x]);
     }
 };
@@ -64,8 +92,8 @@ const _move = (data, fromIndex, toIndex) => {
 };
 
 const _isNotInArea = (areaSize, position) => (
-    position[0] < 0 || position[0] >= areaSize[0] ||
-    position[1] < 0 || position[1] >= areaSize[1]
+    position[0] &lt; 0 || position[0] >= areaSize[0] ||
+    position[1] &lt; 0 || position[1] >= areaSize[1]
 );
 
 function _getValueAt(_data, columns, pos) {
@@ -113,12 +141,12 @@ function _getAreaAt(api, columns, rows, position, size, anchor = [0,0]) {
         Math.max(0, posTmp[1]),
     ];
     const area = [];
-    for (let r = pos[1]; r < end[1]; r++) {
+    for (let r = pos[1]; r &lt; end[1]; r++) {
         const rArea = r - pos[1];
         if (!area[rArea]) {
             area[rArea] = [];
         }
-        for (let c = pos[0]; c < end[0]; c++) {
+        for (let c = pos[0]; c &lt; end[0]; c++) {
             const cArea = c - pos[0];
             area[rArea][cArea] = api.valueAt([c, r]);
         }
@@ -147,9 +175,9 @@ function _findInArea(api, columns, pos, size, callback) {
 
 function _checkAreaFitsAt(columns, rows, position, area, anchor = [0,0]) {
     const pos = _subtractPositions(position, anchor);
-    const fitsHorizontally = pos[0] >= 0 && pos[0] + area[0].length <= columns;
-    const fitsVertically = pos[1] >= 0 && pos[1] + area.length <= rows;
-    return fitsHorizontally && fitsVertically;
+    const fitsHorizontally = pos[0] >= 0 &amp;&amp; pos[0] + area[0].length &lt;= columns;
+    const fitsVertically = pos[1] >= 0 &amp;&amp; pos[1] + area.length &lt;= rows;
+    return fitsHorizontally &amp;&amp; fitsVertically;
 }
 
 function _goto(columns, rows, position) {
@@ -184,20 +212,20 @@ function _moveCell(data, columns, rows, from, to) {
 }
 
 function _moveRow(_grid, _columns, _rows, yFrom, yTo) {
-    if (yFrom < 0 || yFrom >= _rows) {
+    if (yFrom &lt; 0 || yFrom >= _rows) {
         throw new Error(`Trying to move row from an invalid position. Given: ${yFrom}`);
     }
-    if (yTo < 0 || yTo >= _rows) {
+    if (yTo &lt; 0 || yTo >= _rows) {
         throw new Error(`Trying to move row to an invalid position. Given: ${yTo}`);
     }
     return _flatten(_move(_grid, yFrom, yTo));
 }
 
 function _moveColumn(grid, columns, rows, xFrom, xTo) {
-    if (xFrom < 0 || xFrom >= columns) {
+    if (xFrom &lt; 0 || xFrom >= columns) {
         throw new Error(`Trying to move column from an invalid position. Given: ${xFrom}`);
     }
-    if (xTo < 0 || xTo >= columns) {
+    if (xTo &lt; 0 || xTo >= columns) {
         throw new Error(`Trying to move column to an invalid position. Given: ${xTo}`);
     }
     const newGrid = grid.map(row => _move(row, xFrom, xTo));
@@ -205,7 +233,7 @@ function _moveColumn(grid, columns, rows, xFrom, xTo) {
 }
 
 function _addRowAt(grid, columns, rows, row, y) {
-    if (y < 0 || y > rows) {
+    if (y &lt; 0 || y > rows) {
         throw new Error(`Trying to add row at an invalid position. Given: ${y}`);
     }
     if (row.length !== columns) {
@@ -218,7 +246,7 @@ function _addRowAt(grid, columns, rows, row, y) {
 }
 
 function _addColumnAt(grid, columns, rows, column, x) {
-    if (x < 0 || x > columns) {
+    if (x &lt; 0 || x > columns) {
         throw new Error(`Trying to add column at an invalid position. Given: ${x}`);
     }
     if (column.length !== rows) {
@@ -233,10 +261,10 @@ function _addColumnAt(grid, columns, rows, column, x) {
 }
 
 function _removeRowAt(grid, rows, y) {
-    if (y < 0 || y >= rows) {
+    if (y &lt; 0 || y >= rows) {
         throw new Error(`Trying to remove a row at an invalid position. Given: ${y}`);
     }
-    if (rows <= 1) {
+    if (rows &lt;= 1) {
         throw new Error('Cannot remove row because the grid would be empty after it.');
     }
     grid.splice(y, 1);
@@ -244,23 +272,23 @@ function _removeRowAt(grid, rows, y) {
 }
 
 function _removeColumnAt(grid, columns, x) {
-    if (x < 0 || x >= columns) {
+    if (x &lt; 0 || x >= columns) {
         throw new Error(`Trying to remove a column at an invalid position. Given: ${x}`);
     }
-    if (columns <= 1) {
+    if (columns &lt;= 1) {
         throw new Error('Cannot remove column because the grid would be empty after it.');
     }
     return grid.map(row => row.filter((v, c) => c !== x));
 }
 
 function _clip(grid, _columns, _rows, position, size) {
-    if (position[0] < 0 || position[0] >= _columns || position[1] < 0 || position[1] >= _rows) {
+    if (position[0] &lt; 0 || position[0] >= _columns || position[1] &lt; 0 || position[1] >= _rows) {
         throw new Error(`Trying to clip data at an invalid position. Given: ${position}`);
     }
     const endPoint = _addPositions(position, size);
     return grid
-        .filter((row, r) => r >= position[1] && r < endPoint[1])
-        .map(row => row.filter((cell, c) => c >= position[0] && c < endPoint[0]));
+        .filter((row, r) => r >= position[1] &amp;&amp; r &lt; endPoint[1])
+        .map(row => row.filter((cell, c) => c >= position[0] &amp;&amp; c &lt; endPoint[0]));
 }
 
 function _swapCells(api, pos1, pos2) {
@@ -275,10 +303,10 @@ function _swapCells(api, pos1, pos2) {
 }
 
 function _swapRows(grid, rows, y1, y2) {
-    if (y1 < 0 || y1 >= rows) {
+    if (y1 &lt; 0 || y1 >= rows) {
         throw new Error(`Trying to swap rows from an invalid position. Given: ${y1}`);
     }
-    if (y2 < 0 || y2 >= rows) {
+    if (y2 &lt; 0 || y2 >= rows) {
         throw new Error(`Trying to swap rows to an invalid position. Given: ${y2}`);
     }
     _swap(grid, y1, y2);
@@ -286,10 +314,10 @@ function _swapRows(grid, rows, y1, y2) {
 }
 
 function _swapColumns(grid, columns, x1, x2) {
-    if (x1 < 0 || x1 >= columns) {
+    if (x1 &lt; 0 || x1 >= columns) {
         throw new Error(`Trying to swap columns from an invalid position. Given: ${x1}`);
     }
-    if (x2 < 0 || x2 >= columns) {
+    if (x2 &lt; 0 || x2 >= columns) {
         throw new Error(`Trying to swap columns to an invalid position. Given: ${x2}`);
     }
     grid.map(row => {
@@ -301,7 +329,7 @@ function _swapColumns(grid, columns, x1, x2) {
 
 function _rotate(grid, columns, steps) {
     const mod = steps % 4;
-    const option = mod < 0 ? mod + 4 : mod;
+    const option = mod &lt; 0 ? mod + 4 : mod;
     switch (option) {
         case 0:
             return grid;
@@ -321,7 +349,7 @@ function _mirror(arr, index) {
         return arr.reverse();
     }
     const limitedIdx = _limit(index, 0, arr.length - 1);
-    const left = arr.filter((v, i) => i < limitedIdx);
+    const left = arr.filter((v, i) => i &lt; limitedIdx);
     const right = arr.filter((v, i) => i > limitedIdx);
     return [
         ...right.reverse(),
@@ -342,7 +370,7 @@ function gridl(data) {
     /**
      * @callback iteratorCallback
      * @param {any} cell - The current cell.
-     * @param {Array.<number>} position - The current position.
+     * @param {Array.&lt;number>} position - The current position.
      * @param {gridl} gridlInstance - The current gridl instance.
      */
 
@@ -372,7 +400,7 @@ function gridl(data) {
     this.size = () => [_columns, _rows];
 
     /**
-     * Set the value at the current position. You can also set the cell to <code>undefined</code>
+     * Set the value at the current position. You can also set the cell to &lt;code>undefined&lt;/code>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
      * @param {any} value - The value the cell should have.
@@ -380,31 +408,31 @@ function gridl(data) {
     this.setValue = value => _setValueAt(this, _data, _columns, _position, value);
 
     /**
-     * Get or set the value at the current position.<br>
-     * It returns the cell's value if you provide no value and sets it if you do provide a value.<br>
-     * To explicitly set the value to <code>undefined</code> use [setValue()]{@link gridl#setValue}.
+     * Get or set the value at the current position.&lt;br>
+     * It returns the cell's value if you provide no value and sets it if you do provide a value.&lt;br>
+     * To explicitly set the value to &lt;code>undefined&lt;/code> use [setValue()]{@link gridl#setValue}.
      *
-     * @param {any} value - The value you want to set or <code>undefined</code> if you want to get the value.
+     * @param {any} value - The value you want to set or &lt;code>undefined&lt;/code> if you want to get the value.
      * @returns {any} The cell's value or the gridl instance if you use it as a setter.
      */
     this.value = value => value === undefined ? _getValueAt(_data, _columns, _position) : _setValueAt(this, _data, _columns, _position, value);
 
     /**
-     * Set the value at a certain position. You can also set the cell to <code>undefined</code>
+     * Set the value at a certain position. You can also set the cell to &lt;code>undefined&lt;/code>
      *
-     * @param {Array.<number>} pos - The position where you want to set the value.
+     * @param {Array.&lt;number>} pos - The position where you want to set the value.
      * @param {any} value - The value you want to set.
      * @returns {gridl} The same gridl instance.
      */
     this.setValueAt = (pos, value) => _setValueAt(this, _data, _columns, pos, value);
 
     /**
-     * Get or set the value at a certain position.<br>
-     * It returns the cell's value if you provide no value and sets it if you do provide a value.<br>
-     * To explicitly set the value to <code>undefined</code> use [setValueAt()]{@link gridl#setValueAt}.
+     * Get or set the value at a certain position.&lt;br>
+     * It returns the cell's value if you provide no value and sets it if you do provide a value.&lt;br>
+     * To explicitly set the value to &lt;code>undefined&lt;/code> use [setValueAt()]{@link gridl#setValueAt}.
      *
-     * @param {Array.<number>} pos - The position where you want to set or get the value.
-     * @param {any} value - The value you want to set or <code>undefined</code> if you want to get the value.
+     * @param {Array.&lt;number>} pos - The position where you want to set or get the value.
+     * @param {any} value - The value you want to set or &lt;code>undefined&lt;/code> if you want to get the value.
      * @returns {any} The cell's value or the the same gridl instance if you use it as a setter.
      */
     this.valueAt = (pos, value) => value === undefined ? _getValueAt(_data, _columns, pos) : _setValueAt(this, _data, _columns, pos, value);
@@ -470,7 +498,7 @@ function gridl(data) {
      * Get the column at a certain x-position
      *
      * @param {number} x - The x-position of the column you want to get.
-     * @returns {Array.<any>}
+     * @returns {Array.&lt;any>}
      */
     this.column = x => _getColumn(this.data(), x);
 
@@ -478,14 +506,14 @@ function gridl(data) {
      * Get the row at a certain y-position
      *
      * @param {number} y - The y-position of the row you want to get.
-     * @returns {Array.<any>}
+     * @returns {Array.&lt;any>}
      */
     this.row = y => _getRow(this.data(), y);
 
     /**
      * Add a row at a certain y-position. This changes the size of the grid.
      *
-     * @param {Array.<any>} row - The row you want to add as an one-dimensional array.
+     * @param {Array.&lt;any>} row - The row you want to add as an one-dimensional array.
      * @param {number} y - The y-position of where you want to add the row.
      * @returns {gridl} The same gridl instance.
      */
@@ -499,7 +527,7 @@ function gridl(data) {
     /**
      * Add a column at a certain x-position. This changes the size of the grid.
      *
-     * @param {Array.<any>} column - The column you want to add as an one-dimensional array.
+     * @param {Array.&lt;any>} column - The column you want to add as an one-dimensional array.
      * @param {number} x - The x-position of where you want to add the column.
      * @returns {gridl} The same gridl instance.
      */
@@ -539,8 +567,8 @@ function gridl(data) {
     /**
      * Clip an area out of the current grid. It removes all cells that are not inside the given area.
      *
-     * @param {Array.<number>} position - The position the area.
-     * @param {Array.<number>} size - The size of the area.
+     * @param {Array.&lt;number>} position - The position the area.
+     * @param {Array.&lt;number>} size - The size of the area.
      * @returns {gridl} The same gridl instance.
      */
     this.clipAt = (position, size) => {
@@ -552,10 +580,10 @@ function gridl(data) {
     };
 
     /**
-     * Clip an area out of the current grid at the current position. It removes all cells that are not inside the given area.<br>
+     * Clip an area out of the current grid at the current position. It removes all cells that are not inside the given area.&lt;br>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
-     * @param {Array.<number>} size - The size of the area.
+     * @param {Array.&lt;number>} size - The size of the area.
      * @returns {gridl} The same gridl instance.
      */
     this.clip = size => this.clipAt(_position, size);
@@ -563,17 +591,17 @@ function gridl(data) {
     /**
      * Swap the values of two cells.
      *
-     * @param {Array.<number>} position1 - The position of the first cell.
-     * @param {Array.<number>} position2 - The position of the second cell.
+     * @param {Array.&lt;number>} position1 - The position of the first cell.
+     * @param {Array.&lt;number>} position2 - The position of the second cell.
      * @returns {gridl} The same gridl instance.
      */
     this.swapCells = (position1, position2) => _swapCells(this, position1, position2);
 
     /**
-     * Swaps the values of the cell at the current position and another cell.<br>
+     * Swaps the values of the cell at the current position and another cell.&lt;br>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
-     * @param {Array.<number>} position - The position of the first cell.
+     * @param {Array.&lt;number>} position - The position of the first cell.
      * @returns {gridl} The same gridl instance.
      */
     this.swapCell = position => _swapCells(this, _position, position);
@@ -581,8 +609,8 @@ function gridl(data) {
     /**
      * Swaps the values of two rows.
      *
-     * @param {Array.<number>} y1 - The y-position of the first row.
-     * @param {Array.<number>} y2 - The y-position of the second row.
+     * @param {Array.&lt;number>} y1 - The y-position of the first row.
+     * @param {Array.&lt;number>} y2 - The y-position of the second row.
      * @returns {gridl} The same gridl instance.
      */
     this.swapRows = (y1, y2) => {
@@ -593,8 +621,8 @@ function gridl(data) {
     /**
      * Swaps the values of two columns.
      *
-     * @param {Array.<number>} x1 - The x-position of the first column.
-     * @param {Array.<number>} x2 - The x-position of the second column.
+     * @param {Array.&lt;number>} x1 - The x-position of the first column.
+     * @param {Array.&lt;number>} x2 - The x-position of the second column.
      * @returns {gridl} The same gridl instance.
      */
     this.swapColumns = (x1, x2) => {
@@ -605,19 +633,19 @@ function gridl(data) {
     /**
      * Overwrite the values of a given area at a certain position.
      *
-     * @param {Array.<number>} position - The position of the area.
-     * @param {Array.<number>} area - The area itself as two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
+     * @param {Array.&lt;number>} position - The position of the area.
+     * @param {Array.&lt;number>} area - The area itself as two-dimensional grid array.
+     * @param {Array.&lt;number>} [anchor = [0, 0]] - The center of area.
      * @returns {gridl} The same gridl instance.
      */
     this.setAreaAt = (position, area, anchor) => _setAreaAt(this, _columns, _rows, position, area, anchor);
 
     /**
-     * Overwrite the values of a given area at the current position.<br>
+     * Overwrite the values of a given area at the current position.&lt;br>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
-     * @param {Array.<number>} area - The area itself as two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
+     * @param {Array.&lt;number>} area - The area itself as two-dimensional grid array.
+     * @param {Array.&lt;number>} [anchor = [0, 0]] - The center of area.
      * @returns {gridl} The same gridl instance.
      */
     this.setArea = (area, anchor) => _setAreaAt(this, _columns, _rows, _position, area, anchor);
@@ -625,19 +653,19 @@ function gridl(data) {
     /**
      * Exports the data grid array of a given array at the given position.
      *
-     * @param {Array.<number>} position - The position of the area.
-     * @param {Array.<number>} size - The size fo the area as a two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
+     * @param {Array.&lt;number>} position - The position of the area.
+     * @param {Array.&lt;number>} size - The size fo the area as a two-dimensional grid array.
+     * @param {Array.&lt;number>} [anchor = [0, 0]] - The center of area.
      * @returns {number[][]}
      */
     this.getAreaAt = (position, size, anchor) => _getAreaAt(this, _columns, _rows, position, size, anchor);
 
     /**
-     * Exports the data grid array of a given array at the current position.<br>
+     * Exports the data grid array of a given array at the current position.&lt;br>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
-     * @param {Array.<number>} size - The size fo the area as a two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
+     * @param {Array.&lt;number>} size - The size fo the area as a two-dimensional grid array.
+     * @param {Array.&lt;number>} [anchor = [0, 0]] - The center of area.
      * @returns {number[][]}
      */
     this.getArea = (size, anchor) => _getAreaAt(this, _columns, _rows, _position, size, anchor);
@@ -653,7 +681,7 @@ function gridl(data) {
     this.areaFitsAt = (position, area, anchor) => _checkAreaFitsAt(_columns, _rows, position, area, anchor);
 
     /**
-     * Check if a given area would fit inside the grid at the current position.<br>
+     * Check if a given area would fit inside the grid at the current position.&lt;br>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
      * @param {any[][]} area - The area itself as a two-dimensional grid array
@@ -666,7 +694,7 @@ function gridl(data) {
      * Find the first occurrence of an element within the entire grid.
      *
      * @param {iteratorCallback} callback - The callback function that is called on each element. Should return true if the element is found or false if not.
-     * @returns {(Array.<number>|undefined)} The position of the first element that is found or <code>undefined</code> if nothing was found.
+     * @returns {(Array.&lt;number>|undefined)} The position of the first element that is found or &lt;code>undefined&lt;/code> if nothing was found.
      */
     this.find = callback => _find(_columns, _data, (v, i) => callback(v, _index2pos(i, _columns), this));
 
@@ -676,7 +704,7 @@ function gridl(data) {
      * @param {Array} position - The position of the area [x, y].
      * @param {Array} size - The size of the area [columns, rows].
      * @param {iteratorCallback} callback - The callback function that is called on each element within the defined area. Should return true if the element is found or false if not.
-     * @returns {(Array.<number>|undefined)} The position of the first element that is found or <code>undefined</code> if nothing was found.
+     * @returns {(Array.&lt;number>|undefined)} The position of the first element that is found or &lt;code>undefined&lt;/code> if nothing was found.
      */
     this.findInArea = (position, size, callback) => _findInArea(this, _columns, position, size, callback);
 
@@ -764,7 +792,7 @@ function gridl(data) {
     /**
      * Map over all cells. It's the equivalent of Array.map just for the grid.
      *
-     * @param {iteratorCallback} callback - The callback function that is called on each cell.<br><code>function(cell, position, gridlInstance) { return ... }</code>
+     * @param {iteratorCallback} callback - The callback function that is called on each cell.&lt;br>&lt;code>function(cell, position, gridlInstance) { return ... }&lt;/code>
      * @returns {gridl} A new gridl instance.
      */
     this.map = callback => {
@@ -775,7 +803,7 @@ function gridl(data) {
     /**
      * Iterate over all cells. It's the equivalent of Array.forEach just for the grid.
      *
-     * @param {iteratorCallback} callback - The callback function is called for each cell.<br><code>function(cell, position, gridlInstance) { return ... }</code>
+     * @param {iteratorCallback} callback - The callback function is called for each cell.&lt;br>&lt;code>function(cell, position, gridlInstance) { return ... }&lt;/code>
      * @returns {gridl} The same gridl instance.
      */
     this.forEach = callback => {
@@ -795,18 +823,18 @@ function gridl(data) {
 }
 
 /**
- * Predefined directions you can walk in.<br>
+ * Predefined directions you can walk in.&lt;br>
  * Use it in combination with [walk(direction)]{@link gridl#walk}.
  *
  * @type {Object}
- * @property {Array.<number>} UP - one step up
- * @property {Array.<number>} UP_LEFT - one step left, one step up
- * @property {Array.<number>} UP_RIGHT - one step right, one step up
- * @property {Array.<number>} RIGHT - one step right
- * @property {Array.<number>} LEFT - one step left
- * @property {Array.<number>} DOWN - one step down
- * @property {Array.<number>} DOWN_LEFT - one step left, one step down
- * @property {Array.<number>} DOWN_RIGHT - one step right, one step down
+ * @property {Array.&lt;number>} UP - one step up
+ * @property {Array.&lt;number>} UP_LEFT - one step left, one step up
+ * @property {Array.&lt;number>} UP_RIGHT - one step right, one step up
+ * @property {Array.&lt;number>} RIGHT - one step right
+ * @property {Array.&lt;number>} LEFT - one step left
+ * @property {Array.&lt;number>} DOWN - one step down
+ * @property {Array.&lt;number>} DOWN_LEFT - one step left, one step down
+ * @property {Array.&lt;number>} DOWN_RIGHT - one step right, one step down
  */
 export const directions = Object.freeze({
     UP:         [ 0, -1],
@@ -830,10 +858,10 @@ export const directions = Object.freeze({
 export function makeGrid(columns, rows, callback = () => null) {
     const parsedColumns = parseInt(columns);
     const parsedRows = parseInt(rows);
-    if (parsedColumns < 1 || isNaN(parsedColumns)) {
+    if (parsedColumns &lt; 1 || isNaN(parsedColumns)) {
         throw new Error(`You need to specify at least one column. Given: ${columns}`);
     }
-    if (parsedRows < 1 || isNaN(parsedRows)) {
+    if (parsedRows &lt; 1 || isNaN(parsedRows)) {
         throw new Error(`You need to specify at least one row. Given: ${rows}`);
     }
     return Array.from({ length: parsedRows }, (vr, row) => (
@@ -852,7 +880,7 @@ export function makeGrid(columns, rows, callback = () => null) {
  */
 export function makeList(length, callback = () => null) {
     const parsedLength = parseInt(length);
-    if (parsedLength < 1 || isNaN(parsedLength)) {
+    if (parsedLength &lt; 1 || isNaN(parsedLength)) {
         throw new Error(`Trying to make a list with an invalid length. Given: ${length}`);
     }
     return Array.from({ length: parsedLength }, (v, i) => callback(i));
@@ -871,13 +899,13 @@ export function make(numColumns, numRows, callback) {
 }
 
 /**
- * Creates a new gridl instance.<br>
- * <br>
- * This is exported as the default function. It serves as a wrapper around gridl so that you don't have to use the <code>`new`</code>
- * keyword each time. So instead of saying `<code>new gridl(data)</code>` you can just say `<code>gridl(data)</code>`.
- * That's the only reason for gridlFactory.<br>
- * <br>
- * Please don't care too much about the difference between gridl and gridlFactory. Just use it as `<code>gridl(data)</code>`.
+ * Creates a new gridl instance.&lt;br>
+ * &lt;br>
+ * This is exported as the default function. It serves as a wrapper around gridl so that you don't have to use the &lt;code>`new`&lt;/code>
+ * keyword each time. So instead of saying `&lt;code>new gridl(data)&lt;/code>` you can just say `&lt;code>gridl(data)&lt;/code>`.
+ * That's the only reason for gridlFactory.&lt;br>
+ * &lt;br>
+ * Please don't care too much about the difference between gridl and gridlFactory. Just use it as `&lt;code>gridl(data)&lt;/code>`.
  *
  * @constructor
  * @param {Array} data - A two dimensional grid array. Every row needs to have the same length.
@@ -890,3 +918,26 @@ gridlFactory.makeGrid = makeGrid;
 gridlFactory.makeList = makeList;
 
 export default gridlFactory;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="gridl.html">gridl</a></li><li><a href="gridlFactory.html">gridlFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#directions">directions</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#makeGrid">makeGrid</a></li><li><a href="global.html#makeList">makeList</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 27 2018 17:13:32 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
