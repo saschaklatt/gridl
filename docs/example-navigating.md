@@ -14,7 +14,7 @@ gridl(data)
 Walk in a direction (= going to positions relative to the current position):
 
 ```javascript
-const { UP } = gridl.directions;
+const { UP } = gridl.directions;
 const data = [
     [ 1, 2, 3, 4],
     [ 5, 6, 7, 8],

@@ -40,7 +40,7 @@ const data = [
     [17,18,19,20,25],
 ];
 const g = gridl(data);
-const { UP, LEFT } = gridl.directions;
+const { UP, LEFT } = gridl.directions;
 
 g.goto([2,3]).walk([-2, 1]).position(); // [0,4]
 g.goto([2,3]).walk(UP).position();      // [2,2]
