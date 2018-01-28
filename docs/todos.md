@@ -24,13 +24,13 @@
 * jsdoc
     * evaluate tutorial functionality of jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
-    * configure output directory
-    * add code comments
-    * split helper function in separate files
+    * integrate code coverage
+* split helper function in separate files
 * rename "mirroring" to "flipping" 
 * shifting: rows, columns and areas (shift left, right, up, down)
 * concatenating grids (two 3x3 grids become one 6x3 grid)
 * eternal mode
+* speed optimizations
 
 ## Considering features
 
