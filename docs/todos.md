@@ -10,6 +10,14 @@
     * make sure distribution files are generated before publishing
     * consider testing against dist/ files
     * continuous integration
+    * manual steps at the moment
+        * npm run build
+        * update version in package.json
+        * npm run doc
+        * update README (link to docs)
+        * git tag <version number>
+        * git push origin master --tags
+        * npm publish
 * Inconsistent getter/setter styles
     * style 1: value(), row(), position()
     * style 2: getAreaAt(), setAreaAt()
