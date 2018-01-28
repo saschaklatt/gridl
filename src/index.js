@@ -76,7 +76,10 @@ function _getValueAt(_data, columns, pos) {
     return _data[index];
 }
 
-function _setValueAt(api, _data, columns, pos, value) {
+function _setValueAt(api, _data, columns, rows, pos, value) {
+    if (_isNotInArea([columns, rows], pos)) {
+        return api;
+    }
     const index = _pos2index(pos, columns);
     if (!isNaN(index)) {
         _data[index] = value;
@@ -156,9 +159,9 @@ function _goto(columns, rows, position) {
     if (!Array.isArray(position)) {
         throw new Error(`Trying to go to an invalid position. Given: ${position}`);
     }
-    if (_isNotInArea([columns, rows], position)) {
-        throw new Error(`Trying to go to an invalid position. Given: ${position}`);
-    }
+    // if (_isNotInArea([columns, rows], position)) {
+    //     throw new Error(`Trying to go to an invalid position. Given: ${position}`);
+    // }
     return position;
 }
 
@@ -330,6 +333,14 @@ function _mirror(arr, index) {
     ];
 }
 
+function _adjacentCells(api, _columns, _rows, position, adjacence = adjacences.ALL) {
+    const gridSize = [_columns, _rows];
+    return adjacence.reduce((res, direction) => {
+        const absPos = _addPositions(position, direction);
+        return _isNotInArea(gridSize, absPos) ? res : [...res, api.valueAt(absPos)];
+    }, []);
+}
+
 /**
  * Generates a new gridl instance.
  *
@@ -377,7 +388,7 @@ function gridl(data) {
      *
      * @param {any} value - The value the cell should have.
      */
-    this.setValue = value => _setValueAt(this, _data, _columns, _position, value);
+    this.setValue = value => _setValueAt(this, _data, _columns, _rows, _position, value);
 
     /**
      * Get or set the value at the current position.<br>
@@ -387,7 +398,7 @@ function gridl(data) {
      * @param {any} value - The value you want to set or <code>undefined</code> if you want to get the value.
      * @returns {any} The cell's value or the gridl instance if you use it as a setter.
      */
-    this.value = value => value === undefined ? _getValueAt(_data, _columns, _position) : _setValueAt(this, _data, _columns, _position, value);
+    this.value = value => value === undefined ? _getValueAt(_data, _columns, _position) : _setValueAt(this, _data, _columns, _rows, _position, value);
 
     /**
      * Set the value at a certain position. You can also set the cell to <code>undefined</code>
@@ -396,7 +407,7 @@ function gridl(data) {
      * @param {any} value - The value you want to set.
      * @returns {gridl} The same gridl instance.
      */
-    this.setValueAt = (pos, value) => _setValueAt(this, _data, _columns, pos, value);
+    this.setValueAt = (pos, value) => _setValueAt(this, _data, _columns, _rows, pos, value);
 
     /**
      * Get or set the value at a certain position.<br>
@@ -407,7 +418,7 @@ function gridl(data) {
      * @param {any} value - The value you want to set or <code>undefined</code> if you want to get the value.
      * @returns {any} The cell's value or the the same gridl instance if you use it as a setter.
      */
-    this.valueAt = (pos, value) => value === undefined ? _getValueAt(_data, _columns, pos) : _setValueAt(this, _data, _columns, pos, value);
+    this.valueAt = (pos, value) => value === undefined ? _getValueAt(_data, _columns, pos) : _setValueAt(this, _data, _columns, _rows, pos, value);
 
     /**
      * Move a cell from one position to another.
@@ -790,6 +801,24 @@ function gridl(data) {
      */
     this.clone = () => new gridl(_toArray2D(_data, _columns)).goto(_position);
 
+    /**
+     * Get the values of all adjacent cells at a given position.
+     *
+     * @param {number[]} position - The position of the cell of which you want to know its adjacent cells.
+     * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
+     * @returns {any[]} The values of the adjacent cells.
+     */
+    this.adjacentCellsAt = (position, adjacence = adjacences.ALL) => _adjacentCells(this, _columns, _rows, position, adjacence);
+
+    /**
+     * Get the values of all adjacent cells at the current position.<br>
+     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
+     *
+     * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
+     * @returns {any[]} The values of the adjacent cells.
+     */
+    this.adjacentCells = (adjacence = adjacences.ALL) => _adjacentCells(this, _columns, _rows, _position, adjacence);
+
     return this;
 
 }
@@ -817,6 +846,39 @@ export const directions = Object.freeze({
     DOWN_LEFT:  [-1,  1],
     LEFT:       [-1,  0],
     UP_LEFT:    [-1, -1],
+});
+
+/**
+ * Predefined lists of adjacent positions relative to a certain position.
+ *
+ * @type {Object}
+ * @property {number[][]} ALL - all direct adjacent positions (orthogonal + diagonal)
+ * @property {number[][]} ORTHOGONAL - all orthogonal adjacent positions
+ * @property {number[][]} DIAGONAL - all diagonal adjacent positions
+ */
+export const adjacences = Object.freeze({
+    ALL: [
+        directions.UP_LEFT,
+        directions.UP,
+        directions.UP_RIGHT,
+        directions.LEFT,
+        directions.RIGHT,
+        directions.DOWN_LEFT,
+        directions.DOWN,
+        directions.DOWN_RIGHT,
+    ],
+    ORTHOGONAL: [
+        directions.UP,
+        directions.LEFT,
+        directions.RIGHT,
+        directions.DOWN,
+    ],
+    DIAGONAL: [
+        directions.UP_LEFT,
+        directions.UP_RIGHT,
+        directions.DOWN_LEFT,
+        directions.DOWN_RIGHT,
+    ]
 });
 
 /**
@@ -884,6 +946,7 @@ export function make(numColumns, numRows, callback) {
  * @returns {gridl}
  */
 const gridlFactory = data => new gridl(data);
+gridlFactory.adjacences = adjacences;
 gridlFactory.directions = directions;
 gridlFactory.make = make;
 gridlFactory.makeGrid = makeGrid;

@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import gridl, { make, makeList, makeGrid } from '../src';
+import gridl, { adjacences, make, makeList, makeGrid } from '../src';
 
 const checkApi = api => {
     expect(Object.keys(api)).to.have.members([
@@ -46,6 +46,8 @@ const checkApi = api => {
         'map',
         'forEach',
         'clone',
+        'adjacentCellsAt',
+        'adjacentCells',
     ]);
 };
 
@@ -59,6 +61,7 @@ describe('gridlFactory', () => {
 
         it('should return the static api', () => {
             expect(Object.keys(gridl)).to.have.members([
+                'adjacences',
                 'directions',
                 'makeGrid',
                 'makeList',
@@ -258,7 +261,7 @@ describe('gridlFactory', () => {
             expect(g.valueAt([2,1])).to.equal(7);
         });
 
-        it('should return undefined position is invalid', () => {
+        it('should return undefined if the position is invalid', () => {
             const data = [
                 [1,2,3,4],
                 [5,6,7,8],
@@ -267,8 +270,15 @@ describe('gridlFactory', () => {
             expect(g.valueAt('wrong')).to.equal(undefined);
             expect(g.valueAt({})).to.equal(undefined);
             expect(g.valueAt([])).to.equal(undefined);
-            expect(g.valueAt([-1, 100])).to.equal(undefined);
             expect(g.valueAt()).to.equal(undefined);
+        });
+
+        it('should return undefined if the position is outside the grid', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+            ];
+            expect(gridl(data).valueAt([-1, 100])).to.equal(undefined);
         });
 
     });
@@ -301,6 +311,21 @@ describe('gridlFactory', () => {
             expect(g.valueAt([0,2])).to.equal(5);
         });
 
+        it('should do nothing if you set a value outside the grid', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).valueAt([3,2], 'balderdash').data()).to.deep.equal([
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ]);
+        });
+
         it('should return the api', () => {
             const data = [
                 [1,2],
@@ -325,6 +350,14 @@ describe('gridlFactory', () => {
             expect(g.goto([1,0]).value()).to.equal(2);
             expect(g.goto([0,1]).value()).to.equal(5);
             expect(g.goto([2,1]).value()).to.equal(7);
+        });
+
+        it('should return undefined if the current position is outside the grid', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+            ];
+            expect(gridl(data).goto([-1, 100]).value()).to.equal(undefined);
         });
 
     });
@@ -386,6 +419,21 @@ describe('gridlFactory', () => {
             checkApi(gridl(data).value(666));
         });
 
+        it('should do nothing if you set a value outside the grid', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).goto([3,2]).value('balderdash').data()).to.deep.equal([
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ]);
+        });
+
     });
 
     describe('setValueAt', () => {
@@ -412,8 +460,24 @@ describe('gridlFactory', () => {
             ];
             const g = gridl(data);
             expect(g.valueAt([0,2])).to.equal(5);
-            checkApi(g.setValueAt('ludicrous', 666));
+            checkApi(g.setValueAt('balderdash', 666));
             expect(g.valueAt([0,2])).to.equal(5);
+        });
+
+        it('should do nothing if you set a value outside the grid', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            const g = gridl(data);
+            expect(g.setValueAt([3,2], 'balderdash').data()).to.deep.equal([
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ]);
         });
 
         it('should return the api', () => {
@@ -3110,36 +3174,36 @@ describe('gridlFactory', () => {
             expect(() => gridl(data).goto({})).to.throw('Trying to go to an invalid position. Given: [object Object]');
         });
 
-        it('should throw an error you go to an invalid position (left)', () => {
+        it('should go to a position outside the grid (left)', () => {
             const data = [
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(() => gridl(data).goto([-1,0])).to.throw('Trying to go to an invalid position. Given: -1,0');
+            expect(gridl(data).goto([-1,0]).position()).to.deep.equal([-1,0]);
         });
 
-        it('should throw an error you go to an invalid position (top)', () => {
+        it('should go to a position outside the grid (top)', () => {
             const data = [
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(() => gridl(data).goto([0,-1])).to.throw('Trying to go to an invalid position. Given: 0,-1');
+            expect(gridl(data).goto([0,-1]).position()).to.deep.equal([0,-1]);
         });
 
-        it('should throw an error you go to an invalid position (right)', () => {
+        it('should go to a position outside the grid (right)', () => {
             const data = [
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(() => gridl(data).goto([3,0])).to.throw('Trying to go to an invalid position. Given: 3,0');
+            expect(gridl(data).goto([3,0]).position()).to.deep.equal([3,0]);
         });
 
-        it('should throw an error you go to an invalid position (bottom)', () => {
+        it('should go to a position outside the grid (bottom)', () => {
             const data = [
                 [1,2,3],
                 [4,5,6],
             ];
-            expect(() => gridl(data).goto([0,2])).to.throw('Trying to go to an invalid position. Given: 0,2');
+            expect(gridl(data).goto([0,2]).position()).to.deep.equal([0,2]);
         });
 
     });
@@ -3372,6 +3436,374 @@ describe('gridlFactory', () => {
             expect(master === clone).to.equal(false);
             expect(clone.data()).to.deep.equal(master.data());
             expect(clone.position()).to.deep.equal(master.position());
+        });
+
+    });
+
+    describe('adjacentCellsAt', () => {
+
+        const mockData = () => ([
+            [ 1, 2, 3, 4, 5],
+            [ 6, 7, 8, 9,10],
+            [11,12,13,14,15],
+            [16,17,18,19,20],
+            [21,22,23,24,25],
+        ]);
+
+        describe('with adjacences.ALL (default)', () => {
+
+            it('should get me all adjacent cells', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,2])).to.deep.equal([7, 8, 9, 12, 14, 17, 18, 19]);
+            });
+
+            it('should get me all adjacent cells if x = left edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([0,2])).to.deep.equal([6, 7, 12, 16, 17]);
+            });
+
+            it('should get me all adjacent cells if x = left edge - 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([-1,2])).to.deep.equal([6, 11, 16]);
+            });
+
+            it('should get me an empty list if x = left edge - 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([-2,2])).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if x = right edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([4,2])).to.deep.equal([9, 10, 14, 19, 20]);
+            });
+
+            it('should get me all adjacent cells if x = right edge + 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([5,2])).to.deep.equal([10, 15, 20]);
+            });
+
+            it('should get me an empty list if x = right edge + 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([6,2])).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = top edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,0])).to.deep.equal([2, 4, 7, 8, 9]);
+            });
+
+            it('should get me all adjacent cells if y = top edge - 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,-1])).to.deep.equal([2, 3, 4]);
+            });
+
+            it('should get me an empty list if y = top edge - 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,-2])).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,4])).to.deep.equal([17, 18, 19, 22, 24]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge + 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,5])).to.deep.equal([22, 23, 24]);
+            });
+
+            it('should get me an empty list if y = bottom edge + 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,6])).to.deep.equal([]);
+            });
+
+        });
+
+        describe('with adjacences.ORTHOGONAL', () => {
+
+            const adjacence = adjacences.ORTHOGONAL;
+
+            it('should get me all adjacent cells', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,2], adjacence)).to.deep.equal([8, 12, 14, 18]);
+            });
+
+            it('should get me all adjacent cells if x = left edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([0,2], adjacence)).to.deep.equal([6, 12, 16]);
+            });
+
+            it('should get me all adjacent cells if x = left edge - 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([-1,2], adjacence)).to.deep.equal([11]);
+            });
+
+            it('should get me an empty list if x = left edge - 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([-2,2], adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if x = right edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([4,2], adjacence)).to.deep.equal([10, 14, 20]);
+            });
+
+            it('should get me all adjacent cells if x = right edge + 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([5,2], adjacence)).to.deep.equal([15]);
+            });
+
+            it('should get me an empty list if x = right edge + 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([6,2], adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = top edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,0], adjacence)).to.deep.equal([2, 4, 8]);
+            });
+
+            it('should get me all adjacent cells if y = top edge - 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,-1], adjacence)).to.deep.equal([3]);
+            });
+
+            it('should get me an empty list if y = top edge - 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,-2], adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,4], adjacence)).to.deep.equal([18, 22, 24]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge + 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,5], adjacence)).to.deep.equal([23]);
+            });
+
+            it('should get me an empty list if y = bottom edge + 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,6], adjacence)).to.deep.equal([]);
+            });
+
+        });
+
+        describe('with adjacences.DIAGONAL', () => {
+
+            const adjacence = adjacences.DIAGONAL;
+
+            it('should get me all adjacent cells', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,2], adjacence)).to.deep.equal([7,9,17,19]);
+            });
+
+            it('should get me all adjacent cells if x = left edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([0,2], adjacence)).to.deep.equal([7, 17]);
+            });
+
+            it('should get me all adjacent cells if x = left edge - 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([-1,2], adjacence)).to.deep.equal([6, 16]);
+            });
+
+            it('should get me an empty list if x = left edge - 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([-2,2], adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if x = right edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([4,2], adjacence)).to.deep.equal([9,19]);
+            });
+
+            it('should get me all adjacent cells if x = right edge + 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([5,2], adjacence)).to.deep.equal([10, 20]);
+            });
+
+            it('should get me an empty list if x = right edge + 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([6,2], adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = top edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,0], adjacence)).to.deep.equal([7,9]);
+            });
+
+            it('should get me all adjacent cells if y = top edge - 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,-1], adjacence)).to.deep.equal([2,4]);
+            });
+
+            it('should get me an empty list if y = top edge - 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,-2], adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,4], adjacence)).to.deep.equal([17,19]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge + 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,5], adjacence)).to.deep.equal([22,24]);
+            });
+
+            it('should get me an empty list if y = bottom edge + 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,6], adjacence)).to.deep.equal([]);
+            });
+
+        });
+
+    });
+
+    describe('adjacentCells', () => {
+
+        const mockData = () => ([
+            [ 1, 2, 3, 4, 5],
+            [ 6, 7, 8, 9,10],
+            [11,12,13,14,15],
+            [16,17,18,19,20],
+            [21,22,23,24,25],
+        ]);
+
+        describe('with adjacences.ALL (default)', () => {
+
+            it('should get me all adjacent cells', () => {
+                expect(gridl(mockData()).goto([2,2]).adjacentCells()).to.deep.equal([7, 8, 9, 12, 14, 17, 18, 19]);
+            });
+
+            it('should get me all adjacent cells if x = left edge', () => {
+                expect(gridl(mockData()).goto([0,2]).adjacentCells()).to.deep.equal([6, 7, 12, 16, 17]);
+            });
+
+            it('should get me all adjacent cells if x = left edge - 1', () => {
+                expect(gridl(mockData()).goto([-1,2]).adjacentCells()).to.deep.equal([6, 11, 16]);
+            });
+
+            it('should get me an empty list if x = left edge - 2', () => {
+                expect(gridl(mockData()).goto([-2,2]).adjacentCells()).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if x = right edge', () => {
+                expect(gridl(mockData()).goto([4,2]).adjacentCells()).to.deep.equal([9, 10, 14, 19, 20]);
+            });
+
+            it('should get me all adjacent cells if x = right edge + 1', () => {
+                expect(gridl(mockData()).goto([5,2]).adjacentCells()).to.deep.equal([10, 15, 20]);
+            });
+
+            it('should get me an empty list if x = right edge + 2', () => {
+                expect(gridl(mockData()).goto([6,2]).adjacentCells()).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = top edge', () => {
+                expect(gridl(mockData()).goto([2,0]).adjacentCells()).to.deep.equal([2, 4, 7, 8, 9]);
+            });
+
+            it('should get me all adjacent cells if y = top edge - 1', () => {
+                expect(gridl(mockData()).goto([2,-1]).adjacentCells()).to.deep.equal([2, 3, 4]);
+            });
+
+            it('should get me an empty list if y = top edge - 2', () => {
+                expect(gridl(mockData()).goto([2,-2]).adjacentCells()).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge', () => {
+                expect(gridl(mockData()).goto([2,4]).adjacentCells()).to.deep.equal([17, 18, 19, 22, 24]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge + 1', () => {
+                expect(gridl(mockData()).goto([2,5]).adjacentCells()).to.deep.equal([22, 23, 24]);
+            });
+
+            it('should get me an empty list if y = bottom edge + 2', () => {
+                expect(gridl(mockData()).goto([2,6]).adjacentCells()).to.deep.equal([]);
+            });
+
+        });
+
+        describe('with adjacences.ORTHOGONAL', () => {
+
+            const adjacence = adjacences.ORTHOGONAL;
+
+            it('should get me all adjacent cells', () => {
+                expect(gridl(mockData()).goto([2,2]).adjacentCells(adjacence)).to.deep.equal([8, 12, 14, 18]);
+            });
+
+            it('should get me all adjacent cells if x = left edge', () => {
+                expect(gridl(mockData()).goto([0,2]).adjacentCells(adjacence)).to.deep.equal([6, 12, 16]);
+            });
+
+            it('should get me all adjacent cells if x = left edge - 1', () => {
+                expect(gridl(mockData()).goto([-1,2]).adjacentCells(adjacence)).to.deep.equal([11]);
+            });
+
+            it('should get me an empty list if x = left edge - 2', () => {
+                expect(gridl(mockData()).goto([-2,2]).adjacentCells(adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if x = right edge', () => {
+                expect(gridl(mockData()).goto([4,2]).adjacentCells(adjacence)).to.deep.equal([10, 14, 20]);
+            });
+
+            it('should get me all adjacent cells if x = right edge + 1', () => {
+                expect(gridl(mockData()).goto([5,2]).adjacentCells(adjacence)).to.deep.equal([15]);
+            });
+
+            it('should get me an empty list if x = right edge + 2', () => {
+                expect(gridl(mockData()).goto([6,2]).adjacentCells(adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = top edge', () => {
+                expect(gridl(mockData()).goto([2,0]).adjacentCells(adjacence)).to.deep.equal([2, 4, 8]);
+            });
+
+            it('should get me all adjacent cells if y = top edge - 1', () => {
+                expect(gridl(mockData()).goto([2,-1]).adjacentCells(adjacence)).to.deep.equal([3]);
+            });
+
+            it('should get me an empty list if y = top edge - 2', () => {
+                expect(gridl(mockData()).goto([2,-2]).adjacentCells(adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge', () => {
+                expect(gridl(mockData()).goto([2,4]).adjacentCells(adjacence)).to.deep.equal([18, 22, 24]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge + 1', () => {
+                expect(gridl(mockData()).goto([2,5]).adjacentCells(adjacence)).to.deep.equal([23]);
+            });
+
+            it('should get me an empty list if y = bottom edge + 2', () => {
+                expect(gridl(mockData()).goto([2,6]).adjacentCells(adjacence)).to.deep.equal([]);
+            });
+
+        });
+
+        describe('with adjacences.DIAGONAL', () => {
+
+            const adjacence = adjacences.DIAGONAL;
+
+            it('should get me all adjacent cells', () => {
+                expect(gridl(mockData()).goto([2,2]).adjacentCells(adjacence)).to.deep.equal([7,9,17,19]);
+            });
+
+            it('should get me all adjacent cells if x = left edge', () => {
+                expect(gridl(mockData()).goto([0,2]).adjacentCells(adjacence)).to.deep.equal([7, 17]);
+            });
+
+            it('should get me all adjacent cells if x = left edge - 1', () => {
+                expect(gridl(mockData()).goto([-1,2]).adjacentCells(adjacence)).to.deep.equal([6, 16]);
+            });
+
+            it('should get me an empty list if x = left edge - 2', () => {
+                expect(gridl(mockData()).goto([-2,2]).adjacentCells(adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if x = right edge', () => {
+                expect(gridl(mockData()).goto([4,2]).adjacentCells(adjacence)).to.deep.equal([9,19]);
+            });
+
+            it('should get me all adjacent cells if x = right edge + 1', () => {
+                expect(gridl(mockData()).goto([5,2]).adjacentCells(adjacence)).to.deep.equal([10, 20]);
+            });
+
+            it('should get me an empty list if x = right edge + 2', () => {
+                expect(gridl(mockData()).goto([6,2]).adjacentCells(adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = top edge', () => {
+                expect(gridl(mockData()).goto([2,0]).adjacentCells(adjacence)).to.deep.equal([7,9]);
+            });
+
+            it('should get me all adjacent cells if y = top edge - 1', () => {
+                expect(gridl(mockData()).goto([2,-1]).adjacentCells(adjacence)).to.deep.equal([2,4]);
+            });
+
+            it('should get me an empty list if y = top edge - 2', () => {
+                expect(gridl(mockData()).goto([2,-2]).adjacentCells(adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge', () => {
+                expect(gridl(mockData()).goto([2,4]).adjacentCells(adjacence)).to.deep.equal([17,19]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge + 1', () => {
+                expect(gridl(mockData()).goto([2,5]).adjacentCells(adjacence)).to.deep.equal([22,24]);
+            });
+
+            it('should get me an empty list if y = bottom edge + 2', () => {
+                expect(gridl(mockData()).goto([2,6]).adjacentCells(adjacence)).to.deep.equal([]);
+            });
+
         });
 
     });

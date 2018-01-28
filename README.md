@@ -76,6 +76,9 @@ const mirroredGrid = gridl(data)
 * [Finding](docs/example-finding.md)
     * find values in the grid 
     * find values within certain areas on the grid
+* [Adjacent cells](docs/example-adjacent-cells.md)
+    * find the adjacent cells of a certain cell
+    * get orthogonal, diagonal or all cells
 * [Clipping](docs/example-clipping.md)
     * define an area and remove everything around
 * [Swapping](docs/example-swapping.md)
