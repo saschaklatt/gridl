@@ -25,12 +25,17 @@
     * evaluate tutorial functionality of jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
     * integrate code coverage
-* split helper function in separate files
+* split helper functions
+    * store them in separate files 
 * rename "mirroring" to "flipping" 
-* shifting: rows, columns and areas (shift left, right, up, down)
-* concatenating grids (two 3x3 grids become one 6x3 grid)
+* shifting
+    * shift rows, columns and areas 
+    * shift left, right, up, down
+* concatenating grids (e.g. two 3x3 grids become one 6x3 grid)
+* optimizations
+    * evaluate if it would make more sense to store the data as a two-dimensional array internally (less conversion necessary)
+    * look for better algorithms
 * eternal mode
-* speed optimizations
 
 ## Considering features
 
