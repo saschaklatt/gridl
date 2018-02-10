@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import gridl, { adjacences, make, makeList, makeGrid } from '../src';
+import gridl, { adjacences, directions, make, makeList, makeGrid } from '../src';
 
 const checkApi = api => {
     expect(Object.keys(api)).to.have.members([
@@ -3605,6 +3605,69 @@ describe('gridlFactory', () => {
 
             it('should get me all adjacent cells if y = bottom edge + 1', () => {
                 expect(gridl(mockData()).adjacentCellsAt([2,5], adjacence)).to.deep.equal([22,24]);
+            });
+
+            it('should get me an empty list if y = bottom edge + 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,6], adjacence)).to.deep.equal([]);
+            });
+
+        });
+
+        describe('with custom adjacences', () => {
+
+            const adjacence = [
+                directions.UP,
+                directions.RIGHT,
+                directions.DOWN,
+                directions.LEFT,
+            ];
+
+            it('should get me all adjacent cells', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,2], adjacence)).to.deep.equal([8,14,18,12]);
+            });
+
+            it('should get me all adjacent cells if x = left edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([0,2], adjacence)).to.deep.equal([6, 12, 16]);
+            });
+
+            it('should get me all adjacent cells if x = left edge - 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([-1,2], adjacence)).to.deep.equal([11]);
+            });
+
+            it('should get me an empty list if x = left edge - 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([-2,2], adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if x = right edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([4,2], adjacence)).to.deep.equal([10, 20, 14]);
+            });
+
+            it('should get me all adjacent cells if x = right edge + 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([5,2], adjacence)).to.deep.equal([15]);
+            });
+
+            it('should get me an empty list if x = right edge + 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([6,2], adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = top edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,0], adjacence)).to.deep.equal([4,8,2]);
+            });
+
+            it('should get me all adjacent cells if y = top edge - 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,-1], adjacence)).to.deep.equal([3]);
+            });
+
+            it('should get me an empty list if y = top edge - 2', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,-2], adjacence)).to.deep.equal([]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,4], adjacence)).to.deep.equal([18, 24, 22]);
+            });
+
+            it('should get me all adjacent cells if y = bottom edge + 1', () => {
+                expect(gridl(mockData()).adjacentCellsAt([2,5], adjacence)).to.deep.equal([23]);
             });
 
             it('should get me an empty list if y = bottom edge + 2', () => {
