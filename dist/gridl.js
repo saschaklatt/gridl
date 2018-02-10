@@ -996,6 +996,15 @@ function gridl(data) {
         return _adjacentCells(_this, _columns, _rows, _position, adjacence);
     };
 
+    /**
+     * Exports all entries as an one dimensional array.
+     *
+     * @returns {any[]}
+     */
+    this.list = function () {
+        return [].concat(_toConsumableArray(_data));
+    };
+
     return this;
 }
 

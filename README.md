@@ -48,13 +48,16 @@ const mirroredGrid = gridl(data)
 
 ## Documentation
 
-* For detailed information have a look at [the JSDoc of gridl v0.8.2](https://klattiation.github.io/gridl/docs/gridl/0.8.2/index.html)
+* For detailed information have a look at [the JSDoc of gridl v0.8.3](https://klattiation.github.io/gridl/docs/gridl/0.8.3/index.html)
 
 ## Features
 
 * [Generate grids](docs/example-generating.md)
     * specify the number of rows and columns
     * generate 2d grids with a generator callback function
+* [Accessing data](docs/example-data.md)
+    * export data as two-dimensional grid array
+    * export data as one-dimensional list array
 * [Navigating](docs/example-navigating.md)
     * go to absolute positions
     * walk into directions

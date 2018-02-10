@@ -15,6 +15,8 @@
         * update version in package.json
         * npm run doc
         * update README (link to docs)
+        * git add
+        * git commit
         * git tag <version number>
         * git push origin master --tags
         * npm publish

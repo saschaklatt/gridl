@@ -37,6 +37,7 @@ const checkApi = api => {
         'find',
         'findInArea',
         'data',
+        'list',
         'rotate',
         'mirrorX',
         'mirrorY',
@@ -179,28 +180,18 @@ describe('gridlFactory', () => {
             ]);
         });
 
-        it('should export 2d with rows only given', () => {
-            const data = [
-                [1, 2, 3],
-                [4, 5, 6],
-            ];
-            const g = gridl(data);
-            expect(g.data()).to.deep.equal([
-                [1, 2, 3],
-                [4, 5, 6],
-            ]);
-        });
+    });
 
-        it('should export 2d with columns only given', () => {
+    describe('list', () => {
+
+        it('should export all entries as one dimensional array', () => {
             const data = [
+                [1, 2, 3],
                 [4, 5, 6],
                 [7, 8, 9],
             ];
             const g = gridl(data);
-            expect(g.data()).to.deep.equal([
-                [4, 5, 6],
-                [7, 8, 9],
-            ]);
+            expect(g.list()).to.deep.equal([1, 2, 3, 4, 5, 6, 7, 8, 9]);
         });
 
     });
@@ -3809,6 +3800,30 @@ describe('gridlFactory', () => {
     });
 
     describe('examples', () => {
+
+        it('should export a 2d array', () => {
+            const data = [
+                [1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9],
+            ];
+            const result = gridl(data).valueAt([1, 2], 10).data();
+            expect(result).to.deep.equal([
+                [1, 2, 3],
+                [4, 5, 6],
+                [7, 10, 9],
+            ]);
+        });
+
+        it('should export a 1d array', () => {
+            const data = [
+                [1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9],
+            ];
+            const result = gridl(data).valueAt([1, 2], 10).list();
+            expect(result).to.deep.equal([1, 2, 3, 4, 5, 6, 7, 10, 9]);
+        });
 
         it('should get a value at a certain position', () => {
             const data = [
