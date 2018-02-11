@@ -859,8 +859,7 @@ describe('gridlFactory', () => {
             ]);
         });
 
-        // FIXME: how to handle this?
-        it.skip('should set an area at a position outside the grid and ignore irrelevant values', () => {
+        it('should set an area at a position outside the grid and ignore irrelevant values', () => {
             const data = [
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
