@@ -30,6 +30,14 @@
 
 ## Planned features
 
+* constants
+    * make adjacence sets for 
+        * adjacences.ALL_CLOCKWISE
+        * adjacences.ALL_COUNTERCLOCKWISE
+        * adjacences.ORTHOGONAL_CLOCKWISE
+        * adjacences.ORTHOGONAL_COUNTERCLOCKWISE
+        * adjacences.DIAGONAL_CLOCKWISE
+        * adjacences.DIAGONAL_COUNTERCLOCKWISE
 * jsdoc
     * evaluate tutorial functionality of jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
