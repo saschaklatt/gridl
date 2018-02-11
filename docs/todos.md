@@ -1,12 +1,13 @@
 # TODOs
 
-## Bugs
+## Known bugs
 
 * none
 
 ## Known issues
 
-* IMPROVE THE PUBLISHING PROCESS !!!
+* no change log
+* publishing process should be improved
     * make sure distribution files are generated before publishing
     * consider testing against dist/ files
     * continuous integration
@@ -20,24 +21,27 @@
         * git tag <version number>
         * git push origin master --tags
         * npm publish
-* Inconsistent getter/setter styles
+* inconsistent getter/setter styles
     * style 1: value(), row(), position()
     * style 2: getAreaAt(), setAreaAt()
     * solution through [subgrid api](subgrid-api.md)
-* Error handling should be improved, throw error when... 
-    * area is not an 2d array
-* position error handling is inconsistent in some cases (throwing an error vs. returning undefined)
+* error handling should be improved
+    * throw error when area is not an 2d array
+    * position error handling is inconsistent in some cases (throwing an error vs. returning undefined)
 
 ## Planned features
 
-* constants
+* iterator functions
+    * reduce()
+* more predefined sets
     * make adjacence sets for 
-        * adjacences.ALL_CLOCKWISE
-        * adjacences.ALL_COUNTERCLOCKWISE
-        * adjacences.ORTHOGONAL_CLOCKWISE
-        * adjacences.ORTHOGONAL_COUNTERCLOCKWISE
-        * adjacences.DIAGONAL_CLOCKWISE
-        * adjacences.DIAGONAL_COUNTERCLOCKWISE
+        * adjacences.ALL_CLOCKWISE (ALL_CW)
+        * adjacences.ALL_COUNTERCLOCKWISE (ALL_CCW)
+        * adjacences.ORTHOGONAL_CLOCKWISE (ORTHOGONAL_CW)
+        * adjacences.ORTHOGONAL_COUNTERCLOCKWISE (ORTHOGONAL_CCW)
+        * adjacences.DIAGONAL_CLOCKWISE (DIAGONAL_CW)
+        * adjacences.DIAGONAL_COUNTERCLOCKWISE (DIAGONAL_CCW)
+* concat(): concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
 * jsdoc
     * evaluate tutorial functionality of jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
@@ -48,7 +52,6 @@
 * shifting
     * shift rows, columns and areas 
     * shift left, right, up, down
-* concatenating grids (e.g. two 3x3 grids become one 6x3 grid)
 * optimizations
     * evaluate if it would make more sense to store the data as a two-dimensional array internally (less conversion necessary)
     * look for better algorithms
@@ -61,5 +64,10 @@
 * path finding
 * sorting
 * toString()
-
+* get random cells: from the entire grid or a specific area
+* valueAt(index): support accessing values at an index in addition to a position
+* new fill() method: similar to map/forEach, returns the current gridl instance
+    * `gridl(data).forEach((v, p, src) => src.valueAt(p, 'bam'))`
+    * `gridl(data).fill((v, p, src) => 'bam')`
+* extendability: user should be able to add custom functionality through some kind of plugin api
 
