@@ -811,7 +811,7 @@ function gridl(data) {
      *
      * @param {number[]} position - The position of the cell of which you want to know its adjacent cells.
      * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
-     * @param {boolean} includeOutsideValues - If false, adjacent cells that are outside the grid will be ignored, if true <code>undefined</code> will be returned for them.
+     * @param {boolean} [includeOutsideValues = false] - If <code>false</code>, adjacent cells that are outside the grid will be ignored, if <code>true</code>, <code>undefined</code> will be returned for them.
      * @returns {any[]} The values of the adjacent cells.
      */
     this.adjacentCellsAt = (position, adjacence = adjacences.ALL, includeOutsideValues = false) => {
@@ -825,7 +825,7 @@ function gridl(data) {
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
      * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
-     * @param {boolean} includeOutsideValues - If false, adjacent cells that are outside the grid will be ignored, if true <code>undefined</code> will be returned for them.
+     * @param {boolean} [includeOutsideValues = false] - If <code>false</code>, adjacent cells that are outside the grid will be ignored, if <code>true</code>, <code>undefined</code> will be returned for them.
      * @returns {any[]} The values of the adjacent cells.
      */
     this.adjacentCells = (adjacence = adjacences.ALL, includeOutsideValues = false) => {
