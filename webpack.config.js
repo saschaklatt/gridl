@@ -8,14 +8,16 @@ const env = (function(env) {
             output: {
                 filename: libName + '.min.js',
             },
+            devtool: 'source-map',
             plugins: [
-                new webpack.optimize.UglifyJsPlugin({ minimize: true }),
+                new webpack.optimize.UglifyJsPlugin({ minimize: true, sourceMap: true }),
             ],
         },
         dev: {
             output: {
                 filename: libName + '.js',
             },
+            devtool: undefined,
             plugins: [],
         },
     };
@@ -24,7 +26,7 @@ const env = (function(env) {
 
 const config = {
     entry: __dirname + '/src/index.js',
-    devtool: 'source-map',
+    devtool: env.devtool,
     output: {
         path: __dirname + '/dist',
         filename: env.output.filename,
