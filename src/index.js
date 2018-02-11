@@ -333,11 +333,18 @@ function _mirror(arr, index) {
     ];
 }
 
-function _adjacentCells(api, _columns, _rows, position, adjacence = adjacences.ALL) {
-    const gridSize = [_columns, _rows];
+function _adjacentCells(_data, _columns, _rows, position, adjacence, includeOutsideValues) {
     return adjacence.reduce((res, direction) => {
         const absPos = _addPositions(position, direction);
-        return _isNotInArea(gridSize, absPos) ? res : [...res, api.valueAt(absPos)];
+        if (includeOutsideValues) {
+            const grid = _toArray2D(_data, _columns);
+            const value = grid && grid[absPos[1]] && grid[absPos[1]][absPos[0]];
+            return [...res, value];
+        }
+        else {
+            const gridSize = [_columns, _rows];
+            return _isNotInArea(gridSize, absPos) ? res : [...res, _getValueAt(_data, _columns, absPos)];
+        }
     }, []);
 }
 
@@ -806,18 +813,20 @@ function gridl(data) {
      *
      * @param {number[]} position - The position of the cell of which you want to know its adjacent cells.
      * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
+     * @param {boolean} includeOutsideValues - If false, adjacent cells that are outside the grid will be ignored, if true <code>undefined</code> will be returned for them.
      * @returns {any[]} The values of the adjacent cells.
      */
-    this.adjacentCellsAt = (position, adjacence = adjacences.ALL) => _adjacentCells(this, _columns, _rows, position, adjacence);
+    this.adjacentCellsAt = (position, adjacence = adjacences.ALL, includeOutsideValues = false) => _adjacentCells(_data, _columns, _rows, position, adjacence, includeOutsideValues);
 
     /**
      * Get the values of all adjacent cells at the current position.<br>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
      * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
+     * @param {boolean} includeOutsideValues - If false, adjacent cells that are outside the grid will be ignored, if true <code>undefined</code> will be returned for them.
      * @returns {any[]} The values of the adjacent cells.
      */
-    this.adjacentCells = (adjacence = adjacences.ALL) => _adjacentCells(this, _columns, _rows, _position, adjacence);
+    this.adjacentCells = (adjacence = adjacences.ALL, includeOutsideValues = false) => _adjacentCells(_data, _columns, _rows, _position, adjacence, includeOutsideValues);
 
     /**
      * Exports all entries as an one dimensional array.
