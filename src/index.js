@@ -333,17 +333,15 @@ function _mirror(arr, index) {
     ];
 }
 
-function _adjacentCells(_data, _columns, _rows, position, adjacence, includeOutsideValues) {
+function _adjacentCells(grid, position, adjacence, gridSize = null) {
     return adjacence.reduce((res, direction) => {
         const absPos = _addPositions(position, direction);
-        if (includeOutsideValues) {
-            const grid = _toArray2D(_data, _columns);
-            const value = grid && grid[absPos[1]] && grid[absPos[1]][absPos[0]];
-            return [...res, value];
+        const value = grid && grid[absPos[1]] && grid[absPos[1]][absPos[0]];
+        if (gridSize) {
+            return _isNotInArea(gridSize, absPos) ? res : [...res, value];
         }
         else {
-            const gridSize = [_columns, _rows];
-            return _isNotInArea(gridSize, absPos) ? res : [...res, _getValueAt(_data, _columns, absPos)];
+            return [...res, value];
         }
     }, []);
 }
@@ -816,7 +814,11 @@ function gridl(data) {
      * @param {boolean} includeOutsideValues - If false, adjacent cells that are outside the grid will be ignored, if true <code>undefined</code> will be returned for them.
      * @returns {any[]} The values of the adjacent cells.
      */
-    this.adjacentCellsAt = (position, adjacence = adjacences.ALL, includeOutsideValues = false) => _adjacentCells(_data, _columns, _rows, position, adjacence, includeOutsideValues);
+    this.adjacentCellsAt = (position, adjacence = adjacences.ALL, includeOutsideValues = false) => {
+        const gridSize = !includeOutsideValues && [_columns, _rows];
+        const grid = _toArray2D(_data, _columns);
+        return _adjacentCells(grid, position, adjacence, gridSize);
+    };
 
     /**
      * Get the values of all adjacent cells at the current position.<br>
@@ -826,7 +828,11 @@ function gridl(data) {
      * @param {boolean} includeOutsideValues - If false, adjacent cells that are outside the grid will be ignored, if true <code>undefined</code> will be returned for them.
      * @returns {any[]} The values of the adjacent cells.
      */
-    this.adjacentCells = (adjacence = adjacences.ALL, includeOutsideValues = false) => _adjacentCells(_data, _columns, _rows, _position, adjacence, includeOutsideValues);
+    this.adjacentCells = (adjacence = adjacences.ALL, includeOutsideValues = false) => {
+        const gridSize = !includeOutsideValues && [_columns, _rows];
+        const grid = _toArray2D(_data, _columns);
+        return _adjacentCells(grid, _position, adjacence, gridSize);
+    };
 
     /**
      * Exports all entries as an one dimensional array.
