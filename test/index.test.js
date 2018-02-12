@@ -46,6 +46,7 @@ const checkApi = api => {
         'walk',
         'map',
         'forEach',
+        'reduce',
         'clone',
         'adjacentCellsAt',
         'adjacentCells',
@@ -3410,6 +3411,69 @@ describe('gridlFactory', () => {
                 [10,11,12,13],
             ];
             expect(() => gridl(data).forEach()).to.throw();
+        });
+
+    });
+
+    describe('reduce', () => {
+
+        it('should execute the callback on each cell', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            const instance = gridl(data);
+
+            // use reduce() to make a copy of "data"
+            const copy = instance.reduce((acc, value, pos, src) => {
+                expect(src).to.deep.equal(instance);
+                const [c, r] = pos;
+                if (!acc[r]) {
+                    acc[r] = [];
+                }
+                acc[r][c] = value;
+                return acc;
+            }, []);
+
+            expect(copy).to.deep.equal(data);
+        });
+
+        it('should reduce the grid to sum of all values', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            // calculate the sum of all cells
+            expect(gridl(data).reduce((res, value) => res + value, 0)).to.equal(82);
+        });
+
+        it('should use the first cell as initial value if initial value is not provided', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            expect(gridl(data).reduce(acc => acc)).to.equal(1);
+        });
+
+        it('should use the initial value if provided', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            expect(gridl(data).reduce(acc => acc, 666)).to.equal(666);
+        });
+
+        it('should throw an error if no callback is provided', () => {
+            const data = [
+                [1,2,3,4],
+                [5,6,7,8],
+                [10,11,12,13],
+            ];
+            expect(() => gridl(data).reduce()).to.throw();
         });
 
     });

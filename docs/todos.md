@@ -15,6 +15,7 @@
         * npm run build
         * update version in package.json
         * npm run doc
+        * update changelog
         * update README (link to docs)
         * git add
         * git commit
@@ -31,8 +32,6 @@
 
 ## Planned features
 
-* iterator functions
-    * reduce()
 * more predefined sets
     * make adjacence sets for 
         * adjacences.ALL_CLOCKWISE (ALL_CW)

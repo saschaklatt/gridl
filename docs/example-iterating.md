@@ -4,6 +4,8 @@
 
 Executes the provided callback function once for each grid element.
 
+It's basically the equivalent of the array's [forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) function.
+
 ```javascript
 const data = [
     [1,2,3,4],
@@ -21,7 +23,7 @@ const master = gridl(data).forEach((value, pos, src) => {
 
 **Mapping values with `map()`:**
 
-It's basically the equivalent of the array's map() function.
+It's basically the equivalent of the array's [map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Map) function.
 
 ```javascript
 const data = [
@@ -49,4 +51,18 @@ const newData = copy.data();
 //     ['x','x','x','x'],
 //     ['x','x','x','x'],
 // ]
+```
+
+**Reduce values with `reduce()`:**
+
+It's basically the equivalent of the array's [reduce()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) function. 
+
+```javascript
+const data = [
+    [1,2,3,4],
+    [5,6,7,8],
+    [10,11,12,13],
+];
+// calculate the sum of all cell values
+gridl(data).reduce((accumulator, cellValue) => accumulator + cellValue, 0); // sum is 82
 ```
