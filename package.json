@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/klattiation/gridl/issues"
   },
-  "homepage": "https://github.com/klattiation/gridl#readme",
+  "homepage": "https://klattiation.github.io/gridl/",
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-core": "^6.26.0",
