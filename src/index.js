@@ -984,7 +984,7 @@ export function make(numColumns, numRows, callback) {
  * Please don't care too much about the difference between gridl and gridlFactory. Just use it as `<code>gridl(data)</code>`.
  *
  * @constructor
- * @param {Array} data - A two dimensional grid array. Every row needs to have the same length.
+ * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same length.
  * @returns {gridl}
  */
 const gridlFactory = data => new gridl(data);
