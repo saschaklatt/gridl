@@ -474,7 +474,15 @@ function gridl(data) {
 
     /**
      * @callback iteratorCallback
-     * @param {any} cell - The current cell.
+     * @param {*} cell - The value of the current cell.
+     * @param {Array.<number>} position - The current position.
+     * @param {gridl} gridlInstance - The current gridl instance.
+     */
+
+    /**
+     * @callback reducerCallback
+     * @param {*} accumulator - The accumulator accumulates the callback's return values; it is the accumulated value previously returned in the last invocation of the callback, or initialValue, if supplied.
+     * @param {*} cell - The value of the current cell.
      * @param {Array.<number>} position - The current position.
      * @param {gridl} gridlInstance - The current gridl instance.
      */
@@ -514,7 +522,7 @@ function gridl(data) {
      * Set the value at the current position. You can also set the cell to <code>undefined</code>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
-     * @param {any} value - The value the cell should have.
+     * @param {*} value - The value the cell should have.
      */
     this.setValue = function (value) {
         return _setValueAt(_this, _data, _columns, _rows, _position, value);
@@ -525,8 +533,8 @@ function gridl(data) {
      * It returns the cell's value if you provide no value and sets it if you do provide a value.<br>
      * To explicitly set the value to <code>undefined</code> use [setValue()]{@link gridl#setValue}.
      *
-     * @param {any} value - The value you want to set or <code>undefined</code> if you want to get the value.
-     * @returns {any} The cell's value or the gridl instance if you use it as a setter.
+     * @param {*} value - The value you want to set or <code>undefined</code> if you want to get the value.
+     * @returns {*} The cell's value or the gridl instance if you use it as a setter.
      */
     this.value = function (value) {
         return value === undefined ? _getValueAt(_data, _columns, _position) : _setValueAt(_this, _data, _columns, _rows, _position, value);
@@ -536,7 +544,7 @@ function gridl(data) {
      * Set the value at a certain position. You can also set the cell to <code>undefined</code>
      *
      * @param {Array.<number>} pos - The position where you want to set the value.
-     * @param {any} value - The value you want to set.
+     * @param {*} value - The value you want to set.
      * @returns {gridl} The same gridl instance.
      */
     this.setValueAt = function (pos, value) {
@@ -549,8 +557,8 @@ function gridl(data) {
      * To explicitly set the value to <code>undefined</code> use [setValueAt()]{@link gridl#setValueAt}.
      *
      * @param {Array.<number>} pos - The position where you want to set or get the value.
-     * @param {any} value - The value you want to set or <code>undefined</code> if you want to get the value.
-     * @returns {any} The cell's value or the the same gridl instance if you use it as a setter.
+     * @param {*} value - The value you want to set or <code>undefined</code> if you want to get the value.
+     * @returns {*} The cell's value or the the same gridl instance if you use it as a setter.
      */
     this.valueAt = function (pos, value) {
         return value === undefined ? _getValueAt(_data, _columns, pos) : _setValueAt(_this, _data, _columns, _rows, pos, value);
@@ -619,7 +627,7 @@ function gridl(data) {
      * Get the column at a certain x-position
      *
      * @param {number} x - The x-position of the column you want to get.
-     * @returns {Array.<any>}
+     * @returns {Array.<*>}
      */
     this.column = function (x) {
         return _getColumn(_this.data(), x);
@@ -629,7 +637,7 @@ function gridl(data) {
      * Get the row at a certain y-position
      *
      * @param {number} y - The y-position of the row you want to get.
-     * @returns {Array.<any>}
+     * @returns {Array.<*>}
      */
     this.row = function (y) {
         return _getRow(_this.data(), y);
@@ -638,7 +646,7 @@ function gridl(data) {
     /**
      * Add a row at a certain y-position. This changes the size of the grid.
      *
-     * @param {Array.<any>} row - The row you want to add as an one-dimensional array.
+     * @param {Array.<*>} row - The row you want to add as an one-dimensional array.
      * @param {number} y - The y-position of where you want to add the row.
      * @returns {gridl} The same gridl instance.
      */
@@ -652,7 +660,7 @@ function gridl(data) {
     /**
      * Add a column at a certain x-position. This changes the size of the grid.
      *
-     * @param {Array.<any>} column - The column you want to add as an one-dimensional array.
+     * @param {Array.<*>} column - The column you want to add as an one-dimensional array.
      * @param {number} x - The x-position of where you want to add the column.
      * @returns {gridl} The same gridl instance.
      */
@@ -813,7 +821,7 @@ function gridl(data) {
      * Check if a given area would fit inside the grid at a given position.
      *
      * @param {number[]} position - The position where the area should be placed.
-     * @param {any[][]} area - The area itself as a two-dimensional grid array
+     * @param {Array.<Array.<*>>} area - The area itself as a two-dimensional grid array
      * @param {number[]} [anchor = [0, 0]] - The center of area.
      * @returns {boolean} Whether the area fits or not.
      */
@@ -825,7 +833,7 @@ function gridl(data) {
      * Check if a given area would fit inside the grid at the current position.<br>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
-     * @param {any[][]} area - The area itself as a two-dimensional grid array
+     * @param {Array.<Array.<*>>} area - The area itself as a two-dimensional grid array
      * @param {number[]} [anchor = [0, 0]] - The center of area.
      * @returns {boolean} Whether the area fits or not.
      */
@@ -860,7 +868,7 @@ function gridl(data) {
     /**
      * Exports a copy of the internal data as two-dimensional array.
      *
-     * @returns {any[][]} The data as two-dimensional array.
+     * @returns {Array.<Array.<*>>} The data as two-dimensional array.
      */
     this.data = function () {
         return _toArray2D(_data, _columns);
@@ -968,6 +976,22 @@ function gridl(data) {
     };
 
     /**
+     * The <code>reduce()</code> method applies a function against an accumulator and each element in the grid to reduce it to a single value.
+     *
+     * @param {reducerCallback} callback - The callback function that is executed on each cell.<br><code>function(accumulator, cell, position, gridlInstance) { return ... }</code>
+     * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
+     * @returns {*} The value that results from the reduction.
+     */
+    this.reduce = function (callback, initialValue) {
+        var _this2 = this;
+
+        var reducer = function reducer(acc, v, i) {
+            return callback(acc, v, _index2pos(i, _columns), _this2);
+        };
+        return arguments.length === 1 ? _data.reduce(reducer) : _data.reduce(reducer, initialValue);
+    };
+
+    /**
      * Make a clone of the current gridl instance.
      *
      * @returns {gridl} A new gridl instance.
@@ -981,8 +1005,8 @@ function gridl(data) {
      *
      * @param {number[]} position - The position of the cell of which you want to know its adjacent cells.
      * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
-     * @param {boolean} includeOutsideValues - If false, adjacent cells that are outside the grid will be ignored, if true <code>undefined</code> will be returned for them.
-     * @returns {any[]} The values of the adjacent cells.
+     * @param {boolean} [includeOutsideValues = false] - If <code>false</code>, adjacent cells that are outside the grid will be ignored, if <code>true</code>, <code>undefined</code> will be returned for them.
+     * @returns {Array.<*>} The values of the adjacent cells.
      */
     this.adjacentCellsAt = function (position) {
         var adjacence = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : adjacences.ALL;
@@ -998,8 +1022,8 @@ function gridl(data) {
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
      *
      * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
-     * @param {boolean} includeOutsideValues - If false, adjacent cells that are outside the grid will be ignored, if true <code>undefined</code> will be returned for them.
-     * @returns {any[]} The values of the adjacent cells.
+     * @param {boolean} [includeOutsideValues = false] - If <code>false</code>, adjacent cells that are outside the grid will be ignored, if <code>true</code>, <code>undefined</code> will be returned for them.
+     * @returns {Array.<*>} The values of the adjacent cells.
      */
     this.adjacentCells = function () {
         var adjacence = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : adjacences.ALL;
@@ -1013,7 +1037,7 @@ function gridl(data) {
     /**
      * Exports all entries as an one dimensional array.
      *
-     * @returns {any[]}
+     * @returns {Array.<*>}
      */
     this.list = function () {
         return [].concat(_toConsumableArray(_data));
@@ -1067,7 +1091,7 @@ var adjacences = exports.adjacences = Object.freeze({
  * @param {number} columns - The number of columns.
  * @param {number} rows - The number of rows.
  * @param {Function} callback - The generator function that is called on each cell.
- * @returns {any[][]} The new grid array.
+ * @returns {Array.<Array.<*>>} The new grid array.
  */
 function makeGrid(columns, rows) {
     var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {
@@ -1094,7 +1118,7 @@ function makeGrid(columns, rows) {
  *
  * @param {number} length - The length of the array.
  * @param {Function} callback - The generator callback function that is called on each element.
- * @returns {any[]}
+ * @returns {Array.<*>}
  */
 function makeList(length) {
     var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {

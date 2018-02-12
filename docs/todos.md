@@ -5,8 +5,7 @@
 * none
 
 ## Known issues
-
-* no change log
+ 
 * publishing process should be improved
     * make sure distribution files are generated before publishing
     * consider testing against dist/ files
@@ -27,13 +26,13 @@
     * style 2: getAreaAt(), setAreaAt()
     * solution through [subgrid api](subgrid-api.md)
 * error handling should be improved
-    * throw error when area is not an 2d array
+    * throw error when area is not a 2d array
     * position error handling is inconsistent in some cases (throwing an error vs. returning undefined)
 
 ## Planned features
 
 * more predefined sets
-    * make adjacence sets for 
+    * make adjacence sets for
         * adjacences.ALL_CLOCKWISE (ALL_CW)
         * adjacences.ALL_COUNTERCLOCKWISE (ALL_CCW)
         * adjacences.ORTHOGONAL_CLOCKWISE (ORTHOGONAL_CW)

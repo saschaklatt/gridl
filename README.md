@@ -48,7 +48,7 @@ const mirroredGrid = gridl(data)
 
 ## Documentation
 
-* For detailed information have a look at [the JSDoc of gridl v0.8.4](https://klattiation.github.io/gridl/docs/gridl/0.8.4/index.html)
+* For detailed information have a look at [the JSDoc of gridl v0.8.5](https://klattiation.github.io/gridl/docs/gridl/0.8.5/index.html)
 * See the [changelog](docs/changelog.md) for updates in each version
 
 ## Features
@@ -94,6 +94,7 @@ const mirroredGrid = gridl(data)
     * specify where the axis is located
 * [Iterating](docs/example-iterating.md)
     * map()
+    * reduce()
     * forEach()
 * [Cloning](docs/example-cloning.md)
     * Make a clone of a gridl instance
