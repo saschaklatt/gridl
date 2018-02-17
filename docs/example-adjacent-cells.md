@@ -34,7 +34,7 @@ gridl(data).adjacentCellsAt([2,2], adjacences.ORTHOGONAL);
 // both return [8, 12, 14, 18]
 ```
 
-Get **orthogonal** adjacent cells in *clockwise* order:
+Get **orthogonal** adjacent cells in **clockwise** order:
 
 ```javascript
 import gridl, { adjacences } from 'gridl';
@@ -51,7 +51,7 @@ gridl(data).adjacentCellsAt([2,2], adjacences.ORTHOGONAL_CW);
 // both return [8, 14, 18, 12]
 ```
 
-Get **orthogonal** adjacent cells in *counterclockwise* order:
+Get **orthogonal** adjacent cells in **counterclockwise** order:
 
 ```javascript
 import gridl, { adjacences } from 'gridl';
