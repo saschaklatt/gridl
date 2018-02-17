@@ -31,14 +31,14 @@
 
 ## Planned features
 
-* more predefined sets
-    * make adjacence sets for
-        * adjacences.ALL_CLOCKWISE (ALL_CW)
-        * adjacences.ALL_COUNTERCLOCKWISE (ALL_CCW)
-        * adjacences.ORTHOGONAL_CLOCKWISE (ORTHOGONAL_CW)
-        * adjacences.ORTHOGONAL_COUNTERCLOCKWISE (ORTHOGONAL_CCW)
-        * adjacences.DIAGONAL_CLOCKWISE (DIAGONAL_CW)
-        * adjacences.DIAGONAL_COUNTERCLOCKWISE (DIAGONAL_CCW)
+* new fill() method: similar to map/forEach, returns the current gridl instance
+    * `gridl(data).forEach((v, pos, src) => src.valueAt(pos, 'bam'))`
+    * `gridl(data).fill((v, pos, src) => 'bam')`
+* remove static functions from gridlFactory and only export them
+    * decouples extra functionality from gridl instance
+    * atm the user automatically imports all static methods by importing gridl
+    * reduces size of gridl factory
+    * breaks api -> major update
 * concat(): concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
 * jsdoc
     * evaluate tutorial functionality of jsdoc
@@ -54,6 +54,8 @@
     * evaluate if it would make more sense to store the data as a two-dimensional array internally (less conversion necessary)
     * look for better algorithms
 * eternal mode
+    * positions outside the grid will be mapped to position within the grid
+    * e.g. position `[5,0]` will be mapped to `[0,0]` on a grid with 4 columns (starts from the left) 
 
 ## Considering features
 
@@ -64,8 +66,5 @@
 * toString()
 * get random cells: from the entire grid or a specific area
 * valueAt(index): support accessing values at an index in addition to a position
-* new fill() method: similar to map/forEach, returns the current gridl instance
-    * `gridl(data).forEach((v, p, src) => src.valueAt(p, 'bam'))`
-    * `gridl(data).fill((v, p, src) => 'bam')`
 * extendability: user should be able to add custom functionality through some kind of plugin api
 

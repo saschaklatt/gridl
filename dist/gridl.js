@@ -1061,14 +1061,14 @@ function gridl(data) {
  * @property {Array.<number>} DOWN_RIGHT - one step right, one step down
  */
 var directions = exports.directions = Object.freeze({
-    UP: [0, -1],
-    UP_RIGHT: [1, -1],
-    RIGHT: [1, 0],
-    DOWN_RIGHT: [1, 1],
-    DOWN: [0, 1],
-    DOWN_LEFT: [-1, 1],
-    LEFT: [-1, 0],
-    UP_LEFT: [-1, -1]
+    UP: Object.freeze([0, -1]),
+    UP_RIGHT: Object.freeze([1, -1]),
+    RIGHT: Object.freeze([1, 0]),
+    DOWN_RIGHT: Object.freeze([1, 1]),
+    DOWN: Object.freeze([0, 1]),
+    DOWN_LEFT: Object.freeze([-1, 1]),
+    LEFT: Object.freeze([-1, 0]),
+    UP_LEFT: Object.freeze([-1, -1])
 });
 
 /**
@@ -1080,9 +1080,15 @@ var directions = exports.directions = Object.freeze({
  * @property {number[][]} DIAGONAL - all diagonal adjacent positions
  */
 var adjacences = exports.adjacences = Object.freeze({
-    ALL: [directions.UP_LEFT, directions.UP, directions.UP_RIGHT, directions.LEFT, directions.RIGHT, directions.DOWN_LEFT, directions.DOWN, directions.DOWN_RIGHT],
-    ORTHOGONAL: [directions.UP, directions.LEFT, directions.RIGHT, directions.DOWN],
-    DIAGONAL: [directions.UP_LEFT, directions.UP_RIGHT, directions.DOWN_LEFT, directions.DOWN_RIGHT]
+    ALL: Object.freeze([directions.UP_LEFT, directions.UP, directions.UP_RIGHT, directions.LEFT, directions.RIGHT, directions.DOWN_LEFT, directions.DOWN, directions.DOWN_RIGHT]),
+    ALL_CW: Object.freeze([directions.UP, directions.UP_RIGHT, directions.RIGHT, directions.DOWN_RIGHT, directions.DOWN, directions.DOWN_LEFT, directions.LEFT, directions.UP_LEFT]),
+    ALL_CCW: Object.freeze([directions.UP, directions.UP_LEFT, directions.LEFT, directions.DOWN_LEFT, directions.DOWN, directions.DOWN_RIGHT, directions.RIGHT, directions.UP_RIGHT]),
+    ORTHOGONAL: Object.freeze([directions.UP, directions.LEFT, directions.RIGHT, directions.DOWN]),
+    ORTHOGONAL_CW: Object.freeze([directions.UP, directions.RIGHT, directions.DOWN, directions.LEFT]),
+    ORTHOGONAL_CCW: Object.freeze([directions.UP, directions.LEFT, directions.DOWN, directions.RIGHT]),
+    DIAGONAL: Object.freeze([directions.UP_LEFT, directions.UP_RIGHT, directions.DOWN_LEFT, directions.DOWN_RIGHT]),
+    DIAGONAL_CW: Object.freeze([directions.UP_RIGHT, directions.DOWN_RIGHT, directions.DOWN_LEFT, directions.UP_LEFT]),
+    DIAGONAL_CCW: Object.freeze([directions.UP_LEFT, directions.DOWN_LEFT, directions.DOWN_RIGHT, directions.UP_RIGHT])
 });
 
 /**
@@ -1156,7 +1162,7 @@ function make(numColumns, numRows, callback) {
  * Please don't care too much about the difference between gridl and gridlFactory. Just use it as `<code>gridl(data)</code>`.
  *
  * @constructor
- * @param {Array} data - A two dimensional grid array. Every row needs to have the same length.
+ * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same length.
  * @returns {gridl}
  */
 var gridlFactory = function gridlFactory(data) {
