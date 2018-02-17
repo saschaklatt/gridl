@@ -12,13 +12,22 @@ const data = [
 ];
 const position = [4,1];
 const size = [3,2];
-const g = gridl(data);
-const newGrid1 = g.clip(position, size).data();      // absolute syntax
-const newGrid2 = g.goto(position).clip(size).data(); // relative syntax
-const columns = g.numColumns(); // is now 2
-const rows = g.numRows(); // is now 3
 
-// grids both look like this:
+// absolute syntax
+const grid1 = gridl(data).clip(position, size);
+grid1.numColumns(); // now returns 2
+grid1.numRows(); // now returns 3
+
+// alternatively relative syntax
+const grid2 = gridl(data).goto(position).clip(size);
+grid2.numColumns(); // now returns 2
+grid2.numRows(); // now returns 3
+
+// export data as array
+const gridData1 = grid1.data();
+const gridData2 = grid2.data();
+
+// gridData1 and gridData2 both look like this:
 // [
 //    [15,16,17],
 //    [25,26,27],
