@@ -894,9 +894,15 @@ export const directions = Object.freeze({
  * Predefined lists of adjacent positions relative to a certain position.
  *
  * @type {Object}
- * @property {number[][]} ALL - all direct adjacent positions (orthogonal + diagonal)
- * @property {number[][]} ORTHOGONAL - all orthogonal adjacent positions
- * @property {number[][]} DIAGONAL - all diagonal adjacent positions
+ * @property {number[][]} ALL - all direct adjacent positions (orthogonal + diagonal) in the order: left to right, top to bottom
+ * @property {number[][]} ALL_CW - all direct adjacent positions (orthogonal + diagonal) in clockwise order
+ * @property {number[][]} ALL_CCW - all direct adjacent positions (orthogonal + diagonal) in counterclockwise order
+ * @property {number[][]} ORTHOGONAL - all orthogonal adjacent positions in the order: left to right, top to bottom
+ * @property {number[][]} ORTHOGONAL_CW - all orthogonal adjacent positions in clockwise order
+ * @property {number[][]} ORTHOGONAL_CCW - all orthogonal adjacent positions in counterclockwise order
+ * @property {number[][]} DIAGONAL - all diagonal adjacent positions in the order: left to right, top to bottom
+ * @property {number[][]} DIAGONAL_CW - all diagonal adjacent positions in clockwise order
+ * @property {number[][]} DIAGONAL_CCW - all diagonal adjacent positions in counterclockwise order
  */
 export const adjacences = Object.freeze({
     ALL: Object.freeze([
