@@ -1,5 +1,9 @@
 # Changelog
 
+**v0.8.7**
+
+* added reduceArea() and reduceAreaAt() functions
+
 **v0.8.6**
 
 * added more predefined adjacence sets
