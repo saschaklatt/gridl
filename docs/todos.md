@@ -31,6 +31,9 @@
 
 ## Planned features
 
+* additional area iterators
+    * mapArea()
+    * forEachArea()
 * new fill() method: similar to map/forEach, returns the current gridl instance
     * `gridl(data).forEach((v, pos, src) => src.valueAt(pos, 'bam'))`
     * `gridl(data).fill((v, pos, src) => 'bam')`
