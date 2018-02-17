@@ -106,6 +106,13 @@ function _isValidGridArray(data) {
     });
 }
 
+var _isValidPositionFormat = function _isValidPositionFormat(pos) {
+    if (!Array.isArray(pos) || pos.length !== 2) {
+        return false;
+    }
+    return Number.isSafeInteger(pos[0]) && Number.isSafeInteger(pos[1]);
+};
+
 var _index2pos = function _index2pos(index, columns) {
     return [index % columns, Math.floor(index / columns)];
 };
@@ -460,6 +467,22 @@ function _adjacentCells(grid, position, adjacence) {
             return [].concat(_toConsumableArray(res), [value]);
         }
     }, []);
+}
+
+function _reduceAreaAt(api, columns, rows, position, size, callback, initialValue, hasInitialValue) {
+    if (!_isValidPositionFormat(position)) {
+        throw new Error('Trying to reduce an area at an invalid position.');
+    }
+    if (!_isValidPositionFormat(size)) {
+        throw new Error('Trying to reduce an area with invalid size.');
+    }
+    var reducer = function reducer(acc, v, i) {
+        var local = _index2pos(i, size[0]);
+        var global = _addPositions(local, position);
+        return callback(acc, v, global, api);
+    };
+    var flattenedArea = _flatten(_getAreaAt(api, columns, rows, position, size));
+    return hasInitialValue ? flattenedArea.reduce(reducer) : flattenedArea.reduce(reducer, initialValue);
 }
 
 /**
@@ -976,7 +999,7 @@ function gridl(data) {
     };
 
     /**
-     * The <code>reduce()</code> method applies a function against an accumulator and each element in the grid to reduce it to a single value.
+     * Applies a function against an accumulator and each element in the grid to reduce it to a single value.
      *
      * @param {reducerCallback} callback - The callback function that is executed on each cell.<br><code>function(accumulator, cell, position, gridlInstance) { return ... }</code>
      * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
@@ -989,6 +1012,31 @@ function gridl(data) {
             return callback(acc, v, _index2pos(i, _columns), _this2);
         };
         return arguments.length === 1 ? _data.reduce(reducer) : _data.reduce(reducer, initialValue);
+    };
+
+    /**
+     * Applies a function against an accumulator and each element in the area at a given position to reduce it to a single value.
+     *
+     * @param {number[][]} position - The position of the area within the grid.
+     * @param {number[][]} size - The size of the area within the grid.
+     * @param {reducerCallback} callback - The callback function that is executed on each cell within the grid.
+     * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
+     * @returns {*} The value that results from the reduction.
+     */
+    this.reduceAreaAt = function (position, size, callback, initialValue) {
+        return _reduceAreaAt(this, _columns, _rows, position, size, callback, initialValue, arguments.length === 1);
+    };
+
+    /**
+     * Applies a function against an accumulator and each element in the area at the current position to reduce it to a single value.
+     *
+     * @param {number[][]} size - The size of the area within the grid.
+     * @param {reducerCallback} callback - The callback function that is executed on each cell within the grid.
+     * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
+     * @returns {*} The value that results from the reduction.
+     */
+    this.reduceArea = function (size, callback, initialValue) {
+        return _reduceAreaAt(this, _columns, _rows, _position, size, callback, initialValue, arguments.length === 1);
     };
 
     /**
@@ -1075,9 +1123,15 @@ var directions = exports.directions = Object.freeze({
  * Predefined lists of adjacent positions relative to a certain position.
  *
  * @type {Object}
- * @property {number[][]} ALL - all direct adjacent positions (orthogonal + diagonal)
- * @property {number[][]} ORTHOGONAL - all orthogonal adjacent positions
- * @property {number[][]} DIAGONAL - all diagonal adjacent positions
+ * @property {number[][]} ALL - all direct adjacent positions (orthogonal + diagonal) in the order: left to right, top to bottom
+ * @property {number[][]} ALL_CW - all direct adjacent positions (orthogonal + diagonal) in clockwise order
+ * @property {number[][]} ALL_CCW - all direct adjacent positions (orthogonal + diagonal) in counterclockwise order
+ * @property {number[][]} ORTHOGONAL - all orthogonal adjacent positions in the order: left to right, top to bottom
+ * @property {number[][]} ORTHOGONAL_CW - all orthogonal adjacent positions in clockwise order
+ * @property {number[][]} ORTHOGONAL_CCW - all orthogonal adjacent positions in counterclockwise order
+ * @property {number[][]} DIAGONAL - all diagonal adjacent positions in the order: left to right, top to bottom
+ * @property {number[][]} DIAGONAL_CW - all diagonal adjacent positions in clockwise order
+ * @property {number[][]} DIAGONAL_CCW - all diagonal adjacent positions in counterclockwise order
  */
 var adjacences = exports.adjacences = Object.freeze({
     ALL: Object.freeze([directions.UP_LEFT, directions.UP, directions.UP_RIGHT, directions.LEFT, directions.RIGHT, directions.DOWN_LEFT, directions.DOWN, directions.DOWN_RIGHT]),

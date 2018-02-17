@@ -1,7 +1,9 @@
 ## Areas
 
-Overwriting an entire area at a certain position:
+**Overwriting** an entire area at a certain position:
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [ 1,  2,  3,  4,  5,  6],
     [ 7,  8,  9, 10, 11, 12],
@@ -25,8 +27,10 @@ const newGrid2 = gridl(data).goto(position).setArea(area).data();
 // ]
 ```
 
-Extracting a subset of the grid:
+**Extracting** a subset of the grid:
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [ 1,  2,  3,  4,  5,  6],
     [ 7,  8,  9, 10, 11, 12],
@@ -45,8 +49,10 @@ const area2 = gridl(data).goto(position).getArea(size);
 // ]
 ```
 
-Check if an area would fit into the grid at a certain position:
+Check if an area would **fit into** the grid at a certain position:
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [1,1,1,1,1,1],
     [1,1,1,1,1,1],
@@ -71,3 +77,20 @@ gridl(data).goto([4,0]).areaFits(area); // false
 gridl(data).goto([1,3]).areaFits(area); // false
 ```
 
+**Reduce** an area to the sum of values
+
+```javascript
+import gridl from 'gridl';
+
+const data = [
+    [ 1, 2, 3, 4],
+    [ 5, 6, 7, 8],
+    [ 9,10,11,12],
+    [13,14,15,16],
+    [17,18,19,20],
+];
+const position = [1,2];
+const size = [3,2];
+gridl(data).reduceAreaAt(position, size, (res, value) => res + value, 0);       // returns 78 (10 + 11 + 12 + 14 + 15 + 16)
+gridl(data).goto(position).reduceArea(size, (res, value) => res + value, 0);    // returns 78 (10 + 11 + 12 + 14 + 15 + 16)
+```

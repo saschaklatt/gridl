@@ -47,6 +47,8 @@ const checkApi = api => {
         'map',
         'forEach',
         'reduce',
+        'reduceArea',
+        'reduceAreaAt',
         'clone',
         'adjacentCellsAt',
         'adjacentCells',
@@ -3716,6 +3718,184 @@ describe('gridlFactory', () => {
                 [10,11,12,13],
             ];
             expect(() => gridl(data).reduce()).to.throw();
+        });
+
+    });
+
+    describe('reduceArea', () => {
+
+        const mockData = () => [
+            [ 1, 2, 3, 4],
+            [ 5, 6, 7, 8],
+            [ 9,10,11,12],
+            [13,14,15,16],
+            [17,18,19,20],
+        ];
+
+        it('should execute the callback on each cell within the area', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            const result = gridl(data).goto(position).reduceArea(size, (acc, value) => acc.concat(value), []);
+            expect(result).to.deep.equal([10,11,12,14,15,16]);
+        });
+
+        it('should reduce the area to sum of all values', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            // calculate the sum of all cells within the area
+            expect(gridl(data).goto(position).reduceArea(size, (res, value) => res + value, 0)).to.equal(78);
+        });
+
+        it('should provide the positions on the grid within the callback', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            const result = gridl(data).goto(position).reduceArea(size, (acc, value, pos) => acc.concat([pos]), []);
+            expect(result).to.deep.equal([
+                [1,2],[2,2],[3,2],
+                [1,3],[2,3],[3,3],
+            ]);
+        });
+
+        it('should provide the gridl instance within the callback', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            const instance = gridl(data);
+            const result = instance.goto(position).reduceArea(size, (acc, value, pos, src) => {
+                expect(src).to.deep.equal(instance);
+                return acc + 1;
+            }, 0);
+            expect(result).to.equal(6);
+        });
+
+        it('should use the initial value if provided', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            expect(gridl(data).goto(position).reduceArea(size, acc => acc, 666)).to.equal(666);
+        });
+
+        it('should throw an error if no callback is provided', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            expect(() => gridl(data).goto(position).reduceArea(size)).to.throw();
+        });
+
+        it('should throw an error if no size is provided', () => {
+            const data = mockData();
+            const position = [1,2];
+            const errorMsg = 'Trying to reduce an area with invalid size.';
+            expect(() => gridl(data).goto(position).reduceArea(undefined, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).goto(position).reduceArea('test', v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).goto(position).reduceArea(5, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).goto(position).reduceArea({ x: 1, y: 2 }, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).goto(position).reduceArea([], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).goto(position).reduceArea([0], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).goto(position).reduceArea([0,1,2], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).goto(position).reduceArea(['sdf', 0], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).goto(position).reduceArea([0, 'ds'], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).goto(position).reduceArea([0, 0], v => v)).to.not.throw();
+        });
+
+    });
+
+    describe('reduceAreaAt', () => {
+
+        const mockData = () => [
+            [ 1, 2, 3, 4],
+            [ 5, 6, 7, 8],
+            [ 9,10,11,12],
+            [13,14,15,16],
+            [17,18,19,20],
+        ];
+
+        it('should execute the callback on each cell within the area', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            const result = gridl(data).reduceAreaAt(position, size, (acc, value) => acc.concat(value), []);
+            expect(result).to.deep.equal([10,11,12,14,15,16]);
+        });
+
+        it('should reduce the area to sum of all values', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            // calculate the sum of all cells within the area
+            expect(gridl(data).reduceAreaAt(position, size, (res, value) => res + value, 0)).to.equal(78);
+        });
+
+        it('should provide the positions on the grid within the callback', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            const result = gridl(data).reduceAreaAt(position, size, (acc, value, pos) => acc.concat([pos]), []);
+            expect(result).to.deep.equal([
+                [1,2],[2,2],[3,2],
+                [1,3],[2,3],[3,3],
+            ]);
+        });
+
+        it('should provide the gridl instance within the callback', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            const instance = gridl(data);
+            const result = instance.reduceAreaAt(position, size, (acc, value, pos, src) => {
+                expect(src).to.deep.equal(instance);
+                return acc + 1;
+            }, 0);
+            expect(result).to.equal(6);
+        });
+
+        it('should use the initial value if provided', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            expect(gridl(data).reduceAreaAt(position, size, acc => acc, 666)).to.equal(666);
+        });
+
+        it('should throw an error if no callback is provided', () => {
+            const data = mockData();
+            const position = [1,2];
+            const size = [3,2];
+            expect(() => gridl(data).reduceAreaAt(position, size)).to.throw();
+        });
+
+        it('should throw an error if no size is provided', () => {
+            const data = mockData();
+            const position = [1,2];
+            const errorMsg = 'Trying to reduce an area with invalid size.';
+            expect(() => gridl(data).reduceAreaAt(position, undefined, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(position, 'test', v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(position, 5, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(position, { x: 1, y: 2 }, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(position, [], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(position, [0], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(position, [0,1,2], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(position, ['sdf', 0], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(position, [0, 'ds'], v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(position, [0, 0], v => v)).to.not.throw();
+        });
+
+        it('should throw an error if no position is provided', () => {
+            const data = mockData();
+            const size = [1,2];
+            const errorMsg = 'Trying to reduce an area at an invalid position.';
+            expect(() => gridl(data).reduceAreaAt(undefined, size, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt('test', size, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(5, size, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt({ x: 1, y: 2 }, size, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt([], size, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt([0], size, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt([0,1,2], size, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt(['sdf',1], size, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt([1,'sdf'], size, v => v)).to.throw(errorMsg);
+            expect(() => gridl(data).reduceAreaAt([0,0], size, v => v)).to.not.throw();
         });
 
     });

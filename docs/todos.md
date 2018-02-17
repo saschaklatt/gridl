@@ -44,6 +44,7 @@
     * evaluate tutorial functionality of jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
     * integrate code coverage
+    * remove from version control -> host it somewhere instead
 * split helper functions
     * store them in separate files 
 * rename "mirroring" to "flipping" 
