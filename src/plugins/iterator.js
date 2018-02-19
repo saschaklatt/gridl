@@ -18,7 +18,7 @@ import { index2pos, unflatten } from '../utils';
 
 export default function(context, stateProvider) {
 
-    const { data, columns, rows, position } = stateProvider.getState();
+    const { data, columns } = stateProvider.getState();
 
     /**
      * Map over all cells. It's the equivalent of Array.map just for the grid.

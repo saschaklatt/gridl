@@ -1,6 +1,6 @@
 import { addPositions, flatten, unflatten } from '../utils';
 
-export const _clip = (data, columns, rows, position, size) => {
+const _clip = (data, columns, rows, position, size) => {
     if (position[0] < 0 || position[0] >= columns || position[1] < 0 || position[1] >= rows) {
         throw new Error(`Trying to clip data at an invalid position. Given: ${position}`);
     }

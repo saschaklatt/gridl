@@ -1,7 +1,7 @@
 import gridl, {adjacences} from '../index';
 import { unflatten, addPositions, isNotInArea } from '../utils';
 
-function _adjacentCells(grid, position, adjacence, gridSize = null) {
+const _adjacentCells = (grid, position, adjacence, gridSize = null) => {
     return adjacence.reduce((res, direction) => {
         const absPos = addPositions(position, direction);
         const value = grid && grid[absPos[1]] && grid[absPos[1]][absPos[0]];
@@ -12,7 +12,7 @@ function _adjacentCells(grid, position, adjacence, gridSize = null) {
             return [...res, value];
         }
     }, []);
-}
+};
 
 export default function(context, stateProvider) {
 

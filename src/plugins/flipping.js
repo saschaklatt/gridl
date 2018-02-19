@@ -1,6 +1,6 @@
 import { unflatten, flatten, limit } from '../utils';
 
-function _flip(arr, index) {
+const _flip = (arr, index) => {
     if (index === undefined) {
         return arr.reverse();
     }
@@ -12,7 +12,7 @@ function _flip(arr, index) {
         arr[limitedIdx],
         ...left.reverse(),
     ];
-}
+};
 
 export default function(context, stateProvider) {
 
