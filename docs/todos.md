@@ -31,11 +31,12 @@
 
 ## Planned features
 
-* plugin api
-    * users should be able to add custom functions
+* move adjacences and directions to separate file/namespace (e.g. *constants.js*)
+* adjust examples
 * additional area iterators
-    * mapArea()
-    * forEachArea()
+    * `areaMap()`
+    * `areaForEach()`
+    * rename `reduceArea()` to `areaReduce()` 
 * new fill() method: similar to map/forEach, returns the current gridl instance
     * `gridl(data).forEach((v, pos, src) => src.valueAt(pos, 'bam'))`
     * `gridl(data).fill((v, pos, src) => 'bam')`
@@ -44,21 +45,15 @@
     * atm the user automatically imports all static methods by importing gridl
     * reduces size of gridl factory
     * breaks api -> major update
+    * rename `make()` to `makeGridl`
+    * rename `makeGrid()` to `makeDataGrid`
+    * rename `makeList()` to `makeDataList`
 * concat(): concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
 * jsdoc
     * evaluate tutorial functionality of jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
     * integrate code coverage
     * remove from version control -> host it somewhere instead
-* split helper functions
-    * store them in separate files 
-* rename "mirroring" to "flipping" 
-* shifting
-    * shift rows, columns and areas 
-    * shift left, right, up, down
-* optimizations
-    * evaluate if it would make more sense to store the data as a two-dimensional array internally (less conversion necessary)
-    * look for better algorithms
 * eternal mode
     * positions outside the grid will be mapped to position within the grid
     * e.g. position `[5,0]` will be mapped to `[0,0]` on a grid with 4 columns (starts from the left) 
@@ -72,4 +67,9 @@
 * toString()
 * get random cells: from the entire grid or a specific area
 * valueAt(index): support accessing values at an index in addition to a position
-
+* shifting
+    * shift rows, columns and areas 
+    * shift left, right, up, down
+* optimizations
+    * evaluate if it would make more sense to store the data as a two-dimensional array internally (less conversion necessary)
+    * look for better algorithms

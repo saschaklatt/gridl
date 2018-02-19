@@ -48,7 +48,7 @@ const mirroredGrid = gridl(data)
 
 ## Documentation
 
-* For detailed information have a look at [the JSDoc of gridl v0.8.7](https://klattiation.github.io/gridl/docs/gridl/0.8.7/index.html)
+* For detailed information have a look at [the JSDoc of gridl v0.9.0](https://klattiation.github.io/gridl/docs/gridl/0.9.0/index.html)
 * See the [changelog](docs/changelog.md) for updates in each version
 
 ## Features
