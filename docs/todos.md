@@ -6,6 +6,8 @@
 
 ## Known issues
  
+* adjust examples
+* split tests into separate files
 * publishing process should be improved
     * make sure distribution files are generated before publishing
     * consider testing against dist/ files
@@ -31,8 +33,6 @@
 
 ## Planned features
 
-* move adjacences and directions to separate file/namespace (e.g. *constants.js*)
-* adjust examples
 * additional area iterators
     * `areaMap()`
     * `areaForEach()`
@@ -40,14 +40,6 @@
 * new fill() method: similar to map/forEach, returns the current gridl instance
     * `gridl(data).forEach((v, pos, src) => src.valueAt(pos, 'bam'))`
     * `gridl(data).fill((v, pos, src) => 'bam')`
-* remove static functions from gridlFactory and only export them
-    * decouples extra functionality from gridl instance
-    * atm the user automatically imports all static methods by importing gridl
-    * reduces size of gridl factory
-    * breaks api -> major update
-    * rename `make()` to `makeGridl`
-    * rename `makeGrid()` to `makeDataGrid`
-    * rename `makeList()` to `makeDataList`
 * concat(): concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
 * jsdoc
     * evaluate tutorial functionality of jsdoc

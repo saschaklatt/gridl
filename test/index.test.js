@@ -9,8 +9,6 @@ const checkApi = api => {
         'size',
         'value',
         'valueAt',
-        'setValueAt',
-        'setValue',
         'row',
         'column',
         'areaFitsAt',
@@ -694,136 +692,6 @@ describe('gridlFactory', () => {
                 [undefined,6],
                 [7,8],
             ]);
-        });
-
-    });
-
-    describe('setValueAt', () => {
-
-        it('should set a number value at a certain position', () => {
-            const data = [
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ];
-            const g = gridl(data);
-            expect(g.valueAt([0,2])).to.equal(5);
-            checkApi(g.setValueAt([0,2], 666));
-            expect(g.valueAt([0,2])).to.equal(666);
-        });
-
-        it('should set a string value at a certain position', () => {
-            const data = [
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ];
-            const g = gridl(data);
-            expect(g.valueAt([0,2])).to.equal(5);
-            checkApi(g.setValueAt('balderdash', 666));
-            expect(g.valueAt([0,2])).to.equal(5);
-        });
-
-        it('should do nothing if you set a value outside the grid', () => {
-            const data = [
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ];
-            const g = gridl(data);
-            expect(g.setValueAt([3,2], 'balderdash').data()).to.deep.equal([
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ]);
-        });
-
-        it('should return the api', () => {
-            const data = [
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ];
-            checkApi(gridl(data).setValueAt([0,2], 666));
-        });
-
-    });
-
-    describe('setValue', () => {
-
-        it('should set a number value at the default position (0,0)', () => {
-            const data = [
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ];
-            expect(gridl(data).setValue(666).data()).to.deep.equal([
-                [666,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ]);
-        });
-
-        it('should set a number value at a certain position', () => {
-            const data = [
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ];
-            expect(gridl(data).goto([0,2]).setValue(666).data()).to.deep.equal([
-                [1,2],
-                [3,4],
-                [666,6],
-                [7,8],
-            ]);
-        });
-
-        it('should set a string value at a certain position', () => {
-            const data = [
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ];
-            expect(gridl(data).goto([0,2]).setValue('awesome').data()).to.deep.equal([
-                [1,2],
-                [3,4],
-                ['awesome',6],
-                [7,8],
-            ]);
-        });
-
-        it('should set undefined value at a certain position', () => {
-            const data = [
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ];
-            expect(gridl(data).goto([0,2]).setValue(undefined).data()).to.deep.equal([
-                [1,2],
-                [3,4],
-                [undefined,6],
-                [7,8],
-            ]);
-        });
-
-        it('should return the api', () => {
-            const data = [
-                [1,2],
-                [3,4],
-                [5,6],
-                [7,8],
-            ];
-            checkApi(gridl(data).setValue(666));
         });
 
     });
@@ -5415,7 +5283,7 @@ describe('gridlFactory', () => {
                 [4, 5, 6],
                 [7, 8, 9],
             ];
-            const newGrid = gridl(data).setValueAt([1, 2], 'Hi').data();
+            const newGrid = gridl(data).valueAt([1, 2], 'Hi').data();
             expect(newGrid).to.deep.equal([
                 [1, 2, 3],
                 [4, 5, 6],
@@ -5430,7 +5298,7 @@ describe('gridlFactory', () => {
             const grid = generators.makeGridl(columns, rows, ({ column, row }) => `${column},${row}`);
 
             // perform gridl operations
-            expect(grid.setValueAt([2,1], 'bam').data()).to.deep.equal([
+            expect(grid.valueAt([2,1], 'bam').data()).to.deep.equal([
                 ['0,0', '1,0', '2,0', '3,0'],
                 ['0,1', '1,1', 'bam', '3,1'],
                 ['0,2', '1,2', '2,2', '3,2'],
@@ -5502,13 +5370,13 @@ describe('gridlFactory', () => {
             );
 
             // do some plastic surgery
-            cow.setValueAt([1,0], '(');
-            cow.setValueAt([4,0], ')');
-            cow.setValueAt([1,1], '(');
-            cow.setValueAt([4,1], ')');
+            cow.valueAt([1,0], '(');
+            cow.valueAt([4,0], ')');
+            cow.valueAt([1,1], '(');
+            cow.valueAt([4,1], ')');
             cow.swapCells([2,2], [3,2]);
-            cow.setValueAt([11,2], '\\');
-            cow.setValueAt([12,3], '\\');
+            cow.valueAt([11,2], '\\');
+            cow.valueAt([12,3], '\\');
             expect(drawTheCow(cow)).to.deep.equal(
                 '\n(__)         ' +
                 '\n(oo)         ' +
