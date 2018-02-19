@@ -3,16 +3,18 @@
 **v0.9.0**
 
 * Plugin API !!!
-    * You can now add custom functions to gridl and mess around with internal state. Note: all responsibility lies with the plugin creator!
+    * You can now add custom functions to gridl and mess around with the internal state. Note: all responsibility lies with the plugin creator!
     * Heavy internal refactoring (every public gridl function is now a plugin by definition)
-* removed `setValue()` and `setValueAt()`
-* removed `mirrorX()` and `mirrorY()`
+* removed `setValue()` and `setValueAt()`, now fully replaced by `value()` and `valueAt()`
+* renamed mirror functions
+    * `mirrorX()` to `flipX()`
+    * `mirrorY()` to `flipY()`
 * don't throw error when `walk()` outside the grid
 * moved generators into their own namespace `generators`
 * renamed generators
-    * renamed `make()` to `makeGridl()`
-    * renamed `makeGrid()` to `makeDataGrid()`
-    * renamed `makeList()` to `makeDataList()`
+    * `make()` to `makeGridl()`
+    * `makeGrid()` to `makeDataGrid()`
+    * `makeList()` to `makeDataList()`
 
 **v0.8.7**
 
