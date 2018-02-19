@@ -33,6 +33,14 @@
 
 ## Planned features
 
+### v0.9.0
+
+* plugin architecture
+    * support namespaces for plugins, e.g. `gridl(data).area.reduce(...)`
+    * (considering) no state mutation -> always replace state entirely (uni-directional data flow)
+
+### later
+
 * additional area iterators
     * `areaMap()`
     * `areaForEach()`
@@ -48,7 +56,7 @@
     * remove from version control -> host it somewhere instead
 * eternal mode
     * positions outside the grid will be mapped to position within the grid
-    * e.g. position `[5,0]` will be mapped to `[0,0]` on a grid with 4 columns (starts from the left) 
+    * e.g. position `[5,0]` will be mapped to `[0,0]` on a grid with 4 columns (starts from the left)
 
 ## Considering features
 
@@ -65,3 +73,5 @@
 * optimizations
     * evaluate if it would make more sense to store the data as a two-dimensional array internally (less conversion necessary)
     * look for better algorithms
+* plugin architecture
+    * inline plugin `gridl(data).internal((context, stateProvider) => { ...do internal stuff like a plugin })`
