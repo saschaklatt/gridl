@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import gridl, { adjacences, directions, make, makeList, makeGrid } from '../src';
+import gridl, { adjacences, directions, make, makeList, makeGrid, utils } from '../src';
 
 const checkApi = api => {
     expect(Object.keys(api)).to.have.members([
@@ -41,6 +41,8 @@ const checkApi = api => {
         'rotate',
         'mirrorX',
         'mirrorY',
+        'flipX',
+        'flipY',
         'goto',
         'position',
         'walk',
@@ -70,6 +72,7 @@ describe('gridlFactory', () => {
                 'makeGrid',
                 'makeList',
                 'make',
+                'fn',
             ]);
         });
 
@@ -572,6 +575,21 @@ describe('gridlFactory', () => {
             checkApi(gridl(data).valueAt([0,2], 666));
         });
 
+        it('should set undefined value at a certain position', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).valueAt([0,2], undefined).data()).to.deep.equal([
+                [1,2],
+                [3,4],
+                [undefined,6],
+                [7,8],
+            ]);
+        });
+
     });
 
     describe('value as getter', () => {
@@ -666,6 +684,21 @@ describe('gridlFactory', () => {
                 [1,2],
                 [3,4],
                 [5,6],
+                [7,8],
+            ]);
+        });
+
+        it('should set undefined value at a certain position', () => {
+            const data = [
+                [1,2],
+                [3,4],
+                [5,6],
+                [7,8],
+            ];
+            expect(gridl(data).goto([0,2]).value(undefined).data()).to.deep.equal([
+                [1,2],
+                [3,4],
+                [undefined,6],
                 [7,8],
             ]);
         });
@@ -3368,6 +3401,213 @@ describe('gridlFactory', () => {
         });
     });
 
+    describe('flip', () => {
+
+        describe('flipX', () => {
+
+            it('should mirror my grid on the x-axis', () => {
+                const data = [
+                    [ 1, 2, 3],
+                    [ 4, 5, 6],
+                    [ 7, 8, 9],
+                    [10,11,12],
+                    [13,14,15],
+                ];
+                expect(gridl(data).flipX().data()).to.deep.equal([
+                    [13,14,15],
+                    [10,11,12],
+                    [ 7, 8, 9],
+                    [ 4, 5, 6],
+                    [ 1, 2, 3],
+                ]);
+            });
+
+            it('should mirror my grid on the x-axis at a certain y-position', () => {
+                const data = [
+                    [ 1, 6,11],
+                    [ 2, 7,12],
+                    [ 3, 8,13],
+                    [ 4, 9,14],
+                    [ 5,10,15],
+                ];
+                expect(gridl(data).flipX(3).data()).to.deep.equal([
+                    [ 5,10,15],
+                    [ 4, 9,14],
+                    [ 3, 8,13],
+                    [ 2, 7,12],
+                    [ 1, 6,11],
+                ]);
+            });
+
+            it('should mirror my grid on the x-axis at the very top', () => {
+                const data = [
+                    [ 1, 6,11],
+                    [ 2, 7,12],
+                    [ 3, 8,13],
+                    [ 4, 9,14],
+                    [ 5,10,15],
+                ];
+                expect(gridl(data).flipX(0).data()).to.deep.equal([
+                    [ 5,10,15],
+                    [ 4, 9,14],
+                    [ 3, 8,13],
+                    [ 2, 7,12],
+                    [ 1, 6,11],
+                ]);
+            });
+
+            it('should mirror my grid on the x-axis at the very bottom', () => {
+                const data = [
+                    [ 1, 6,11],
+                    [ 2, 7,12],
+                    [ 3, 8,13],
+                    [ 4, 9,14],
+                    [ 5,10,15],
+                ];
+                expect(gridl(data).flipX(4).data()).to.deep.equal([
+                    [ 5,10,15],
+                    [ 4, 9,14],
+                    [ 3, 8,13],
+                    [ 2, 7,12],
+                    [ 1, 6,11],
+                ]);
+            });
+
+            it('should mirror my grid on the x-axis at an index outside at the top', () => {
+                const data = [
+                    [ 1, 6,11],
+                    [ 2, 7,12],
+                    [ 3, 8,13],
+                    [ 4, 9,14],
+                    [ 5,10,15],
+                ];
+                expect(gridl(data).flipX(-1).data()).to.deep.equal([
+                    [ 5,10,15],
+                    [ 4, 9,14],
+                    [ 3, 8,13],
+                    [ 2, 7,12],
+                    [ 1, 6,11],
+                ]);
+            });
+
+            it('should mirror my grid on the x-axis at an index outside at the bottom', () => {
+                const data = [
+                    [ 1, 6,11],
+                    [ 2, 7,12],
+                    [ 3, 8,13],
+                    [ 4, 9,14],
+                    [ 5,10,15],
+                ];
+                expect(gridl(data).flipX(5).data()).to.deep.equal([
+                    [ 5,10,15],
+                    [ 4, 9,14],
+                    [ 3, 8,13],
+                    [ 2, 7,12],
+                    [ 1, 6,11],
+                ]);
+            });
+
+            it('should return the api', () => {
+                const data = [
+                    [ 1, 2],
+                    [ 4, 5],
+                ];
+                checkApi(gridl(data).flipX());
+            });
+
+        });
+
+        describe('flipY', () => {
+
+            it('should mirror my grid on the y-axis', () => {
+                const data = [
+                    [ 1, 2, 3, 4, 5],
+                    [ 6, 7, 8, 9,10],
+                    [11,12,13,14,15],
+                ];
+                expect(gridl(data).flipY().data()).to.deep.equal([
+                    [ 5, 4, 3, 2, 1],
+                    [10, 9, 8, 7, 6],
+                    [15,14,13,12,11],
+                ]);
+            });
+
+            it('should mirror my grid on the y-axis at a certain x-position', () => {
+                const data = [
+                    [ 1, 2, 3, 4, 5],
+                    [ 6, 7, 8, 9,10],
+                    [11,12,13,14,15],
+                ];
+                expect(gridl(data).flipY(3).data()).to.deep.equal([
+                    [ 5, 4, 3, 2, 1],
+                    [10, 9, 8, 7, 6],
+                    [15,14,13,12,11],
+                ]);
+            });
+
+            it('should mirror my grid on the y-axis at the very left', () => {
+                const data = [
+                    [ 1, 2, 3, 4, 5],
+                    [ 6, 7, 8, 9,10],
+                    [11,12,13,14,15],
+                ];
+                expect(gridl(data).flipY(0).data()).to.deep.equal([
+                    [ 5, 4, 3, 2, 1],
+                    [10, 9, 8, 7, 6],
+                    [15,14,13,12,11],
+                ]);
+            });
+
+            it('should mirror my grid on the y-axis at the very right', () => {
+                const data = [
+                    [ 1, 2, 3, 4, 5],
+                    [ 6, 7, 8, 9,10],
+                    [11,12,13,14,15],
+                ];
+                expect(gridl(data).flipY(4).data()).to.deep.equal([
+                    [ 5, 4, 3, 2, 1],
+                    [10, 9, 8, 7, 6],
+                    [15,14,13,12,11],
+                ]);
+            });
+
+            it('should mirror my grid on the y-axis at an index outside at the left', () => {
+                const data = [
+                    [ 1, 2, 3, 4, 5],
+                    [ 6, 7, 8, 9,10],
+                    [11,12,13,14,15],
+                ];
+                expect(gridl(data).flipY(-1).data()).to.deep.equal([
+                    [ 5, 4, 3, 2, 1],
+                    [10, 9, 8, 7, 6],
+                    [15,14,13,12,11],
+                ]);
+            });
+
+            it('should mirror my grid on the y-axis at an index outside at the right', () => {
+                const data = [
+                    [ 1, 2, 3, 4, 5],
+                    [ 6, 7, 8, 9,10],
+                    [11,12,13,14,15],
+                ];
+                expect(gridl(data).flipY(5).data()).to.deep.equal([
+                    [ 5, 4, 3, 2, 1],
+                    [10, 9, 8, 7, 6],
+                    [15,14,13,12,11],
+                ]);
+            });
+
+            it('should return the api', () => {
+                const data = [
+                    [ 1, 2],
+                    [ 4, 5],
+                ];
+                checkApi(gridl(data).flipY());
+            });
+        });
+
+    });
+
     describe('goto', () => {
 
         it('should provide the api', () => {
@@ -3407,6 +3647,7 @@ describe('gridlFactory', () => {
             expect(() => gridl(data).goto(0)).to.throw('Trying to go to an invalid position. Given: 0');
             expect(() => gridl(data).goto('balderdash')).to.throw('Trying to go to an invalid position. Given: balderdash');
             expect(() => gridl(data).goto({})).to.throw('Trying to go to an invalid position. Given: [object Object]');
+            expect(() => gridl(data).goto([2,1,3,4,1])).to.throw('Trying to go to an invalid position. Given: 2,1,3,4,1');
         });
 
         it('should go to a position outside the grid (left)', () => {
@@ -3473,14 +3714,6 @@ describe('gridlFactory', () => {
             expect(g.position()).to.deep.equal([2,1]);
         });
 
-        it('should ignore extra values', () => {
-            const data = [
-                [1,2,3],
-                [4,5,6],
-            ];
-            expect(gridl(data).goto([2,1,3,4,1]).position()).to.deep.equal([2,1]);
-        });
-
     });
 
     describe('walk', () => {
@@ -3509,46 +3742,27 @@ describe('gridlFactory', () => {
             expect(newPosition).to.deep.equal([1,2]);
         });
 
-        it('should throw an error if you walk to an invalid position (left)', () => {
-            const data = [
-                [1,2,3],
-                [4,5,6],
-            ];
-            const g = gridl(data).goto([1,0]);
-            expect(() => g.walk([-1,0])).to.not.throw();
-            expect(() => g.walk([-1,0])).to.throw('Trying to walk to an invalid position. Position: -1,0');
-        });
-
-        it('should throw an error if you walk to an invalid position (top)', () => {
+        it('should not throw an error if you walk to a position outside the grid', () => {
             const data = [
                 [1,2,3],
                 [4,5,6],
                 [4,5,6],
             ];
             const g = gridl(data).goto([1,1]);
-            expect(() => g.walk([0,-1])).to.not.throw();
-            expect(() => g.walk([0,-1])).to.throw('Trying to walk to an invalid position. Position: 1,-1');
+            expect(() => g.walk([0,-2])).to.not.throw();
         });
 
-        it('should throw an error if you walk to an invalid position (right)', () => {
-            const data = [
-                [1,2,3],
-                [4,5,6],
-            ];
-            const g = gridl(data).goto([1,0]);
-            expect(() => g.walk([1,0])).to.not.throw();
-            expect(() => g.walk([1,0])).to.throw('Trying to walk to an invalid position. Position: 3,0');
-        });
-
-        it('should throw an error if you walk to an invalid position (bottom)', () => {
+        it('should throw an error if you walk into an invalid direction', () => {
             const data = [
                 [1,2,3],
                 [4,5,6],
                 [4,5,6],
             ];
             const g = gridl(data).goto([1,1]);
-            expect(() => g.walk([0,1])).to.not.throw();
-            expect(() => g.walk([0,1])).to.throw('Trying to walk to an invalid position. Position: 1,3');
+            expect(() => g.walk()).to.throw('Trying to walk into an invalid direction. Given: undefined');
+            expect(() => g.walk('up')).to.throw('Trying to walk into an invalid direction. Given: up');
+            expect(() => g.walk({ '0': 1, '1': 1 })).to.throw('Trying to walk into an invalid direction. Given: [object Object]');
+            expect(() => g.walk([1,2,3,4])).to.throw('Trying to walk into an invalid direction. Given: 1,2,3,4');
         });
 
     });
@@ -5085,6 +5299,73 @@ describe('gridlFactory', () => {
 
             });
 
+        });
+
+    });
+
+    describe('fn', () => {
+
+        const mockData = () => [
+            [ 1, 2, 3, 4],
+            [ 5, 6, 7, 8],
+            [ 9,10,11,12],
+        ];
+
+        it('should add a plugin', () => {
+            const data = mockData();
+            gridl.fn.test = () => () => 'test';
+            expect(gridl(data).test()).to.deep.equal('test');
+        });
+
+        it('should provide the instance to the plugin', () => {
+            const data = mockData();
+            gridl.fn.test = context => () => context;
+            const instance = gridl(data);
+            expect(instance.test()).to.deep.equal(instance);
+        });
+
+        it('should provide the internal state to the plugin function', () => {
+            const data = mockData();
+            gridl.fn.exposeState = (context, stateProvider) => () => {
+                const { rows, columns, position, data } = stateProvider.getState();
+                return { rows, columns, position, data };
+            };
+
+            const grid = gridl(data);
+
+            expect(grid.exposeState()).to.deep.equal({
+                rows: 3,
+                columns: 4,
+                data: [1,2,3,4,5,6,7,8,9,10,11,12],
+                position: [0,0],
+            });
+
+            grid.goto([2,1]).clip([2,2]);
+
+            expect(grid.exposeState()).to.deep.equal({
+                rows: 2,
+                columns: 2,
+                data: [7,8,11,12],
+                position: [2,1],
+            });
+        });
+
+        it('should be able to change the internal state from within the plugin function', () => {
+            const data = mockData();
+            gridl.fn.changeState = (context, stateProvider) => function(rows, columns) {
+                stateProvider.setState({
+                    rows,
+                    columns,
+                    data: utils.flatten([[6,5,4]]),
+                    position: [1,1],
+                });
+                return this;
+            };
+            const grid = gridl(data).changeState(1, 666);
+            expect(grid.data()).to.deep.equal([[6,5,4]]);
+            expect(grid.numRows()).to.equal(1);
+            expect(grid.numColumns()).to.equal(666);
+            expect(grid.position()).to.deep.equal([1,1]);
         });
 
     });

@@ -31,6 +31,8 @@
 
 ## Planned features
 
+* plugin api
+    * users should be able to add custom functions
 * additional area iterators
     * mapArea()
     * forEachArea()
@@ -70,5 +72,4 @@
 * toString()
 * get random cells: from the entire grid or a specific area
 * valueAt(index): support accessing values at an index in addition to a position
-* extendability: user should be able to add custom functionality through some kind of plugin api
 

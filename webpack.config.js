@@ -20,6 +20,13 @@ const env = (function(env) {
             devtool: undefined,
             plugins: [],
         },
+        test: {
+            output: {
+                filename: libName + '.js',
+            },
+            devtool: 'eval-source-map',
+            plugins: [],
+        },
     };
     return configs[env];
 })(process.env.WEBPACK_ENV);
@@ -42,11 +49,6 @@ const config = {
                 use: {
                     loader: 'babel-loader',
                 },
-            },
-            {
-                test: /(\.js)$/,
-                loader: 'eslint-loader',
-                exclude: /node_modules/,
             },
         ],
     },
