@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: plugins/finding.js</title>
+    <title>JSDoc: Source: directions.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: plugins/finding.js</h1>
+    <h1 class="page-title">Source: directions.js</h1>
 
     
 
@@ -26,29 +26,34 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { index2pos } from '../utils';
+            <pre class="prettyprint source linenums"><code>/**
+ * Predefined directions you can walk in.&lt;br>
+ * Use it in combination with [walk(direction)]{@link gridl#walk}.
+ *
+ * @namespace
+ *
+ * @type {Object}
+ * @property {Array.&lt;number>} UP - one step up
+ * @property {Array.&lt;number>} UP_LEFT - one step left, one step up
+ * @property {Array.&lt;number>} UP_RIGHT - one step right, one step up
+ * @property {Array.&lt;number>} RIGHT - one step right
+ * @property {Array.&lt;number>} LEFT - one step left
+ * @property {Array.&lt;number>} DOWN - one step down
+ * @property {Array.&lt;number>} DOWN_LEFT - one step left, one step down
+ * @property {Array.&lt;number>} DOWN_RIGHT - one step right, one step down
+ */
+const directions = Object.freeze({
+    UP:         Object.freeze([ 0, -1]),
+    UP_RIGHT:   Object.freeze([ 1, -1]),
+    RIGHT:      Object.freeze([ 1,  0]),
+    DOWN_RIGHT: Object.freeze([ 1,  1]),
+    DOWN:       Object.freeze([ 0,  1]),
+    DOWN_LEFT:  Object.freeze([-1,  1]),
+    LEFT:       Object.freeze([-1,  0]),
+    UP_LEFT:    Object.freeze([-1, -1]),
+});
 
-export default function(context, stateProvider) {
-
-    const { data, columns } = stateProvider.getState();
-
-    /**
-     * Find the first occurrence of an element within the entire grid.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {iteratorCallback} callback - The callback function that is called on each element. Should return true if the element is found or false if not.
-     * @returns {(Array.&lt;number>|undefined)} The position of the first element that is found or &lt;code>undefined&lt;/code> if nothing was found.
-     */
-    function find(callback) {
-        const index = data.findIndex((v, i) => callback(v, index2pos(i, columns), context));
-        return (index >= 0) ? index2pos(index, columns) : undefined;
-    }
-
-    return { find };
-}
+export default directions;
 </code></pre>
         </article>
     </section>
