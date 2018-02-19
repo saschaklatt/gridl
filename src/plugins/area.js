@@ -8,7 +8,7 @@ import {
     isValidPositionFormat, getValueAt,
 } from '../utils';
 
-export const _getAreaAt = (data, columns, rows, position, size, anchor = [0,0]) => {
+const _getAreaAt = (data, columns, rows, position, size, anchor = [0,0]) => {
     const posTmp = subtractPositions(position, anchor);
     const end = [
         Math.min(posTmp[0] + size[0], columns),
@@ -57,7 +57,7 @@ const _setAreaAt = (data, columns, rows, position, area, anchor = [0,0]) => {
     return data;
 };
 
-function _reduceAreaAt(api, data, columns, rows, position, size, callback, initialValue, hasInitialValue) {
+const _reduceAreaAt = (api, data, columns, rows, position, size, callback, initialValue, hasInitialValue) => {
     if (!isValidPositionFormat(position)) {
         throw new Error('Trying to reduce an area at an invalid position.');
     }
@@ -71,7 +71,7 @@ function _reduceAreaAt(api, data, columns, rows, position, size, callback, initi
     };
     const flattenedArea = flatten(_getAreaAt(data, columns, rows, position, size));
     return hasInitialValue ? flattenedArea.reduce(reducer) : flattenedArea.reduce(reducer, initialValue);
-}
+};
 
 export default function(context, stateProvider) {
 
