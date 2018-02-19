@@ -5,13 +5,13 @@ const path = require('path');
 const config = {
     target: 'node',
     externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
-    devtool: 'cheap-eval-source-map',
+    devtool: 'eval-source-map',
     watch: false,
-    plugins: [
-        new webpack.SourceMapDevToolPlugin({
-            filename: '[file].map'
-        }),
-    ],
+    // plugins: [
+    //     new webpack.SourceMapDevToolPlugin({
+    //         filename: '[file].map'
+    //     }),
+    // ],
     module: {
         rules: [
             {
@@ -21,11 +21,6 @@ const config = {
                 include: [
                     path.join(__dirname, 'src'),
                 ],
-            },
-            {
-                test: /(\.js)$/,
-                loader: 'eslint-loader',
-                exclude: /node_modules/,
             },
         ],
     },
