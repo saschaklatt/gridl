@@ -55,7 +55,9 @@ export default function(context, stateProvider) {
     }
 
     return {
-        adjacentCells,
-        adjacentCellsAt,
+        methods: {
+            adjacentCells,
+            adjacentCellsAt,
+        }
     };
 }

@@ -36,7 +36,7 @@
 ### v0.9.0
 
 * plugin architecture
-    * support namespaces for plugins, e.g. `gridl(data).area.reduce(...)`
+    * use namespaces for **area** plugin, e.g. `gridl(data).area.reduce(...)`
     * (considering) no state mutation -> always replace state entirely (uni-directional data flow)
 
 ### later

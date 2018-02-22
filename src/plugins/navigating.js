@@ -61,8 +61,10 @@ export default function(context, stateProvider) {
     }
 
     return {
-        goto,
-        position,
-        walk,
+        methods: {
+            goto,
+            position,
+            walk,
+        },
     };
 }

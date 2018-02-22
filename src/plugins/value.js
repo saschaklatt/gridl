@@ -43,5 +43,5 @@ export default function(context, stateProvider) {
         return context;
     }
 
-    return { value, valueAt };
+    return { methods: { value, valueAt } };
 }

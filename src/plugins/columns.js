@@ -88,9 +88,11 @@ export default function(context, stateProvider) {
     }
 
     return {
-        addColumn,
-        column,
-        numColumns,
-        removeColumn,
+        methods: {
+            addColumn,
+            column,
+            numColumns,
+            removeColumn,
+        },
     };
 }

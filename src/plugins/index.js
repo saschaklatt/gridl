@@ -3,7 +3,7 @@ import area from './area';
 import clipping from './clipping';
 import columns from './columns';
 import finding from './finding';
-import flipping from './flipping';
+import flip from './flip';
 import iterator from './iterator';
 import moving from './moving';
 import navigating from './navigating';
@@ -19,7 +19,7 @@ export default {
     clipping,
     columns,
     finding,
-    flipping,
+    flip,
     iterator,
     moving,
     navigating,

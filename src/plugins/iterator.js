@@ -67,8 +67,10 @@ export default function(context, stateProvider) {
     }
 
     return {
-        map,
-        forEach,
-        reduce,
+        methods: {
+            map,
+            forEach,
+            reduce,
+        }
     };
 }

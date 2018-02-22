@@ -55,5 +55,7 @@ export default function(context, stateProvider) {
         return context;
     }
 
-    return { clip, clipAt };
+    return {
+        methods: { clip, clipAt },
+    };
 }

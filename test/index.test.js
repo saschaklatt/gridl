@@ -1,6 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import gridl, { adjacences, directions, generators, utils } from '../src';
+import {unflatten} from '../src/utils';
 
 const checkApi = api => {
     expect(Object.keys(api)).to.have.members([
@@ -3069,7 +3070,7 @@ describe('gridlFactory', () => {
 
     describe('flip', () => {
 
-        describe('flipX', () => {
+        describe('vertically', () => {
 
             it('should mirror my grid on the x-axis', () => {
                 const data = [
@@ -3183,7 +3184,7 @@ describe('gridlFactory', () => {
 
         });
 
-        describe('flipY', () => {
+        describe('horizontal', () => {
 
             it('should mirror my grid on the y-axis', () => {
                 const data = [
@@ -5032,6 +5033,31 @@ describe('gridlFactory', () => {
             expect(grid.numRows()).to.equal(1);
             expect(grid.numColumns()).to.equal(666);
             expect(grid.position()).to.deep.equal([1,1]);
+        });
+
+        it('should create a plugin with namespace', () => {
+            const data = [
+                [ 1, 2, 3, 4, 5],
+                [ 6, 7, 8, 9,10],
+                [11,12,13,14,15],
+            ];
+            gridl.fn.pups = (context, stateProvider) => {
+                const { data } = stateProvider.getState();
+                return {
+                    namespace: true,
+                    methods: {
+                        first: value => {
+                            data[0] = value;
+                            return context;
+                        }
+                    },
+                };
+            };
+            expect(gridl(data).pups.first('X').data()).to.deep.equal([
+                ['X', 2, 3, 4, 5],
+                [  6, 7, 8, 9,10],
+                [ 11,12,13,14,15],
+            ]);
         });
 
     });
