@@ -33,9 +33,14 @@ function gridl(fn, data) {
                     this[key] = plugin;
                 }
 
-                // plugin returns multiple functions bundled together in an object
-                else if (type === 'object') {
-                    Object.entries(plugin).forEach(([k, func]) => {
+                // plugin returns multiple functions with a namespace
+                else if (type === 'object' && plugin.methods && plugin.namespace) {
+                    this[key] = plugin.methods;
+                }
+
+                // plugin returns multiple functions without a namespace
+                else if (type === 'object' && plugin.methods) {
+                    Object.entries(plugin.methods).forEach(([k, func]) => {
                         this[k] = func;
                     });
                 }

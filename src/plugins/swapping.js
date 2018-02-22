@@ -106,9 +106,11 @@ export default function(context, stateProvider) {
     }
 
     return {
-        swapCell,
-        swapCells,
-        swapColumns,
-        swapRows,
+        methods: {
+            swapCell,
+            swapCells,
+            swapColumns,
+            swapRows,
+        },
     };
 }

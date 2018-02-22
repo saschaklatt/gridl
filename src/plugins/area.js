@@ -236,14 +236,16 @@ export default function(context, stateProvider) {
     }
 
     return {
-        areaFits,
-        areaFitsAt,
-        getArea,
-        getAreaAt,
-        setArea,
-        setAreaAt,
-        findInArea,
-        reduceArea,
-        reduceAreaAt,
+        methods: {
+            areaFits,
+            areaFitsAt,
+            getArea,
+            getAreaAt,
+            setArea,
+            setAreaAt,
+            findInArea,
+            reduceArea,
+            reduceAreaAt,
+        },
     };
 }

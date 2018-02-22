@@ -59,9 +59,11 @@ export default function(context, stateProvider) {
     }
 
     return {
-        size,
-        data,
-        list,
-        clone,
+        methods: {
+            size,
+            data,
+            list,
+            clone,
+        },
     };
 }

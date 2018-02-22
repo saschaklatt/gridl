@@ -88,9 +88,11 @@ export default function(context, stateProvider) {
     }
 
     return {
-        addRow,
-        numRows,
-        removeRow,
-        row,
+        methods: {
+            addRow,
+            numRows,
+            removeRow,
+            row,
+        },
     };
 }

@@ -133,10 +133,12 @@ export default function(context, stateProvider) {
     }
 
     return {
-        moveAbs,
-        moveCell,
-        moveColumn,
-        moveRel,
-        moveRow,
+        methods: {
+            moveAbs,
+            moveCell,
+            moveColumn,
+            moveRel,
+            moveRow,
+        },
     };
 }

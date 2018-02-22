@@ -19,5 +19,5 @@ export default function(context, stateProvider) {
         return (index >= 0) ? index2pos(index, columns) : undefined;
     }
 
-    return { find };
+    return { methods: { find } };
 }

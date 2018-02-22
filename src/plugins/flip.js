@@ -22,10 +22,6 @@ export default function(context, stateProvider) {
     /**
      * Flips the array on the given x-position
      *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
      * @param {number} xPos - The x-position of where to flip the array.
      * @returns {gridl} The same gridl instance.
      */
@@ -37,10 +33,6 @@ export default function(context, stateProvider) {
     /**
      * Flips the array on the given y-position.
      *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
      * @param {number} yPos - The y-position of where to flip the array.
      * @returns {gridl} The same gridl instance.
      */
@@ -49,5 +41,7 @@ export default function(context, stateProvider) {
         return context;
     }
 
-    return { flipX, flipY };
+    return {
+        methods: { flipX, flipY },
+    };
 }

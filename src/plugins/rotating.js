@@ -41,5 +41,5 @@ export default function(context, stateProvider) {
         return context;
     }
 
-    return { rotate };
+    return { methods: { rotate } };
 }

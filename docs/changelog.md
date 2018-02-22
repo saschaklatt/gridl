@@ -5,6 +5,7 @@
 * Plugin API !!!
     * You can now add custom functions to gridl and mess around with the internal state. Note: all responsibility lies with the plugin creator!
     * Heavy internal refactoring (every public gridl function is now a plugin by definition)
+    * support for namespaces
 * removed `setValue()` and `setValueAt()`, now fully replaced by `value()` and `valueAt()`
 * renamed mirror functions
     * `mirrorX()` to `flipX()`
