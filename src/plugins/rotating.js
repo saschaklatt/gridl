@@ -17,7 +17,7 @@ function _rotate(grid, columns, steps) {
     }
 }
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
     /**
      * Rotate the array in a 90 degree steps. A positive step turns it clockwise, a negative step turns it counterclockwise.
@@ -30,13 +30,11 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function rotate(steps) {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         const grid = _rotate(unflatten(data, columns), columns, steps);
-        stateProvider.setState({
-            data: flatten(grid),
-            rows: grid.length,
-            columns: grid[0].length,
-        });
+        state.data = flatten(grid);
+        state.rows = grid.length;
+        state.columns = grid[0].length;
         return context;
     }
 

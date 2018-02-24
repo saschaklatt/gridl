@@ -1,6 +1,6 @@
 import { index2pos } from '../utils';
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
     /**
      * Find the first occurrence of an element within the entire grid.
@@ -13,7 +13,7 @@ export default function(context, stateProvider) {
      * @returns {(Array.<number>|undefined)} The position of the first element that is found or <code>undefined</code> if nothing was found.
      */
     function find(callback) {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         const index = data.findIndex((v, i) => callback(v, index2pos(i, columns), context));
         return (index >= 0) ? index2pos(index, columns) : undefined;
     }

@@ -2,7 +2,7 @@ import gridl from '../index';
 import { flatten, unflatten, getColumn } from '../utils';
 import utils from '../utils';
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
     /**
      * Get the number of columns.
@@ -13,7 +13,7 @@ export default function(context, stateProvider) {
      * @returns {number}
      */
     function numColumns() {
-        return stateProvider.getState().columns;
+        return state.columns;
     }
 
     /**
@@ -27,7 +27,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<*>}
      */
     function column(x) {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         return getColumn(unflatten(data, columns), x);
     }
 
@@ -43,7 +43,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function addColumn(column, x) {
-        const { data, columns, rows } = stateProvider.getState();
+        const { data, columns, rows } = state;
         if (x < 0 || x > columns) {
             throw new Error(`Trying to add column at an invalid position. Given: ${x}`);
         }
@@ -54,11 +54,8 @@ export default function(context, stateProvider) {
             row.splice(x, 0, column[i]);
             return row;
         });
-
-        stateProvider.setState({
-            data: utils.flatten(grid),
-            columns: grid[0].length,
-        });
+        state.data = utils.flatten(grid);
+        state.columns = grid[0].length;
         return context;
     }
 
@@ -73,7 +70,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function removeColumn(x) {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         if (x < 0 || x >= columns) {
             throw new Error(`Trying to remove a column at an invalid position. Given: ${x}`);
         }
@@ -81,10 +78,8 @@ export default function(context, stateProvider) {
             throw new Error('Cannot remove column because the grid would be empty after it.');
         }
         const grid = unflatten(data, columns).map(row => row.filter((v, c) => c !== x));
-        stateProvider.setState({
-            data: flatten(grid),
-            columns: grid[0].length,
-        });
+        state.data = flatten(grid);
+        state.columns = grid[0].length;
         return context;
     }
 

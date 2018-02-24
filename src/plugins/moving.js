@@ -26,7 +26,7 @@ const _moveCell = (data, columns, rows, from, to) => {
     return _move(data, fromIndex, toIndex);
 };
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
     /**
      * Move the current cell to an absolute position.
@@ -40,10 +40,8 @@ export default function(context, stateProvider) {
      * @returns {gridl}
      */
     function moveAbs(to) {
-        const { data, columns, rows, position } = stateProvider.getState();
-        stateProvider.setState({
-            data: _moveCell(data, columns, rows, position, to),
-        });
+        const { data, columns, rows, position } = state;
+        state.data = _moveCell(data, columns, rows, position, to);
         return context;
     }
 
@@ -59,10 +57,8 @@ export default function(context, stateProvider) {
      * @returns {gridl} - The current gridl instance.
      */
     function moveCell(from, to) {
-        const { data, columns, rows, position } = stateProvider.getState();
-        stateProvider.setState({
-            data: _moveCell(data, columns, rows, from, to),
-        });
+        const { data, columns, rows } = state;
+        state.data = _moveCell(data, columns, rows, from, to);
         return context;
     }
 
@@ -78,16 +74,14 @@ export default function(context, stateProvider) {
      * @returns {gridl}
      */
     function moveColumn(xFrom, xTo) {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         if (xFrom < 0 || xFrom >= columns) {
             throw new Error(`Trying to move column from an invalid position. Given: ${xFrom}`);
         }
         if (xTo < 0 || xTo >= columns) {
             throw new Error(`Trying to move column to an invalid position. Given: ${xTo}`);
         }
-        stateProvider.setState({
-            data: flatten(unflatten(data, columns).map(row => _move(row, xFrom, xTo))),
-        });
+        state.data = flatten(unflatten(data, columns).map(row => _move(row, xFrom, xTo)));
         return context;
     }
 
@@ -103,10 +97,8 @@ export default function(context, stateProvider) {
      * @returns {gridl} The current gridl instance.
      */
     function moveRel(direction) {
-        const { data, columns, rows, position } = stateProvider.getState();
-        stateProvider.setState({
-            data: _moveCell(data, columns, rows, position, addPositions(position, direction)),
-        });
+        const { data, columns, rows, position } = state;
+        state.data = _moveCell(data, columns, rows, position, addPositions(position, direction));
         return context;
     }
 
@@ -122,16 +114,14 @@ export default function(context, stateProvider) {
      * @returns {gridl} The current gridl instance.
      */
     function moveRow(yFrom, yTo) {
-        const { data, columns, rows } = stateProvider.getState();
+        const { data, columns, rows } = state;
         if (yFrom < 0 || yFrom >= rows) {
             throw new Error(`Trying to move row from an invalid position. Given: ${yFrom}`);
         }
         if (yTo < 0 || yTo >= rows) {
             throw new Error(`Trying to move row to an invalid position. Given: ${yTo}`);
         }
-        stateProvider.setState({
-            data: flatten(_move(unflatten(data, columns), yFrom, yTo)),
-        });
+        state.data = flatten(_move(unflatten(data, columns), yFrom, yTo));
         return context;
     }
 

@@ -17,7 +17,7 @@ const _swapCells = (data, columns, rows, position1, position2) => {
     return _swap(data, index1, index2);
 };
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
 
     /**
@@ -32,7 +32,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapCell(otherPosition) {
-        const { data, columns, rows, position } = stateProvider.getState();
+        const { data, columns, rows, position } = state;
         _swapCells(data, columns, rows, position, otherPosition);
         return context;
     }
@@ -49,7 +49,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapCells(position1, position2) {
-        const { data, columns, rows } = stateProvider.getState();
+        const { data, columns, rows } = state;
         _swapCells(data, columns, rows, position1, position2);
         return context;
     }
@@ -66,7 +66,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapColumns(x1, x2) {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         if (x1 < 0 || x1 >= columns) {
             throw new Error(`Trying to swap columns from an invalid position. Given: ${x1}`);
         }
@@ -77,9 +77,7 @@ export default function(context, stateProvider) {
             _swap(row, x1, x2);
             return row;
         });
-        stateProvider.setState({
-            data: flatten(grid),
-        });
+        state.data = flatten(grid);
         return context;
     }
 
@@ -95,16 +93,14 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapRows(y1, y2) {
-        const { data, columns, rows } = stateProvider.getState();
+        const { data, columns, rows } = state;
         if (y1 < 0 || y1 >= rows) {
             throw new Error(`Trying to swap rows from an invalid position. Given: ${y1}`);
         }
         if (y2 < 0 || y2 >= rows) {
             throw new Error(`Trying to swap rows to an invalid position. Given: ${y2}`);
         }
-        stateProvider.setState({
-            data: flatten(_swap(unflatten(data, columns), y1, y2)),
-        });
+        state.data = flatten(_swap(unflatten(data, columns), y1, y2));
         return context;
     }
 

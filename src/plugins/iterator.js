@@ -16,7 +16,7 @@
 import gridl from '../index';
 import { index2pos, unflatten } from '../utils';
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
     /**
      * Map over all cells. It's the equivalent of Array.map just for the grid.
@@ -29,7 +29,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} A new gridl instance.
      */
     function map(callback) {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         const newData = data.map((v, i) => callback(v, index2pos(i, columns), context));
         return gridl(unflatten(newData, columns));
     }
@@ -45,7 +45,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function forEach(callback) {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         data.forEach((v, i) => callback(v, index2pos(i, columns), context));
         return context;
     }
@@ -62,7 +62,7 @@ export default function(context, stateProvider) {
      * @returns {*} The value that results from the reduction.
      */
     function reduce(callback, initialValue) {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         const reducer = (acc, v, i) => callback(acc, v, index2pos(i, columns), context);
         return arguments.length === 1 ? data.reduce(reducer) : data.reduce(reducer, initialValue);
     }

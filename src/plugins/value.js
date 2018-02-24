@@ -1,6 +1,6 @@
 import { getValueAt, setValueAt } from '../utils';
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
     /**
      * Get or set the value at the current position.<br>
@@ -14,7 +14,7 @@ export default function(context, stateProvider) {
      * @returns {*} The cell's value or the gridl instance if you use it as a setter.
      */
     function value(value) {
-        const { data, columns, rows, position } = stateProvider.getState();
+        const { data, columns, rows, position } = state;
         if (arguments.length < 1) {
             return getValueAt(data, columns, position);
         }
@@ -35,7 +35,7 @@ export default function(context, stateProvider) {
      * @returns {*} The cell's value or the the same gridl instance if you use it as a setter.
      */
     function valueAt(pos, value) {
-        const { data, columns, rows } = stateProvider.getState();
+        const { data, columns, rows } = state;
         if (arguments.length < 2) {
             return getValueAt(data, columns, pos);
         }
