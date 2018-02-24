@@ -5,8 +5,6 @@ const getRow = (data, y) => data[y];
 
 export default function(context, stateProvider) {
 
-    const { data, rows, columns} = stateProvider.getState();
-
     /**
      * Get the number of rows.
      *
@@ -16,7 +14,7 @@ export default function(context, stateProvider) {
      * @returns {number}
      */
     function numRows() {
-        return rows;
+        return stateProvider.getState().rows;
     }
 
     /**
@@ -30,6 +28,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<*>}
      */
     function row(y) {
+        const { data, columns} = stateProvider.getState();
         return getRow(unflatten(data, columns), y);
     }
 
@@ -45,6 +44,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function addRow(row, y) {
+        const { data, rows, columns} = stateProvider.getState();
         if (y < 0 || y > rows) {
             throw new Error(`Trying to add row at an invalid position. Given: ${y}`);
         }
@@ -72,6 +72,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function removeRow(y) {
+        const { data, rows, columns} = stateProvider.getState();
         if (y < 0 || y >= rows) {
             throw new Error(`Trying to remove a row at an invalid position. Given: ${y}`);
         }

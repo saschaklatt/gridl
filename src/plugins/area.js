@@ -75,8 +75,6 @@ const _reduceAreaAt = (api, data, columns, rows, position, size, callback, initi
 
 export default function(context, stateProvider) {
 
-    const { data, columns, rows, position } = stateProvider.getState();
-
     /**
      * Check if a given area would fit inside the grid at the current position.<br>
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
@@ -90,6 +88,7 @@ export default function(context, stateProvider) {
      * @returns {boolean} Whether the area fits or not.
      */
     function areaFits(area, anchor) {
+        const { columns, rows, position } = stateProvider.getState();
         return _checkAreaFitsAt(columns, rows, position, area, anchor);
     }
 
@@ -106,6 +105,7 @@ export default function(context, stateProvider) {
      * @returns {boolean} Whether the area fits or not.
      */
     function areaFitsAt(position, area, anchor) {
+        const { columns, rows } = stateProvider.getState();
         return _checkAreaFitsAt(columns, rows, position, area, anchor);
     }
 
@@ -122,6 +122,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<Array.<*>>} The area.
      */
     function getArea(size, anchor) {
+        const { data, columns, rows, position } = stateProvider.getState();
         return _getAreaAt(data, columns, rows, position, size, anchor);
     }
 
@@ -138,6 +139,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<Array.<*>>} The area.
      */
     function getAreaAt(position, size, anchor) {
+        const { data, columns, rows } = stateProvider.getState();
         return _getAreaAt(data, columns, rows, position, size, anchor);
     }
 
@@ -154,6 +156,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function setArea(area, anchor) {
+        const { data, columns, rows, position } = stateProvider.getState();
         _setAreaAt(data, columns, rows, position, area, anchor);
         return context;
     }
@@ -171,6 +174,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function setAreaAt(position, area, anchor) {
+        const { data, columns, rows } = stateProvider.getState();
         _setAreaAt(data, columns, rows, position, area, anchor);
         return context;
     }
@@ -188,6 +192,7 @@ export default function(context, stateProvider) {
      * @returns {(Array.<number>|undefined)} The position of the first element that is found or <code>undefined</code> if nothing was found.
      */
     function findInArea(position, size, callback) {
+        const { data, columns, rows } = stateProvider.getState();
         const area = _getAreaAt(data, columns, rows, position, size);
         const flat = flatten(area);
         const areaIndex = flat.findIndex((v, i) => callback(v, index2pos(i, columns), context));
@@ -216,6 +221,7 @@ export default function(context, stateProvider) {
      * @returns {*} The value that results from the reduction.
      */
     function reduceAreaAt(position, size, callback, initialValue) {
+        const { data, columns, rows } = stateProvider.getState();
         return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
     }
 
@@ -232,6 +238,7 @@ export default function(context, stateProvider) {
      * @returns {*} The value that results from the reduction.
      */
     function reduceArea(size, callback, initialValue) {
+        const { data, columns, rows, position } = stateProvider.getState();
         return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
     }
 

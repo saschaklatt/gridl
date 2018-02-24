@@ -28,8 +28,6 @@ const _moveCell = (data, columns, rows, from, to) => {
 
 export default function(context, stateProvider) {
 
-    const { data, columns, rows, position } = stateProvider.getState();
-
     /**
      * Move the current cell to an absolute position.
      * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
@@ -42,6 +40,7 @@ export default function(context, stateProvider) {
      * @returns {gridl}
      */
     function moveAbs(to) {
+        const { data, columns, rows, position } = stateProvider.getState();
         stateProvider.setState({
             data: _moveCell(data, columns, rows, position, to),
         });
@@ -60,6 +59,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} - The current gridl instance.
      */
     function moveCell(from, to) {
+        const { data, columns, rows, position } = stateProvider.getState();
         stateProvider.setState({
             data: _moveCell(data, columns, rows, from, to),
         });
@@ -78,6 +78,7 @@ export default function(context, stateProvider) {
      * @returns {gridl}
      */
     function moveColumn(xFrom, xTo) {
+        const { data, columns } = stateProvider.getState();
         if (xFrom < 0 || xFrom >= columns) {
             throw new Error(`Trying to move column from an invalid position. Given: ${xFrom}`);
         }
@@ -102,6 +103,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The current gridl instance.
      */
     function moveRel(direction) {
+        const { data, columns, rows, position } = stateProvider.getState();
         stateProvider.setState({
             data: _moveCell(data, columns, rows, position, addPositions(position, direction)),
         });
@@ -120,6 +122,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The current gridl instance.
      */
     function moveRow(yFrom, yTo) {
+        const { data, columns, rows } = stateProvider.getState();
         if (yFrom < 0 || yFrom >= rows) {
             throw new Error(`Trying to move row from an invalid position. Given: ${yFrom}`);
         }

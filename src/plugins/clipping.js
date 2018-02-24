@@ -12,8 +12,6 @@ const _clip = (data, columns, rows, position, size) => {
 
 export default function(context, stateProvider) {
 
-    const { data, columns, rows, position } = stateProvider.getState();
-
     /**
      * Clip an area out of the current grid. It removes all cells that are not inside the given area.
      *
@@ -25,6 +23,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function clip(size) {
+        const { data, columns, rows, position } = stateProvider.getState();
         const grid = _clip(data, columns, rows, position, size);
         stateProvider.setState({
             data: flatten(grid),
@@ -46,6 +45,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function clipAt(position, size) {
+        const { data, columns, rows } = stateProvider.getState();
         const grid = _clip(data, columns, rows, position, size);
         stateProvider.setState({
             data: flatten(grid),

@@ -3,17 +3,16 @@ import { addPositions, isValidPositionFormat } from '../utils';
 
 export default function(context, stateProvider) {
 
-    const state = stateProvider.getState();
-
     /**
      * Get the current position.
      *
      * @returns {Array} The current position array [column, row].
      */
     function position() {
+        const { position } = stateProvider.getState();
         return [
-            state.position[0],
-            state.position[1],
+            position[0],
+            position[1],
         ];
     }
 
@@ -52,10 +51,11 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function walk(direction) {
+        const { position } = stateProvider.getState();
         if (!isValidPositionFormat(direction)) {
             throw new Error(`Trying to walk into an invalid direction. Given: ${direction}`);
         }
-        const targetPos = addPositions(state.position, direction);
+        const targetPos = addPositions(position, direction);
         stateProvider.setState({ position: targetPos });
         return context;
     }
