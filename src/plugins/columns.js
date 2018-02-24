@@ -4,8 +4,6 @@ import utils from '../utils';
 
 export default function(context, stateProvider) {
 
-    const { data, columns, rows } = stateProvider.getState();
-
     /**
      * Get the number of columns.
      *
@@ -15,7 +13,7 @@ export default function(context, stateProvider) {
      * @returns {number}
      */
     function numColumns() {
-        return columns;
+        return stateProvider.getState().columns;
     }
 
     /**
@@ -29,6 +27,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<*>}
      */
     function column(x) {
+        const { data, columns } = stateProvider.getState();
         return getColumn(unflatten(data, columns), x);
     }
 
@@ -44,6 +43,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function addColumn(column, x) {
+        const { data, columns, rows } = stateProvider.getState();
         if (x < 0 || x > columns) {
             throw new Error(`Trying to add column at an invalid position. Given: ${x}`);
         }
@@ -73,6 +73,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function removeColumn(x) {
+        const { data, columns } = stateProvider.getState();
         if (x < 0 || x >= columns) {
             throw new Error(`Trying to remove a column at an invalid position. Given: ${x}`);
         }

@@ -19,7 +19,6 @@ const _swapCells = (data, columns, rows, position1, position2) => {
 
 export default function(context, stateProvider) {
 
-    const { data, columns, rows, position } = stateProvider.getState();
 
     /**
      * Swaps the values of the cell at the current position and another cell.<br>
@@ -33,6 +32,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapCell(otherPosition) {
+        const { data, columns, rows, position } = stateProvider.getState();
         _swapCells(data, columns, rows, position, otherPosition);
         return context;
     }
@@ -49,6 +49,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapCells(position1, position2) {
+        const { data, columns, rows } = stateProvider.getState();
         _swapCells(data, columns, rows, position1, position2);
         return context;
     }
@@ -65,6 +66,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapColumns(x1, x2) {
+        const { data, columns } = stateProvider.getState();
         if (x1 < 0 || x1 >= columns) {
             throw new Error(`Trying to swap columns from an invalid position. Given: ${x1}`);
         }
@@ -93,6 +95,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapRows(y1, y2) {
+        const { data, columns, rows } = stateProvider.getState();
         if (y1 < 0 || y1 >= rows) {
             throw new Error(`Trying to swap rows from an invalid position. Given: ${y1}`);
         }

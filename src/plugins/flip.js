@@ -16,9 +16,6 @@ const _flip = (arr, index) => {
 
 export default function(context, stateProvider) {
 
-    const { data, columns } = stateProvider.getState();
-    const grid = unflatten(data, columns);
-
     /**
      * Flips the array on the given x-position
      *
@@ -26,6 +23,8 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     const flipX = (xPos) => {
+        const { data, columns } = stateProvider.getState();
+        const grid = unflatten(data, columns);
         stateProvider.setState({ data: flatten(_flip(grid, xPos)) });
         return context;
     };
@@ -37,6 +36,8 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function flipY(yPos) {
+        const { data, columns } = stateProvider.getState();
+        const grid = unflatten(data, columns);
         stateProvider.setState({ data: flatten(grid.map(row => _flip(row, yPos))) });
         return context;
     }

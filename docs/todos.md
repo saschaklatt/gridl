@@ -36,8 +36,14 @@
 ### v0.9.0
 
 * plugin architecture
-    * use namespaces for **area** plugin, e.g. `gridl(data).area.reduce(...)`
-    * (considering) no state mutation -> always replace state entirely (uni-directional data flow)
+    * implement **area** api
+        * `gridl(data).area(size, [position]).reduce((acc, val, pos, src) => {...})`
+        * `gridl(data).area(size, [position]).map((val, pos, src) => {...})`
+        * `gridl(data).area(size, [position]).find((val, pos, src) => {})`
+        * `gridl(data).area(size, [position]).set(arr)`
+        * `gridl(data).area(size, [position]).get(...)`
+        * `gridl(data).area(size, [position]).couldContain(otherArea, anchor)` former `areaFits(otherArea, anchor)`
+    * (considering) no state mutation -> always replace state entirely (uni-directional data flow) - bad performance?
 
 ### later
 
@@ -45,7 +51,7 @@
     * `areaMap()`
     * `areaForEach()`
     * rename `reduceArea()` to `areaReduce()` 
-* new fill() method: similar to map/forEach, returns the current gridl instance
+* new fill() method: similar to map/forEach, returns the **current** gridl instance, not a copy
     * `gridl(data).forEach((v, pos, src) => src.valueAt(pos, 'bam'))`
     * `gridl(data).fill((v, pos, src) => 'bam')`
 * concat(): concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
