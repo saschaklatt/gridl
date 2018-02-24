@@ -3,7 +3,7 @@ import { flatten, unflatten } from '../utils';
 
 const getRow = (data, y) => data[y];
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
     /**
      * Get the number of rows.
@@ -14,7 +14,7 @@ export default function(context, stateProvider) {
      * @returns {number}
      */
     function numRows() {
-        return stateProvider.getState().rows;
+        return state.rows;
     }
 
     /**
@@ -28,7 +28,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<*>}
      */
     function row(y) {
-        const { data, columns} = stateProvider.getState();
+        const { data, columns} = state;
         return getRow(unflatten(data, columns), y);
     }
 
@@ -44,7 +44,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function addRow(row, y) {
-        const { data, rows, columns} = stateProvider.getState();
+        const { data, rows, columns} = state;
         if (y < 0 || y > rows) {
             throw new Error(`Trying to add row at an invalid position. Given: ${y}`);
         }
@@ -53,11 +53,8 @@ export default function(context, stateProvider) {
         }
         const grid = unflatten(data, columns);
         grid.splice(y, 0, row);
-
-        stateProvider.setState({
-            data: flatten(grid),
-            rows: grid.length,
-        });
+        state.data = flatten(grid);
+        state.rows = grid.length;
         return context;
     }
 
@@ -72,7 +69,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function removeRow(y) {
-        const { data, rows, columns} = stateProvider.getState();
+        const { data, rows, columns} = state;
         if (y < 0 || y >= rows) {
             throw new Error(`Trying to remove a row at an invalid position. Given: ${y}`);
         }
@@ -81,10 +78,8 @@ export default function(context, stateProvider) {
         }
         const grid = unflatten(data, columns);
         grid.splice(y, 1);
-        stateProvider.setState({
-            data: flatten(grid),
-            rows: grid.length,
-        });
+        state.data = flatten(grid);
+        state.rows = grid.length;
         return context;
     }
 

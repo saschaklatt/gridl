@@ -1,7 +1,7 @@
 import gridl from '../index';
 import { unflatten } from '../utils';
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
     /**
      * Get the current size of the grid.
@@ -13,7 +13,7 @@ export default function(context, stateProvider) {
      * @returns {number[]}
      */
     function size() {
-        const { columns, rows } = stateProvider.getState();
+        const { columns, rows } = state;
         return [columns, rows];
     }
 
@@ -27,7 +27,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<Array.<*>>} The data as two-dimensional array.
      */
     function data() {
-        const { data, columns } = stateProvider.getState();
+        const { data, columns } = state;
         return unflatten(data, columns);
     }
 
@@ -41,7 +41,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<*>}
      */
     function list() {
-        return ([...stateProvider.getState().data]);
+        return ([...state.data]);
     }
 
     /**
@@ -54,7 +54,7 @@ export default function(context, stateProvider) {
      * @returns {gridl} A new gridl instance.
      */
     function clone() {
-        const { data, columns, position } = stateProvider.getState();
+        const { data, columns, position } = state;
         return gridl(unflatten(data, columns)).goto(position);
     }
 

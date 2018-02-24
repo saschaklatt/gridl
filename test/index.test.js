@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import gridl, { adjacences, directions, generators, utils } from '../src';
-import {unflatten} from '../src/utils';
 
 const checkApi = api => {
     expect(Object.keys(api)).to.have.members([
@@ -4993,8 +4992,8 @@ describe('gridlFactory', () => {
 
         it('should provide the internal state to the plugin function', () => {
             const data = mockData();
-            gridl.fn.exposeState = (context, stateProvider) => () => {
-                const { rows, columns, position, data } = stateProvider.getState();
+            gridl.fn.exposeState = (context, state) => () => {
+                const { rows, columns, position, data } = state;
                 return { rows, columns, position, data };
             };
 
@@ -5019,13 +5018,11 @@ describe('gridlFactory', () => {
 
         it('should be able to change the internal state from within the plugin function', () => {
             const data = mockData();
-            gridl.fn.changeState = (context, stateProvider) => function(rows, columns) {
-                stateProvider.setState({
-                    rows,
-                    columns,
-                    data: utils.flatten([[6,5,4]]),
-                    position: [1,1],
-                });
+            gridl.fn.changeState = (context, state) => function(rows, columns) {
+                state.rows = rows;
+                state.columns = columns;
+                state.data = utils.flatten([[6,5,4]]);
+                state.position = [1,1];
                 return this;
             };
             const grid = gridl(data).changeState(1, 666);
@@ -5041,8 +5038,8 @@ describe('gridlFactory', () => {
                 [ 6, 7, 8, 9,10],
                 [11,12,13,14,15],
             ];
-            gridl.fn.pups = (context, stateProvider) => {
-                const { data } = stateProvider.getState();
+            gridl.fn.poop = (context, state) => {
+                const { data } = state;
                 return {
                     namespace: true,
                     methods: {
@@ -5053,7 +5050,7 @@ describe('gridlFactory', () => {
                     },
                 };
             };
-            expect(gridl(data).pups.first('X').data()).to.deep.equal([
+            expect(gridl(data).poop.first('X').data()).to.deep.equal([
                 ['X', 2, 3, 4, 5],
                 [  6, 7, 8, 9,10],
                 [ 11,12,13,14,15],

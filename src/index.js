@@ -6,17 +6,9 @@ import adjacences from './adjacences';
 
 const { flatten, validateGridArray } = utils;
 
-function StateProvider(initialState = {}) {
-    const _state = { ...initialState };
-    return {
-        getState: () => _state,
-        setState: newState => Object.entries(newState).forEach(([key, value]) => _state[key] = value),
-    };
-}
-
-function _registerPlugins(stateProvider, plugins) {
+function registerPlugins(plugins, state) {
     Object.entries(plugins).forEach(([key, pluginFactory]) => {
-        const plugin = pluginFactory(this, stateProvider);
+        const plugin = pluginFactory(this, state);
         const type = typeof plugin;
 
         // plugin is just a function
@@ -47,13 +39,16 @@ function gridl(plugins, data) {
     // validate incoming data
     validateGridArray(data);
 
-    const _stateProvider = new StateProvider({
+    // create initial state
+    const initialState = {
         rows: data.length,
         columns: data[0].length,
         data: flatten(data),
         position: [0,0],
-    });
-    _registerPlugins.call(this, _stateProvider, plugins);
+    };
+
+    // register plugins with initial state
+    registerPlugins.call(this, plugins, initialState);
 
     return this;
 }

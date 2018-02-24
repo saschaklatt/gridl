@@ -14,7 +14,7 @@ const _adjacentCells = (grid, position, adjacence, gridSize = null) => {
     }, []);
 };
 
-export default function(context, stateProvider) {
+export default function(context, state) {
 
     /**
      * Get the values of all adjacent cells at a given position.
@@ -29,7 +29,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<*>} The values of the adjacent cells.
      */
     function adjacentCellsAt(position, adjacence = adjacences.ALL, includeOutsideValues = false) {
-        const { data, columns, rows } = stateProvider.getState();
+        const { data, columns, rows } = state;
         const gridSize = !includeOutsideValues && [columns, rows];
         const grid = unflatten(data, columns);
         return _adjacentCells(grid, position, adjacence, gridSize);
@@ -48,7 +48,7 @@ export default function(context, stateProvider) {
      * @returns {Array.<*>} The values of the adjacent cells.
      */
     function adjacentCells(adjacence = adjacences.ALL, includeOutsideValues = false) {
-        const { data, columns, rows, position } = stateProvider.getState();
+        const { data, columns, rows, position } = state;
         const gridSize = !includeOutsideValues && [columns, rows];
         const grid = unflatten(data, columns);
         return _adjacentCells(grid, position, adjacence, gridSize);
