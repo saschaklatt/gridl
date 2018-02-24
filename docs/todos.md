@@ -26,47 +26,46 @@
 * inconsistent getter/setter styles
     * style 1: value(), row(), position()
     * style 2: getAreaAt(), setAreaAt()
-    * solution through [subgrid api](subgrid-api.md)
+    * solution through [area api](area-api.md)
 * error handling should be improved
     * throw error when area is not a 2d array
     * position error handling is inconsistent in some cases (throwing an error vs. returning undefined)
 
 ## Planned features
 
-### v0.9.0
+### v0.9
 
-* plugin architecture
-    * implement **area** api
-        * `gridl(data).area(size, [position]).reduce((acc, val, pos, src) => {...})`
-        * `gridl(data).area(size, [position]).map((val, pos, src) => {...})`
-        * `gridl(data).area(size, [position]).find((val, pos, src) => {})`
-        * `gridl(data).area(size, [position]).set(arr)`
-        * `gridl(data).area(size, [position]).get(...)`
-        * `gridl(data).area(size, [position]).couldContain(otherArea, anchor)` former `areaFits(otherArea, anchor)`
-    * (considering) no state mutation -> always replace state entirely (uni-directional data flow) - bad performance?
+* make `gridl(data).data()` also a setter: `gridl(data).data(newData)`
+* new fill() method: similar to map/forEach, returns the **current** gridl instance, not a copy
+    * `gridl(data).forEach((v, pos, src) => src.valueAt(pos, 'bam'))`
+    * `gridl(data).fill((v, pos, src) => 'bam')`
+* concatenation
+    * `concat.horizontal(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
+    * `concat.vertical(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 3x6 grid)
+* define core and additional plugins
+
+### v0.10
+
+* implement [area api](area-api.md) (subset of gridl api for inner areas) 
 
 ### later
 
 * additional area iterators
     * `areaMap()`
     * `areaForEach()`
-    * rename `reduceArea()` to `areaReduce()` 
-* new fill() method: similar to map/forEach, returns the **current** gridl instance, not a copy
-    * `gridl(data).forEach((v, pos, src) => src.valueAt(pos, 'bam'))`
-    * `gridl(data).fill((v, pos, src) => 'bam')`
-* concat(): concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
+    * rename `reduceArea()` to `areaReduce()`
+* website
 * jsdoc
     * evaluate tutorial functionality of jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
     * integrate code coverage
-    * remove from version control -> host it somewhere instead
+    * remove from version control -> host it on website instead
 * eternal mode
     * positions outside the grid will be mapped to position within the grid
     * e.g. position `[5,0]` will be mapped to `[0,0]` on a grid with 4 columns (starts from the left)
 
 ## Considering features
 
-* [subgrid api](subgrid-api.md)
 * areas: swapping, moving
 * path finding
 * sorting
