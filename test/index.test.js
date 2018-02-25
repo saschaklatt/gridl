@@ -379,7 +379,7 @@ describe('gridlFactory', () => {
             });
 
             it('should throw an error if the row lengths are not equal', () => {
-                const expectedMsg = 'Trying to import data with different row lengths.';
+                const expectedMsg = 'Trying to import data with inconsistent number of columns.';
                 expect(() => gridl([
                     [1,2,3],
                     [1,2],
@@ -403,18 +403,81 @@ describe('gridlFactory', () => {
 
     describe('data', () => {
 
-        it('should export 2d without dimensions given', () => {
-            const data = [
+        describe('getter', () => {
+
+            it('should export 2d without dimensions given', () => {
+                const data = [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ];
+                const g = gridl(data);
+                expect(g.data()).to.deep.equal([
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ]);
+            });
+
+        });
+
+        describe('setter', () => {
+
+            const mockData = () => [
                 [1, 2, 3],
                 [4, 5, 6],
                 [7, 8, 9],
             ];
-            const g = gridl(data);
-            expect(g.data()).to.deep.equal([
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-            ]);
+
+            it('should import valid grid data', () => {
+                const g = gridl(mockData()).data([
+                    [9, 8, 7],
+                    [6, 5, 4],
+                    [3, 2, 1],
+                ]);
+                expect(g.data()).to.deep.equal([
+                    [9, 8, 7],
+                    [6, 5, 4],
+                    [3, 2, 1],
+                ]);
+            });
+
+            it('should return the gridl instance', () => {
+                const g = gridl(mockData());
+                expect(g.data([
+                    [9, 8, 7],
+                    [6, 5, 4],
+                    [3, 2, 1],
+                ])).to.deep.equal(g);
+            });
+
+            it('should throw an error when inconsistent number of columns', () => {
+                expect(() => gridl(mockData()).data([
+                    [9, 8, 7],
+                    [6, 5],
+                    [3, 2, 1],
+                ])).to.throw('Trying to import data with inconsistent number of columns.');
+            });
+
+            it('should throw an error when not an array', () => {
+                expect(() => gridl(mockData()).data({ test: 'hello'})).to.throw('Trying to import data that is not an array.');
+            });
+
+            it('should throw an error when row is not an array', () => {
+                expect(() => gridl(mockData()).data([
+                    [9, 8, 7],
+                    {0: 6, 1: 5, 2: 4},
+                    [3, 2, 1],
+                ])).to.throw('Trying to import data that is not an array.');
+            });
+
+            it('should throw an error when no columns', () => {
+                expect(() => gridl(mockData()).data([
+                    [],
+                    [],
+                ])).to.throw('Trying to import grid without any columns. You need to provide at least one column.');
+            });
+
         });
 
     });
