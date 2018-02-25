@@ -99,6 +99,8 @@ const mirroredGrid = gridl(data)
     * forEach()
 * [Cloning](docs/tutorials/cloning.md)
     * Make a clone of a gridl instance
+* [Plugins](docs/tutorials/plugins.md)
+    * Extend gridl to your custom needs
 * [Draw a cow](docs/tutorials/cow.md)
     * just because
 
