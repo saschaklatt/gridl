@@ -28,10 +28,17 @@
 </header>
 
 <article>
-    <h2>Iterator functions</h2><p><strong>Iterating over values with <code>forEach()</code></strong></p>
+    <ul>
+<li><a href="#forEach">forEach</a></li>
+<li><a href="#map">map</a></li>
+<li><a href="#reduce">reduce</a></li>
+</ul>
+<h3><a name="forEach"></a>forEach</h3><p><strong>Iterating over values with <code>forEach()</code></strong></p>
 <p>Executes the provided callback function once for each grid element.</p>
 <p>It's basically the equivalent of the array's <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">forEach()</a> function.</p>
-<pre class="prettyprint source lang-javascript"><code>const data = [
+<pre class="prettyprint source lang-javascript"><code>import gridl from 'gridl';
+
+const data = [
     [1,2,3,4],
     [5,6,7,8],
     [10,11,12,13],
@@ -42,9 +49,11 @@ const master = gridl(data).forEach((value, pos, src) => {
     // src: the same as origin (the current gridl instance, not the data array)
 
     // ...do something with the cell
-});</code></pre><p><strong>Mapping values with <code>map()</code>:</strong></p>
+});</code></pre><h3><a name="map"></a>map</h3><p><strong>Mapping values with <code>map()</code>:</strong></p>
 <p>It's basically the equivalent of the array's <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Map">map()</a> function.</p>
-<pre class="prettyprint source lang-javascript"><code>const data = [
+<pre class="prettyprint source lang-javascript"><code>import gridl from 'gridl';
+
+const data = [
     [1,2,3,4],
     [5,6,7,8],
     [10,11,12,13],
@@ -68,9 +77,11 @@ const newData = copy.data();
 //     ['x','x','x','x'],
 //     ['x','x','x','x'],
 //     ['x','x','x','x'],
-// ]</code></pre><p><strong>Reduce values with <code>reduce()</code>:</strong></p>
+// ]</code></pre><h3><a name="reduce"></a>reduce</h3><p><strong>Reduce values with <code>reduce()</code>:</strong></p>
 <p>It's basically the equivalent of the array's <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce">reduce()</a> function. </p>
-<pre class="prettyprint source lang-javascript"><code>const data = [
+<pre class="prettyprint source lang-javascript"><code>import gridl from 'gridl';
+
+const data = [
     [1,2,3,4],
     [5,6,7,8],
     [10,11,12,13],
@@ -84,13 +95,13 @@ gridl(data).reduce((accumulator, cellValue) => accumulator + cellValue, 0); // s
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="gridl.html">gridl</a></li></ul><h3>Namespaces</h3><ul><li><a href="adjacences.html">adjacences</a></li><li><a href="directions.html">directions</a></li><li><a href="generators.html">generators</a></li><li><a href="utils.html">utils</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-adjacent-cells.html">adjacent-cells</a></li><li><a href="tutorial-areas.html">areas</a></li><li><a href="tutorial-cells.html">cells</a></li><li><a href="tutorial-clipping.html">clipping</a></li><li><a href="tutorial-cloning.html">cloning</a></li><li><a href="tutorial-columns-and-rows.html">columns-and-rows</a></li><li><a href="tutorial-cow.html">cow</a></li><li><a href="tutorial-data.html">data</a></li><li><a href="tutorial-dimensions.html">dimensions</a></li><li><a href="tutorial-finding.html">finding</a></li><li><a href="tutorial-generating.html">generating</a></li><li><a href="tutorial-iterating.html">iterating</a></li><li><a href="tutorial-mirroring.html">mirroring</a></li><li><a href="tutorial-navigating.html">navigating</a></li><li><a href="tutorial-rotating.html">rotating</a></li><li><a href="tutorial-swapping.html">swapping</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="gridl.html">gridl</a></li></ul><h3>Namespaces</h3><ul><li><a href="adjacences.html">adjacences</a></li><li><a href="directions.html">directions</a></li><li><a href="generators.html">generators</a></li><li><a href="utils.html">utils</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-adjacent-cells.html">adjacent-cells</a></li><li><a href="tutorial-areas.html">areas</a></li><li><a href="tutorial-clipping.html">clipping</a></li><li><a href="tutorial-cloning.html">cloning</a></li><li><a href="tutorial-columns-and-rows.html">columns-and-rows</a></li><li><a href="tutorial-cow.html">cow</a></li><li><a href="tutorial-data.html">data</a></li><li><a href="tutorial-finding.html">finding</a></li><li><a href="tutorial-flipping.html">flipping</a></li><li><a href="tutorial-generating.html">generating</a></li><li><a href="tutorial-iterating.html">iterating</a></li><li><a href="tutorial-moving.html">moving</a></li><li><a href="tutorial-navigating.html">navigating</a></li><li><a href="tutorial-rotating.html">rotating</a></li><li><a href="tutorial-size.html">size</a></li><li><a href="tutorial-swapping.html">swapping</a></li><li><a href="tutorial-values.html">values</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 25 2018 17:14:35 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 25 2018 19:52:02 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

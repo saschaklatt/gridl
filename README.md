@@ -62,9 +62,9 @@ const mirroredGrid = gridl(data)
 * [Navigating](docs/tutorials/navigating.md)
     * go to absolute positions
     * walk into directions
-* [Dimensions](docs/tutorials/dimensions.md)
+* [Dimensions](docs/tutorials/size.md)
     * get the number of columns and rows  
-* [Work with cells](docs/tutorials/cells.md)
+* [Work with cells](docs/tutorials/values.md)
     * get and set values at absolute or relative positions
     * move them around
     * swap them
@@ -90,7 +90,7 @@ const mirroredGrid = gridl(data)
     * swap columns, rows or single cells
 * [Rotating](docs/tutorials/rotating.md)
     * rotate the entire grid clockwise or counterclockwise
-* [Mirroring](docs/tutorials/mirroring.md)
+* [Mirroring](docs/tutorials/flipping.md)
     * mirror the grid on the x- or y-axis
     * specify where the axis is located
 * [Iterating](docs/tutorials/iterating.md)

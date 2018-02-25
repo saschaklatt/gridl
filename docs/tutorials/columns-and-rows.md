@@ -1,20 +1,13 @@
-## Columns and rows
+* [Extracting](#extract)
+* [Adding](#add)
+* [Removing](#remove)
 
-Getting a column at a certain position:
-```javascript
-const data = [
-    [1,2,3],
-    [4,5,6],
-    [7,8,9],
-];
-const g = gridl(data);
-g.column(0); // returns [1,4,7]
-g.column(1); // returns [2,5,8]
-g.column(2); // returns [3,6,9]
-```
+#### <a name="extract"></a>Extracting
 
-Getting a row at a certain position:
+Extracting a row at a certain position:
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [1,2,3],
     [4,5,6],
@@ -26,46 +19,28 @@ g.row(1); // returns [4,5,6]
 g.row(2); // returns [7,8,9]
 ```
 
-Move a row from y=0 to y=2:
-```javascript
-const data = [
-    [ 1, 2, 3], // move this row...
-    [ 4, 5, 6],
-    [ 7, 8, 9], // ...to this position
-    [10,11,12],
-    [13,14,15],
-];
-const newGrid = gridl(data).moveRow(0, 2).data()
+Extracting a column at a certain position:
 
-// newGrid looks like this:
-// [
-//     [ 4, 5, 6],
-//     [ 7, 8, 9],
-//     [ 1, 2, 3],
-//     [10,11,12],
-//     [13,14,15],
-// ]
+```javascript
+import gridl from 'gridl';
+
+const data = [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+];
+const g = gridl(data);
+g.column(0); // returns [1,4,7]
+g.column(1); // returns [2,5,8]
+g.column(2); // returns [3,6,9]
 ```
 
-Move a column from x=0 to x=2:
-```javascript
-const data = [
-    [ 1, 2, 3, 4],
-    [ 5, 6, 7, 8],
-    [ 9,10,11,12],
-];
-const newGrid = gridl(data).moveColumn(0, 2).data();
-
-// newGrid looks like this:
-// [
-//     [ 2, 3, 1, 4],
-//     [ 6, 7, 5, 8],
-//     [10,11, 9,12],
-// ]
-```
+#### <a name="add"></a>Adding
 
 Adding a row:
 ```javascript
+import gridl from 'gridl';
+
 const data= [
     [1,2,3],
     [4,5,6],
@@ -83,6 +58,8 @@ const newGrid = gridl(data).addRow(row, 1).data();
 
 Adding a column:
 ```javascript
+import gridl from 'gridl';
+
 const data= [
     [1,2,3],
     [4,5,6],
@@ -100,8 +77,12 @@ const newGrid = gridl(data).addColumn(column, 0).data();
 // ]
 ```
 
+#### <a name="remove"></a>Removing
+
 Removing a row:
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [1,2,3],
     [4,5,6],
@@ -118,6 +99,8 @@ const newGrid = gridl(data).removeRow(1).data();
 
 Removing a column:
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [1,2,3],
     [4,5,6],
@@ -128,43 +111,5 @@ const newGrid = gridl(data).removeColumn(0).data();
 // [
 //     [2,3],
 //     [5,6],
-// ]
-```
-
-Swapping two rows:
-```javascript
-const data = [
-    [ 1, 2, 3, 4],
-    [ 5, 6, 7, 8], // swap this
-    [ 9,10,11,12],
-    [13,14,15,16], // and this
-];
-const newGrid = gridl(data).swapRows(1,3).data();
-
-// newGrid looks like this:
-// [
-//     [ 1, 2, 3, 4],
-//     [13,14,15,16],
-//     [ 9,10,11,12],
-//     [ 5, 6, 7, 8],
-// ]);
-```
-
-Swapping two columns:
-```javascript
-const data = [
-    [ 1, 2, 3, 4],
-    [ 5, 6, 7, 8],
-    [ 9,10,11,12],
-    [13,14,15,16],
-];
-const newGrid = gridl(data).swapColumns(1,3).data();
-
-// newGrid looks like this:
-// [
-//     [ 1, 4, 3, 2],
-//     [ 5, 8, 7, 6],
-//     [ 9,12,11,10],
-//     [13,16,15,14],
 // ]
 ```
