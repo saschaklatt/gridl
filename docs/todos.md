@@ -6,7 +6,6 @@
 
 ## Known issues
  
-* adjust examples
 * split tests into separate files
 * publishing process should be improved
     * make sure distribution files are generated before publishing
@@ -32,6 +31,10 @@
     * position error handling is inconsistent in some cases (throwing an error vs. returning undefined)
 
 ## Planned features
+
+### v0.9
+
+* adjust examples
 
 ### v0.10
 

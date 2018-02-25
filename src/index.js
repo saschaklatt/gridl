@@ -57,7 +57,7 @@ function gridl(plugins, data) {
  * Creates a new gridl instance.
  *
  * @constructs gridl
- * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same length.
+ * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
  */
 const gridlFactory = data => new gridl(plugins, data);
 gridlFactory.fn = plugins;

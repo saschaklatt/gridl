@@ -4,22 +4,27 @@
 
 * Plugin API !!!
     * You can now add custom functions to gridl and mess around with the internal state. Note: all responsibility lies with the plugin creator!
-    * heavy internal refactoring (every public gridl implemented via a core plugin)
+    * heavy internal refactoring (every public gridl function is now implemented via a core plugin)
     * support for namespaces: functions can be scoped with the name of the plugin
-* removed `setValue()` and `setValueAt()`, now fully replaced by `value()` and `valueAt()`
+* new `fill()` method: similar to map/forEach, but returns the **current** gridl instance, not a copy
+    * fill all cells with a fixed value: `gridl(data).fill('bam')`
+    * fill all cells using a callback function: `gridl(data).fill((v, pos, src) => 'bam')`
+* `data()` can also be used as setter now: `gridl(data).data(newData)`
+* generators
+    * moved generators into their own namespace `generators`
+    * renamed generators
+        * `gridl.make()` to `import { makeGridl } from gridl; makeGridl();`
+        * `gridl.makeGrid()` to `import { makeDataGrid } from gridl; makeDataGrid()`
+        * `gridl.makeList()` to `import { makeDataList } from gridl; makeDataList()`
+* constants
+    * moved constants into their own namespaces: `adjacences` and `directions`
+    * `gridl.adjacences` is not supported anymore - use `import { adjacences } from 'gridl'` instead
+    * `gridl.directions` is not supported anymore - use `import { directions } from 'gridl'` instead
+* removed `setValue()` and `setValueAt()`, they are now fully replaced by `value()` and `valueAt()`
 * renamed mirror functions
     * `mirrorX()` to `flipX()`
     * `mirrorY()` to `flipY()`
 * don't throw error when `walk()` outside the grid
-* moved generators into their own namespace `generators`
-* renamed generators
-    * `make()` to `makeGridl()`
-    * `makeGrid()` to `makeDataGrid()`
-    * `makeList()` to `makeDataList()`
-* `data()` can also be used as setter now: `gridl(data).data(newData)`
-* new `fill()` method: similar to map/forEach, returns the **current** gridl instance, not a copy
-    * fill with fixed value: `gridl(data).fill('bam')`
-    * fill using a callback function: `gridl(data).fill((v, pos, src) => 'bam')`
 
 **v0.8.7**
 
