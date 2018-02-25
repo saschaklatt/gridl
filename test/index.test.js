@@ -5329,6 +5329,103 @@ describe('gridlFactory', () => {
             );
         });
 
+        it('should set the first cell', () => {
+            gridl.fn.setFirstCell = function(gridlInstance, state) {
+                // create the plugin function
+                return function(value) {
+                    state.data[0] = value; // set the first cell in the grid
+                    return gridlInstance;  // return the gridl instance to allow method chaining
+                };
+            };
+            const data = [
+                [6,6,6],
+                [6,6,6],
+            ];
+            expect(gridl(data).setFirstCell(1).data()).to.deep.equal([
+                [1,6,6],
+                [6,6,6],
+            ]);
+        });
+
+        it('should filter odd and even rows', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+                [10,11,12],
+                [13,14,15],
+            ];
+            gridl.fn.oddEvenPlugin = function(instance, state) {
+
+                const evenFilter = (row, index) => index % 2;
+                const oddFilter = (row, index) => !evenFilter(row, index);
+
+                function filter(filterMethod) {
+                    const grid = utils.unflatten(state.data, state.columns);
+                    const filteredData = grid.filter(filterMethod);
+                    state.rows = filteredData.length;
+                    state.data = utils.flatten(filteredData);
+                    return instance;
+                }
+
+                return {
+                    methods: {
+                        filterOddRows: filter.bind(this, oddFilter),
+                        filterEvenRows: filter.bind(this, evenFilter),
+                    },
+                };
+            };
+            expect(gridl(data).filterOddRows().data()).to.deep.equal([
+                [1,2,3],
+                [7,8,9],
+                [13,14,15],
+            ]);
+            expect(gridl(data).filterEvenRows().data()).to.deep.equal([
+                [4,5,6],
+                [10,11,12],
+            ]);
+        });
+
+        it('should filter odd and even rows using a namespace', () => {
+            const data = [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9],
+                [10,11,12],
+                [13,14,15],
+            ];
+            gridl.fn.oddEven = function(instance, state) {
+
+                const evenFilter = (row, index) => index % 2;
+                const oddFilter = (row, index) => !evenFilter(row, index);
+
+                function filter(filterMethod) {
+                    const grid = utils.unflatten(state.data, state.columns);
+                    const filteredData = grid.filter(filterMethod);
+                    state.rows = filteredData.length;
+                    state.data = utils.flatten(filteredData);
+                    return instance;
+                }
+
+                return {
+                    namespace: true,
+                    methods: {
+                        filterOddRows: filter.bind(this, oddFilter),
+                        filterEvenRows: filter.bind(this, evenFilter),
+                    },
+                };
+            };
+            expect(gridl(data).oddEven.filterOddRows().data()).to.deep.equal([
+                [1,2,3],
+                [7,8,9],
+                [13,14,15],
+            ]);
+            expect(gridl(data).oddEven.filterEvenRows().data()).to.deep.equal([
+                [4,5,6],
+                [10,11,12],
+            ]);
+        });
+
     });
 
 });

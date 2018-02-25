@@ -1,6 +1,8 @@
 `gridl` provides the ability to rotate the entire grid clockwise or counterclockwise in 90 degree steps.
 
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [ 1, 2, 3],
     [ 6, 7, 8],
