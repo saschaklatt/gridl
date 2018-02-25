@@ -34,11 +34,15 @@
 
 ### v0.9
 
-* adjust examples
+* setup Travis CI
+* setup website (or GitHub pages) to show only generated JSDoc
+* check if it would make more sense to store the data as a two-dimensional array internally 
+    * less conversion necessary
+    * derive number of rows and columns from data structure instead of storing it in the state
 
 ### v0.10
 
-* implement [area api](area-api.md) (subset of gridl api for inner areas) 
+* implement [area api](area-api.md) (subset of gridl api for inner areas)
 
 ### pre release
 
@@ -46,7 +50,6 @@
     * `areaMap()`
     * `areaForEach()`
     * rename `reduceArea()` to `areaReduce()`
-* website
 * jsdoc
     * evaluate tutorial functionality of jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
@@ -55,6 +58,8 @@
 * eternal mode
     * positions outside the grid will be mapped to position within the grid
     * e.g. position `[5,0]` will be mapped to `[0,0]` on a grid with 4 columns (starts from the left)
+* optimizations
+    * look for better algorithms
 
 ## Considering features
 
@@ -67,9 +72,6 @@
 * shifting
     * shift rows, columns and areas 
     * shift left, right, up, down
-* optimizations
-    * evaluate if it would make more sense to store the data as a two-dimensional array internally (less conversion necessary)
-    * look for better algorithms
 * plugin architecture
     * inline plugin `gridl(data).internal((context, stateProvider) => { ...do internal stuff like a plugin })`
 * concatenation
