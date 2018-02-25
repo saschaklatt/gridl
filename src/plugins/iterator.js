@@ -16,7 +16,7 @@
 import gridl from '../index';
 import { index2pos, unflatten } from '../utils';
 
-export default function(context, state) {
+export default function(instance, state) {
 
     /**
      * Map over all cells. It's the equivalent of Array.map just for the grid.
@@ -30,7 +30,7 @@ export default function(context, state) {
      */
     function map(callback) {
         const { data, columns } = state;
-        const newData = data.map((v, i) => callback(v, index2pos(i, columns), context));
+        const newData = data.map((v, i) => callback(v, index2pos(i, columns), instance));
         return gridl(unflatten(newData, columns));
     }
 
@@ -46,8 +46,8 @@ export default function(context, state) {
      */
     function forEach(callback) {
         const { data, columns } = state;
-        data.forEach((v, i) => callback(v, index2pos(i, columns), context));
-        return context;
+        data.forEach((v, i) => callback(v, index2pos(i, columns), instance));
+        return instance;
     }
 
     /**
@@ -63,8 +63,29 @@ export default function(context, state) {
      */
     function reduce(callback, initialValue) {
         const { data, columns } = state;
-        const reducer = (acc, v, i) => callback(acc, v, index2pos(i, columns), context);
+        const reducer = (acc, v, i) => callback(acc, v, index2pos(i, columns), instance);
         return arguments.length === 1 ? data.reduce(reducer) : data.reduce(reducer, initialValue);
+    }
+
+    /**
+     * Fill every cells with a value. You can either provide a value or a callback function to set the value for each cell.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {(iteratorCallback|*)} callbackOrValue - Either a fixed value for each cell or a callback function to fill each cell separately.
+     * @returns {gridl} The same gridl instance.
+     */
+    function fill(callbackOrValue) {
+        const { data, columns } = state;
+        if (typeof callbackOrValue === 'function') {
+            data.forEach((v, i) => data[i] = callbackOrValue(v, index2pos(i, columns), instance));
+        }
+        else {
+            data.forEach((v, i) => data[i] = callbackOrValue);
+        }
+        return instance;
     }
 
     return {
@@ -72,6 +93,7 @@ export default function(context, state) {
             map,
             forEach,
             reduce,
+            fill,
         }
     };
 }

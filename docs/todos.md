@@ -33,18 +33,11 @@
 
 ## Planned features
 
-### v0.9
-
-* new fill() method: similar to map/forEach, returns the **current** gridl instance, not a copy
-    * `gridl(data).forEach((v, pos, src) => src.valueAt(pos, 'bam'))`
-    * `gridl(data).fill((v, pos, src) => 'bam')`
-* define core and additional plugins
-
 ### v0.10
 
 * implement [area api](area-api.md) (subset of gridl api for inner areas) 
 
-### before release
+### pre release
 
 * additional area iterators
     * `areaMap()`

@@ -17,6 +17,9 @@
     * `makeGrid()` to `makeDataGrid()`
     * `makeList()` to `makeDataList()`
 * `data()` can also be used as setter now: `gridl(data).data(newData)`
+* new `fill()` method: similar to map/forEach, returns the **current** gridl instance, not a copy
+    * fill with fixed value: `gridl(data).fill('bam')`
+    * fill using a callback function: `gridl(data).fill((v, pos, src) => 'bam')`
 
 **v0.8.7**
 
