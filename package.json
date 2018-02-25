@@ -13,7 +13,7 @@
     "build-dev": "WEBPACK_ENV=dev webpack",
     "test": "mocha-webpack --webpack-config webpack.test.config.js \"test/**/*.test.js\" --recursive",
     "test-and-watch": "mocha-webpack --webpack-config webpack.test.config.js \"test/**/*.test.js\" --recursive --watch",
-    "doc": "jsdoc src -r --package package.json -d ./docs -u ./docs/tutorials",
+    "doc": "jsdoc src -r --package package.json -d ./docs -u ./docs/tutorials --readme ./docs/README.md",
     "eslint": "eslint src/**/*.js test/**/*.js",
     "coverage": "nyc mocha-webpack --timeout 30000 --webpack-config webpack.coverage.config.js \"test/**/*.test.js\""
   },

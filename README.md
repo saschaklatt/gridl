@@ -1,6 +1,6 @@
 # gridl
 
-Fast, lightweight and easy to use library to handle 2d grid data.
+Fast, lightweight, extendable and easy to use library to handle 2d grid data.
 
 ## Installation
 
@@ -35,7 +35,7 @@ const data = [
     [11,12,13,14,15],
 ];
 const mirroredGrid = gridl(data)
-    .mirrorY()  // mirror the grid on the y-axis
+    .flipY()  // mirror the grid on the y-axis
     .data(); // export the data array
 
 // mirroredGrid looks like this:
@@ -48,8 +48,8 @@ const mirroredGrid = gridl(data)
 
 ## Documentation
 
-* For detailed information have a look at [the JSDoc of gridl v0.9.0](https://klattiation.github.io/gridl/docs/gridl/0.9.0/index.html)
-* See the [changelog](docs/changelog.md) for updates in each version
+* For detailed information have a look at our [documentation](https://klattiation.github.io/gridl/docs/gridl/0.9.0/index.html)
+* See the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for updates in each version
 
 ## Features
 
@@ -90,8 +90,8 @@ const mirroredGrid = gridl(data)
     * swap columns, rows or single cells
 * [Rotating](docs/tutorials/rotating.md)
     * rotate the entire grid clockwise or counterclockwise
-* [Mirroring](docs/tutorials/flipping.md)
-    * mirror the grid on the x- or y-axis
+* [Flipping](docs/tutorials/flipping.md)
+    * flip the grid on the x- or y-axis
     * specify where the axis is located
 * [Iterating](docs/tutorials/iterating.md)
     * map()
