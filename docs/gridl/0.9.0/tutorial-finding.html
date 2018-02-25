@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Tutorial: finding</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,88 +17,35 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Tutorial: finding</h1>
 
-    
-
-
-
-    
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import utils from './utils';
-import generators from './generators';
-import plugins from './plugins';
-import directions from './directions';
-import adjacences from './adjacences';
 
-const { flatten, validateGridArray } = utils;
+<header>
+    
 
-function registerPlugins(plugins, state) {
-    Object.entries(plugins).forEach(([key, pluginFactory]) => {
-        const plugin = pluginFactory(this, state);
-        const type = typeof plugin;
+    <h2>finding</h2>
+</header>
 
-        // plugin is just a function
-        if (type === 'function') {
-            this[key] = plugin;
-        }
+<article>
+    <h2>Finding</h2><p>Find the position of the cell with value 5 in the grid (first occurrence):</p>
+<pre class="prettyprint source lang-javascript"><code>const data = [
+    [1,2,3],
+    [4,2,5],
+    [6,5,4],
+];
+gridl(data).find(v => v === 5); // would be [2,1]</code></pre><p>Find the position of the cell with value 7 within a given area (first occurrence):</p>
+<pre class="prettyprint source lang-javascript"><code>const data = [
+    [0,7,3,2,8],
+    [4,2,5,7,8],
+    [6,6,6,6,7],
+];
+const areaPosition = [2,1];
+const areaSize = [3,2];
+gridl(data).findInArea(areaPosition, areaSize, v => v === 7); // result would be [3,1]</code></pre>
+</article>
 
-        // plugin returns multiple functions with a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods &amp;&amp; plugin.namespace) {
-            this[key] = plugin.methods;
-        }
-
-        // plugin returns multiple functions without a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods) {
-            Object.entries(plugin.methods).forEach(([k, func]) => {
-                this[k] = func;
-            });
-        }
-    });
-}
-
-/**
- * @class
- * @private
- */
-function gridl(plugins, data) {
-
-    // validate incoming data
-    validateGridArray(data);
-
-    // create initial state
-    const initialState = {
-        rows: data.length,
-        columns: data[0].length,
-        data: flatten(data),
-        position: [0,0],
-    };
-
-    // register plugins with initial state
-    registerPlugins.call(this, plugins, initialState);
-
-    return this;
-}
-
-/**
- * Creates a new gridl instance.
- *
- * @constructs gridl
- * @param {Array.&lt;Array.&lt;*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
- */
-const gridlFactory = data => new gridl(plugins, data);
-gridlFactory.fn = plugins;
-
-export { utils, generators, adjacences, directions };
-
-export default gridlFactory;
-</code></pre>
-        </article>
-    </section>
-
-
-
+</section>
 
 </div>
 

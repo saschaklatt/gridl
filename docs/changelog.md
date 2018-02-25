@@ -25,6 +25,7 @@
     * `mirrorX()` to `flipX()`
     * `mirrorY()` to `flipY()`
 * don't throw error when `walk()` outside the grid
+* integrated tutorials into JSDoc
 
 **v0.8.7**
 

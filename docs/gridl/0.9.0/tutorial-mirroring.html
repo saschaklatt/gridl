@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Tutorial: mirroring</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,88 +17,82 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Tutorial: mirroring</h1>
 
-    
-
-
-
-    
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import utils from './utils';
-import generators from './generators';
-import plugins from './plugins';
-import directions from './directions';
-import adjacences from './adjacences';
 
-const { flatten, validateGridArray } = utils;
+<header>
+    
 
-function registerPlugins(plugins, state) {
-    Object.entries(plugins).forEach(([key, pluginFactory]) => {
-        const plugin = pluginFactory(this, state);
-        const type = typeof plugin;
+    <h2>mirroring</h2>
+</header>
 
-        // plugin is just a function
-        if (type === 'function') {
-            this[key] = plugin;
-        }
+<article>
+    <h2>Mirroring</h2><p>Mirror a grid on the x-axis (centered):</p>
+<pre class="prettyprint source lang-javascript"><code>const data = [
+    [ 1,  6, 11 ],
+    [ 2,  7, 12 ],
+    [ 3,  8, 13 ],
+    [ 4,  9, 14 ],
+    [ 5, 10, 15 ],
+];
+const newGrid = gridl(data).mirrorX(3).data();
 
-        // plugin returns multiple functions with a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods &amp;&amp; plugin.namespace) {
-            this[key] = plugin.methods;
-        }
+// newGrid looks like this:
+// [
+//     [ 5, 10, 15 ],
+//     [ 4,  9, 14 ],
+//     [ 3,  8, 13 ],
+//     [ 2,  7, 12 ],
+//     [ 1,  6, 11 ],
+// ]</code></pre><p>Mirror a grid at y = 3: </p>
+<pre class="prettyprint source lang-javascript"><code>const data = [
+    [ 1,  6, 11 ],
+    [ 2,  7, 12 ], // mirror axis is here
+    [ 3,  8, 13 ],
+    [ 4,  9, 14 ],
+    [ 5, 10, 15 ],
+];
+const newGrid = gridl(data).mirrorX(3).data();
 
-        // plugin returns multiple functions without a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods) {
-            Object.entries(plugin.methods).forEach(([k, func]) => {
-                this[k] = func;
-            });
-        }
-    });
-}
+// newGrid looks like this
+// [
+//     [ 5, 10, 15 ],
+//     [ 4,  9, 14 ],
+//     [ 3,  8, 13 ],
+//     [ 2,  7, 12 ],
+//     [ 1,  6, 11 ],
+// ]</code></pre><p>Mirror grid on the y-axis (centered):</p>
+<pre class="prettyprint source lang-javascript"><code>const data = [
+    [  1,  2,  3,  4,  5],
+    [  6,  7,  8,  9, 10],
+    [ 11, 12, 13, 14, 15],
+];
+const newGrid = gridl(data).mirrorY().data();
 
-/**
- * @class
- * @private
- */
-function gridl(plugins, data) {
+// newGrid looks like this:
+// [
+//     [  5,  4,  3,  2,  1],
+//     [ 10,  9,  8,  7,  6],
+//     [ 15, 14, 13, 12, 11],
+// ]</code></pre><p>Mirror grid at x = 3: </p>
+<pre class="prettyprint source lang-javascript"><code>const data = [
+    [  1,  2,  3,  4,  5],
+    [  6,  7,  8,  9, 10],
+    [ 11, 12, 13, 14, 15],
+];
+const newGrid = gridl(data).mirrorY(3).data();
 
-    // validate incoming data
-    validateGridArray(data);
+// newGrid looks like this
+// [
+//     [  5,  4,  3,  2,  1],
+//     [ 10,  9,  8,  7,  6],
+//     [ 15, 14, 13, 12, 11],
+// ]                 ↑↑
+//              mirror axis</code></pre>
+</article>
 
-    // create initial state
-    const initialState = {
-        rows: data.length,
-        columns: data[0].length,
-        data: flatten(data),
-        position: [0,0],
-    };
-
-    // register plugins with initial state
-    registerPlugins.call(this, plugins, initialState);
-
-    return this;
-}
-
-/**
- * Creates a new gridl instance.
- *
- * @constructs gridl
- * @param {Array.&lt;Array.&lt;*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
- */
-const gridlFactory = data => new gridl(plugins, data);
-gridlFactory.fn = plugins;
-
-export { utils, generators, adjacences, directions };
-
-export default gridlFactory;
-</code></pre>
-        </article>
-    </section>
-
-
-
+</section>
 
 </div>
 
