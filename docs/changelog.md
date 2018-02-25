@@ -4,8 +4,8 @@
 
 * Plugin API !!!
     * You can now add custom functions to gridl and mess around with the internal state. Note: all responsibility lies with the plugin creator!
-    * heavy internal refactoring (every public gridl implemented via a plugin)
-    * support for namespaces: functions can be scoped with the plugins' name
+    * heavy internal refactoring (every public gridl implemented via a core plugin)
+    * support for namespaces: functions can be scoped with the name of the plugin
 * removed `setValue()` and `setValueAt()`, now fully replaced by `value()` and `valueAt()`
 * renamed mirror functions
     * `mirrorX()` to `flipX()`
@@ -16,6 +16,7 @@
     * `make()` to `makeGridl()`
     * `makeGrid()` to `makeDataGrid()`
     * `makeList()` to `makeDataList()`
+* `data()` can also be used as setter now: `gridl(data).data(newData)`
 
 **v0.8.7**
 

@@ -35,20 +35,16 @@
 
 ### v0.9
 
-* make `gridl(data).data()` also a setter: `gridl(data).data(newData)`
 * new fill() method: similar to map/forEach, returns the **current** gridl instance, not a copy
     * `gridl(data).forEach((v, pos, src) => src.valueAt(pos, 'bam'))`
     * `gridl(data).fill((v, pos, src) => 'bam')`
-* concatenation
-    * `concat.horizontal(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
-    * `concat.vertical(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 3x6 grid)
 * define core and additional plugins
 
 ### v0.10
 
 * implement [area api](area-api.md) (subset of gridl api for inner areas) 
 
-### later
+### before release
 
 * additional area iterators
     * `areaMap()`
@@ -80,3 +76,6 @@
     * look for better algorithms
 * plugin architecture
     * inline plugin `gridl(data).internal((context, stateProvider) => { ...do internal stuff like a plugin })`
+* concatenation
+    * `concat.horizontal(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
+    * `concat.vertical(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 3x6 grid)

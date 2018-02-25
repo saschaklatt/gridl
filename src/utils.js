@@ -202,7 +202,7 @@ export const validateGridArray = data => {
             throw new Error('Trying to import data that is not an array.');
         }
         if (i > 0 && data[i - 1].length !== row.length) {
-            throw new Error('Trying to import data with different row lengths.');
+            throw new Error('Trying to import data with inconsistent number of columns.');
         }
         if (row.length < 1) {
             throw new Error('Trying to import grid without any columns. You need to provide at least one column.');

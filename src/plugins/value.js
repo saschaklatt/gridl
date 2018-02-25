@@ -10,7 +10,7 @@ export default function(context, state) {
      * @method
      * @instance
      *
-     * @param {*} value - The value you want to set or <code>undefined</code> if you want to get the value.
+     * @param {*} [value] - The value you want to set or <code>undefined</code> if you want to get the value.
      * @returns {*} The cell's value or the gridl instance if you use it as a setter.
      */
     function value(value) {
@@ -31,7 +31,7 @@ export default function(context, state) {
      * @instance
      *
      * @param {Array.<number>} pos - The position where you want to set or get the value.
-     * @param {*} value - The value you want to set or <code>undefined</code> if you want to get the value.
+     * @param {*} [value] - The value you want to set or <code>undefined</code> if you want to get the value.
      * @returns {*} The cell's value or the the same gridl instance if you use it as a setter.
      */
     function valueAt(pos, value) {

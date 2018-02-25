@@ -1,5 +1,5 @@
 import gridl from '../index';
-import { unflatten } from '../utils';
+import { flatten, unflatten, validateGridArray } from '../utils';
 
 export default function(context, state) {
 
@@ -18,17 +18,22 @@ export default function(context, state) {
     }
 
     /**
-     * Exports a copy of the internal data as two-dimensional array.
+     * Exports a copy of the internal data as two-dimensional array or imports a new data into the array. If you use it to import new grid data, make sure the new data has the same size.
      *
      * @memberOf gridl
      * @method
      * @instance
      *
-     * @returns {Array.<Array.<*>>} The data as two-dimensional array.
+     * @param {Array.<Array.<*>>} [newData] The new data you want to import as a two-dimensional grid array.
+     * @returns {Array.<Array.<*>>} The data as two-dimensional array or the same gridl instance if you use it as a setter.
      */
-    function data() {
-        const { data, columns } = state;
-        return unflatten(data, columns);
+    function data(newData) {
+        if (arguments.length) {
+            validateGridArray(newData);
+            state.data = flatten(newData);
+            return context;
+        }
+        return unflatten(state.data, state.columns);
     }
 
     /**
