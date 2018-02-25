@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: generating</title>
+    <title>JSDoc: Tutorial: flipping</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,55 +17,91 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: generating</h1>
+    <h1 class="page-title">Tutorial: flipping</h1>
 
     <section>
 
 <header>
     
 
-    <h2>generating</h2>
+    <h2>flipping</h2>
 </header>
 
 <article>
     <ul>
-<li><a href="#gridl">gridl instance</a></li>
-<li><a href="#grid">Grid array</a></li>
-<li><a href="#list">List array</a></li>
+<li><a href="#horizontal">Horizontally</a></li>
+<li><a href="#vertical">Vertically</a></li>
 </ul>
-<h3><a name="gridl"></a>gridl instance</h3><p>Generating a gridl instance and perform operations on it</p>
-<pre class="prettyprint source lang-javascript"><code>import { makeGridl } from 'gridl';
+<h3><a name="horizontal"></a>Horizontally</h3><p>Flip a grid on the x-axis (centered):</p>
+<pre class="prettyprint source lang-javascript"><code>import gridl from 'gridl';
 
-// create a gridl instance
-const columns = 4;
-const rows = 3;
-const grid = makeGridl(columns, rows, ({ column, row }) => `${column},${row}`);
+const data = [
+    [ 1,  6, 11 ],
+    [ 2,  7, 12 ],
+    [ 3,  8, 13 ],
+    [ 4,  9, 14 ],
+    [ 5, 10, 15 ],
+];
+const newGrid = gridl(data).flipX(3).data();
 
-// perform gridl operations
-const data = grid.valueAt([2,1], 'bam').data();
-
-// data looks like this:
+// newGrid looks like this:
 // [
-//     ['0,0', '1,0', '2,0', '3,0'],
-//     ['0,1', '1,1', 'bam', '3,1'],
-//     ['0,2', '1,2', '2,2', '3,2'],
-// ]</code></pre><h3><a name="grid"></a>Grid array</h3><p>Generating a grid data array (two-dimensional array)</p>
-<pre class="prettyprint source lang-javascript"><code>import { makeDataGrid } from 'gridl';
+//     [ 5, 10, 15 ],
+//     [ 4,  9, 14 ],
+//     [ 3,  8, 13 ],
+//     [ 2,  7, 12 ],
+//     [ 1,  6, 11 ],
+// ]</code></pre><p>Mirror a grid at y = 3: </p>
+<pre class="prettyprint source lang-javascript"><code>import gridl from 'gridl';
 
-const columns = 4;
-const rows = 3;
-const data = makeDataGrid(columns, rows, ({ column, row }) => `${column},${row}`);
+const data = [
+    [ 1,  6, 11 ],
+    [ 2,  7, 12 ], // mirror axis is here
+    [ 3,  8, 13 ],
+    [ 4,  9, 14 ],
+    [ 5, 10, 15 ],
+];
+const newGrid = gridl(data).flipX(3).data();
 
-// data looks like this:
+// newGrid looks like this
 // [
-//     ['0,0', '1,0', '2,0', '3,0'],
-//     ['0,1', '1,1', '2,1', '3,1'],
-//     ['0,2', '1,2', '2,2', '3,2'],
-// ]</code></pre><h3><a name="list"></a>List array</h3><p>Generating a list data array (one-dimensional array)</p>
-<pre class="prettyprint source lang-javascript"><code>import { makeDataList }  from 'gridl';
+//     [ 5, 10, 15 ],
+//     [ 4,  9, 14 ],
+//     [ 3,  8, 13 ],
+//     [ 2,  7, 12 ],
+//     [ 1,  6, 11 ],
+// ]</code></pre><h3><a name="vertical"></a>Vertically</h3><p>Mirror grid on the y-axis (centered):</p>
+<pre class="prettyprint source lang-javascript"><code>import gridl from 'gridl';
 
-const length = 4;
-makeDataList(length, (index) => `${index}`); // ['0', '1', '2', '3']</code></pre>
+const data = [
+    [  1,  2,  3,  4,  5],
+    [  6,  7,  8,  9, 10],
+    [ 11, 12, 13, 14, 15],
+];
+const newGrid = gridl(data).flipY().data();
+
+// newGrid looks like this:
+// [
+//     [  5,  4,  3,  2,  1],
+//     [ 10,  9,  8,  7,  6],
+//     [ 15, 14, 13, 12, 11],
+// ]</code></pre><p>Mirror grid at x = 3: </p>
+<pre class="prettyprint source lang-javascript"><code>import gridl from 'gridl';
+
+const data = [
+    [  1,  2,  3,  4,  5],
+    [  6,  7,  8,  9, 10],
+    [ 11, 12, 13, 14, 15],
+];
+const newGrid = gridl(data).flipY(3).data();
+
+// newGrid looks like this
+// [
+//     [  5,  4,  3,  2,  1],
+//     [ 10,  9,  8,  7,  6],
+//     [ 15, 14, 13, 12, 11],
+// ]                 ↑↑
+//              mirror axis</code></pre>
 </article>
 
 </section>

@@ -1,6 +1,15 @@
-## Areas
+In order to interact with just a subset of the data, `gridl` provides the ability to work with so called "areas".
 
-**Overwriting** an entire area at a certain position:
+* [Overwriting](#overwrite)
+* [Extracting](#extract)
+* [Fitting](#fit)
+* [Reducing](#reduce)
+* [Finding](#find)
+
+### <a name="overwrite"></a>Overwriting
+ 
+Overwriting or setting an entire area at a certain position:
+
 ```javascript
 import gridl from 'gridl';
 
@@ -27,7 +36,10 @@ const newGrid2 = gridl(data).goto(position).setArea(area).data();
 // ]
 ```
 
-**Extracting** a subset of the grid:
+### <a name="extract"></a>Extracting
+ 
+Extract a subset of the grid:
+
 ```javascript
 import gridl from 'gridl';
 
@@ -49,7 +61,10 @@ const area2 = gridl(data).goto(position).getArea(size);
 // ]
 ```
 
+### <a name="fit"></a>Fitting
+
 Check if an area would **fit into** the grid at a certain position:
+
 ```javascript
 import gridl from 'gridl';
 
@@ -77,7 +92,9 @@ gridl(data).goto([4,0]).areaFits(area); // false
 gridl(data).goto([1,3]).areaFits(area); // false
 ```
 
-**Reduce** an area to the sum of values
+### <a name="reduce"></a>Reducing 
+
+E.g. reducing an area to the sum of all its values:
 
 ```javascript
 import gridl from 'gridl';
@@ -93,4 +110,20 @@ const position = [1,2];
 const size = [3,2];
 gridl(data).reduceAreaAt(position, size, (res, value) => res + value, 0);       // returns 78 (10 + 11 + 12 + 14 + 15 + 16)
 gridl(data).goto(position).reduceArea(size, (res, value) => res + value, 0);    // returns 78 (10 + 11 + 12 + 14 + 15 + 16)
+```
+
+### <a name="find"></a>Finding
+
+Find the position of the cell with value 7 within a given area (first occurrence):
+```javascript
+import gridl from 'gridl';
+
+const data = [
+    [0,7,3,2,8],
+    [4,2,5,7,8],
+    [6,6,6,6,7],
+];
+const areaPosition = [2,1];
+const areaSize = [3,2];
+gridl(data).findInArea(areaPosition, areaSize, v => v === 7); // result would be [3,1]
 ```

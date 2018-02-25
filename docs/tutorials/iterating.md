@@ -1,4 +1,8 @@
-## Iterator functions
+* [forEach](#forEach)
+* [map](#map)
+* [reduce](#reduce)
+
+### <a name="forEach"></a>forEach
 
 **Iterating over values with `forEach()`**
 
@@ -7,6 +11,8 @@ Executes the provided callback function once for each grid element.
 It's basically the equivalent of the array's [forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) function.
 
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [1,2,3,4],
     [5,6,7,8],
@@ -21,11 +27,15 @@ const master = gridl(data).forEach((value, pos, src) => {
 });
 ```
 
+### <a name="map"></a>map
+
 **Mapping values with `map()`:**
 
 It's basically the equivalent of the array's [map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Map) function.
 
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [1,2,3,4],
     [5,6,7,8],
@@ -53,11 +63,15 @@ const newData = copy.data();
 // ]
 ```
 
+### <a name="reduce"></a>reduce
+
 **Reduce values with `reduce()`:**
 
 It's basically the equivalent of the array's [reduce()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) function. 
 
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [1,2,3,4],
     [5,6,7,8],

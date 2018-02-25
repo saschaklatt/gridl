@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: plugins/rotating.js</title>
+    <title>JSDoc: Tutorial: size</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,63 +17,30 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: plugins/rotating.js</h1>
+    <h1 class="page-title">Tutorial: size</h1>
 
-    
-
-
-
-    
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import { getColumn, unflatten, flatten } from '../utils';
 
-function _rotate(grid, columns, steps) {
-    const mod = steps % 4;
-    const option = mod &lt; 0 ? mod + 4 : mod;
-    switch (option) {
-        case 0:
-            return grid;
-        case 1:
-            return Array.from({ length: columns }, (v, i) => getColumn(grid, i).reverse());
-        case 2:
-            return grid.reverse().map((row, r) => row.reverse());
-        case 3:
-            return Array.from({ length: columns }, (v, i) => getColumn(grid, columns - 1 - i));
-        default:
-            throw new Error(`Trying to rotate the grid with an invalid steps parameter. Given: ${steps}`);
-    }
-}
+<header>
+    
 
-export default function(context, state) {
+    <h2>size</h2>
+</header>
 
-    /**
-     * Rotate the array in a 90 degree steps. A positive step turns it clockwise, a negative step turns it counterclockwise.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number} steps - The number of 90 degree turns as integer number.
-     * @returns {gridl} The same gridl instance.
-     */
-    function rotate(steps) {
-        const { data, columns } = state;
-        const grid = _rotate(unflatten(data, columns), columns, steps);
-        state.data = flatten(grid);
-        state.rows = grid.length;
-        state.columns = grid[0].length;
-        return context;
-    }
+<article>
+    <p>Get the size of your grid:</p>
+<pre class="prettyprint source lang-javascript"><code>import gridl from 'gridl';
 
-    return { methods: { rotate } };
-}
-</code></pre>
-        </article>
-    </section>
+const data = [
+    [1,2,3],
+    [4,5,6],
+];
+gridl(data).numColumns(); // 3
+gridl(data).numRows(); // 2
+gridl(data).size(); // [3,2]</code></pre>
+</article>
 
-
-
+</section>
 
 </div>
 

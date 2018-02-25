@@ -1,8 +1,8 @@
-## Dimensions
-
-**Get the size of you grid:**
+Get the size of your grid:
 
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [1,2,3],
     [4,5,6],

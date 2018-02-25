@@ -1,8 +1,8 @@
-## Cloning
-
-Make a clone of a gridl:
+Make a clone of the current gridl instance.
 
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [1,2,3,4],
     [5,6,7,8],

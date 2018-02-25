@@ -1,7 +1,12 @@
-## Mirroring
+* [Horizontally](#horizontal)
+* [Vertically](#vertical)
 
-Mirror a grid on the x-axis (centered):
+### <a name="horizontal"></a>Horizontally
+
+Flip a grid on the x-axis (centered):
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [ 1,  6, 11 ],
     [ 2,  7, 12 ],
@@ -9,7 +14,7 @@ const data = [
     [ 4,  9, 14 ],
     [ 5, 10, 15 ],
 ];
-const newGrid = gridl(data).mirrorX(3).data();
+const newGrid = gridl(data).flipX(3).data();
 
 // newGrid looks like this:
 // [
@@ -23,6 +28,8 @@ const newGrid = gridl(data).mirrorX(3).data();
 
 Mirror a grid at y = 3: 
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [ 1,  6, 11 ],
     [ 2,  7, 12 ], // mirror axis is here
@@ -30,7 +37,7 @@ const data = [
     [ 4,  9, 14 ],
     [ 5, 10, 15 ],
 ];
-const newGrid = gridl(data).mirrorX(3).data();
+const newGrid = gridl(data).flipX(3).data();
 
 // newGrid looks like this
 // [
@@ -42,14 +49,18 @@ const newGrid = gridl(data).mirrorX(3).data();
 // ]
 ```
 
+### <a name="vertical"></a>Vertically
+
 Mirror grid on the y-axis (centered):
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [  1,  2,  3,  4,  5],
     [  6,  7,  8,  9, 10],
     [ 11, 12, 13, 14, 15],
 ];
-const newGrid = gridl(data).mirrorY().data();
+const newGrid = gridl(data).flipY().data();
 
 // newGrid looks like this:
 // [
@@ -61,12 +72,14 @@ const newGrid = gridl(data).mirrorY().data();
 
 Mirror grid at x = 3: 
 ```javascript
+import gridl from 'gridl';
+
 const data = [
     [  1,  2,  3,  4,  5],
     [  6,  7,  8,  9, 10],
     [ 11, 12, 13, 14, 15],
 ];
-const newGrid = gridl(data).mirrorY(3).data();
+const newGrid = gridl(data).flipY(3).data();
 
 // newGrid looks like this
 // [

@@ -1,8 +1,8 @@
-## Draw a cow
-
 Let's do some serious business and draw a cow.
 
 ```javascript
+import gridl, { makeGridl, makeDataList } from 'gridl';
+
 const head = [
     ['(','_','_',')'],
     ['(','o','o',')'],
@@ -30,15 +30,14 @@ const foreLegs = [
     ['^','^'],
 ];
 
-const cow = gridl
-    .make(13, 6, () => ' ') // generate 13x6 grid that is filled with whitespaces
+const cow = makeGridl(13, 6, () => ' ') // generate 13x6 grid that is filled with whitespaces
     .setAreaAt([9,0], head)
     .setAreaAt([3,2], back)
     .setAreaAt([5,4], belly)
     .setAreaAt([0,2], tail)
     .setAreaAt([3,3], hindLegs)
     .setAreaAt([9,3], foreLegs)
-    .addColumn(gridl.makeList(6, () => '\n'), 13) // add line breaks at the very right
+    .addColumn(makeDataList(6, () => '\n'), 13) // add line breaks at the very right
 ;
 
 function drawTheCow(cow) {
@@ -59,7 +58,7 @@ console.log(drawTheCow(cow));
 //    ^^    ^^  
 
 // mirror the cow on the y-axis
-cow.mirrorY();
+cow.flipY();
 console.log(drawTheCow(cow));
 
 // cow looks like this:

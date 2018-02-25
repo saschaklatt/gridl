@@ -1,4 +1,10 @@
-## Swapping
+`gridl` provides the ability to swap single cells or entire rows and columns.
+
+* [Single cells](#cells)
+* [Rows](#rows)
+* [Columns](#columns)
+
+### <a name="cells"></a>Single cells
 
 Swapping two cells:
 ```javascript
@@ -15,6 +21,8 @@ const newGrid2 = gridl(data).goto([0,0]).swapCell([2,1]).data();
 //     [5,6,1,8],
 // ]
 ```
+
+### <a name="rows"></a>Rows
 
 Swapping two rows:
 ```javascript
@@ -34,6 +42,8 @@ const newGrid = gridl(data).swapRows(1,3).data();
 //     [ 5, 6, 7, 8],
 // ]);
 ```
+
+### <a name="columns"></a>Columns
 
 Swapping two columns:
 ```javascript
