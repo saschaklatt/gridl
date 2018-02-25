@@ -301,7 +301,7 @@ var validateGridArray = exports.validateGridArray = function validateGridArray(d
             throw new Error('Trying to import data that is not an array.');
         }
         if (i > 0 && data[i - 1].length !== row.length) {
-            throw new Error('Trying to import data with different row lengths.');
+            throw new Error('Trying to import data with inconsistent number of columns.');
         }
         if (row.length < 1) {
             throw new Error('Trying to import grid without any columns. You need to provide at least one column.');
@@ -375,68 +375,60 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var flatten = _utils2.default.flatten,
     validateGridArray = _utils2.default.validateGridArray;
 
+
+function registerPlugins(plugins, state) {
+    var _this = this;
+
+    Object.entries(plugins).forEach(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            key = _ref2[0],
+            pluginFactory = _ref2[1];
+
+        var plugin = pluginFactory(_this, state);
+        var type = typeof plugin === 'undefined' ? 'undefined' : _typeof(plugin);
+
+        // plugin is just a function
+        if (type === 'function') {
+            _this[key] = plugin;
+        }
+
+        // plugin returns multiple functions with a namespace
+        else if (type === 'object' && plugin.methods && plugin.namespace) {
+                _this[key] = plugin.methods;
+            }
+
+            // plugin returns multiple functions without a namespace
+            else if (type === 'object' && plugin.methods) {
+                    Object.entries(plugin.methods).forEach(function (_ref3) {
+                        var _ref4 = _slicedToArray(_ref3, 2),
+                            k = _ref4[0],
+                            func = _ref4[1];
+
+                        _this[k] = func;
+                    });
+                }
+    });
+}
+
 /**
  * @class
  * @private
  */
-
-function gridl(fn, data) {
-    var _this = this;
+function gridl(plugins, data) {
 
     // validate incoming data
     validateGridArray(data);
 
-    var _state = {};
-
-    var _stateProvider = {
-        getState: function getState() {
-            return _state;
-        },
-        setState: function setState(newState) {
-            // set state
-            Object.entries(newState).forEach(function (_ref) {
-                var _ref2 = _slicedToArray(_ref, 2),
-                    key = _ref2[0],
-                    value = _ref2[1];
-
-                return _state[key] = value;
-            });
-
-            // update plugins
-            Object.entries(fn).forEach(function (_ref3) {
-                var _ref4 = _slicedToArray(_ref3, 2),
-                    key = _ref4[0],
-                    pluginFactory = _ref4[1];
-
-                var plugin = pluginFactory(_this, _stateProvider);
-                var type = typeof plugin === 'undefined' ? 'undefined' : _typeof(plugin);
-
-                // plugin is just a function
-                if (type === 'function') {
-                    _this[key] = plugin;
-                }
-
-                // plugin returns multiple functions bundled together in an object
-                else if (type === 'object') {
-                        Object.entries(plugin).forEach(function (_ref5) {
-                            var _ref6 = _slicedToArray(_ref5, 2),
-                                k = _ref6[0],
-                                func = _ref6[1];
-
-                            _this[k] = func;
-                        });
-                    }
-            });
-        }
-    };
-
-    // set initial state
-    _stateProvider.setState({
+    // create initial state
+    var initialState = {
         rows: data.length,
         columns: data[0].length,
         data: flatten(data),
         position: [0, 0]
-    });
+    };
+
+    // register plugins with initial state
+    registerPlugins.call(this, plugins, initialState);
 
     return this;
 }
@@ -448,7 +440,7 @@ function gridl(fn, data) {
  * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same length.
  */
 var gridlFactory = function gridlFactory(data) {
-    return new gridl(gridlFactory.fn, data);
+    return new gridl(_plugins2.default, data);
 };
 gridlFactory.fn = _plugins2.default;
 
@@ -622,9 +614,9 @@ var _finding = __webpack_require__(9);
 
 var _finding2 = _interopRequireDefault(_finding);
 
-var _flipping = __webpack_require__(10);
+var _flip = __webpack_require__(10);
 
-var _flipping2 = _interopRequireDefault(_flipping);
+var _flip2 = _interopRequireDefault(_flip);
 
 var _iterator = __webpack_require__(11);
 
@@ -666,7 +658,7 @@ exports.default = {
     clipping: _clipping2.default,
     columns: _columns2.default,
     finding: _finding2.default,
-    flipping: _flipping2.default,
+    flip: _flip2.default,
     iterator: _iterator2.default,
     moving: _moving2.default,
     navigating: _navigating2.default,
@@ -689,12 +681,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns,
-        rows = _stateProvider$getSta.rows,
-        position = _stateProvider$getSta.position;
+exports.default = function (context, state) {
 
     /**
      * Get the values of all adjacent cells at a given position.
@@ -708,11 +695,12 @@ exports.default = function (context, stateProvider) {
      * @param {boolean} [includeOutsideValues = false] - If <code>false</code>, adjacent cells that are outside the grid will be ignored, if <code>true</code>, <code>undefined</code> will be returned for them.
      * @returns {Array.<*>} The values of the adjacent cells.
      */
-
-
     function adjacentCellsAt(position) {
         var adjacence = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _index.adjacences.ALL;
         var includeOutsideValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
 
         var gridSize = !includeOutsideValues && [columns, rows];
         var grid = (0, _utils.unflatten)(data, columns);
@@ -734,6 +722,10 @@ exports.default = function (context, stateProvider) {
     function adjacentCells() {
         var adjacence = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _index.adjacences.ALL;
         var includeOutsideValues = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows,
+            position = state.position;
 
         var gridSize = !includeOutsideValues && [columns, rows];
         var grid = (0, _utils.unflatten)(data, columns);
@@ -741,8 +733,10 @@ exports.default = function (context, stateProvider) {
     }
 
     return {
-        adjacentCells: adjacentCells,
-        adjacentCellsAt: adjacentCellsAt
+        methods: {
+            adjacentCells: adjacentCells,
+            adjacentCellsAt: adjacentCellsAt
+        }
     };
 };
 
@@ -756,7 +750,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function _adjacentCells(grid, position, adjacence) {
+var _adjacentCells = function _adjacentCells(grid, position, adjacence) {
     var gridSize = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 
     return adjacence.reduce(function (res, direction) {
@@ -768,7 +762,7 @@ function _adjacentCells(grid, position, adjacence) {
             return [].concat(_toConsumableArray(res), [value]);
         }
     }, []);
-}
+};
 
 module.exports = exports['default'];
 
@@ -782,14 +776,8 @@ module.exports = exports['default'];
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports._getAreaAt = undefined;
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns,
-        rows = _stateProvider$getSta.rows,
-        position = _stateProvider$getSta.position;
+exports.default = function (context, state) {
 
     /**
      * Check if a given area would fit inside the grid at the current position.<br>
@@ -803,9 +791,11 @@ exports.default = function (context, stateProvider) {
      * @param {number[]} [anchor = [0, 0]] - The center of area.
      * @returns {boolean} Whether the area fits or not.
      */
-
-
     function areaFits(area, anchor) {
+        var columns = state.columns,
+            rows = state.rows,
+            position = state.position;
+
         return _checkAreaFitsAt(columns, rows, position, area, anchor);
     }
 
@@ -822,6 +812,9 @@ exports.default = function (context, stateProvider) {
      * @returns {boolean} Whether the area fits or not.
      */
     function areaFitsAt(position, area, anchor) {
+        var columns = state.columns,
+            rows = state.rows;
+
         return _checkAreaFitsAt(columns, rows, position, area, anchor);
     }
 
@@ -838,6 +831,11 @@ exports.default = function (context, stateProvider) {
      * @returns {Array.<Array.<*>>} The area.
      */
     function getArea(size, anchor) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows,
+            position = state.position;
+
         return _getAreaAt(data, columns, rows, position, size, anchor);
     }
 
@@ -854,6 +852,10 @@ exports.default = function (context, stateProvider) {
      * @returns {Array.<Array.<*>>} The area.
      */
     function getAreaAt(position, size, anchor) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         return _getAreaAt(data, columns, rows, position, size, anchor);
     }
 
@@ -870,6 +872,11 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function setArea(area, anchor) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows,
+            position = state.position;
+
         _setAreaAt(data, columns, rows, position, area, anchor);
         return context;
     }
@@ -887,6 +894,10 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function setAreaAt(position, area, anchor) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         _setAreaAt(data, columns, rows, position, area, anchor);
         return context;
     }
@@ -904,6 +915,10 @@ exports.default = function (context, stateProvider) {
      * @returns {(Array.<number>|undefined)} The position of the first element that is found or <code>undefined</code> if nothing was found.
      */
     function findInArea(position, size, callback) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         var area = _getAreaAt(data, columns, rows, position, size);
         var flat = (0, _utils.flatten)(area);
         var areaIndex = flat.findIndex(function (v, i) {
@@ -931,6 +946,10 @@ exports.default = function (context, stateProvider) {
      * @returns {*} The value that results from the reduction.
      */
     function reduceAreaAt(position, size, callback, initialValue) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
     }
 
@@ -947,19 +966,26 @@ exports.default = function (context, stateProvider) {
      * @returns {*} The value that results from the reduction.
      */
     function reduceArea(size, callback, initialValue) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows,
+            position = state.position;
+
         return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
     }
 
     return {
-        areaFits: areaFits,
-        areaFitsAt: areaFitsAt,
-        getArea: getArea,
-        getAreaAt: getAreaAt,
-        setArea: setArea,
-        setAreaAt: setAreaAt,
-        findInArea: findInArea,
-        reduceArea: reduceArea,
-        reduceAreaAt: reduceAreaAt
+        methods: {
+            areaFits: areaFits,
+            areaFitsAt: areaFitsAt,
+            getArea: getArea,
+            getAreaAt: getAreaAt,
+            setArea: setArea,
+            setAreaAt: setAreaAt,
+            findInArea: findInArea,
+            reduceArea: reduceArea,
+            reduceAreaAt: reduceAreaAt
+        }
     };
 };
 
@@ -971,7 +997,7 @@ var _utils = __webpack_require__(0);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _getAreaAt = exports._getAreaAt = function _getAreaAt(data, columns, rows, position, size) {
+var _getAreaAt = function _getAreaAt(data, columns, rows, position, size) {
     var anchor = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : [0, 0];
 
     var posTmp = (0, _utils.subtractPositions)(position, anchor);
@@ -1020,7 +1046,7 @@ var _setAreaAt = function _setAreaAt(data, columns, rows, position, area) {
     return data;
 };
 
-function _reduceAreaAt(api, data, columns, rows, position, size, callback, initialValue, hasInitialValue) {
+var _reduceAreaAt = function _reduceAreaAt(api, data, columns, rows, position, size, callback, initialValue, hasInitialValue) {
     if (!(0, _utils.isValidPositionFormat)(position)) {
         throw new Error('Trying to reduce an area at an invalid position.');
     }
@@ -1034,7 +1060,9 @@ function _reduceAreaAt(api, data, columns, rows, position, size, callback, initi
     };
     var flattenedArea = (0, _utils.flatten)(_getAreaAt(data, columns, rows, position, size));
     return hasInitialValue ? flattenedArea.reduce(reducer) : flattenedArea.reduce(reducer, initialValue);
-}
+};
+
+module.exports = exports['default'];
 
 /***/ }),
 /* 7 */
@@ -1046,14 +1074,8 @@ function _reduceAreaAt(api, data, columns, rows, position, size, callback, initi
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports._clip = undefined;
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns,
-        rows = _stateProvider$getSta.rows,
-        position = _stateProvider$getSta.position;
+exports.default = function (context, state) {
 
     /**
      * Clip an area out of the current grid. It removes all cells that are not inside the given area.
@@ -1065,15 +1087,16 @@ exports.default = function (context, stateProvider) {
      * @param {Array.<number>} size - The size of the area.
      * @returns {gridl} The same gridl instance.
      */
-
-
     function clip(size) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows,
+            position = state.position;
+
         var grid = _clip(data, columns, rows, position, size);
-        stateProvider.setState({
-            data: (0, _utils.flatten)(grid),
-            rows: grid.length,
-            columns: grid[0].length
-        });
+        state.data = (0, _utils.flatten)(grid);
+        state.rows = grid.length;
+        state.columns = grid[0].length;
         return context;
     }
 
@@ -1089,21 +1112,25 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function clipAt(position, size) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         var grid = _clip(data, columns, rows, position, size);
-        stateProvider.setState({
-            data: (0, _utils.flatten)(grid),
-            rows: grid.length,
-            columns: grid[0].length
-        });
+        state.data = (0, _utils.flatten)(grid);
+        state.rows = grid.length;
+        state.columns = grid[0].length;
         return context;
     }
 
-    return { clip: clip, clipAt: clipAt };
+    return {
+        methods: { clip: clip, clipAt: clipAt }
+    };
 };
 
 var _utils = __webpack_require__(0);
 
-var _clip = exports._clip = function _clip(data, columns, rows, position, size) {
+var _clip = function _clip(data, columns, rows, position, size) {
     if (position[0] < 0 || position[0] >= columns || position[1] < 0 || position[1] >= rows) {
         throw new Error('Trying to clip data at an invalid position. Given: ' + position);
     }
@@ -1117,6 +1144,8 @@ var _clip = exports._clip = function _clip(data, columns, rows, position, size) 
     });
 };
 
+module.exports = exports['default'];
+
 /***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1128,11 +1157,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns,
-        rows = _stateProvider$getSta.rows;
+exports.default = function (context, state) {
 
     /**
      * Get the number of columns.
@@ -1142,10 +1167,8 @@ exports.default = function (context, stateProvider) {
      * @instance
      * @returns {number}
      */
-
-
     function numColumns() {
-        return columns;
+        return state.columns;
     }
 
     /**
@@ -1159,6 +1182,9 @@ exports.default = function (context, stateProvider) {
      * @returns {Array.<*>}
      */
     function column(x) {
+        var data = state.data,
+            columns = state.columns;
+
         return (0, _utils.getColumn)((0, _utils.unflatten)(data, columns), x);
     }
 
@@ -1174,6 +1200,10 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function addColumn(column, x) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         if (x < 0 || x > columns) {
             throw new Error('Trying to add column at an invalid position. Given: ' + x);
         }
@@ -1184,11 +1214,8 @@ exports.default = function (context, stateProvider) {
             row.splice(x, 0, column[i]);
             return row;
         });
-
-        stateProvider.setState({
-            data: _utils2.default.flatten(grid),
-            columns: grid[0].length
-        });
+        state.data = _utils2.default.flatten(grid);
+        state.columns = grid[0].length;
         return context;
     }
 
@@ -1203,6 +1230,9 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function removeColumn(x) {
+        var data = state.data,
+            columns = state.columns;
+
         if (x < 0 || x >= columns) {
             throw new Error('Trying to remove a column at an invalid position. Given: ' + x);
         }
@@ -1214,18 +1244,18 @@ exports.default = function (context, stateProvider) {
                 return c !== x;
             });
         });
-        stateProvider.setState({
-            data: (0, _utils.flatten)(grid),
-            columns: grid[0].length
-        });
+        state.data = (0, _utils.flatten)(grid);
+        state.columns = grid[0].length;
         return context;
     }
 
     return {
-        addColumn: addColumn,
-        column: column,
-        numColumns: numColumns,
-        removeColumn: removeColumn
+        methods: {
+            addColumn: addColumn,
+            column: column,
+            numColumns: numColumns,
+            removeColumn: removeColumn
+        }
     };
 };
 
@@ -1252,10 +1282,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns;
+exports.default = function (context, state) {
 
     /**
      * Find the first occurrence of an element within the entire grid.
@@ -1267,16 +1294,17 @@ exports.default = function (context, stateProvider) {
      * @param {iteratorCallback} callback - The callback function that is called on each element. Should return true if the element is found or false if not.
      * @returns {(Array.<number>|undefined)} The position of the first element that is found or <code>undefined</code> if nothing was found.
      */
-
-
     function find(callback) {
+        var data = state.data,
+            columns = state.columns;
+
         var index = data.findIndex(function (v, i) {
             return callback(v, (0, _utils.index2pos)(i, columns), context);
         });
         return index >= 0 ? (0, _utils.index2pos)(index, columns) : undefined;
     }
 
-    return { find: find };
+    return { methods: { find: find } };
 };
 
 var _utils = __webpack_require__(0);
@@ -1294,81 +1322,50 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns;
-
-    var grid = (0, _utils.unflatten)(data, columns);
+exports.default = function (context, state) {
 
     /**
      * Flips the array on the given x-position
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
      *
      * @param {number} xPos - The x-position of where to flip the array.
      * @returns {gridl} The same gridl instance.
      */
     var flipX = function flipX(xPos) {
-        stateProvider.setState({ data: (0, _utils.flatten)(_flip(grid, xPos)) });
+        var data = state.data,
+            columns = state.columns;
+
+        var grid = (0, _utils.unflatten)(data, columns);
+        state.data = (0, _utils.flatten)(_flip(grid, xPos));
         return context;
     };
 
     /**
      * Flips the array on the given y-position.
      *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
      * @param {number} yPos - The y-position of where to flip the array.
      * @returns {gridl} The same gridl instance.
      */
     function flipY(yPos) {
-        stateProvider.setState({ data: (0, _utils.flatten)(grid.map(function (row) {
-                return _flip(row, yPos);
-            })) });
+        var data = state.data,
+            columns = state.columns;
+
+        var grid = (0, _utils.unflatten)(data, columns);
+        state.data = (0, _utils.flatten)(grid.map(function (row) {
+            return _flip(row, yPos);
+        }));
         return context;
     }
 
-    /**
-     * Flips the array on the given x-position
-     *
-     * @deprecated Will be removed in version > 0.9.x. Use [flipX()]{@link gridl#flipX}  instead.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number} xPos - The x-position of where to flip the array.
-     * @returns {gridl} The same gridl instance.
-     */
-    var mirrorX = flipX;
-
-    /**
-     * Flips the array on the given y-position.
-     *
-     * @deprecated Will be removed in version > 0.9.x. Use [flipY()]{@link gridl#flipY}  instead.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number} yPos - The y-position of where to flip the array.
-     * @returns {gridl} The same gridl instance.
-     */
-    var mirrorY = flipY;
-
-    return { flipX: flipX, flipY: flipY, mirrorX: mirrorX, mirrorY: mirrorY };
+    return {
+        methods: { flipX: flipX, flipY: flipY }
+    };
 };
 
 var _utils = __webpack_require__(0);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function _flip(arr, index) {
+var _flip = function _flip(arr, index) {
     if (index === undefined) {
         return arr.reverse();
     }
@@ -1380,7 +1377,7 @@ function _flip(arr, index) {
         return i > limitedIdx;
     });
     return [].concat(_toConsumableArray(right.reverse()), [arr[limitedIdx]], _toConsumableArray(left.reverse()));
-}
+};
 
 module.exports = exports['default'];
 
@@ -1392,75 +1389,106 @@ module.exports = exports['default'];
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
-exports.default = function (context, stateProvider) {
-  var _stateProvider$getSta = stateProvider.getState(),
-      data = _stateProvider$getSta.data,
-      columns = _stateProvider$getSta.columns,
-      rows = _stateProvider$getSta.rows,
-      position = _stateProvider$getSta.position;
+exports.default = function (instance, state) {
 
-  /**
-   * Map over all cells. It's the equivalent of Array.map just for the grid.
-   *
-   * @memberOf gridl
-   * @method
-   * @instance
-   *
-   * @param {iteratorCallback} callback - The callback function that is called on each cell.<br><code>function(cell, position, gridlInstance) { return ... }</code>
-   * @returns {gridl} A new gridl instance.
-   */
+    /**
+     * Map over all cells. It's the equivalent of Array.map just for the grid.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {iteratorCallback} callback - The callback function that is called on each cell.<br><code>function(cell, position, gridlInstance) { return ... }</code>
+     * @returns {gridl} A new gridl instance.
+     */
+    function map(callback) {
+        var data = state.data,
+            columns = state.columns;
 
+        var newData = data.map(function (v, i) {
+            return callback(v, (0, _utils.index2pos)(i, columns), instance);
+        });
+        return (0, _index2.default)((0, _utils.unflatten)(newData, columns));
+    }
 
-  function map(callback) {
-    var newData = data.map(function (v, i) {
-      return callback(v, (0, _utils.index2pos)(i, columns), context);
-    });
-    return (0, _index2.default)((0, _utils.unflatten)(newData, columns));
-  }
+    /**
+     * Iterate over all cells. It's the equivalent of Array.forEach just for the grid.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {iteratorCallback} callback - The callback function is called for each cell.<br><code>function(cell, position, gridlInstance) { return ... }</code>
+     * @returns {gridl} The same gridl instance.
+     */
+    function forEach(callback) {
+        var data = state.data,
+            columns = state.columns;
 
-  /**
-   * Iterate over all cells. It's the equivalent of Array.forEach just for the grid.
-   *
-   * @memberOf gridl
-   * @method
-   * @instance
-   *
-   * @param {iteratorCallback} callback - The callback function is called for each cell.<br><code>function(cell, position, gridlInstance) { return ... }</code>
-   * @returns {gridl} The same gridl instance.
-   */
-  function forEach(callback) {
-    data.forEach(function (v, i) {
-      return callback(v, (0, _utils.index2pos)(i, columns), context);
-    });
-    return context;
-  }
+        data.forEach(function (v, i) {
+            return callback(v, (0, _utils.index2pos)(i, columns), instance);
+        });
+        return instance;
+    }
 
-  /**
-   * Applies a function against an accumulator and each element in the grid to reduce it to a single value.
-   *
-   * @memberOf gridl
-   * @method
-   * @instance
-   *
-   * @param {reducerCallback} callback - The callback function that is executed on each cell.<br><code>function(accumulator, cell, position, gridlInstance) { return ... }</code>
-   * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
-   * @returns {*} The value that results from the reduction.
-   */
-  function reduce(callback, initialValue) {
-    var reducer = function reducer(acc, v, i) {
-      return callback(acc, v, (0, _utils.index2pos)(i, columns), context);
+    /**
+     * Applies a function against an accumulator and each element in the grid to reduce it to a single value.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {reducerCallback} callback - The callback function that is executed on each cell.<br><code>function(accumulator, cell, position, gridlInstance) { return ... }</code>
+     * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
+     * @returns {*} The value that results from the reduction.
+     */
+    function reduce(callback, initialValue) {
+        var data = state.data,
+            columns = state.columns;
+
+        var reducer = function reducer(acc, v, i) {
+            return callback(acc, v, (0, _utils.index2pos)(i, columns), instance);
+        };
+        return arguments.length === 1 ? data.reduce(reducer) : data.reduce(reducer, initialValue);
+    }
+
+    /**
+     * Fill every cells with a value. You can either provide a value or a callback function to set the value for each cell.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {(iteratorCallback|*)} callbackOrValue - Either a fixed value for each cell or a callback function to fill each cell separately.
+     * @returns {gridl} The same gridl instance.
+     */
+    function fill(callbackOrValue) {
+        var data = state.data,
+            columns = state.columns;
+
+        if (typeof callbackOrValue === 'function') {
+            data.forEach(function (v, i) {
+                return data[i] = callbackOrValue(v, (0, _utils.index2pos)(i, columns), instance);
+            });
+        } else {
+            data.forEach(function (v, i) {
+                return data[i] = callbackOrValue;
+            });
+        }
+        return instance;
+    }
+
+    return {
+        methods: {
+            map: map,
+            forEach: forEach,
+            reduce: reduce,
+            fill: fill
+        }
     };
-    return arguments.length === 1 ? data.reduce(reducer) : data.reduce(reducer, initialValue);
-  }
-
-  return {
-    map: map,
-    forEach: forEach,
-    reduce: reduce
-  };
 };
 
 var _index = __webpack_require__(1);
@@ -1497,12 +1525,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns,
-        rows = _stateProvider$getSta.rows,
-        position = _stateProvider$getSta.position;
+exports.default = function (context, state) {
 
     /**
      * Move the current cell to an absolute position.
@@ -1515,12 +1538,13 @@ exports.default = function (context, stateProvider) {
      * @param {Array} to - The position where the cell should be moved.
      * @returns {gridl}
      */
-
-
     function moveAbs(to) {
-        stateProvider.setState({
-            data: _moveCell(data, columns, rows, position, to)
-        });
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows,
+            position = state.position;
+
+        state.data = _moveCell(data, columns, rows, position, to);
         return context;
     }
 
@@ -1536,9 +1560,11 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} - The current gridl instance.
      */
     function moveCell(from, to) {
-        stateProvider.setState({
-            data: _moveCell(data, columns, rows, from, to)
-        });
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
+        state.data = _moveCell(data, columns, rows, from, to);
         return context;
     }
 
@@ -1554,17 +1580,18 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl}
      */
     function moveColumn(xFrom, xTo) {
+        var data = state.data,
+            columns = state.columns;
+
         if (xFrom < 0 || xFrom >= columns) {
             throw new Error('Trying to move column from an invalid position. Given: ' + xFrom);
         }
         if (xTo < 0 || xTo >= columns) {
             throw new Error('Trying to move column to an invalid position. Given: ' + xTo);
         }
-        stateProvider.setState({
-            data: (0, _utils.flatten)((0, _utils.unflatten)(data, columns).map(function (row) {
-                return _move(row, xFrom, xTo);
-            }))
-        });
+        state.data = (0, _utils.flatten)((0, _utils.unflatten)(data, columns).map(function (row) {
+            return _move(row, xFrom, xTo);
+        }));
         return context;
     }
 
@@ -1580,9 +1607,12 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The current gridl instance.
      */
     function moveRel(direction) {
-        stateProvider.setState({
-            data: _moveCell(data, columns, rows, position, (0, _utils.addPositions)(position, direction))
-        });
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows,
+            position = state.position;
+
+        state.data = _moveCell(data, columns, rows, position, (0, _utils.addPositions)(position, direction));
         return context;
     }
 
@@ -1598,24 +1628,28 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The current gridl instance.
      */
     function moveRow(yFrom, yTo) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         if (yFrom < 0 || yFrom >= rows) {
             throw new Error('Trying to move row from an invalid position. Given: ' + yFrom);
         }
         if (yTo < 0 || yTo >= rows) {
             throw new Error('Trying to move row to an invalid position. Given: ' + yTo);
         }
-        stateProvider.setState({
-            data: (0, _utils.flatten)(_move((0, _utils.unflatten)(data, columns), yFrom, yTo))
-        });
+        state.data = (0, _utils.flatten)(_move((0, _utils.unflatten)(data, columns), yFrom, yTo));
         return context;
     }
 
     return {
-        moveAbs: moveAbs,
-        moveCell: moveCell,
-        moveColumn: moveColumn,
-        moveRel: moveRel,
-        moveRow: moveRow
+        methods: {
+            moveAbs: moveAbs,
+            moveCell: moveCell,
+            moveColumn: moveColumn,
+            moveRel: moveRel,
+            moveRow: moveRow
+        }
     };
 };
 
@@ -1654,9 +1688,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-
-    var state = stateProvider.getState();
+exports.default = function (context, state) {
 
     /**
      * Get the current position.
@@ -1664,7 +1696,9 @@ exports.default = function (context, stateProvider) {
      * @returns {Array} The current position array [column, row].
      */
     function position() {
-        return [state.position[0], state.position[1]];
+        var position = state.position;
+
+        return [position[0], position[1]];
     }
 
     /**
@@ -1682,9 +1716,7 @@ exports.default = function (context, stateProvider) {
         if (!(0, _utils.isValidPositionFormat)(position)) {
             throw new Error('Trying to go to an invalid position. Given: ' + position);
         }
-        stateProvider.setState({
-            position: [position[0], position[1]]
-        });
+        state.position = [position[0], position[1]];
         return context;
     }
 
@@ -1699,18 +1731,21 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function walk(direction) {
+        var position = state.position;
+
         if (!(0, _utils.isValidPositionFormat)(direction)) {
             throw new Error('Trying to walk into an invalid direction. Given: ' + direction);
         }
-        var targetPos = (0, _utils.addPositions)(state.position, direction);
-        stateProvider.setState({ position: targetPos });
+        state.position = (0, _utils.addPositions)(position, direction);
         return context;
     }
 
     return {
-        goto: goto,
-        position: position,
-        walk: walk
+        methods: {
+            goto: goto,
+            position: position,
+            walk: walk
+        }
     };
 };
 
@@ -1735,10 +1770,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns;
+exports.default = function (context, state) {
 
     /**
      * Rotate the array in a 90 degree steps. A positive step turns it clockwise, a negative step turns it counterclockwise.
@@ -1750,19 +1782,18 @@ exports.default = function (context, stateProvider) {
      * @param {number} steps - The number of 90 degree turns as integer number.
      * @returns {gridl} The same gridl instance.
      */
-
-
     function rotate(steps) {
+        var data = state.data,
+            columns = state.columns;
+
         var grid = _rotate((0, _utils.unflatten)(data, columns), columns, steps);
-        stateProvider.setState({
-            data: (0, _utils.flatten)(grid),
-            rows: grid.length,
-            columns: grid[0].length
-        });
+        state.data = (0, _utils.flatten)(grid);
+        state.rows = grid.length;
+        state.columns = grid[0].length;
         return context;
     }
 
-    return { rotate: rotate };
+    return { methods: { rotate: rotate } };
 };
 
 var _utils = __webpack_require__(0);
@@ -1803,11 +1834,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        rows = _stateProvider$getSta.rows,
-        columns = _stateProvider$getSta.columns;
+exports.default = function (context, state) {
 
     /**
      * Get the number of rows.
@@ -1817,10 +1844,8 @@ exports.default = function (context, stateProvider) {
      * @instance
      * @returns {number}
      */
-
-
     function numRows() {
-        return rows;
+        return state.rows;
     }
 
     /**
@@ -1834,6 +1859,9 @@ exports.default = function (context, stateProvider) {
      * @returns {Array.<*>}
      */
     function row(y) {
+        var data = state.data,
+            columns = state.columns;
+
         return getRow((0, _utils.unflatten)(data, columns), y);
     }
 
@@ -1849,6 +1877,10 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function addRow(row, y) {
+        var data = state.data,
+            rows = state.rows,
+            columns = state.columns;
+
         if (y < 0 || y > rows) {
             throw new Error('Trying to add row at an invalid position. Given: ' + y);
         }
@@ -1857,11 +1889,8 @@ exports.default = function (context, stateProvider) {
         }
         var grid = (0, _utils.unflatten)(data, columns);
         grid.splice(y, 0, row);
-
-        stateProvider.setState({
-            data: (0, _utils.flatten)(grid),
-            rows: grid.length
-        });
+        state.data = (0, _utils.flatten)(grid);
+        state.rows = grid.length;
         return context;
     }
 
@@ -1876,6 +1905,10 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function removeRow(y) {
+        var data = state.data,
+            rows = state.rows,
+            columns = state.columns;
+
         if (y < 0 || y >= rows) {
             throw new Error('Trying to remove a row at an invalid position. Given: ' + y);
         }
@@ -1884,18 +1917,18 @@ exports.default = function (context, stateProvider) {
         }
         var grid = (0, _utils.unflatten)(data, columns);
         grid.splice(y, 1);
-        stateProvider.setState({
-            data: (0, _utils.flatten)(grid),
-            rows: grid.length
-        });
+        state.data = (0, _utils.flatten)(grid);
+        state.rows = grid.length;
         return context;
     }
 
     return {
-        addRow: addRow,
-        numRows: numRows,
-        removeRow: removeRow,
-        row: row
+        methods: {
+            addRow: addRow,
+            numRows: numRows,
+            removeRow: removeRow,
+            row: row
+        }
     };
 };
 
@@ -1924,12 +1957,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-
-    var state = stateProvider.getState();
-    var columns = state.columns,
-        rows = state.rows,
-        position = state.position;
+exports.default = function (context, state) {
 
     /**
      * Get the current size of the grid.
@@ -1940,22 +1968,30 @@ exports.default = function (context, stateProvider) {
      *
      * @returns {number[]}
      */
-
     function size() {
+        var columns = state.columns,
+            rows = state.rows;
+
         return [columns, rows];
     }
 
     /**
-     * Exports a copy of the internal data as two-dimensional array.
+     * Exports a copy of the internal data as two-dimensional array or imports a new data into the array. If you use it to import new grid data, make sure the new data has the same size.
      *
      * @memberOf gridl
      * @method
      * @instance
      *
-     * @returns {Array.<Array.<*>>} The data as two-dimensional array.
+     * @param {Array.<Array.<*>>} [newData] The new data you want to import as a two-dimensional grid array.
+     * @returns {Array.<Array.<*>>} The data as two-dimensional array or the same gridl instance if you use it as a setter.
      */
-    function data() {
-        return (0, _utils.unflatten)(state.data, columns);
+    function data(newData) {
+        if (arguments.length) {
+            (0, _utils.validateGridArray)(newData);
+            state.data = (0, _utils.flatten)(newData);
+            return context;
+        }
+        return (0, _utils.unflatten)(state.data, state.columns);
     }
 
     /**
@@ -1981,14 +2017,20 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} A new gridl instance.
      */
     function clone() {
-        return (0, _index2.default)((0, _utils.unflatten)(state.data, columns)).goto(position);
+        var data = state.data,
+            columns = state.columns,
+            position = state.position;
+
+        return (0, _index2.default)((0, _utils.unflatten)(data, columns)).goto(position);
     }
 
     return {
-        size: size,
-        data: data,
-        list: list,
-        clone: clone
+        methods: {
+            size: size,
+            data: data,
+            list: list,
+            clone: clone
+        }
     };
 };
 
@@ -2015,12 +2057,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns,
-        rows = _stateProvider$getSta.rows,
-        position = _stateProvider$getSta.position;
+exports.default = function (context, state) {
 
     /**
      * Swaps the values of the cell at the current position and another cell.<br>
@@ -2033,9 +2070,12 @@ exports.default = function (context, stateProvider) {
      * @param {Array.<number>} otherPosition - The position of the first cell.
      * @returns {gridl} The same gridl instance.
      */
-
-
     function swapCell(otherPosition) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows,
+            position = state.position;
+
         _swapCells(data, columns, rows, position, otherPosition);
         return context;
     }
@@ -2052,6 +2092,10 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapCells(position1, position2) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         _swapCells(data, columns, rows, position1, position2);
         return context;
     }
@@ -2068,6 +2112,9 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapColumns(x1, x2) {
+        var data = state.data,
+            columns = state.columns;
+
         if (x1 < 0 || x1 >= columns) {
             throw new Error('Trying to swap columns from an invalid position. Given: ' + x1);
         }
@@ -2078,9 +2125,7 @@ exports.default = function (context, stateProvider) {
             _swap(row, x1, x2);
             return row;
         });
-        stateProvider.setState({
-            data: (0, _utils.flatten)(grid)
-        });
+        state.data = (0, _utils.flatten)(grid);
         return context;
     }
 
@@ -2096,23 +2141,27 @@ exports.default = function (context, stateProvider) {
      * @returns {gridl} The same gridl instance.
      */
     function swapRows(y1, y2) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         if (y1 < 0 || y1 >= rows) {
             throw new Error('Trying to swap rows from an invalid position. Given: ' + y1);
         }
         if (y2 < 0 || y2 >= rows) {
             throw new Error('Trying to swap rows to an invalid position. Given: ' + y2);
         }
-        stateProvider.setState({
-            data: (0, _utils.flatten)(_swap((0, _utils.unflatten)(data, columns), y1, y2))
-        });
+        state.data = (0, _utils.flatten)(_swap((0, _utils.unflatten)(data, columns), y1, y2));
         return context;
     }
 
     return {
-        swapCell: swapCell,
-        swapCells: swapCells,
-        swapColumns: swapColumns,
-        swapRows: swapRows
+        methods: {
+            swapCell: swapCell,
+            swapCells: swapCells,
+            swapColumns: swapColumns,
+            swapRows: swapRows
+        }
     };
 };
 
@@ -2148,12 +2197,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, stateProvider) {
-    var _stateProvider$getSta = stateProvider.getState(),
-        data = _stateProvider$getSta.data,
-        columns = _stateProvider$getSta.columns,
-        rows = _stateProvider$getSta.rows,
-        position = _stateProvider$getSta.position;
+exports.default = function (context, state) {
 
     /**
      * Get or set the value at the current position.<br>
@@ -2163,12 +2207,15 @@ exports.default = function (context, stateProvider) {
      * @method
      * @instance
      *
-     * @param {*} value - The value you want to set or <code>undefined</code> if you want to get the value.
+     * @param {*} [value] - The value you want to set or <code>undefined</code> if you want to get the value.
      * @returns {*} The cell's value or the gridl instance if you use it as a setter.
      */
-
-
     function value(value) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows,
+            position = state.position;
+
         if (arguments.length < 1) {
             return (0, _utils.getValueAt)(data, columns, position);
         }
@@ -2185,10 +2232,14 @@ exports.default = function (context, stateProvider) {
      * @instance
      *
      * @param {Array.<number>} pos - The position where you want to set or get the value.
-     * @param {*} value - The value you want to set or <code>undefined</code> if you want to get the value.
+     * @param {*} [value] - The value you want to set or <code>undefined</code> if you want to get the value.
      * @returns {*} The cell's value or the the same gridl instance if you use it as a setter.
      */
     function valueAt(pos, value) {
+        var data = state.data,
+            columns = state.columns,
+            rows = state.rows;
+
         if (arguments.length < 2) {
             return (0, _utils.getValueAt)(data, columns, pos);
         }
@@ -2196,7 +2247,7 @@ exports.default = function (context, stateProvider) {
         return context;
     }
 
-    return { value: value, valueAt: valueAt };
+    return { methods: { value: value, valueAt: valueAt } };
 };
 
 var _utils = __webpack_require__(0);

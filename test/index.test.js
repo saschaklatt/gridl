@@ -32,6 +32,7 @@ const checkApi = api => {
         'setArea',
         'getAreaAt',
         'getArea',
+        'fill',
         'find',
         'findInArea',
         'data',
@@ -3598,6 +3599,66 @@ describe('gridlFactory', () => {
                 [10,11,12,13],
             ];
             expect(() => gridl(data).forEach()).to.throw();
+        });
+
+    });
+
+    describe('fill', () => {
+
+        const mockData = () => [
+            [ 1, 2, 3, 4],
+            [ 5, 6, 7, 8],
+            [10,11,12,13],
+        ];
+
+        it('should fill all cells with the same value', () => {
+            const res = gridl(mockData()).fill('x').data();
+            expect(res).to.deep.equal([
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+            ]);
+        });
+
+        it('should fill all values with the same value, using a callback function', () => {
+            const res = gridl(mockData()).fill(() => 'x').data();
+            expect(res).to.deep.equal([
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+            ]);
+        });
+
+        it('should fill all values with different values', () => {
+            const data = mockData();
+            const g = gridl(data);
+            g.fill((value, pos, src) => {
+                const [column, row] = pos;
+                expect(value).to.equal(data[row][column]);
+                expect(src).to.deep.equal(g);
+                return column < 2 ? 'x' : 'y';
+            });
+            expect(g.data()).to.deep.equal([
+                ['x','x','y','y'],
+                ['x','x','y','y'],
+                ['x','x','y','y'],
+            ]);
+        });
+
+        it('should fill all cells with undefined if no value is provided', () => {
+            const res = gridl(mockData()).fill().data();
+            expect(res).to.deep.equal([
+                [undefined,undefined,undefined,undefined],
+                [undefined,undefined,undefined,undefined],
+                [undefined,undefined,undefined,undefined],
+            ]);
+        });
+
+        it('should return the gridl instance', () => {
+            const g = gridl(mockData());
+            const res = g.fill(v => v);
+            expect(res).to.deep.equal(g);
+            checkApi(res);
         });
 
     });
