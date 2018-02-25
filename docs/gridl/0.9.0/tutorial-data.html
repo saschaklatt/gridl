@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Tutorial: data</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,88 +17,47 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Tutorial: data</h1>
 
-    
-
-
-
-    
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import utils from './utils';
-import generators from './generators';
-import plugins from './plugins';
-import directions from './directions';
-import adjacences from './adjacences';
 
-const { flatten, validateGridArray } = utils;
+<header>
+    
 
-function registerPlugins(plugins, state) {
-    Object.entries(plugins).forEach(([key, pluginFactory]) => {
-        const plugin = pluginFactory(this, state);
-        const type = typeof plugin;
+    <h2>data</h2>
+</header>
 
-        // plugin is just a function
-        if (type === 'function') {
-            this[key] = plugin;
-        }
+<article>
+    <h2>Accessing data</h2><p>Exporting the data as a two-dimensional array:</p>
+<pre class="prettyprint source lang-javascript"><code>const data = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+];
+const result = gridl(data)
+    .valueAt([1, 2], 10)    // change the value at x=1, y=2 from 8 to 10
+    .data();                // export the data as two-dimensional array
 
-        // plugin returns multiple functions with a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods &amp;&amp; plugin.namespace) {
-            this[key] = plugin.methods;
-        }
+// result looks like this:
+// [
+    // [1, 2, 3],
+    // [4, 5, 6],
+    // [7, 10, 9],
+// ]</code></pre><p>Exporting the data as a one-dimensional array:</p>
+<pre class="prettyprint source lang-javascript"><code>const data = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+];
+const result = gridl(data)
+    .valueAt([1, 2], 10)    // change the value at x=1, y=2 from 8 to 10
+    .list();                // export the data as one-dimensional array
 
-        // plugin returns multiple functions without a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods) {
-            Object.entries(plugin.methods).forEach(([k, func]) => {
-                this[k] = func;
-            });
-        }
-    });
-}
+// result looks like this:
+// [1, 2, 3, 4, 5, 6, 7, 10, 9]</code></pre>
+</article>
 
-/**
- * @class
- * @private
- */
-function gridl(plugins, data) {
-
-    // validate incoming data
-    validateGridArray(data);
-
-    // create initial state
-    const initialState = {
-        rows: data.length,
-        columns: data[0].length,
-        data: flatten(data),
-        position: [0,0],
-    };
-
-    // register plugins with initial state
-    registerPlugins.call(this, plugins, initialState);
-
-    return this;
-}
-
-/**
- * Creates a new gridl instance.
- *
- * @constructs gridl
- * @param {Array.&lt;Array.&lt;*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
- */
-const gridlFactory = data => new gridl(plugins, data);
-gridlFactory.fn = plugins;
-
-export { utils, generators, adjacences, directions };
-
-export default gridlFactory;
-</code></pre>
-        </article>
-    </section>
-
-
-
+</section>
 
 </div>
 

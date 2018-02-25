@@ -53,53 +53,53 @@ const mirroredGrid = gridl(data)
 
 ## Features
 
-* [Generate grids](docs/example-generating.md)
+* [Generate grids](docs/tutorials/generating.md)
     * specify the number of rows and columns
     * generate 2d grids with a generator callback function
-* [Accessing data](docs/example-data.md)
+* [Accessing data](docs/tutorials/data.md)
     * export data as two-dimensional grid array
     * export data as one-dimensional list array
-* [Navigating](docs/example-navigating.md)
+* [Navigating](docs/tutorials/navigating.md)
     * go to absolute positions
     * walk into directions
-* [Dimensions](docs/example-dimensions.md)
+* [Dimensions](docs/tutorials/dimensions.md)
     * get the number of columns and rows  
-* [Work with cells](docs/example-cells.md)
+* [Work with cells](docs/tutorials/cells.md)
     * get and set values at absolute or relative positions
     * move them around
     * swap them
-* [Columns and rows](docs/example-columns-and-rows.md)
+* [Columns and rows](docs/tutorials/columns-and-rows.md)
     * easily access columns and rows
     * remove or add new columns and rows at any position
     * move them around
     * swap them
-* [Work with areas](docs/example-areas.md)
+* [Work with areas](docs/tutorials/areas.md)
     * manipulate areas
     * use anchor points to define the center
     * check if an area would fit into a grid at a certain position
     * reduce areas
-* [Finding](docs/example-finding.md)
+* [Finding](docs/tutorials/finding.md)
     * find values in the grid 
     * find values within certain areas on the grid
-* [Adjacent cells](docs/example-adjacent-cells.md)
+* [Adjacent cells](docs/tutorials/adjacent-cells.md)
     * find the adjacent cells of a certain cell
     * get orthogonal, diagonal or all cells
-* [Clipping](docs/example-clipping.md)
+* [Clipping](docs/tutorials/clipping.md)
     * define an area and remove everything around
-* [Swapping](docs/example-swapping.md)
+* [Swapping](docs/tutorials/swapping.md)
     * swap columns, rows or single cells
-* [Rotating](docs/example-rotating.md)
+* [Rotating](docs/tutorials/rotating.md)
     * rotate the entire grid clockwise or counterclockwise
-* [Mirroring](docs/example-mirroring.md)
+* [Mirroring](docs/tutorials/mirroring.md)
     * mirror the grid on the x- or y-axis
     * specify where the axis is located
-* [Iterating](docs/example-iterating.md)
+* [Iterating](docs/tutorials/iterating.md)
     * map()
     * reduce()
     * forEach()
-* [Cloning](docs/example-cloning.md)
+* [Cloning](docs/tutorials/cloning.md)
     * Make a clone of a gridl instance
-* [Draw a cow](docs/example-cow.md)
+* [Draw a cow](docs/tutorials/cow.md)
     * just because
 
 ## Use cases

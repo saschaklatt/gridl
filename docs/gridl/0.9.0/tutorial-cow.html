@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Tutorial: cow</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,88 +17,107 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Tutorial: cow</h1>
 
-    
-
-
-
-    
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import utils from './utils';
-import generators from './generators';
-import plugins from './plugins';
-import directions from './directions';
-import adjacences from './adjacences';
 
-const { flatten, validateGridArray } = utils;
+<header>
+    
 
-function registerPlugins(plugins, state) {
-    Object.entries(plugins).forEach(([key, pluginFactory]) => {
-        const plugin = pluginFactory(this, state);
-        const type = typeof plugin;
+    <h2>cow</h2>
+</header>
 
-        // plugin is just a function
-        if (type === 'function') {
-            this[key] = plugin;
-        }
+<article>
+    <h2>Draw a cow</h2><p>Let's do some serious business and draw a cow.</p>
+<pre class="prettyprint source lang-javascript"><code>const head = [
+    ['(','_','_',')'],
+    ['(','o','o',')'],
+    ['-','\\','/',' '],
+];
+const back = [
+    ['-','-','-','-','-','-','-'],
+];
+const belly = [
+    ['-','-','-','-'],
+];
+const tail = [
+    [' ', ' ', '/'],
+    [' ', '/', ' '],
+    ['*', ' ', ' '],
+];
+const hindLegs = [
+    ['|',' '],
+    ['|','|'],
+    ['^','^'],
+];
+const foreLegs = [
+    ['|','|'],
+    ['|','|'],
+    ['^','^'],
+];
 
-        // plugin returns multiple functions with a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods &amp;&amp; plugin.namespace) {
-            this[key] = plugin.methods;
-        }
+const cow = gridl
+    .make(13, 6, () => ' ') // generate 13x6 grid that is filled with whitespaces
+    .setAreaAt([9,0], head)
+    .setAreaAt([3,2], back)
+    .setAreaAt([5,4], belly)
+    .setAreaAt([0,2], tail)
+    .setAreaAt([3,3], hindLegs)
+    .setAreaAt([9,3], foreLegs)
+    .addColumn(gridl.makeList(6, () => '\n'), 13) // add line breaks at the very right
+;
 
-        // plugin returns multiple functions without a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods) {
-            Object.entries(plugin.methods).forEach(([k, func]) => {
-                this[k] = func;
-            });
-        }
-    });
+function drawTheCow(cow) {
+    return cow
+        .data() // export grid data array
+        .reduce((res, row) => res + row.join(''), '') // join grid to a single string
+    ;
 }
+console.log(drawTheCow(cow));
 
-/**
- * @class
- * @private
- */
-function gridl(plugins, data) {
+// cow looks like this:
+//
+//          (__)
+//          (oo)
+//   /-------\/
+//  / |     ||  
+// *  ||----||  
+//    ^^    ^^  
 
-    // validate incoming data
-    validateGridArray(data);
+// mirror the cow on the y-axis
+cow.mirrorY();
+console.log(drawTheCow(cow));
 
-    // create initial state
-    const initialState = {
-        rows: data.length,
-        columns: data[0].length,
-        data: flatten(data),
-        position: [0,0],
-    };
+// cow looks like this:
+//
+// )__(         
+// )oo(         
+//  /\-------/  
+//   ||     | / 
+//   ||----||  *
+//   ^^    ^^   
 
-    // register plugins with initial state
-    registerPlugins.call(this, plugins, initialState);
+// do some plastic surgery
+cow.valueAt([1,0], '(');
+cow.valueAt([4,0], ')');
+cow.valueAt([1,1], '(');
+cow.valueAt([4,1], ')');
+cow.swapCells([2,2], [3,2]);
+cow.valueAt([11,2], '\\');
+cow.valueAt([12,3], '\\');
+console.log(drawTheCow(cow));
 
-    return this;
-}
+// cow looks like this:
+//
+// (__)         
+// (oo)         
+//  \/-------\  
+//   ||     | \ 
+//   ||----||  *
+//   ^^    ^^</code></pre>
+</article>
 
-/**
- * Creates a new gridl instance.
- *
- * @constructs gridl
- * @param {Array.&lt;Array.&lt;*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
- */
-const gridlFactory = data => new gridl(plugins, data);
-gridlFactory.fn = plugins;
-
-export { utils, generators, adjacences, directions };
-
-export default gridlFactory;
-</code></pre>
-        </article>
-    </section>
-
-
-
+</section>
 
 </div>
 

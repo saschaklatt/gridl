@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Tutorial: generating</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,88 +17,48 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Tutorial: generating</h1>
 
-    
-
-
-
-    
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import utils from './utils';
-import generators from './generators';
-import plugins from './plugins';
-import directions from './directions';
-import adjacences from './adjacences';
 
-const { flatten, validateGridArray } = utils;
+<header>
+    
 
-function registerPlugins(plugins, state) {
-    Object.entries(plugins).forEach(([key, pluginFactory]) => {
-        const plugin = pluginFactory(this, state);
-        const type = typeof plugin;
+    <h2>generating</h2>
+</header>
 
-        // plugin is just a function
-        if (type === 'function') {
-            this[key] = plugin;
-        }
+<article>
+    <h2>Generating data</h2><p>Generating a grid data array (two-dimensional)</p>
+<pre class="prettyprint source lang-javascript"><code>const columns = 4;
+const rows = 3;
+const data = gridl.makeGrid(columns, rows, ({ column, row }) => `${column},${row}`);
 
-        // plugin returns multiple functions with a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods &amp;&amp; plugin.namespace) {
-            this[key] = plugin.methods;
-        }
+// data looks like this:
+// [
+//     ['0,0', '1,0', '2,0', '3,0'],
+//     ['0,1', '1,1', '2,1', '3,1'],
+//     ['0,2', '1,2', '2,2', '3,2'],
+// ]</code></pre><p>Generating a list data array (one-dimensional)</p>
+<pre class="prettyprint source lang-javascript"><code>const length = 4;
+gridl.makeList(length, (index) => `${index}`); // ['0', '1', '2', '3']</code></pre><p>Generating a gridl instance and perform operations on it</p>
+<pre class="prettyprint source lang-javascript"><code>
+// create a gridl instance
+const columns = 4;
+const rows = 3;
+const grid = gridl.make(columns, rows, ({ column, row }) => `${column},${row}`);
 
-        // plugin returns multiple functions without a namespace
-        else if (type === 'object' &amp;&amp; plugin.methods) {
-            Object.entries(plugin.methods).forEach(([k, func]) => {
-                this[k] = func;
-            });
-        }
-    });
-}
+// perform gridl operations
+const data = grid.valueAt([2,1], 'bam').data();
 
-/**
- * @class
- * @private
- */
-function gridl(plugins, data) {
+// data looks like this:
+// [
+//     ['0,0', '1,0', '2,0', '3,0'],
+//     ['0,1', '1,1', 'bam', '3,1'],
+//     ['0,2', '1,2', '2,2', '3,2'],
+// ]</code></pre>
+</article>
 
-    // validate incoming data
-    validateGridArray(data);
-
-    // create initial state
-    const initialState = {
-        rows: data.length,
-        columns: data[0].length,
-        data: flatten(data),
-        position: [0,0],
-    };
-
-    // register plugins with initial state
-    registerPlugins.call(this, plugins, initialState);
-
-    return this;
-}
-
-/**
- * Creates a new gridl instance.
- *
- * @constructs gridl
- * @param {Array.&lt;Array.&lt;*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
- */
-const gridlFactory = data => new gridl(plugins, data);
-gridlFactory.fn = plugins;
-
-export { utils, generators, adjacences, directions };
-
-export default gridlFactory;
-</code></pre>
-        </article>
-    </section>
-
-
-
+</section>
 
 </div>
 
