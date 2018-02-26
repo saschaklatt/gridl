@@ -36,6 +36,7 @@
 
 * setup Travis CI
 * setup website (or GitHub pages) to show only generated JSDoc
+* setup Google Analytics to analyze which functions are looked up the most
 * check if it would make more sense to store the data as a two-dimensional array internally 
     * less conversion necessary
     * derive number of rows and columns from data structure instead of storing it in the state
@@ -72,8 +73,6 @@
 * shifting
     * shift rows, columns and areas 
     * shift left, right, up, down
-* plugin architecture
-    * inline plugin `gridl(data).internal((context, stateProvider) => { ...do internal stuff like a plugin })`
 * concatenation
     * `concat.horizontal(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
     * `concat.vertical(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 3x6 grid)
