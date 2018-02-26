@@ -34,11 +34,11 @@ const data = [
     [ 6, 7, 8, 9,10],
     [11,12,13,14,15],
 ];
-const mirroredGrid = gridl(data)
+const flippedGrid = gridl(data)
     .flipY()  // mirror the grid on the y-axis
     .data(); // export the data array
 
-// mirroredGrid looks like this:
+// flippedGrid looks like this:
 // [
 //     [ 5, 4, 3, 2, 1],
 //     [10, 9, 8, 7, 6],
@@ -48,7 +48,7 @@ const mirroredGrid = gridl(data)
 
 ## Documentation
 
-* For detailed information have a look at our [documentation](https://klattiation.github.io/gridl/gridl/latest/index.html)
+* You can find the API reference and tutorials in our documentation: [latest](https://klattiation.github.io/gridl/gridl/latest/index.html)
 * See the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for updates in each version
 
 ## Features

@@ -1,10 +1,10 @@
-[GitHub](https://github.com/klattiation/gridl) | [Wiki](https://github.com/klattiation/gridl/wiki) | [npm](https://www.npmjs.com/package/gridl)
+[GitHub](https://github.com/klattiation/gridl) | [Wiki](https://github.com/klattiation/gridl/wiki) | [Docs](https://klattiation.github.io/gridl/gridl/latest/index.html) | [npm](https://www.npmjs.com/package/gridl)
 
 Fast, lightweight, extendable and easy to use library to handle 2d grid data.
 
 ## Documentation
 
-* For detailed information have a look at our [documentation](https://klattiation.github.io/gridl/gridl/latest/index.html)
+* You can find the API reference and tutorials in our documentation: [latest](https://klattiation.github.io/gridl/gridl/latest/index.html)
 * See the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for updates in each version
 
 ## Installation
