@@ -6,7 +6,6 @@
 
 ## Known issues
  
-* split tests into separate files
 * publishing process should be improved
     * make sure distribution files are generated before publishing
     * consider testing against dist/ files
@@ -34,12 +33,18 @@
 
 ### v0.9
 
-* setup Travis CI
-* setup website (or GitHub pages) to show only generated JSDoc
-* setup Google Analytics to analyze which functions are looked up the most
-* check if it would make more sense to store the data as a two-dimensional array internally 
-    * less conversion necessary
-    * derive number of rows and columns from data structure instead of storing it in the state
+* website
+    * use gh_pages branch to deploy static content (https://gist.github.com/chrisjacob/825950/133aae5c3fd6e49cb145c7a59c6fb098db4013c4)
+    * come up with a custom theme
+    * style JSDoc output according to theme
+    * integrate code coverage
+    * setup Google Analytics to analyze which functions are looked up the most
+* optimizations
+    * check if it would make more sense to store the data as a two-dimensional array internally 
+        * less conversion necessary
+        * derive number of rows and columns from data structure instead of storing it in the state
+* tests
+    * split tests into separate files (e.g. plugin-wise)
 
 ### v0.10
 
@@ -52,10 +57,7 @@
     * `areaForEach()`
     * rename `reduceArea()` to `areaReduce()`
 * jsdoc
-    * evaluate tutorial functionality of jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
-    * integrate code coverage
-    * remove from version control -> host it on website instead
 * eternal mode
     * positions outside the grid will be mapped to position within the grid
     * e.g. position `[5,0]` will be mapped to `[0,0]` on a grid with 4 columns (starts from the left)
