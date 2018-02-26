@@ -437,7 +437,7 @@ function gridl(plugins, data) {
  * Creates a new gridl instance.
  *
  * @constructs gridl
- * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same length.
+ * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
  */
 var gridlFactory = function gridlFactory(data) {
     return new gridl(_plugins2.default, data);
