@@ -1,7 +1,9 @@
 Let's do some serious business and draw a cow.
 
 ```javascript
-import gridl, { makeGridl, makeDataList } from 'gridl';
+import { generators } from 'gridl';
+
+const { makeGridl, makeDataList } = generators;
 
 const head = [
     ['(','_','_',')'],
