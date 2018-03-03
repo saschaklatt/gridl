@@ -13,9 +13,9 @@
 * generators
     * moved generators into their own namespace `generators`
     * renamed generators
-        * `gridl.make()` to `import { makeGridl } from gridl; makeGridl();`
-        * `gridl.makeGrid()` to `import { makeDataGrid } from gridl; makeDataGrid()`
-        * `gridl.makeList()` to `import { makeDataList } from gridl; makeDataList()`
+        * `gridl.make()` to `import { generators } from gridl; generators.makeGridl();`
+        * `gridl.makeGrid()` to `import { generators } from gridl; generators.makeDataGrid()`
+        * `gridl.makeList()` to `import { generators } from gridl; generators.makeDataList()`
 * constants
     * moved constants into their own namespaces: `adjacences` and `directions`
     * `gridl.adjacences` is not supported anymore - use `import { adjacences } from 'gridl'` instead
