@@ -2,7 +2,7 @@
 
 ## Known bugs
 
-* none
+* BUG: plugins can't be used across multiple files
 
 ## Known issues
  
@@ -31,22 +31,14 @@
 
 ## Planned features
 
-### v0.9
-
-* website
-    * use gh_pages branch to deploy static content (https://gist.github.com/chrisjacob/825950/133aae5c3fd6e49cb145c7a59c6fb098db4013c4)
-    * come up with a custom theme
-    * style JSDoc output according to theme
-    * integrate code coverage
-    * setup Google Analytics to analyze which functions are looked up the most
-* optimizations
-    * check if it would make more sense to store the data as a two-dimensional array internally 
-        * less conversion necessary
-        * derive number of rows and columns from data structure instead of storing it in the state
-* tests
-    * split tests into separate files (e.g. plugin-wise)
-
 ### v0.10
+
+* New data format for areas
+* Check if position is within a certain area `gridl(data).isInArea(areaPos, areaSize, anchor, pos)`
+* Check if two areas intersect `gridl.intersectAreas(area1, area2)`
+* remove navigation api (adds unnecessary complexity, makes library less intuitive, no real use case, maybe add an optional navigation layer plugin later on)
+
+### v0.11
 
 * implement [area api](area-api.md) (subset of gridl api for inner areas)
 
@@ -78,3 +70,18 @@
 * concatenation
     * `concat.horizontal(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 6x3 grid)
     * `concat.vertical(otherGrid)`: concatenate grids (e.g. two 3x3 grids become one 3x6 grid)
+
+## Other TODOs
+
+* website
+    * use gh_pages branch to deploy static content (https://gist.github.com/chrisjacob/825950/133aae5c3fd6e49cb145c7a59c6fb098db4013c4)
+    * come up with a custom theme
+    * style JSDoc output according to theme
+    * integrate code coverage
+    * setup Google Analytics to analyze which functions are looked up the most
+* optimizations
+    * check if it would make more sense to store the data as a two-dimensional array internally 
+        * less conversion necessary
+        * derive number of rows and columns from data structure instead of storing it in the state
+* tests
+    * split tests into separate files (e.g. plugin-wise)

@@ -7,6 +7,7 @@ import {
     addPositions,
     isValidPositionFormat, getValueAt,
 } from '../utils';
+import {expect} from 'chai';
 
 const _getAreaAt = (data, columns, rows, position, size, anchor = [0,0]) => {
     const posTmp = subtractPositions(position, anchor);
@@ -208,6 +209,22 @@ export default function(context, state) {
     }
 
     /**
+     * Checks if a position is inside a given area.
+     *
+     * @param {Array.<Array.<number>>} area - The area to search in.
+     * @param {Array.<number>} position - The position to check for.
+     * @returns {boolean} - Whether or not the position is inside the area.
+     */
+    const positionInArea = (area, position) => {
+        const areaStart = [area[0], area[1]];
+        const areaSize = [area[2], area[3]];
+        const areaEnd = [area[0] + areaSize[0], area[1] + areaSize[1]];
+        const fitsX = position[0] >= areaStart[0] && position[0] < areaEnd[0];
+        const fitsY = position[1] >= areaStart[1] && position[1] < areaEnd[1];
+        return fitsX && fitsY;
+    };
+
+    /**
      * Applies a function against an accumulator and each element in the area at a given position to reduce it to a single value.
      *
      * @memberOf gridl
@@ -251,6 +268,7 @@ export default function(context, state) {
             setArea,
             setAreaAt,
             findInArea,
+            positionInArea,
             reduceArea,
             reduceAreaAt,
         },

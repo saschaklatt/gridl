@@ -35,6 +35,7 @@ const checkApi = api => {
         'fill',
         'find',
         'findInArea',
+        'positionInArea',
         'data',
         'list',
         'rotate',
@@ -1376,6 +1377,32 @@ describe('gridlFactory', () => {
             const areaSize = [3,2];
             const result = gridl(data).findInArea(areaPos, areaSize, v => v === 9);
             expect(result).to.equal(undefined);
+        });
+
+    });
+
+    describe('positionInArea', () => {
+
+        const mockData = () => ([
+            [ 1, 2, 3, 4, 5],
+            [ 6, 7, 8, 9,10],
+            [11,12,13,14,15],
+        ]);
+
+        it('should return true for positions inside the area', () => {
+            const data = mockData();
+            const area = [1,1,2,2];
+            expect(gridl(data).positionInArea(area, [0,1])).to.equal(false);
+            expect(gridl(data).positionInArea(area, [1,3])).to.equal(false);
+            expect(gridl(data).positionInArea(area, [3,2])).to.equal(false);
+        });
+
+        it('should return false for positions outside the area', () => {
+            const data = mockData();
+            const area = [1,1,2,2];
+            expect(gridl(data).positionInArea(area, [0,1])).to.equal(false);
+            expect(gridl(data).positionInArea(area, [1,3])).to.equal(false);
+            expect(gridl(data).positionInArea(area, [3,2])).to.equal(false);
         });
 
     });
