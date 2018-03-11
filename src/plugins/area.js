@@ -74,130 +74,30 @@ const _reduceAreaAt = (api, data, columns, rows, position, size, callback, initi
     return hasInitialValue ? flattenedArea.reduce(reducer) : flattenedArea.reduce(reducer, initialValue);
 };
 
-export default function(context, state) {
+export default function(instance, state) {
 
-    /**
-     * Check if a given area would fit inside the grid at a given position.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number[]} position - The position where the area should be placed.
-     * @param {Array.<Array.<*>>} area - The area itself as a two-dimensional grid array
-     * @param {number[]} [anchor = [0, 0]] - The center of area.
-     * @returns {boolean} Whether the area fits or not.
-     */
-    function areaFitsAt(position, area, anchor) {
-        const { columns, rows } = state;
-        return _checkAreaFitsAt(columns, rows, position, area, anchor);
-    }
-
-    /**
-     * Exports the data grid array of a given array at the given position.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} position - The position of the area.
-     * @param {Array.<number>} size - The size fo the area as a two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
-     * @returns {Array.<Array.<*>>} The area.
-     */
-    function getAreaAt(position, size, anchor) {
-        const { data, columns, rows } = state;
-        return _getAreaAt(data, columns, rows, position, size, anchor);
-    }
-
-    /**
-     * Overwrite the values of a given area at a certain position.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} position - The position of the area.
-     * @param {Array.<number>} area - The area itself as two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
-     * @returns {gridl} The same gridl instance.
-     */
-    function setAreaAt(position, area, anchor) {
-        const { data, columns, rows } = state;
-        _setAreaAt(data, columns, rows, position, area, anchor);
-        return context;
-    }
-
-    /**
-     * Find the first occurrence of an element within a certain area.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array} position - The position of the area [x, y].
-     * @param {Array} size - The size of the area [columns, rows].
-     * @param {iteratorCallback} callback - The callback function that is called on each element within the defined area. Should return true if the element is found or false if not.
-     * @returns {(Array.<number>|undefined)} The position of the first element that is found or <code>undefined</code> if nothing was found.
-     */
-    function findInArea(position, size, callback) {
-        const { data, columns, rows } = state;
-        const area = _getAreaAt(data, columns, rows, position, size);
-        const flat = flatten(area);
-        const areaIndex = flat.findIndex((v, i) => callback(v, index2pos(i, columns), context));
-        if (areaIndex < 0) {
-            return;
-        }
-        const areaColumns = area[0].length;
-        const posInArea = index2pos(areaIndex, areaColumns);
-        return [
-            position[0] + posInArea[0],
-            position[1] + posInArea[1],
-        ];
-    }
-
-    /**
-     * Checks if a position is inside a given area.
-     *
-     * @param {Array.<Array.<number>>} area - The area to search in.
-     * @param {Array.<number>} position - The position to check for.
-     * @returns {boolean} - Whether or not the position is inside the area.
-     */
-    const positionInArea = (area, position) => {
-        const areaStart = [area[0], area[1]];
-        const areaSize = [area[2], area[3]];
-        const areaEnd = [area[0] + areaSize[0], area[1] + areaSize[1]];
-        const fitsX = position[0] >= areaStart[0] && position[0] < areaEnd[0];
-        const fitsY = position[1] >= areaStart[1] && position[1] < areaEnd[1];
-        return fitsX && fitsY;
+    const area = areaDescription => {
+        const [columns = 0, rows = 0, x = 0, y = 0, ax = 0, ay = 0] = areaDescription;
+        const api = {
+            numRows: () => rows,
+            numColumns: () => columns,
+            size: () => [columns, rows],
+            position: () => [x, y],
+            anchor: () => [ax, ay],
+            localToGlobal: (localPosition) => addPositions(api.position(), localPosition),
+            valueAt: (localPosition) => {
+                // TODO: validate localPosition to have a valid position format
+                const areaPosition = api.position();
+                const areaSize = api.size();
+                const areaAnchor = api.anchor();
+                const data = _getAreaAt(state.data, state.columns, state.rows, areaPosition, areaSize, areaAnchor);
+                return gridl(data).valueAt(localPosition);
+            },
+        };
+        return api;
     };
 
-    /**
-     * Applies a function against an accumulator and each element in the area at a given position to reduce it to a single value.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number[][]} position - The position of the area within the grid.
-     * @param {number[][]} size - The size of the area within the grid.
-     * @param {reducerCallback} callback - The callback function that is executed on each cell within the grid.
-     * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
-     * @returns {*} The value that results from the reduction.
-     */
-    function reduceAreaAt(position, size, callback, initialValue) {
-        const { data, columns, rows } = state;
-        return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
-    }
-
     return {
-        methods: {
-            areaFitsAt,
-            getAreaAt,
-            setAreaAt,
-            findInArea,
-            positionInArea,
-            reduceAreaAt,
-        },
+        methods: { area },
     };
 }

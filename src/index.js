@@ -1,6 +1,6 @@
 import utils from './utils';
 import generators from './generators';
-import plugins from './plugins';
+import corePlugins from './plugins';
 import directions from './directions';
 import adjacences from './adjacences';
 
@@ -8,7 +8,7 @@ const { flatten, validateGridArray } = utils;
 
 const usedPlugins = [];
 
-function registerPlugins(plugins, state) {
+function registerPlugins(state) {
     const register = ([key, pluginFactory]) => {
         const plugin = pluginFactory(this, state);
         const type = typeof plugin;
@@ -39,7 +39,7 @@ function registerPlugins(plugins, state) {
  * @class
  * @private
  */
-function gridl(plugins, data) {
+function gridl(data) {
 
     // validate incoming data
     validateGridArray(data);
@@ -52,7 +52,7 @@ function gridl(plugins, data) {
     };
 
     // register plugins with initial state
-    registerPlugins.call(this, plugins, initialState);
+    registerPlugins.call(this, initialState);
 
     return this;
 }
@@ -63,9 +63,20 @@ function gridl(plugins, data) {
  * @constructs gridl
  * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
  */
-const gridlFactory = data => new gridl(plugins, data);
-gridlFactory.use = (key, plugin) => usedPlugins.push([key, plugin]);
-Object.entries(plugins).forEach(([key, plugin]) => gridlFactory.use(key, plugin));
+const gridlFactory = data => new gridl(data);
+
+/**
+ * Register a plugin.
+ *
+ * @param {string} id - An unique ID to identify the plugin.
+ * @param {Object} plugin - The plugin itself.
+ */
+gridlFactory.use = (id, plugin) => {
+    usedPlugins.push([id, plugin]);
+};
+
+// register core plugins
+Object.entries(corePlugins).forEach(([key, plugin]) => gridlFactory.use(key, plugin));
 
 export { utils, generators, adjacences, directions };
 

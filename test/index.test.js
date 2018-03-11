@@ -259,7 +259,7 @@ describe('gridlFactory', () => {
             ]);
         });
 
-        it('should draw a cow', () => {
+        it.skip('should draw a cow', () => {
             const head = [
                 ['(','_','_',')'],
                 ['(','o','o',')'],
