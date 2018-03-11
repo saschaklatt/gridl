@@ -6,8 +6,10 @@ import adjacences from './adjacences';
 
 const { flatten, validateGridArray } = utils;
 
+const usedPlugins = [];
+
 function registerPlugins(plugins, state) {
-    Object.entries(plugins).forEach(([key, pluginFactory]) => {
+    const register = ([key, pluginFactory]) => {
         const plugin = pluginFactory(this, state);
         const type = typeof plugin;
 
@@ -27,7 +29,10 @@ function registerPlugins(plugins, state) {
                 this[k] = func;
             });
         }
-    });
+    };
+
+    // Object.entries(plugins).forEach(register);
+    usedPlugins.forEach(register);
 }
 
 /**
@@ -60,7 +65,8 @@ function gridl(plugins, data) {
  * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
  */
 const gridlFactory = data => new gridl(plugins, data);
-gridlFactory.fn = plugins;
+gridlFactory.use = (key, plugin) => usedPlugins.push([key, plugin]);
+Object.entries(plugins).forEach(([key, plugin]) => gridlFactory.use(key, plugin));
 
 export { utils, generators, adjacences, directions };
 
