@@ -4,6 +4,132 @@ import gridl from '../../src';
 
 describe('areas', () => {
 
+    describe('area', () => {
+
+        const mockData = () => [
+            [0,7,3,2,8,4,8],
+            [4,2,5,7,8,4,8],
+            [6,6,6,6,7,4,8],
+            [6,6,6,6,7,4,8],
+            [6,5,1,6,9,2,7],
+        ];
+
+        it('should an area function', () => {
+            expect(typeof gridl(mockData()).area).to.equal('function');
+        });
+
+        describe('numColumns', () => {
+
+            it('should return the default number of 0', () => {
+                const data = mockData();
+                const area = gridl(data).area([]);
+                expect(area.numColumns()).to.deep.equal(0);
+            });
+
+            it('should return the number of columns', () => {
+                const data = mockData();
+                const area = gridl(data).area([1,2,4,3]);
+                expect(area.numColumns()).to.deep.equal(1);
+            });
+
+        });
+
+        describe('numRows', () => {
+
+            it('should return the default number of 0', () => {
+                const data = mockData();
+                const area = gridl(data).area([1]);
+                expect(area.numRows()).to.deep.equal(0);
+            });
+
+            it('should return the number of rows', () => {
+                const data = mockData();
+                const area = gridl(data).area([1,2,4,3]);
+                expect(area.numRows()).to.deep.equal(2);
+            });
+
+        });
+
+        describe('size', () => {
+
+            it('should return the default number of 0', () => {
+                const data = mockData();
+                const area = gridl(data).area([]);
+                expect(area.size()).to.deep.equal([0, 0]);
+            });
+
+            it('should return the number of rows', () => {
+                const data = mockData();
+                const area = gridl(data).area([1,2,4,3]);
+                expect(area.size()).to.deep.equal([1, 2]);
+            });
+
+        });
+
+        describe('position', () => {
+
+            it('should return the default position of [0,0]', () => {
+                const data = mockData();
+                const area = gridl(data).area([1,2]);
+                expect(area.position()).to.deep.equal([0, 0]);
+            });
+
+            it('should return the position', () => {
+                const data = mockData();
+                const area = gridl(data).area([0,0,4,3]);
+                expect(area.position()).to.deep.equal([4, 3]);
+            });
+
+        });
+
+        describe('anchor', () => {
+
+            it('should return the default anchor of [0,0]', () => {
+                const data = mockData();
+                const area = gridl(data).area([1,2,4,3]);
+                expect(area.anchor()).to.deep.equal([0, 0]);
+            });
+
+            it('should return the anchor', () => {
+                const data = mockData();
+                const area = gridl(data).area([0,0,4,3,1,2]);
+                expect(area.anchor()).to.deep.equal([1, 2]);
+            });
+
+        });
+
+        describe('valueAt (as getter)', () => {
+
+            it('should get the value at a local position, with area positioned at [0,0]', () => {
+                const data = mockData();
+                const grid = gridl(data);
+                const result = grid.area([4,3]).valueAt([2,1]);
+                expect(result).to.equal(5);
+            });
+
+        });
+
+        describe('valueAt (as setter)', () => {
+
+            it('should get the value at a local position, with area positioned at [0,0]', () => {
+                const data = mockData();
+                const grid = gridl(data);
+                const localPos = [2,1];
+                grid.area([4,3]).valueAt(localPos, 666);
+
+                // TODO: finish it
+                // expect(grid.valueAt(localPos)).to.equal(666);
+            });
+
+        });
+
+
+    });
+
+});
+
+describe.skip('old stuff', () => {
+
     describe('findInArea', () => {
 
         it('should return the position of the first occurrence', () => {
@@ -12,9 +138,8 @@ describe('areas', () => {
                 [4,2,5,7,8],
                 [6,6,6,6,7],
             ];
-            const areaPos = [2,1];
-            const areaSize = [3,2];
-            const result = gridl(data).findInArea(areaPos, areaSize, v => v === 7);
+            const areaDesc = [3,2,2,1];
+            const result = gridl(data).findInArea(areaDesc, v => v === 7);
             expect(result).to.deep.equal([3,1]);
         });
 
@@ -24,9 +149,8 @@ describe('areas', () => {
                 [4,2,5,7,8],
                 [6,6,6,6,7],
             ];
-            const areaPos = [2,1];
-            const areaSize = [3,2];
-            const result = gridl(data).findInArea(areaPos, areaSize, v => v === 9);
+            const areaDesc = [3,2,2,1];
+            const result = gridl(data).findInArea(areaDesc, v => v === 9);
             expect(result).to.equal(undefined);
         });
 
@@ -42,168 +166,98 @@ describe('areas', () => {
 
         it('should return true for positions inside the area', () => {
             const data = mockData();
-            const area = [1,1,2,2];
-            expect(gridl(data).positionInArea(area, [0,1])).to.equal(false);
-            expect(gridl(data).positionInArea(area, [1,3])).to.equal(false);
-            expect(gridl(data).positionInArea(area, [3,2])).to.equal(false);
+            const areaDesc = [2,2,1,1];
+            expect(gridl(data).positionInArea(areaDesc, [0,1])).to.equal(false);
+            expect(gridl(data).positionInArea(areaDesc, [1,3])).to.equal(false);
+            expect(gridl(data).positionInArea(areaDesc, [3,2])).to.equal(false);
         });
 
         it('should return false for positions outside the area', () => {
             const data = mockData();
-            const area = [1,1,2,2];
-            expect(gridl(data).positionInArea(area, [0,1])).to.equal(false);
-            expect(gridl(data).positionInArea(area, [1,3])).to.equal(false);
-            expect(gridl(data).positionInArea(area, [3,2])).to.equal(false);
+            const areaDesc = [2,2,1,1];
+            expect(gridl(data).positionInArea(areaDesc, [0,1])).to.equal(false);
+            expect(gridl(data).positionInArea(areaDesc, [1,3])).to.equal(false);
+            expect(gridl(data).positionInArea(areaDesc, [3,2])).to.equal(false);
         });
 
     });
 
-    describe('areaFitsAt', () => {
+    describe('areaFits', () => {
+
+        const mockData = () => ([
+            [1,1,1,1,1,1],
+            [1,1,1,1,1,1],
+            [1,1,1,1,1,1],
+            [1,1,1,1,1,1],
+        ]);
 
         it('should fit with a given position', () => {
-            const data = [
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-            ];
-            const area = [
+            const data = mockData();
+            const areaData = [
                 [2,2,2],
                 [2,2,2],
             ];
             const areaPos = [3,2];
-            const result = gridl(data).areaFitsAt(areaPos, area);
+            const areaDesc = gridl.areaDescription(areaData, areaPos);
+            const result = gridl(data).areaFits(areaDesc);
             expect(result).to.equal(true);
         });
 
         it('should not fit at the right', () => {
-            const data = [
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-            ];
-            const area = [
-                [2,2,2],
-                [2,2,2],
-            ];
-            const areaPos = [4,0];
-            const result = gridl(data).areaFitsAt(areaPos, area);
+            const data = mockData();
+            const areaDesc = [3,2,4,0];
+            const result = gridl(data).areaFits(areaDesc);
             expect(result).to.equal(false);
         });
 
         it('should not fit at the bottom', () => {
-            const data = [
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-            ];
-            const area = [
-                [2,2,2],
-                [2,2,2],
-            ];
-            const areaPos = [1,3];
-            const result = gridl(data).areaFitsAt(areaPos, area);
+            const data = mockData();
+            const areaDesc = [3,2,1,3];
+            const result = gridl(data).areaFits(areaDesc);
             expect(result).to.equal(false);
         });
 
         it('should not fit at the right and the bottom', () => {
-            const data = [
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-            ];
-            const area = [
-                [2,2,2],
-                [2,2,2],
-            ];
-            const areaPos = [4,3];
-            const result = gridl(data).areaFitsAt(areaPos, area);
+            const data = mockData();
+            const areaDesc = [3,2,4,3];
+            const result = gridl(data).areaFits(areaDesc);
             expect(result).to.equal(false);
         });
 
         it('should fit with an anchor', () => {
-            const data = [
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-            ];
-            const area = [
-                [2,2,2],
-                [2,2,2],
-            ];
-            const areaPos = [3,2];
-            const anchor = [1, 0];
-            const result = gridl(data).areaFitsAt(areaPos, area, anchor);
+            const data = mockData();
+            const areaDesc = [3,2,3,2,1,0];
+            const result = gridl(data).areaFits(areaDesc);
             expect(result).to.equal(true);
         });
 
         it('should not fit with an anchor at the top', () => {
-            const data = [
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-            ];
-            const area = [
-                [2,2,2],
-                [2,2,2],
-            ];
-            expect(gridl(data).areaFitsAt([3,0], area, [0,0])).to.equal(true);
-            expect(gridl(data).areaFitsAt([3,0], area, [0,1])).to.equal(false);
+            const data = mockData();
+            expect(gridl(data).areaFits([3,2,3,0,0,0])).to.equal(true);
+            expect(gridl(data).areaFits([3,2,3,0,0,1])).to.equal(false);
         });
 
         it('should not fit with an anchor at the left', () => {
-            const data = [
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-            ];
-            const area = [
-                [2,2,2],
-                [2,2,2],
-            ];
-            expect(gridl(data).areaFitsAt([0,2], area, [0,0])).to.equal(true);
-            expect(gridl(data).areaFitsAt([0,2], area, [1,0])).to.equal(false);
+            const data = mockData();
+            expect(gridl(data).areaFits([3,2,0,2,0,0])).to.equal(true);
+            expect(gridl(data).areaFits([3,2,0,2,1,0])).to.equal(false);
         });
 
         it('should not fit with an anchor at the right', () => {
-            const data = [
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-            ];
-            const area = [
-                [2,2,2],
-                [2,2,2],
-            ];
-            expect(gridl(data).areaFitsAt([4,0], area, [1,0])).to.equal(true);
-            expect(gridl(data).areaFitsAt([4,0], area, [0,0])).to.equal(false);
+            const data = mockData();
+            expect(gridl(data).areaFits([3,2,4,0,1,0])).to.equal(true);
+            expect(gridl(data).areaFits([3,2,4,0,0,0])).to.equal(false);
         });
 
         it('should not fit with an anchor at the bottom', () => {
-            const data = [
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-                [1,1,1,1,1,1],
-            ];
-            const area = [
-                [2,2,2],
-                [2,2,2],
-            ];
-            expect(gridl(data).areaFitsAt([2,3], area, [1,1])).to.equal(true);
-            expect(gridl(data).areaFitsAt([2,3], area, [1,0])).to.equal(false);
+            const data = mockData();
+            expect(gridl(data).areaFits([3,2,2,3,1,1])).to.equal(true);
+            expect(gridl(data).areaFits([3,2,2,3,1,0])).to.equal(false);
         });
 
     });
 
-    describe('setAreaAt', () => {
+    describe('setAreaData', () => {
 
         it('should set an area at a given position', () => {
             const data = [
@@ -212,12 +266,12 @@ describe('areas', () => {
                 [13, 14, 15, 16, 17, 18],
                 [19, 20, 21, 22, 23, 24],
             ];
-            const area = [
+            const areaData = [
                 [4,  1,  8],
                 [5,  3,  9],
             ];
             const position = [3, 1];
-            const grid = gridl(data).setAreaAt(position, area).data();
+            const grid = gridl(data).setAreaData(position, areaData).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9,  4,  1,  8],
@@ -241,7 +295,7 @@ describe('areas', () => {
                 [0],
             ];
             const position = [2, 1];
-            const grid = gridl(data).setAreaAt(position, area).data();
+            const grid = gridl(data).setAreaData(position, area).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  0,  0,  0, 12],
@@ -263,7 +317,7 @@ describe('areas', () => {
                 [5,  3,  9],
             ];
             const position = [4, 3];
-            const grid = gridl(data).setAreaAt(position, area).data();
+            const grid = gridl(data).setAreaData(position, area).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -285,7 +339,7 @@ describe('areas', () => {
             ];
             const position = [3, 1];
             const anchor = [2, 1];
-            const grid = gridl(data).setAreaAt(position, area, anchor).data();
+            const grid = gridl(data).setAreaData(position, area, anchor).data();
             expect(grid).to.deep.equal([
                 [ 1,  4,  1,  8,  5,  6],
                 [ 7,  5,  3,  9, 11, 12],
@@ -307,7 +361,7 @@ describe('areas', () => {
             ];
             const position = [2, 0];
             const anchor = [-1, -2];
-            const grid = gridl(data).setAreaAt(position, area, anchor).data();
+            const grid = gridl(data).setAreaData(position, area, anchor).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -329,7 +383,7 @@ describe('areas', () => {
             ];
             const position = [2, 4];
             const anchor = [1, 1];
-            const grid = gridl(data).setAreaAt(position, area, anchor).data();
+            const grid = gridl(data).setAreaData(position, area, anchor).data();
             expect(grid).to.deep.equal([
                 [ 1,  2,  3,  4,  5,  6],
                 [ 7,  8,  9, 10, 11, 12],
@@ -340,7 +394,7 @@ describe('areas', () => {
 
     });
 
-    describe('getAreaAt', () => {
+    describe('getAreaData', () => {
 
         it('should return the area with a given size at a given location', () => {
             const data = [
@@ -351,7 +405,7 @@ describe('areas', () => {
             ];
             const size = [3, 2];
             const position = [1, 2];
-            const area = gridl(data).getAreaAt(position, size);
+            const area = gridl(data).getAreaData(position, size);
             expect(area).to.deep.equal([
                 [14, 15, 16],
                 [20, 21, 22],

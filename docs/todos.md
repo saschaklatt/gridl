@@ -33,7 +33,9 @@
 
 ### v0.10
 
-* New data format for areas 
+* New data format for areas
+    * 
+* Convert area-grid to area-dimension 
 * Check if two areas intersect `gridl.intersectAreas(area1, area2)`
 
 ### v0.11

@@ -5,7 +5,7 @@
 * Changed Plugin API: 
     * replaced `gridl.fn` with `gridl.use(key, plugin)`
 * new `positionInArea()` function
-* remove navigation api
+* removed navigation api to simplify things
     * removed internal position in gridl
     * removed `goto()`, `walk()`, `position()`
     * removed all functions that were using the internal position
