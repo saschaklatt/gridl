@@ -29,23 +29,6 @@ const _moveCell = (data, columns, rows, from, to) => {
 export default function(context, state) {
 
     /**
-     * Move the current cell to an absolute position.
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array} to - The position where the cell should be moved.
-     * @returns {gridl}
-     */
-    function moveAbs(to) {
-        const { data, columns, rows, position } = state;
-        state.data = _moveCell(data, columns, rows, position, to);
-        return context;
-    }
-
-    /**
      * Move a cell from one position to another.
      *
      * @memberOf gridl
@@ -86,23 +69,6 @@ export default function(context, state) {
     }
 
     /**
-     * Move the current cell from the current position in a certain direction.
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array} direction - The direction in which to move from the current position.
-     * @returns {gridl} The current gridl instance.
-     */
-    function moveRel(direction) {
-        const { data, columns, rows, position } = state;
-        state.data = _moveCell(data, columns, rows, position, addPositions(position, direction));
-        return context;
-    }
-
-    /**
      * Move a row to a certain position.
      *
      * @memberOf gridl
@@ -127,10 +93,8 @@ export default function(context, state) {
 
     return {
         methods: {
-            moveAbs,
             moveCell,
             moveColumn,
-            moveRel,
             moveRow,
         },
     };

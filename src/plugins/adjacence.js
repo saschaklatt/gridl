@@ -35,28 +35,8 @@ export default function(context, state) {
         return _adjacentCells(grid, position, adjacence, gridSize);
     }
 
-    /**
-     * Get the values of all adjacent cells at the current position.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
-     * @param {boolean} [includeOutsideValues = false] - If <code>false</code>, adjacent cells that are outside the grid will be ignored, if <code>true</code>, <code>undefined</code> will be returned for them.
-     * @returns {Array.<*>} The values of the adjacent cells.
-     */
-    function adjacentCells(adjacence = adjacences.ALL, includeOutsideValues = false) {
-        const { data, columns, rows, position } = state;
-        const gridSize = !includeOutsideValues && [columns, rows];
-        const grid = unflatten(data, columns);
-        return _adjacentCells(grid, position, adjacence, gridSize);
-    }
-
     return {
         methods: {
-            adjacentCells,
             adjacentCellsAt,
         }
     };

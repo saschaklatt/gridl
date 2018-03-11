@@ -77,23 +77,6 @@ const _reduceAreaAt = (api, data, columns, rows, position, size, callback, initi
 export default function(context, state) {
 
     /**
-     * Check if a given area would fit inside the grid at the current position.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<Array.<*>>} area - The area itself as a two-dimensional grid array
-     * @param {number[]} [anchor = [0, 0]] - The center of area.
-     * @returns {boolean} Whether the area fits or not.
-     */
-    function areaFits(area, anchor) {
-        const { columns, rows, position } = state;
-        return _checkAreaFitsAt(columns, rows, position, area, anchor);
-    }
-
-    /**
      * Check if a given area would fit inside the grid at a given position.
      *
      * @memberOf gridl
@@ -111,23 +94,6 @@ export default function(context, state) {
     }
 
     /**
-     * Exports the data grid array of a given array at the current position.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} size - The size fo the area as a two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
-     * @returns {Array.<Array.<*>>} The area.
-     */
-    function getArea(size, anchor) {
-        const { data, columns, rows, position } = state;
-        return _getAreaAt(data, columns, rows, position, size, anchor);
-    }
-
-    /**
      * Exports the data grid array of a given array at the given position.
      *
      * @memberOf gridl
@@ -142,24 +108,6 @@ export default function(context, state) {
     function getAreaAt(position, size, anchor) {
         const { data, columns, rows } = state;
         return _getAreaAt(data, columns, rows, position, size, anchor);
-    }
-
-    /**
-     * Overwrite the values of a given area at the current position.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} area - The area itself as two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
-     * @returns {gridl} The same gridl instance.
-     */
-    function setArea(area, anchor) {
-        const { data, columns, rows, position } = state;
-        _setAreaAt(data, columns, rows, position, area, anchor);
-        return context;
     }
 
     /**
@@ -242,34 +190,13 @@ export default function(context, state) {
         return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
     }
 
-    /**
-     * Applies a function against an accumulator and each element in the area at the current position to reduce it to a single value.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number[][]} size - The size of the area within the grid.
-     * @param {reducerCallback} callback - The callback function that is executed on each cell within the grid.
-     * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
-     * @returns {*} The value that results from the reduction.
-     */
-    function reduceArea(size, callback, initialValue) {
-        const { data, columns, rows, position } = state;
-        return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
-    }
-
     return {
         methods: {
-            areaFits,
             areaFitsAt,
-            getArea,
             getAreaAt,
-            setArea,
             setAreaAt,
             findInArea,
             positionInArea,
-            reduceArea,
             reduceAreaAt,
         },
     };

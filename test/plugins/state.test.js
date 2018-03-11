@@ -110,7 +110,6 @@ describe('state', () => {
             const clone = master.clone();
             expect(master === clone).to.equal(false);
             expect(clone.data()).to.deep.equal(master.data());
-            expect(clone.position()).to.deep.equal(master.position());
         });
 
     });

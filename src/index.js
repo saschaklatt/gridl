@@ -49,7 +49,6 @@ function gridl(plugins, data) {
         rows: data.length,
         columns: data[0].length,
         data: flatten(data),
-        position: [0,0],
     };
 
     // register plugins with initial state

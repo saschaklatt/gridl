@@ -59,8 +59,8 @@ export default function(context, state) {
      * @returns {gridl} A new gridl instance.
      */
     function clone() {
-        const { data, columns, position } = state;
-        return gridl(unflatten(data, columns)).goto(position);
+        const { data, columns } = state;
+        return gridl(unflatten(data, columns));
     }
 
     return {

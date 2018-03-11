@@ -19,24 +19,6 @@ const _swapCells = (data, columns, rows, position1, position2) => {
 
 export default function(context, state) {
 
-
-    /**
-     * Swaps the values of the cell at the current position and another cell.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} otherPosition - The position of the first cell.
-     * @returns {gridl} The same gridl instance.
-     */
-    function swapCell(otherPosition) {
-        const { data, columns, rows, position } = state;
-        _swapCells(data, columns, rows, position, otherPosition);
-        return context;
-    }
-
     /**
      * Swaps the values of two cells.
      *
@@ -106,7 +88,6 @@ export default function(context, state) {
 
     return {
         methods: {
-            swapCell,
             swapCells,
             swapColumns,
             swapRows,

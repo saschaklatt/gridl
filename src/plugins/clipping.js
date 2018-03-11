@@ -19,25 +19,6 @@ export default function(context, state) {
      * @method
      * @instance
      *
-     * @param {Array.<number>} size - The size of the area.
-     * @returns {gridl} The same gridl instance.
-     */
-    function clip(size) {
-        const { data, columns, rows, position } = state;
-        const grid = _clip(data, columns, rows, position, size);
-        state.data = flatten(grid);
-        state.rows = grid.length;
-        state.columns = grid[0].length;
-        return context;
-    }
-
-    /**
-     * Clip an area out of the current grid. It removes all cells that are not inside the given area.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
      * @param {Array.<number>} position - The position the area.
      * @param {Array.<number>} size - The size of the area.
      * @returns {gridl} The same gridl instance.
@@ -52,6 +33,6 @@ export default function(context, state) {
     }
 
     return {
-        methods: { clip, clipAt },
+        methods: { clipAt },
     };
 }

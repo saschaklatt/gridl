@@ -33,10 +33,8 @@
 
 ### v0.10
 
-* New data format for areas
-* Check if position is within a certain area `gridl(data).isInArea(areaPos, areaSize, anchor, pos)` 
+* New data format for areas 
 * Check if two areas intersect `gridl.intersectAreas(area1, area2)`
-* remove navigation api (adds unnecessary complexity, makes library less intuitive, no real use case, maybe add an optional navigation layer plugin later on)
 
 ### v0.11
 

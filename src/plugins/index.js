@@ -6,7 +6,6 @@ import finding from './finding';
 import flip from './flipping';
 import iterator from './iterator';
 import moving from './moving';
-import navigating from './navigating';
 import rotating from './rotating';
 import rows from './rows';
 import state from './state';
@@ -22,7 +21,6 @@ export default {
     flip,
     iterator,
     moving,
-    navigating,
     rotating,
     rows,
     state,

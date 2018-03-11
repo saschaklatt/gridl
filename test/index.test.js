@@ -133,8 +133,8 @@ describe('gridlFactory', () => {
         it('should provide the internal state to the plugin function', () => {
             const data = mockData();
             gridl.use('exposeState', (context, state) => () => {
-                const { rows, columns, position, data } = state;
-                return { rows, columns, position, data };
+                const { rows, columns, data } = state;
+                return { rows, columns, data };
             });
 
             const grid = gridl(data);
@@ -143,16 +143,14 @@ describe('gridlFactory', () => {
                 rows: 3,
                 columns: 4,
                 data: [1,2,3,4,5,6,7,8,9,10,11,12],
-                position: [0,0],
             });
 
-            grid.goto([2,1]).clip([2,2]);
+            grid.clipAt([2,1], [2,2]);
 
             expect(grid.exposeState()).to.deep.equal({
                 rows: 2,
                 columns: 2,
                 data: [7,8,11,12],
-                position: [2,1],
             });
         });
 
@@ -162,14 +160,12 @@ describe('gridlFactory', () => {
                 state.rows = rows;
                 state.columns = columns;
                 state.data = utils.flatten([[6,5,4]]);
-                state.position = [1,1];
                 return this;
             });
             const grid = gridl(data).changeState(1, 666);
             expect(grid.data()).to.deep.equal([[6,5,4]]);
             expect(grid.numRows()).to.equal(1);
             expect(grid.numColumns()).to.equal(666);
-            expect(grid.position()).to.deep.equal([1,1]);
         });
 
         it('should create a plugin with namespace', () => {
