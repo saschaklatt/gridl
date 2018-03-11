@@ -3,7 +3,7 @@ import area from './area';
 import clipping from './clipping';
 import columns from './columns';
 import finding from './finding';
-import flip from './flip';
+import flip from './flipping';
 import iterator from './iterator';
 import moving from './moving';
 import navigating from './navigating';
