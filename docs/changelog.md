@@ -9,6 +9,7 @@
     * removed internal position in gridl
     * removed `goto()`, `walk()`, `position()`
     * removed all functions that were using the internal position
+* allow importing data with no rows and no columns
 
 **v0.9.0**
 

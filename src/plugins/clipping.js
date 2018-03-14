@@ -5,7 +5,7 @@ const _clip = (data, columns, rows, position, size) => {
         throw new Error(`Trying to clip data at an invalid position. Given: ${position}`);
     }
     const endPoint = addPositions(position, size);
-    return unflatten(data, columns)
+    return unflatten(data, columns, rows)
         .filter((row, r) => r >= position[1] && r < endPoint[1])
         .map(row => row.filter((cell, c) => c >= position[0] && c < endPoint[0]));
 };

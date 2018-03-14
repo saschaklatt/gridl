@@ -94,7 +94,7 @@ gridl.fn.oddEvenPlugin = function(instance, state) {
 
     // commonly used function to manipulate the internal state
     function filter(filterMethod) {
-        const grid = utils.unflatten(state.data, state.columns);    // get the internal state and convert it into a two dimensional grid array
+        const grid = utils.unflatten(state.data, state.columns, state.rows);    // get the internal state and convert it into a two dimensional grid array
         const filteredData = grid.filter(filterMethod);             // filter the rows with the given filter method
         state.rows = filteredData.length;                           // update the new number of rows
         state.data = utils.flatten(filteredData);                   // update the internal data, flatten it to a one-dimensional grid 
@@ -150,7 +150,7 @@ gridl.fn.oddEven = function(instance, state) {
     const oddFilter = (row, index) => !evenFilter(row, index);
 
     function filter(filterMethod) {
-        const grid = utils.unflatten(state.data, state.columns);
+        const grid = utils.unflatten(state.data, state.columns, state.rows);
         const filteredData = grid.filter(filterMethod);
         state.rows = filteredData.length;
         state.data = utils.flatten(filteredData);

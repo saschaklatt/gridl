@@ -4,7 +4,7 @@ import corePlugins from './plugins';
 import directions from './directions';
 import adjacences from './adjacences';
 
-const { flatten, validateGridArray } = utils;
+const { flatten, validateGridArray, countColumns, countRows } = utils;
 
 const usedPlugins = [];
 
@@ -42,13 +42,13 @@ function registerPlugins(state) {
 function gridl(data) {
 
     // validate incoming data
-    validateGridArray(data);
+    validateGridArray(data); // TODO: support no rows and columns, default to to [[]]
 
     // create initial state
     const initialState = {
-        rows: data.length,
-        columns: data[0].length,
-        data: flatten(data),
+        rows: countRows(data),
+        columns: countColumns(data),
+        data: flatten(data), // TODO: if no data is provided default to [[]]
     };
 
     // register plugins with initial state

@@ -22,6 +22,21 @@ describe('state', () => {
                 ]);
             });
 
+            it('should work with one row and no column', () => {
+                const data = [
+                    [],
+                ];
+                const g = gridl(data);
+                expect(g.numRows()).to.equal(1);
+                expect(g.numColumns()).to.equal(0);
+                expect(g.data()).to.deep.equal([[]]);
+            });
+
+            it('should work with no row and no column', () => {
+                const data = [];
+                expect(gridl(data).data()).to.deep.equal([]);
+            });
+
         });
 
         describe('setter', () => {
@@ -74,11 +89,34 @@ describe('state', () => {
                 ])).to.throw('Trying to import data that is not an array.');
             });
 
-            it('should throw an error when no columns', () => {
-                expect(() => gridl(mockData()).data([
+            it('should work with one row and no column', () => {
+                const data = [
                     [],
+                ];
+                const g = gridl(mockData()).data(data);
+                expect(g.numColumns()).to.equal(0);
+                expect(g.numRows()).to.equal(1);
+                expect(g.data()).to.deep.equal([[]]);
+            });
+
+            it('should not throw an error with one row and no column', () => {
+                const data = [
                     [],
-                ])).to.throw('Trying to import grid without any columns. You need to provide at least one column.');
+                ];
+                expect(() => gridl(mockData()).data(data)).to.not.throw();
+            });
+
+            it('should work with no row and no column', () => {
+                const data = [];
+                const g = gridl(mockData()).data(data);
+                expect(g.numColumns()).to.equal(0);
+                expect(g.numRows()).to.equal(0);
+                expect(g.data()).to.deep.equal([]);
+            });
+
+            it('should not throw an error with no row and no column', () => {
+                const data = [];
+                expect(() => gridl(mockData()).data(data)).to.not.throw();
             });
 
         });

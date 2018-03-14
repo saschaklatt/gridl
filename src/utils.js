@@ -23,6 +23,28 @@ export const index2pos = (index, columns) => [index % columns, Math.floor(index 
 export const pos2index = (position, columns) => position && position[0] + position[1] * columns;
 
 /**
+ * Count the number of rows in a two-dimensional array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.<Array.<any>>} array2D - The input array.
+ * @returns {number} The number of rows.
+ */
+export const countRows = array2D => array2D.length || 0;
+
+/**
+ * Count the number of columns in a two-dimensional array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.<Array.<any>>} array2D - The input array.
+ * @returns {number} The number of columns.
+ */
+export const countColumns = array2D => (array2D && array2D[0] && array2D[0].length) || 0;
+
+/**
  * Converts a two-dimensional grid array into a one-dimensional list array.
  *
  * @memberOf utils
@@ -41,16 +63,21 @@ export const flatten = array2D => array2D.reduce((res, row) => [...res, ...row],
  *
  * @param {number[]} array1D - The one-dimensional array you want to convert.
  * @param {number} columns - The number of columns the new two-dimensional array should have.
+ * @param {number} rows - The number of rows the new two-dimensional array should have.
  * @returns {number[][]} - A two-dimensional array.
  */
-export const unflatten = (array1D, columns) => array1D.reduce((res, cell, index) => {
-    const pos = index2pos(index, columns);
-    if (!res[pos[1]]) {
-        res[pos[1]] = [];
+export const unflatten = (array1D, columns, rows) => {
+    const res = [];
+    for (let r = 0; r < rows; r++) {
+        res[r] = [];
+        for (let c = 0; c < columns; c++) {
+            const pos = [c, r];
+            const i = pos2index(pos, columns);
+            res[r][c] = array1D[i];
+        }
     }
-    res[pos[1]][pos[0]] = cell;
     return res;
-}, []);
+};
 
 /**
  * Adds the x and y values of two positions.
@@ -204,9 +231,9 @@ export const validateGridArray = data => {
         if (i > 0 && data[i - 1].length !== row.length) {
             throw new Error('Trying to import data with inconsistent number of columns.');
         }
-        if (row.length < 1) {
-            throw new Error('Trying to import grid without any columns. You need to provide at least one column.');
-        }
+        // if (row.length < 1) {
+        //     throw new Error('Trying to import grid without any columns. You need to provide at least one column.');
+        // }
     });
 };
 
@@ -218,6 +245,8 @@ export const validateGridArray = data => {
  * @type {Object}
  */
 const utils = {
+    countColumns,
+    countRows,
     flatten,
     isValidPositionFormat,
     unflatten,

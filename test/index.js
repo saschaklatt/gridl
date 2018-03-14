@@ -1,0 +1,16 @@
+import './index.test';
+import './adjacences.test';
+import './directions.test';
+import './generators.test';
+import './plugins/adjacence.test';
+import './plugins/area.test';
+import './plugins/clipping.test';
+import './plugins/columns.test';
+import './plugins/finding.test';
+import './plugins/iterator.test';
+import './plugins/moving.test';
+import './plugins/rotating.test';
+import './plugins/rows.test';
+import './plugins/state.test';
+import './plugins/swapping.test';
+import './plugins/value.test';

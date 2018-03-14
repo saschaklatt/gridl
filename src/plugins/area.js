@@ -78,20 +78,21 @@ export default function(instance, state) {
 
     const area = areaDescription => {
         const [columns = 0, rows = 0, x = 0, y = 0, ax = 0, ay = 0] = areaDescription;
+        const position = [x, y];
+        const anchor = [ax, ay];
+        const size = [columns, rows];
+        const data = _getAreaAt(state.data, state.columns, state.rows, position, size, anchor);
+        const subgrid = gridl(data);
         const api = {
             numRows: () => rows,
             numColumns: () => columns,
-            size: () => [columns, rows],
-            position: () => [x, y],
-            anchor: () => [ax, ay],
+            size: () => size,
+            position: () => position,
+            anchor: () => anchor,
             localToGlobal: (localPosition) => addPositions(api.position(), localPosition),
             valueAt: (localPosition) => {
                 // TODO: validate localPosition to have a valid position format
-                const areaPosition = api.position();
-                const areaSize = api.size();
-                const areaAnchor = api.anchor();
-                const data = _getAreaAt(state.data, state.columns, state.rows, areaPosition, areaSize, areaAnchor);
-                return gridl(data).valueAt(localPosition);
+                return subgrid.valueAt(localPosition);
             },
         };
         return api;

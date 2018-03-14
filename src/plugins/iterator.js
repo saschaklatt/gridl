@@ -29,9 +29,9 @@ export default function(instance, state) {
      * @returns {gridl} A new gridl instance.
      */
     function map(callback) {
-        const { data, columns } = state;
+        const { data, columns, rows } = state;
         const newData = data.map((v, i) => callback(v, index2pos(i, columns), instance));
-        return gridl(unflatten(newData, columns));
+        return gridl(unflatten(newData, columns, rows));
     }
 
     /**

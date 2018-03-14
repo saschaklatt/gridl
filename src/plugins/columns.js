@@ -27,8 +27,8 @@ export default function(context, state) {
      * @returns {Array.<*>}
      */
     function column(x) {
-        const { data, columns } = state;
-        return getColumn(unflatten(data, columns), x);
+        const { data, columns, rows } = state;
+        return getColumn(unflatten(data, columns, rows), x);
     }
 
     /**
@@ -50,7 +50,7 @@ export default function(context, state) {
         if (column.length !== rows) {
             throw new Error(`Trying to add a column that contains an invalid amount of cells. Expected: ${rows}, Given: ${column.length}`);
         }
-        const grid = utils.unflatten(data, columns).map((row, i) => {
+        const grid = utils.unflatten(data, columns, rows).map((row, i) => {
             row.splice(x, 0, column[i]);
             return row;
         });
@@ -70,14 +70,14 @@ export default function(context, state) {
      * @returns {gridl} The same gridl instance.
      */
     function removeColumn(x) {
-        const { data, columns } = state;
+        const { data, columns, rows } = state;
         if (x < 0 || x >= columns) {
             throw new Error(`Trying to remove a column at an invalid position. Given: ${x}`);
         }
         if (columns <= 1) {
             throw new Error('Cannot remove column because the grid would be empty after it.');
         }
-        const grid = unflatten(data, columns).map(row => row.filter((v, c) => c !== x));
+        const grid = unflatten(data, columns, rows).map(row => row.filter((v, c) => c !== x));
         state.data = flatten(grid);
         state.columns = grid[0].length;
         return context;
