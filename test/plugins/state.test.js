@@ -8,7 +8,7 @@ describe('state', () => {
 
         describe('getter', () => {
 
-            it('should export 2d without dimensions given', () => {
+            it('should export data as 2d grid array', () => {
                 const data = [
                     [1, 2, 3],
                     [4, 5, 6],

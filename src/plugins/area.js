@@ -91,11 +91,20 @@ export default function(instance, state) {
             anchor: () => anchor,
             localToGlobal: (localPosition) => addPositions(api.position(), localPosition),
             valueAt: function(localPosition, value) {
-                if (arguments.length > 1) {
-                    return subgrid.valueAt(localPosition, value);
-                }
-                return subgrid.valueAt(localPosition);
+                return arguments.length > 1 ?
+                    subgrid.valueAt(localPosition, value) :
+                    subgrid.valueAt(localPosition);
             },
+            data: function(value) {
+                return (arguments.length > 0) ?
+                    subgrid.data(value) :
+                    subgrid.data();
+            },
+            apply: () => {
+                _setAreaAt(state.data, state.columns, state.rows, position, subgrid.data(), anchor);
+                return instance;
+            },
+            parent: () => instance,
         };
         return api;
     };
