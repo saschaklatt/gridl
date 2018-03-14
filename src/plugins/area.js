@@ -5,9 +5,9 @@ import {
     index2pos,
     flatten,
     addPositions,
-    isValidPositionFormat, getValueAt,
+    isValidPositionFormat,
+    getValueAt,
 } from '../utils';
-import {expect} from 'chai';
 
 const _getAreaAt = (data, columns, rows, position, size, anchor = [0,0]) => {
     const posTmp = subtractPositions(position, anchor);
@@ -90,8 +90,10 @@ export default function(instance, state) {
             position: () => position,
             anchor: () => anchor,
             localToGlobal: (localPosition) => addPositions(api.position(), localPosition),
-            valueAt: (localPosition) => {
-                // TODO: validate localPosition to have a valid position format
+            valueAt: function(localPosition, value) {
+                if (arguments.length > 1) {
+                    return subgrid.valueAt(localPosition, value);
+                }
                 return subgrid.valueAt(localPosition);
             },
         };

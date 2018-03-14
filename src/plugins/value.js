@@ -1,4 +1,4 @@
-import { getValueAt, setValueAt } from '../utils';
+import { getValueAt, isValidPositionFormat, setValueAt } from '../utils';
 
 export default function(context, state) {
 
@@ -16,6 +16,9 @@ export default function(context, state) {
      */
     function valueAt(pos, value) {
         const { data, columns, rows } = state;
+        if (!isValidPositionFormat(pos)) {
+            throw new Error(`Trying to access value at an invalid position: ${pos}`);
+        }
         if (arguments.length < 2) {
             return getValueAt(data, columns, pos);
         }

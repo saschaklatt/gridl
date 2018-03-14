@@ -14,7 +14,7 @@ describe('areas', () => {
             [6,5,1,6,9,2,7],
         ];
 
-        it('should an area function', () => {
+        it('should provide an area function', () => {
             expect(typeof gridl(mockData()).area).to.equal('function');
         });
 
@@ -107,6 +107,15 @@ describe('areas', () => {
                 expect(result).to.equal(5);
             });
 
+            it('should throw an error when using an invalid position', () => {
+                const data = mockData();
+                const g = gridl(data);
+                const errorMsgBase = 'Trying to access value at an invalid position: ';
+                expect(() => g.valueAt('blub')).to.throw(errorMsgBase + 'blub');
+                expect(() => g.valueAt({})).to.throw(errorMsgBase + '[object Object]');
+                expect(() => g.valueAt(undefined)).to.throw(errorMsgBase + 'undefined');
+            });
+
         });
 
         describe('valueAt (as setter)', () => {
@@ -115,10 +124,21 @@ describe('areas', () => {
                 const data = mockData();
                 const grid = gridl(data);
                 const localPos = [2,1];
-                grid.area([4,3]).valueAt(localPos, 666);
+                const area = grid.area([4,3]);
+                const result = area
+                    .valueAt(localPos, 666)
+                    .valueAt(localPos);
+                expect(result).to.equal(666);
+            });
 
-                // TODO: finish it
-                // expect(grid.valueAt(localPos)).to.equal(666);
+            it('should throw an error when using an invalid position', () => {
+                const data = mockData();
+                const g = gridl(data);
+                const value = 666;
+                const errorMsgBase = 'Trying to access value at an invalid position: ';
+                expect(() => g.valueAt('blub', value)).to.throw(errorMsgBase + 'blub');
+                expect(() => g.valueAt({}, value)).to.throw(errorMsgBase + '[object Object]');
+                expect(() => g.valueAt(undefined, value)).to.throw(errorMsgBase + 'undefined');
             });
 
         });
