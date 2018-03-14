@@ -48,14 +48,14 @@ export default function(context, state) {
      * @returns {gridl} The same gridl instance.
      */
     function swapColumns(x1, x2) {
-        const { data, columns } = state;
+        const { data, columns, rows } = state;
         if (x1 < 0 || x1 >= columns) {
             throw new Error(`Trying to swap columns from an invalid position. Given: ${x1}`);
         }
         if (x2 < 0 || x2 >= columns) {
             throw new Error(`Trying to swap columns to an invalid position. Given: ${x2}`);
         }
-        const grid = unflatten(data, columns).map(row => {
+        const grid = unflatten(data, columns, rows).map(row => {
             _swap(row, x1, x2);
             return row;
         });
@@ -82,7 +82,7 @@ export default function(context, state) {
         if (y2 < 0 || y2 >= rows) {
             throw new Error(`Trying to swap rows to an invalid position. Given: ${y2}`);
         }
-        state.data = flatten(_swap(unflatten(data, columns), y1, y2));
+        state.data = flatten(_swap(unflatten(data, columns, rows), y1, y2));
         return context;
     }
 

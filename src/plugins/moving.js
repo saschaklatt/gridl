@@ -57,14 +57,14 @@ export default function(context, state) {
      * @returns {gridl}
      */
     function moveColumn(xFrom, xTo) {
-        const { data, columns } = state;
+        const { data, columns, rows } = state;
         if (xFrom < 0 || xFrom >= columns) {
             throw new Error(`Trying to move column from an invalid position. Given: ${xFrom}`);
         }
         if (xTo < 0 || xTo >= columns) {
             throw new Error(`Trying to move column to an invalid position. Given: ${xTo}`);
         }
-        state.data = flatten(unflatten(data, columns).map(row => _move(row, xFrom, xTo)));
+        state.data = flatten(unflatten(data, columns, rows).map(row => _move(row, xFrom, xTo)));
         return context;
     }
 
@@ -87,7 +87,7 @@ export default function(context, state) {
         if (yTo < 0 || yTo >= rows) {
             throw new Error(`Trying to move row to an invalid position. Given: ${yTo}`);
         }
-        state.data = flatten(_move(unflatten(data, columns), yFrom, yTo));
+        state.data = flatten(_move(unflatten(data, columns, rows), yFrom, yTo));
         return context;
     }
 

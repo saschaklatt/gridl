@@ -31,7 +31,7 @@ export default function(context, state) {
     function adjacentCellsAt(position, adjacence = adjacences.ALL, includeOutsideValues = false) {
         const { data, columns, rows } = state;
         const gridSize = !includeOutsideValues && [columns, rows];
-        const grid = unflatten(data, columns);
+        const grid = unflatten(data, columns, rows);
         return _adjacentCells(grid, position, adjacence, gridSize);
     }
 

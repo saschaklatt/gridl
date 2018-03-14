@@ -23,8 +23,8 @@ export default function(context, state) {
      * @returns {gridl} The same gridl instance.
      */
     const flipX = (xPos) => {
-        const { data, columns } = state;
-        const grid = unflatten(data, columns);
+        const { data, columns, rows } = state;
+        const grid = unflatten(data, columns, rows);
         state.data = flatten(_flip(grid, xPos));
         return context;
     };
@@ -36,8 +36,8 @@ export default function(context, state) {
      * @returns {gridl} The same gridl instance.
      */
     function flipY(yPos) {
-        const { data, columns } = state;
-        const grid = unflatten(data, columns);
+        const { data, columns, rows } = state;
+        const grid = unflatten(data, columns, rows);
         state.data = flatten(grid.map(row => _flip(row, yPos)));
         return context;
     }

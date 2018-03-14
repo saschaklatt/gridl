@@ -28,8 +28,8 @@ export default function(context, state) {
      * @returns {Array.<*>}
      */
     function row(y) {
-        const { data, columns} = state;
-        return getRow(unflatten(data, columns), y);
+        const { data, columns, rows } = state;
+        return getRow(unflatten(data, columns, rows), y);
     }
 
     /**
@@ -51,7 +51,7 @@ export default function(context, state) {
         if (row.length !== columns) {
             throw new Error(`Trying to add a row that contains an invalid amount of cells. Expected: ${columns}, Given: ${row.length}`);
         }
-        const grid = unflatten(data, columns);
+        const grid = unflatten(data, columns, rows);
         grid.splice(y, 0, row);
         state.data = flatten(grid);
         state.rows = grid.length;
@@ -76,7 +76,7 @@ export default function(context, state) {
         if (rows <= 1) {
             throw new Error('Cannot remove row because the grid would be empty after it.');
         }
-        const grid = unflatten(data, columns);
+        const grid = unflatten(data, columns, rows);
         grid.splice(y, 1);
         state.data = flatten(grid);
         state.rows = grid.length;

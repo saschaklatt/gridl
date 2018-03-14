@@ -20,91 +20,89 @@ describe('gridlFactory', () => {
     describe('validation', () => {
 
         it('should throw an error if data is not an array', () => {
-            expect(() => gridl('dsfsdf', {})).to.throw();
-            expect(() => gridl(undefined, {})).to.throw();
-            expect(() => gridl(null, {})).to.throw();
-            expect(() => gridl({}, {})).to.throw();
-            expect(() => gridl([[]], {})).to.throw();
+            expect(() => gridl('dsfsdf')).to.throw();
+            expect(() => gridl(undefined)).to.throw();
+            expect(() => gridl(null)).to.throw();
+            expect(() => gridl({})).to.throw();
         });
 
-        it('should throw an error if the arrayType is invalid', () => {
-            expect(() => gridl([], { arrayType: '???' })).to.throw();
-            expect(() => gridl([], { arrayType: 12 })).to.throw();
+        it('should work with no row and no column', () => {
+            const data = [];
+            expect(() => gridl(data)).to.not.throw();
         });
 
-        it('should throw an error if you don\'t provide any columns', () => {
-            const expectedMsg = 'Trying to import grid without any columns. You need to provide at least one column.';
-            expect(() => gridl([[]], {})).to.throw(expectedMsg);
+        it('should work with one row and no columns', () => {
+            const data = [
+                [],
+            ];
+            expect(() => gridl(data)).to.not.throw();
+        });
+
+        it('should work with one cell', () => {
+            const data = [
+                [7],
+            ];
+            expect(() => gridl(data).to.not.throw());
+        });
+
+        it('should work with valid data structure', () => {
+            const data = [
+                [1, 2, 3],
+                [4, 5, 6],
+            ];
+            expect(() => gridl(data)).to.not.throw();
+        });
+
+        it('should throw an error if the data is undefined', () => {
+            expect(() => gridl()).to.throw('Trying to import data that is not an array.');
+        });
+
+        it('should throw an error if the a rows is not an array', () => {
+            const expectedMsg = 'Trying to import data that is not an array.';
+
             expect(() => gridl([
-                [],
-                [],
-                [],
-            ], {})).to.throw(expectedMsg);
+                [1,2,3],
+                5,
+            ])).to.throw(expectedMsg);
+
+            expect(() => gridl([
+                5,
+                [1,2,3],
+            ])).to.throw(expectedMsg);
+
+            expect(() => gridl([
+                [1,2,3],
+                'dsf',
+                [1,2,3],
+            ])).to.throw(expectedMsg);
+
+            expect(() => gridl([
+                [1,2,3],
+                [1,2,3],
+                { '0': 0, '1': 1, '2': 2 },
+            ])).to.throw(expectedMsg);
         });
 
-        it('should work with at least one cell', () => {
-            expect(() => gridl([[7]], {})).to.not.throw();
-        });
+        it('should throw an error if the row lengths are not equal', () => {
+            const expectedMsg = 'Trying to import data with inconsistent number of columns.';
 
-    });
+            expect(() => gridl([
+                [1,2,3],
+                [1,2],
+                [1,2,3],
+            ])).to.throw(expectedMsg);
 
-    describe('importing', () => {
+            expect(() => gridl([
+                [1,2,3,4],
+                [1,2,3],
+                [1,2,3],
+            ])).to.throw(expectedMsg);
 
-        describe('validation', () => {
-
-            it('should throw no error if the data structure is valid', () => {
-                const data = [
-                    [1, 2, 3],
-                    [4, 5, 6],
-                ];
-                expect(() => gridl(data)).to.not.throw();
-            });
-
-            it('should throw an error if the data is undefined', () => {
-                expect(() => gridl()).to.throw('Trying to import data that is not an array.');
-            });
-
-            it('should throw an error if the a rows is not an array', () => {
-                const expectedMsg = 'Trying to import data that is not an array.';
-                expect(() => gridl([
-                    [1,2,3],
-                    5,
-                ])).to.throw(expectedMsg);
-                expect(() => gridl([
-                    5,
-                    [1,2,3],
-                ])).to.throw(expectedMsg);
-                expect(() => gridl([
-                    [1,2,3],
-                    'dsf',
-                    [1,2,3],
-                ])).to.throw(expectedMsg);
-                expect(() => gridl([
-                    [1,2,3],
-                    [1,2,3],
-                    { '0': 0, '1': 1, '2': 2 },
-                ])).to.throw(expectedMsg);
-            });
-
-            it('should throw an error if the row lengths are not equal', () => {
-                const expectedMsg = 'Trying to import data with inconsistent number of columns.';
-                expect(() => gridl([
-                    [1,2,3],
-                    [1,2],
-                    [1,2,3],
-                ])).to.throw(expectedMsg);
-                expect(() => gridl([
-                    [1,2,3,4],
-                    [1,2,3],
-                    [1,2,3],
-                ])).to.throw(expectedMsg);
-                expect(() => gridl([
-                    [1],
-                    [1],
-                    [1,2,3],
-                ])).to.throw(expectedMsg);
-            });
-
+            expect(() => gridl([
+                [1],
+                [1],
+                [1,2,3],
+            ])).to.throw(expectedMsg);
         });
 
     });
@@ -162,10 +160,10 @@ describe('gridlFactory', () => {
                 state.data = utils.flatten([[6,5,4]]);
                 return this;
             });
-            const grid = gridl(data).changeState(1, 666);
+            const grid = gridl(data).changeState(1, 3);
             expect(grid.data()).to.deep.equal([[6,5,4]]);
             expect(grid.numRows()).to.equal(1);
-            expect(grid.numColumns()).to.equal(666);
+            expect(grid.numColumns()).to.equal(3);
         });
 
         it('should create a plugin with namespace', () => {
@@ -375,7 +373,7 @@ describe('gridlFactory', () => {
                 const oddFilter = (row, index) => !evenFilter(row, index);
 
                 function filter(filterMethod) {
-                    const grid = utils.unflatten(state.data, state.columns);
+                    const grid = utils.unflatten(state.data, state.columns, state.rows);
                     const filteredData = grid.filter(filterMethod);
                     state.rows = filteredData.length;
                     state.data = utils.flatten(filteredData);
@@ -414,7 +412,7 @@ describe('gridlFactory', () => {
                 const oddFilter = (row, index) => !evenFilter(row, index);
 
                 function filter(filterMethod) {
-                    const grid = utils.unflatten(state.data, state.columns);
+                    const grid = utils.unflatten(state.data, state.columns, state.rows);
                     const filteredData = grid.filter(filterMethod);
                     state.rows = filteredData.length;
                     state.data = utils.flatten(filteredData);

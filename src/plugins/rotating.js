@@ -30,8 +30,8 @@ export default function(context, state) {
      * @returns {gridl} The same gridl instance.
      */
     function rotate(steps) {
-        const { data, columns } = state;
-        const grid = _rotate(unflatten(data, columns), columns, steps);
+        const { data, columns, rows } = state;
+        const grid = _rotate(unflatten(data, columns, rows), columns, steps);
         state.data = flatten(grid);
         state.rows = grid.length;
         state.columns = grid[0].length;

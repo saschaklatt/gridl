@@ -1,5 +1,5 @@
 import gridl from '../index';
-import { flatten, unflatten, validateGridArray } from '../utils';
+import { flatten, unflatten, validateGridArray, countColumns, countRows } from '../utils';
 
 export default function(context, state) {
 
@@ -30,10 +30,12 @@ export default function(context, state) {
     function data(newData) {
         if (arguments.length) {
             validateGridArray(newData);
+            state.rows = countRows(newData);
+            state.columns = countColumns(newData);
             state.data = flatten(newData);
             return context;
         }
-        return unflatten(state.data, state.columns);
+        return unflatten(state.data, state.columns, state.rows);
     }
 
     /**
@@ -59,8 +61,8 @@ export default function(context, state) {
      * @returns {gridl} A new gridl instance.
      */
     function clone() {
-        const { data, columns } = state;
-        return gridl(unflatten(data, columns));
+        const { data, columns, rows } = state;
+        return gridl(unflatten(data, columns, rows));
     }
 
     return {
