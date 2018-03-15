@@ -2,232 +2,375 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import gridl from '../../src';
 
-describe('areas', () => {
+describe('area', () => {
 
-    describe('area', () => {
+    const mockData = () => [
+        [0,7,3,2,8,4,8],
+        [4,2,5,7,8,4,8],
+        [6,6,6,6,7,4,8],
+        [6,6,6,6,7,4,8],
+        [6,5,1,6,9,2,7],
+    ];
 
-        const mockData = () => [
-            [0,7,3,2,8,4,8],
-            [4,2,5,7,8,4,8],
-            [6,6,6,6,7,4,8],
-            [6,6,6,6,7,4,8],
-            [6,5,1,6,9,2,7],
-        ];
+    it('should provide an area function', () => {
+        expect(typeof gridl(mockData()).area).to.equal('function');
+    });
 
-        it('should provide an area function', () => {
-            expect(typeof gridl(mockData()).area).to.equal('function');
+    describe('validation', () => {
+
+        it('should throw an error if column is invalid', () => {
+            const operation = () => gridl(mockData()).area(['d',1]);
+            expect(operation).to.throw('Invalid area description: column is not a number');
         });
 
-        describe('numColumns', () => {
-
-            it('should return the default number of 0', () => {
-                const data = mockData();
-                const area = gridl(data).area([]);
-                expect(area.numColumns()).to.deep.equal(0);
-            });
-
-            it('should return the number of columns', () => {
-                const data = mockData();
-                const area = gridl(data).area([1,2,4,3]);
-                expect(area.numColumns()).to.deep.equal(1);
-            });
-
+        it('should throw an error if column is negative', () => {
+            const operation = () => gridl(mockData()).area([-1]);
+            expect(operation).to.throw('Invalid area description: columns cannot be negative');
         });
 
-        describe('numRows', () => {
-
-            it('should return the default number of 0', () => {
-                const data = mockData();
-                const area = gridl(data).area([1]);
-                expect(area.numRows()).to.deep.equal(0);
-            });
-
-            it('should return the number of rows', () => {
-                const data = mockData();
-                const area = gridl(data).area([1,2,4,3]);
-                expect(area.numRows()).to.deep.equal(2);
-            });
-
+        it('should throw an error if row is invalid', () => {
+            const operation = () => gridl(mockData()).area([1,{}]);
+            expect(operation).to.throw('Invalid area description: row is not a number');
         });
 
-        describe('size', () => {
-
-            it('should return the default number of 0', () => {
-                const data = mockData();
-                const area = gridl(data).area([]);
-                expect(area.size()).to.deep.equal([0, 0]);
-            });
-
-            it('should return the number of rows', () => {
-                const data = mockData();
-                const area = gridl(data).area([1,2,4,3]);
-                expect(area.size()).to.deep.equal([1, 2]);
-            });
-
+        it('should throw an error if row is negative', () => {
+            const operation = () => gridl(mockData()).area([1,-1]);
+            expect(operation).to.throw('Invalid area description: rows cannot be negative');
         });
 
-        describe('position', () => {
-
-            it('should return the default position of [0,0]', () => {
-                const data = mockData();
-                const area = gridl(data).area([1,2]);
-                expect(area.position()).to.deep.equal([0, 0]);
-            });
-
-            it('should return the position', () => {
-                const data = mockData();
-                const area = gridl(data).area([0,0,4,3]);
-                expect(area.position()).to.deep.equal([4, 3]);
-            });
-
+        it('should throw an error if x is invalid', () => {
+            const operation = () => gridl(mockData()).area([1,2,() => {}]);
+            expect(operation).to.throw('Invalid area description: x is not a number');
         });
 
-        describe('anchor', () => {
-
-            it('should return the default anchor of [0,0]', () => {
-                const data = mockData();
-                const area = gridl(data).area([1,2,4,3]);
-                expect(area.anchor()).to.deep.equal([0, 0]);
-            });
-
-            it('should return the anchor', () => {
-                const data = mockData();
-                const area = gridl(data).area([0,0,4,3,1,2]);
-                expect(area.anchor()).to.deep.equal([1, 2]);
-            });
-
+        it('should throw an error if y is invalid', () => {
+            const operation = () => gridl(mockData()).area([0,0,1,'y']);
+            expect(operation).to.throw('Invalid area description: y is not a number');
         });
 
-        describe('valueAt (as getter)', () => {
-
-            it('should get the value at a local position, with area positioned at [0,0]', () => {
-                const grid = gridl(mockData());
-                const result = grid.area([4,3]).valueAt([2,1]);
-                expect(result).to.equal(5);
-            });
-
-            it('should throw an error when using an invalid position', () => {
-                const g = gridl(mockData());
-                const errorMsgBase = 'Trying to access value at an invalid position: ';
-                expect(() => g.valueAt('blub')).to.throw(errorMsgBase + 'blub');
-                expect(() => g.valueAt({})).to.throw(errorMsgBase + '[object Object]');
-                expect(() => g.valueAt(undefined)).to.throw(errorMsgBase + 'undefined');
-            });
-
+        it('should throw an error if ax is invalid', () => {
+            const operation = () => gridl(mockData()).area([0,0,0,0,'y']);
+            expect(operation).to.throw('Invalid area description: anchorX is not a number');
         });
 
-        describe('valueAt (as setter)', () => {
-
-            it('should get the value at a local position, with area positioned at [0,0]', () => {
-                const grid = gridl(mockData());
-                const localPos = [2,1];
-                const area = grid.area([4,3]);
-                const result = area
-                    .valueAt(localPos, 666)
-                    .valueAt(localPos);
-                expect(result).to.equal(666);
-            });
-
-            it('should throw an error when using an invalid position', () => {
-                const g = gridl(mockData());
-                const value = 666;
-                const errorMsgBase = 'Trying to access value at an invalid position: ';
-                expect(() => g.valueAt('blub', value)).to.throw(errorMsgBase + 'blub');
-                expect(() => g.valueAt({}, value)).to.throw(errorMsgBase + '[object Object]');
-                expect(() => g.valueAt(undefined, value)).to.throw(errorMsgBase + 'undefined');
-            });
-
+        it('should throw an error if ay is invalid', () => {
+            const operation = () => gridl(mockData()).area([0,0,0,0,0,'y']);
+            expect(operation).to.throw('Invalid area description: anchorY is not a number');
         });
 
-        describe('data (as getter)', () => {
+        // TODO: test area description validation
 
-            it('should return the data of the area as 2d array', () => {
-                expect(gridl(mockData()).area([2,3,1,2]).data()).to.deep.equal([
-                    [6,6],
-                    [6,6],
-                    [5,1],
-                ]);
-            });
+    });
 
-            it('should work with one row and no column', () => {
-                const area = gridl(mockData()).area([0,1,1,2]);
-                expect(area.numRows()).to.equal(1);
-                expect(area.numColumns()).to.equal(0);
-                expect(area.data()).to.deep.equal([[]]);
-            });
+    describe('numColumns', () => {
 
-            it('should work with no row and no column', () => {
-                const area = gridl(mockData()).area([0,0,1,2]);
-                expect(area.numRows()).to.equal(0);
-                expect(area.numColumns()).to.equal(0);
-                expect(area.data()).to.deep.equal([]);
-            });
-
-            // TODO: test areas that are greater than the grid -> should be cropped
-            // TODO: test areas that reach outside the grid -> should be cropped
-
+        it('should return the default number of 0', () => {
+            const data = mockData();
+            const area = gridl(data).area([]);
+            expect(area.numColumns()).to.deep.equal(0);
         });
 
-        describe('data (as setter)', () => {
-
-            it('should set the data of the area', () => {
-                expect(gridl(mockData()).area([2,3,1,2]).data()).to.deep.equal([
-                    [6,6],
-                    [6,6],
-                    [5,1],
-                ]);
-            });
-
-            // TODO: add more tests
-
-        });
-
-        describe('apply', () => {
-
-            it('should apply new values to the main grid', () => {
-                const localPos = [2,1];
-                const grid = gridl(mockData());
-                const area = grid.area([3,2,1,2]);
-                area.valueAt(localPos, 999);
-                expect(grid.data()).to.deep.equal(mockData());
-                area.apply();
-                expect(grid.data()).to.deep.equal([
-                    [0,7,3,2,8,4,8],
-                    [4,2,5,7,8,4,8],
-                    [6,6,6,6,7,4,8],
-                    [6,6,6,999,7,4,8],
-                    [6,5,1,6,9,2,7],
-                ]);
-            });
-
-            it('should ignore values that are set outside the area', () => {
-                const localPos = [2,4];
-                const grid = gridl(mockData());
-                const area = grid.area([3,2,1,2]);
-                area.valueAt(localPos, 999);
-                area.apply();
-                expect(grid.data()).to.deep.equal(mockData());
-            });
-
-            it('should return the gridl instance', () => {
-                const grid = gridl(mockData());
-                const result = grid.area([3,2]).apply();
-                expect(result).to.deep.equal(grid);
-            });
-
-        });
-
-        describe('parent', () => {
-
-            it('should return the gridl instance', () => {
-                const grid = gridl(mockData());
-                const result = grid.area([3,2]).parent();
-                expect(result).to.deep.equal(grid);
-            });
-
+        it('should return the number of columns', () => {
+            const data = mockData();
+            const area = gridl(data).area([1,2,4,3]);
+            expect(area.numColumns()).to.deep.equal(1);
         });
 
     });
+
+    describe('numRows', () => {
+
+        it('should return the default number of 0', () => {
+            const data = mockData();
+            const area = gridl(data).area([1]);
+            expect(area.numRows()).to.deep.equal(0);
+        });
+
+        it('should return the number of rows', () => {
+            const data = mockData();
+            const area = gridl(data).area([1,2,4,3]);
+            expect(area.numRows()).to.deep.equal(2);
+        });
+
+    });
+
+    describe('size', () => {
+
+        it('should return the default number of 0', () => {
+            const data = mockData();
+            const area = gridl(data).area([]);
+            expect(area.size()).to.deep.equal([0, 0]);
+        });
+
+        it('should return the number of rows', () => {
+            const data = mockData();
+            const area = gridl(data).area([1,2,4,3]);
+            expect(area.size()).to.deep.equal([1, 2]);
+        });
+
+    });
+
+    describe('position', () => {
+
+        it('should return the default position of [0,0]', () => {
+            const data = mockData();
+            const area = gridl(data).area([1,2]);
+            expect(area.position()).to.deep.equal([0, 0]);
+        });
+
+        it('should return the position', () => {
+            const data = mockData();
+            const area = gridl(data).area([0,0,4,3]);
+            expect(area.position()).to.deep.equal([4, 3]);
+        });
+
+        it('should return a position outside the grid', () => {
+            const data = mockData();
+            const area = gridl(data).area([0,0,10,20]);
+            expect(area.position()).to.deep.equal([10, 20]);
+        });
+
+    });
+
+    describe('anchor', () => {
+
+        it('should return the default anchor of [0,0]', () => {
+            const data = mockData();
+            const area = gridl(data).area([1,2,4,3]);
+            expect(area.anchor()).to.deep.equal([0, 0]);
+        });
+
+        it('should return the anchor', () => {
+            const data = mockData();
+            const area = gridl(data).area([0,0,4,3,1,2]);
+            expect(area.anchor()).to.deep.equal([1, 2]);
+        });
+
+        it('should return a negative anchor', () => {
+            const data = mockData();
+            const area = gridl(data).area([0,0,4,3,-1,-2]);
+            expect(area.anchor()).to.deep.equal([-1, -2]);
+        });
+
+    });
+
+    describe('valueAt (as getter)', () => {
+
+        it('should get the value at a local position, with area positioned at [0,0]', () => {
+            const grid = gridl(mockData());
+            const result = grid.area([4,3]).valueAt([2,1]);
+            expect(result).to.equal(5);
+        });
+
+        it('should throw an error when using an invalid position', () => {
+            const g = gridl(mockData());
+            const errorMsgBase = 'Trying to access value at an invalid position: ';
+            expect(() => g.valueAt('blub')).to.throw(errorMsgBase + 'blub');
+            expect(() => g.valueAt({})).to.throw(errorMsgBase + '[object Object]');
+            expect(() => g.valueAt(undefined)).to.throw(errorMsgBase + 'undefined');
+        });
+
+    });
+
+    describe('valueAt (as setter)', () => {
+
+        it('should get the value at a local position, with area positioned at [0,0]', () => {
+            const grid = gridl(mockData());
+            const localPos = [2,1];
+            const area = grid.area([4,3]);
+            const result = area
+                .valueAt(localPos, 666)
+                .valueAt(localPos);
+            expect(result).to.equal(666);
+        });
+
+        it('should throw an error when using an invalid position', () => {
+            const g = gridl(mockData());
+            const value = 666;
+            const errorMsgBase = 'Trying to access value at an invalid position: ';
+            expect(() => g.valueAt('blub', value)).to.throw(errorMsgBase + 'blub');
+            expect(() => g.valueAt({}, value)).to.throw(errorMsgBase + '[object Object]');
+            expect(() => g.valueAt(undefined, value)).to.throw(errorMsgBase + 'undefined');
+        });
+
+    });
+
+    describe('data (as getter)', () => {
+
+        it('should return the data of the area as 2d array', () => {
+            expect(gridl(mockData()).area([2,3,1,2]).data()).to.deep.equal([
+                [6,6],
+                [6,6],
+                [5,1],
+            ]);
+        });
+
+        it('should work with one row and no column', () => {
+            const area = gridl(mockData()).area([0,1,1,2]);
+            expect(area.numRows()).to.equal(1);
+            expect(area.numColumns()).to.equal(0);
+            expect(area.data()).to.deep.equal([[]]);
+        });
+
+        it('should work with no row and no column', () => {
+            const area = gridl(mockData()).area([0,0,1,2]);
+            expect(area.numRows()).to.equal(0);
+            expect(area.numColumns()).to.equal(0);
+            expect(area.size()).to.deep.equal([0,0]);
+            expect(area.data()).to.deep.equal([]);
+        });
+
+        it('should work with an anchor at the point of origin', () => {
+            const area = gridl(mockData()).area([3,3,0,0,1,2]);
+            expect(area.numRows()).to.equal(1);
+            expect(area.numColumns()).to.equal(2);
+            expect(area.data()).to.deep.equal([
+                [0,7],
+            ]);
+        });
+
+        it('should work with an anchor at a custom position', () => {
+            const area = gridl(mockData()).area([3,3,2,4,1,2]);
+            expect(area.numRows()).to.equal(3);
+            expect(area.numColumns()).to.equal(3);
+            expect(area.size()).to.deep.equal([3,3]);
+            expect(area.data()).to.deep.equal([
+                [6,6,6],
+                [6,6,6],
+                [5,1,6],
+            ]);
+        });
+
+        it('should crop areas that are greater than the grid', () => {
+            const area = gridl(mockData()).area([8,9]);
+            expect(area.numRows()).to.equal(5);
+            expect(area.numColumns()).to.equal(7);
+            expect(area.data()).to.deep.equal(mockData());
+        });
+
+        it('should crop areas that are greater than the grid by using an anchor', () => {
+            const area = gridl(mockData()).area([10,10,0,0,1,2]);
+            expect(area.numRows()).to.equal(5);
+            expect(area.numColumns()).to.equal(7);
+            expect(area.data()).to.deep.equal(mockData());
+        });
+
+        it('should crop areas that goes beyond the grid', () => {
+            const area = gridl(mockData()).area([6,8,6,3,2,1]);
+            expect(area.numRows()).to.equal(3);
+            expect(area.numColumns()).to.equal(3);
+            expect(area.data()).to.deep.equal([
+                [7,4,8],
+                [7,4,8],
+                [9,2,7],
+            ]);
+        });
+
+        it('should work with a positive anchor', () => {
+            const area = gridl(mockData()).area([2,3,6,3,2,1]);
+            expect(area.numRows()).to.equal(3);
+            expect(area.numColumns()).to.equal(2);
+            expect(area.data()).to.deep.equal([
+                [7,4],
+                [7,4],
+                [9,2],
+            ]);
+        });
+
+        it('should work with a negative anchor', () => {
+            const area = gridl(mockData()).area([3,2,1,2,-2,-1]);
+            expect(area.numRows()).to.equal(2);
+            expect(area.numColumns()).to.equal(3);
+            expect(area.data()).to.deep.equal([
+                [6,7,4],
+                [6,9,2],
+            ]);
+        });
+
+    });
+
+    describe('data (as setter)', () => {
+
+        it('should set the data of the area', () => {
+            const area = gridl(mockData()).area([2,3,1,2]).data([
+                [1,1],
+                [2,2],
+                [3,3],
+            ]);
+            expect(area.data()).to.deep.equal([
+                [1,1],
+                [2,2],
+                [3,3],
+            ]);
+        });
+
+        it('should throw an error if the new area data has an invalid size', () => {
+            const newData = [
+                [1,1],
+                [2,2],
+            ];
+            const area = gridl(mockData()).area([2,3,1,2]);
+            expect(() => area.data(newData)).to.throw('New area data has an invalid size.');
+        });
+
+        it('should return the area', () => {
+            const newData = [
+                [1,1],
+                [2,2],
+                [3,3],
+            ];
+            const area = gridl(mockData()).area([2,3,1,2]);
+            expect(area.data(newData)).to.deep.equal(area);
+        });
+
+    });
+
+    describe('apply', () => {
+
+        it('should apply new values to the main grid', () => {
+            const localPos = [2,1];
+            const grid = gridl(mockData());
+            const area = grid.area([3,2,1,2]);
+            area.valueAt(localPos, 999);
+            expect(grid.data()).to.deep.equal(mockData());
+            area.apply();
+            expect(grid.data()).to.deep.equal([
+                [0,7,3,2,8,4,8],
+                [4,2,5,7,8,4,8],
+                [6,6,6,6,7,4,8],
+                [6,6,6,999,7,4,8],
+                [6,5,1,6,9,2,7],
+            ]);
+        });
+
+        it('should ignore values that are set outside the area', () => {
+            const localPos = [2,4];
+            const grid = gridl(mockData());
+            const area = grid.area([3,2,1,2]);
+            area.valueAt(localPos, 999);
+            area.apply();
+            expect(grid.data()).to.deep.equal(mockData());
+        });
+
+        it('should return the gridl instance', () => {
+            const grid = gridl(mockData());
+            const result = grid.area([3,2]).apply();
+            expect(result).to.deep.equal(grid);
+        });
+
+    });
+
+    describe('parent', () => {
+
+        it('should return the gridl instance', () => {
+            const grid = gridl(mockData());
+            const result = grid.area([3,2]).parent();
+            expect(result).to.deep.equal(grid);
+        });
+
+    });
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     describe.skip('old stuff', () => {
 
@@ -717,4 +860,3 @@ describe('areas', () => {
     });
 
 });
-

@@ -7,6 +7,8 @@ import {
     addPositions,
     isValidPositionFormat,
     getValueAt,
+    countRows,
+    countColumns,
 } from '../utils';
 
 const _getAreaAt = (data, columns, rows, position, size, anchor = [0,0]) => {
@@ -74,21 +76,64 @@ const _reduceAreaAt = (api, data, columns, rows, position, size, callback, initi
     return hasInitialValue ? flattenedArea.reduce(reducer) : flattenedArea.reduce(reducer, initialValue);
 };
 
+const _validateAreaMember = member => member === undefined || typeof member === 'number';
+
+const _validateAreaDescription = areaDescription => {
+    if (areaDescription.length > 6) {
+        throw new Error('Invalid area description: too many fields');
+    }
+    const [_columns = 0, _rows = 0, _x = 0, _y = 0, _ax = 0, _ay = 0] = areaDescription;
+    if (!_validateAreaMember(_columns)) {
+        throw new Error('Invalid area description: column is not a number');
+    }
+    if (!_validateAreaMember(_rows)) {
+        throw new Error('Invalid area description: row is not a number');
+    }
+    if (!_validateAreaMember(_x)) {
+        throw new Error('Invalid area description: x is not a number');
+    }
+    if (!_validateAreaMember(_y)) {
+        throw new Error('Invalid area description: y is not a number');
+    }
+    if (!_validateAreaMember(_ax)) {
+        throw new Error('Invalid area description: anchorX is not a number');
+    }
+    if (!_validateAreaMember(_ay)) {
+        throw new Error('Invalid area description: anchorY is not a number');
+    }
+    if (_columns && _columns < 0) {
+        throw new Error('Invalid area description: columns cannot be negative');
+    }
+    if (_rows && _rows < 0) {
+        throw new Error('Invalid area description: rows cannot be negative');
+    }
+};
+
 export default function(instance, state) {
 
     const area = areaDescription => {
-        const [columns = 0, rows = 0, x = 0, y = 0, ax = 0, ay = 0] = areaDescription;
-        const position = [x, y];
-        const anchor = [ax, ay];
+        _validateAreaDescription(areaDescription);
+
+        // input values
+        const [_columns = 0, _rows = 0, _x = 0, _y = 0, _ax = 0, _ay = 0] = areaDescription;
+        const _position = [_x, _y];
+        const _anchor = [_ax, _ay];
+        const _size = [_columns, _rows];
+
+        // calculated values
+        const data = _getAreaAt(state.data, state.columns, state.rows, _position, _size, _anchor);
+        const columns = countColumns(data);
+        const rows = countRows(data);
         const size = [columns, rows];
-        const data = _getAreaAt(state.data, state.columns, state.rows, position, size, anchor);
+
+        // area api
         const subgrid = gridl(data);
         const api = {
             numRows: () => rows,
             numColumns: () => columns,
             size: () => size,
-            position: () => position,
-            anchor: () => anchor,
+            position: () => _position,
+            anchor: () => _anchor,
             localToGlobal: (localPosition) => addPositions(api.position(), localPosition),
             valueAt: function(localPosition, value) {
                 return arguments.length > 1 ?
@@ -96,12 +141,19 @@ export default function(instance, state) {
                     subgrid.valueAt(localPosition);
             },
             data: function(value) {
-                return (arguments.length > 0) ?
-                    subgrid.data(value) :
-                    subgrid.data();
+                if (arguments.length > 0) {
+                    const _newColumns = countColumns(value);
+                    const _newRows = countRows(value);
+                    if (_newRows !== rows || _newColumns !== columns) {
+                        throw new Error('New area data has an invalid size.');
+                    }
+                    subgrid.data(value);
+                    return api;
+                }
+                return subgrid.data();
             },
             apply: () => {
-                _setAreaAt(state.data, state.columns, state.rows, position, subgrid.data(), anchor);
+                _setAreaAt(state.data, state.columns, state.rows, _position, subgrid.data(), _anchor);
                 return instance;
             },
             parent: () => instance,
