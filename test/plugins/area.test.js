@@ -370,6 +370,20 @@ describe('area', () => {
 
     });
 
+    describe('localToGlobal', () => {
+
+        it('should convert the local position to a global position', () => {
+            const area = gridl(mockData()).area([3,3,2,1]);
+            expect(area.localToGlobal([1,2])).to.deep.equal([3,3]);
+        });
+
+        it('should not be affected by usage of an anchor', () => {
+            const area = gridl(mockData()).area([3,3,2,1,1,2]);
+            expect(area.localToGlobal([1,2])).to.deep.equal([3,3]);
+        });
+
+    });
+
     // -----------------------------------------------------------------------------------------------------------------
 
     describe.skip('old stuff', () => {
