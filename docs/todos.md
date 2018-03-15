@@ -32,22 +32,17 @@
 ## Planned features
 
 ### v0.10
-
-* New data format for areas
-    * 
-* Convert area-grid to area-dimension 
-* Check if two areas intersect `gridl.intersectAreas(area1, area2)`
+ 
+* implement [area api](area-api.md) (subset of gridl api for inner areas)
+* fix plugins api
+* remove navigation api
+* importing empty data (no rows or columns)
 
 ### v0.11
 
-* implement [area api](area-api.md) (subset of gridl api for inner areas)
 
 ### pre release
 
-* additional area iterators
-    * `areaMap()`
-    * `areaForEach()`
-    * rename `reduceArea()` to `areaReduce()`
 * jsdoc
     * evaluate [jsdoc-webpack-plugin](https://www.npmjs.com/package/jsdoc-webpack-plugin)
 * eternal mode

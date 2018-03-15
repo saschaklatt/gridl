@@ -2,14 +2,15 @@
 
 **v0.10.0**
 
-* Changed Plugin API: 
+* Refactored area API
+* Refactored plugin APIgit 
     * replaced `gridl.fn` with `gridl.use(key, plugin)`
 * new `positionInArea()` function
 * removed navigation api to simplify things
     * removed internal position in gridl
     * removed `goto()`, `walk()`, `position()`
     * removed all functions that were using the internal position
-* allow importing data with no rows and no columns
+* allow importing empty data (no rows and no columns)
 
 **v0.9.0**
 

@@ -4,6 +4,7 @@ import {
     subtractPositions,
     index2pos,
     flatten,
+    unflatten,
     addPositions,
     getValueAt,
     countRows,
@@ -145,10 +146,22 @@ export default function(instance, state) {
                     const local = index2pos(i, columns);
                     return callback(acc, v, local, api);
                 };
-                const flatArea = flatten(data);
                 return arguments.length < 1 ?
-                    flatArea.reduce(reducer) :
-                    flatArea.reduce(reducer, initialValue);
+                    flatten(data).reduce(reducer) :
+                    flatten(data).reduce(reducer, initialValue);
+            },
+            map: function(callback, thisArg) {
+                const mapper = (v, i) => {
+                    const local = index2pos(i, columns);
+                    return callback(v, local, api);
+                };
+                // TODO: looks too complicated (flatten -> unflatten)
+                const newData = arguments.length < 1 ?
+                    flatten(data).map(mapper) :
+                    flatten(data).map(mapper, thisArg);
+                // TODO: make a copy of the area
+                api.data(unflatten(newData, columns, rows));
+                return api;
             },
         };
         return api;
