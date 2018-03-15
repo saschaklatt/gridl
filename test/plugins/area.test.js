@@ -384,6 +384,50 @@ describe('area', () => {
 
     });
 
+    describe('reduce', () => {
+
+        it('should execute the callback on each cell within the area', () => {
+            const data = mockData();
+            const result = gridl(data).area([3,2,1,2]).reduce((acc, value) => acc.concat(value), []);
+            expect(result).to.deep.equal([6,6,6,6,6,6]);
+        });
+
+        it('should reduce the area to sum of all values', () => {
+            const data = mockData();
+            expect(gridl(data).area([3,2,2,1]).reduce((res, value) => res + value, 0)).to.equal(39);
+        });
+
+        it('should provide the positions on the grid within the callback', () => {
+            const data = mockData();
+            const result = gridl(data).area([3,2,1,2]).reduce((acc, value, pos) => acc.concat([pos]), []);
+            expect(result).to.deep.equal([
+                [0,0],[1,0],[2,0],
+                [0,1],[1,1],[2,1],
+            ]);
+        });
+
+        it('should provide the area instance within the callback', () => {
+            const data = mockData();
+            const area = gridl(data).area([3,2,1,2]);
+            const result = area.reduce((acc, value, pos, src) => {
+                expect(src).to.deep.equal(area);
+                return acc + 1;
+            }, 0);
+            expect(result).to.equal(6);
+        });
+
+        it('should use the initial value if provided', () => {
+            const data = mockData();
+            expect(gridl(data).area([3,2,1,2]).reduce(acc => acc, 666)).to.equal(666);
+        });
+
+        it('should throw an error if no callback is provided', () => {
+            const data = mockData();
+            expect(() => gridl(data).area([3,2,1,2]).reduce()).to.throw();
+        });
+
+    });
+
     // -----------------------------------------------------------------------------------------------------------------
 
     describe.skip('old stuff', () => {

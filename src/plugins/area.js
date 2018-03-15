@@ -5,7 +5,6 @@ import {
     index2pos,
     flatten,
     addPositions,
-    isValidPositionFormat,
     getValueAt,
     countRows,
     countColumns,
@@ -58,22 +57,6 @@ const _setAreaAt = (data, columns, rows, position, area, anchor = [0,0]) => {
         });
     });
     return data;
-};
-
-const _reduceAreaAt = (api, data, columns, rows, position, size, callback, initialValue, hasInitialValue) => {
-    if (!isValidPositionFormat(position)) {
-        throw new Error('Trying to reduce an area at an invalid position.');
-    }
-    if (!isValidPositionFormat(size)) {
-        throw new Error('Trying to reduce an area with invalid size.');
-    }
-    const reducer = (acc, v, i) => {
-        const local = index2pos(i, size[0]);
-        const global = addPositions(local, position);
-        return callback(acc, v, global, api);
-    };
-    const flattenedArea = flatten(_getAreaAt(data, columns, rows, position, size));
-    return hasInitialValue ? flattenedArea.reduce(reducer) : flattenedArea.reduce(reducer, initialValue);
 };
 
 const _validateAreaMember = member => member === undefined || typeof member === 'number';
@@ -157,6 +140,16 @@ export default function(instance, state) {
                 return instance;
             },
             parent: () => instance,
+            reduce: function(callback, initialValue) {
+                const reducer = (acc, v, i) => {
+                    const local = index2pos(i, columns);
+                    return callback(acc, v, local, api);
+                };
+                const flatArea = flatten(data);
+                return arguments.length < 1 ?
+                    flatArea.reduce(reducer) :
+                    flatArea.reduce(reducer, initialValue);
+            },
         };
         return api;
     };
