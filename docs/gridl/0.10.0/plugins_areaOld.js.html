@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: plugins/areaOld.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: plugins/areaOld.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import gridl from '../index';
+import {
+    setValueAt,
+    subtractPositions,
+    index2pos,
+    flatten,
+    addPositions,
+    isValidPositionFormat, getValueAt,
+} from '../utils';
+import {expect} from 'chai';
+
+const _getAreaAt = (data, columns, rows, position, size, anchor = [0,0]) => {
+    const posTmp = subtractPositions(position, anchor);
+    const end = [
+        Math.min(posTmp[0] + size[0], columns),
+        Math.min(posTmp[1] + size[1], rows),
+    ];
+    const pos = [
+        Math.max(0, posTmp[0]),
+        Math.max(0, posTmp[1]),
+    ];
+    const area = [];
+    for (let r = pos[1]; r &lt; end[1]; r++) {
+        const rArea = r - pos[1];
+        if (!area[rArea]) {
+            area[rArea] = [];
+        }
+        for (let c = pos[0]; c &lt; end[0]; c++) {
+            const cArea = c - pos[0];
+            area[rArea][cArea] = getValueAt(data, columns, [c, r]);
+        }
+    }
+    return area;
+};
+
+const _checkAreaFitsAt = (columns, rows, position, area, anchor = [0,0]) => {
+    const pos = subtractPositions(position, anchor);
+    const fitsHorizontally = pos[0] >= 0 &amp;&amp; pos[0] + area[0].length &lt;= columns;
+    const fitsVertically = pos[1] >= 0 &amp;&amp; pos[1] + area.length &lt;= rows;
+    return fitsHorizontally &amp;&amp; fitsVertically;
+};
+
+const _setAreaAt = (data, columns, rows, position, area, anchor = [0,0]) => {
+    const pos = subtractPositions(position, anchor);
+    area.forEach((row, r) => {
+        const targetPos = [0, r + pos[1]];
+        if (targetPos[1] >= rows) {
+            return;
+        }
+        row.forEach((cell, c) => {
+            targetPos[0] = c + pos[0];
+            if (targetPos[0] >= columns) {
+                return;
+            }
+            setValueAt(data, columns, rows, targetPos, cell);
+        });
+    });
+    return data;
+};
+
+const _reduceAreaAt = (api, data, columns, rows, position, size, callback, initialValue, hasInitialValue) => {
+    if (!isValidPositionFormat(position)) {
+        throw new Error('Trying to reduce an area at an invalid position.');
+    }
+    if (!isValidPositionFormat(size)) {
+        throw new Error('Trying to reduce an area with invalid size.');
+    }
+    const reducer = (acc, v, i) => {
+        const local = index2pos(i, size[0]);
+        const global = addPositions(local, position);
+        return callback(acc, v, global, api);
+    };
+    const flattenedArea = flatten(_getAreaAt(data, columns, rows, position, size));
+    return hasInitialValue ? flattenedArea.reduce(reducer) : flattenedArea.reduce(reducer, initialValue);
+};
+
+export default function(context, state) {
+
+    /**
+     * Check if a given area would fit inside the grid at a given position.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {number[]} position - The position where the area should be placed.
+     * @param {Array.&lt;Array.&lt;*>>} area - The area itself as a two-dimensional grid array
+     * @param {number[]} [anchor = [0, 0]] - The center of area.
+     * @returns {boolean} Whether the area fits or not.
+     */
+    function areaFitsAt(position, area, anchor) {
+        const { columns, rows } = state;
+        return _checkAreaFitsAt(columns, rows, position, area, anchor);
+    }
+
+    /**
+     * Exports the data grid array of a given array at the given position.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {Array.&lt;number>} position - The position of the area.
+     * @param {Array.&lt;number>} size - The size fo the area as a two-dimensional grid array.
+     * @param {Array.&lt;number>} [anchor = [0, 0]] - The center of area.
+     * @returns {Array.&lt;Array.&lt;*>>} The area.
+     */
+    function getAreaAt(position, size, anchor) {
+        const { data, columns, rows } = state;
+        return _getAreaAt(data, columns, rows, position, size, anchor);
+    }
+
+    /**
+     * Overwrite the values of a given area at a certain position.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {Array.&lt;number>} position - The position of the area.
+     * @param {Array.&lt;number>} area - The area itself as two-dimensional grid array.
+     * @param {Array.&lt;number>} [anchor = [0, 0]] - The center of area.
+     * @returns {gridl} The same gridl instance.
+     */
+    function setAreaAt(position, area, anchor) {
+        const { data, columns, rows } = state;
+        _setAreaAt(data, columns, rows, position, area, anchor);
+        return context;
+    }
+
+    /**
+     * Find the first occurrence of an element within a certain area.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {Array} position - The position of the area [x, y].
+     * @param {Array} size - The size of the area [columns, rows].
+     * @param {iteratorCallback} callback - The callback function that is called on each element within the defined area. Should return true if the element is found or false if not.
+     * @returns {(Array.&lt;number>|undefined)} The position of the first element that is found or &lt;code>undefined&lt;/code> if nothing was found.
+     */
+    function findInArea(position, size, callback) {
+        const { data, columns, rows } = state;
+        const area = _getAreaAt(data, columns, rows, position, size);
+        const flat = flatten(area);
+        const areaIndex = flat.findIndex((v, i) => callback(v, index2pos(i, columns), context));
+        if (areaIndex &lt; 0) {
+            return;
+        }
+        const areaColumns = area[0].length;
+        const posInArea = index2pos(areaIndex, areaColumns);
+        return [
+            position[0] + posInArea[0],
+            position[1] + posInArea[1],
+        ];
+    }
+
+    /**
+     * Checks if a position is inside a given area.
+     *
+     * @param {Array.&lt;Array.&lt;number>>} area - The area to search in.
+     * @param {Array.&lt;number>} position - The position to check for.
+     * @returns {boolean} - Whether or not the position is inside the area.
+     */
+    const positionInArea = (area, position) => {
+        const areaStart = [area[0], area[1]];
+        const areaSize = [area[2], area[3]];
+        const areaEnd = [area[0] + areaSize[0], area[1] + areaSize[1]];
+        const fitsX = position[0] >= areaStart[0] &amp;&amp; position[0] &lt; areaEnd[0];
+        const fitsY = position[1] >= areaStart[1] &amp;&amp; position[1] &lt; areaEnd[1];
+        return fitsX &amp;&amp; fitsY;
+    };
+
+    /**
+     * Applies a function against an accumulator and each element in the area at a given position to reduce it to a single value.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     *
+     * @param {number[][]} position - The position of the area within the grid.
+     * @param {number[][]} size - The size of the area within the grid.
+     * @param {reducerCallback} callback - The callback function that is executed on each cell within the grid.
+     * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the &lt;code>callback&lt;/code>. If no initial value is supplied, the first element in the grid will be used.
+     * @returns {*} The value that results from the reduction.
+     */
+    function reduceAreaAt(position, size, callback, initialValue) {
+        const { data, columns, rows } = state;
+        return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
+    }
+
+    return {
+        methods: {
+            areaFitsAt,
+            getAreaAt,
+            setAreaAt,
+            findInArea,
+            positionInArea,
+            reduceAreaAt,
+        },
+    };
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="gridl.html">gridl</a></li></ul><h3>Namespaces</h3><ul><li><a href="adjacences.html">adjacences</a></li><li><a href="directions.html">directions</a></li><li><a href="generators.html">generators</a></li><li><a href="utils.html">utils</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-adjacent-cells.html">adjacent-cells</a></li><li><a href="tutorial-areas.html">areas</a></li><li><a href="tutorial-clipping.html">clipping</a></li><li><a href="tutorial-cloning.html">cloning</a></li><li><a href="tutorial-columns-and-rows.html">columns-and-rows</a></li><li><a href="tutorial-data.html">data</a></li><li><a href="tutorial-finding.html">finding</a></li><li><a href="tutorial-flipping.html">flipping</a></li><li><a href="tutorial-generating.html">generating</a></li><li><a href="tutorial-iterating.html">iterating</a></li><li><a href="tutorial-moving.html">moving</a></li><li><a href="tutorial-plugins.html">plugins</a></li><li><a href="tutorial-rotating.html">rotating</a></li><li><a href="tutorial-size.html">size</a></li><li><a href="tutorial-swapping.html">swapping</a></li><li><a href="tutorial-values.html">values</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Mar 17 2018 22:20:52 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
