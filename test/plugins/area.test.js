@@ -831,6 +831,65 @@ describe('area', () => {
 
     });
 
+    describe('intersectsWith', () => {
+
+        it('should return true for two equal areas intersection', () => {
+            const area = [4,2,1,3];
+            const result = gridl(mockData()).area(area).intersectsWith(area);
+            expect(result).to.equal(true);
+        });
+
+        it('should return true for partly intersecting areas', () => {
+            const area1 = [3,2,1,1];
+            const area2 = [4,3,2,2];
+            const result = gridl(mockData()).area(area1).intersectsWith(area2);
+            expect(result).to.equal(true);
+        });
+
+        it('should return true when one area is inside the other area', () => {
+            const area1 = [5,4,0,0];
+            const area2 = [3,2,1,1];
+            const result = gridl(mockData()).area(area1).intersectsWith(area2);
+            expect(result).to.equal(true);
+        });
+
+        it('should return false when area1 is above area2', () => {
+            const area1 = [3,2,1,1];
+            const area2 = [4,3,2,3];
+            const result = gridl(mockData()).area(area1).intersectsWith(area2);
+            expect(result).to.equal(false);
+        });
+
+        it('should return false when area1 is below area2', () => {
+            const area1 = [4,3,2,3];
+            const area2 = [3,2,1,1];
+            const result = gridl(mockData()).area(area1).intersectsWith(area2);
+            expect(result).to.equal(false);
+        });
+
+        it('should return false when area1 is left to area2', () => {
+            const area1 = [2,2,0,0];
+            const area2 = [3,2,2,0];
+            const result = gridl(mockData()).area(area1).intersectsWith(area2);
+            expect(result).to.equal(false);
+        });
+
+        it('should return false when area1 is right to area2', () => {
+            const area1 = [3,2,2,1];
+            const area2 = [2,2,0,0];
+            const result = gridl(mockData()).area(area1).intersectsWith(area2);
+            expect(result).to.equal(false);
+        });
+
+        it('should return false when area1 is far away from area2', () => {
+            const area1 = [3,2,0,0];
+            const area2 = [2,2,4,4];
+            const result = gridl(mockData()).area(area1).intersectsWith(area2);
+            expect(result).to.equal(false);
+        });
+
+    });
+
     // -----------------------------------------------------------------------------------------------------------------
 
     describe.skip('old stuff', () => {

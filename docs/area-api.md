@@ -85,10 +85,9 @@ makeAreaDescription(areaData, areaPosition, areaAnchor); // returns [2,3,1,4,0,0
 √ gridl(data).area(areaDescription).fill((val, pos, src) => {...})
 √ gridl(data).area(areaDescription).find((val, pos, src) => {})
 √ gridl(data).area(areaDescription).description()
-√ gridl(data).area(areaDescription).isInside(otherArea) // former: areaFits(otherArea, anchor)
-√ gridl(data).area(areaDescription).contains(otherArea) // former: areaFits(otherArea, anchor)
-  gridl(data).area(areaDescription).containsPosition(globalPosition) // former: positionInArea(area, position)
-  gridl(data).area(areaDescription).intersectsWith(otherArea)
+√ gridl(data).area(areaDescription).isInside(areaDesc)
+√ gridl(data).area(areaDescription).contains(areaDesc)
+√ gridl(data).area(areaDescription).intersectsWith(otherArea)
   gridl(data).area(areaDescription).intersectingArea(globalPosition)
   gridl(data).area(areaDescription).column(x)
   gridl(data).area(areaDescription).row(y)
@@ -99,4 +98,5 @@ makeAreaDescription(areaData, areaPosition, areaAnchor); // returns [2,3,1,4,0,0
   gridl(data).area(areaDescription).swapCells()
   gridl(data).area(areaDescription).swapColumns()
   gridl(data).area(areaDescription).swapRows()
+  gridl(data).area(areaDescription).containsPosition(globalPosition) // already possible by using contains(areaDesc), calculations could be simplified when checking just a point instead of an area
 ```

@@ -35,13 +35,6 @@ const _getAreaAt = (data, columns, rows, position, size, anchor = [0,0]) => {
     return area;
 };
 
-const _checkAreaFitsAt = (columns, rows, position, area, anchor = [0,0]) => {
-    const pos = subtractPositions(position, anchor);
-    const fitsHorizontally = pos[0] >= 0 && pos[0] + area[0].length <= columns;
-    const fitsVertically = pos[1] >= 0 && pos[1] + area.length <= rows;
-    return fitsHorizontally && fitsVertically;
-};
-
 const _setAreaAt = (data, columns, rows, position, area, anchor = [0,0]) => {
     const pos = subtractPositions(position, anchor);
     area.forEach((row, r) => {
@@ -93,24 +86,38 @@ const _validateAreaDescription = areaDescription => {
     }
 };
 
-const _contains = (inner, outer) => {
-    const size1   = [inner[0] || 0, inner[1] || 0];
-    const pos1    = [inner[2] || 0, inner[3] || 0];
-    const anchor1 = [inner[4] || 0, inner[5] || 0];
-    const innerStart = subtractPositions(pos1, anchor1);
-    const innerEnd   = addPositions(innerStart, size1);
+const _areaStartAndEnd = areaDesc => {
+    const size   = [areaDesc[0] || 0, areaDesc[1] || 0];
+    const pos    = [areaDesc[2] || 0, areaDesc[3] || 0];
+    const anchor = [areaDesc[4] || 0, areaDesc[5] || 0];
+    const start  = subtractPositions(pos, anchor);
+    const end    = addPositions(start, size);
+    return [start[0], start[1], end[0] - 1, end[1] - 1];
+};
 
-    const size2   = [outer[0] || 0, outer[1] || 0];
-    const pos2    = [outer[2] || 0, outer[3] || 0];
-    const anchor2 = [outer[4] || 0, outer[5] || 0];
-    const outerStart = subtractPositions(pos2, anchor2);
-    const outerEnd   = addPositions(outerStart, size2);
-
+const _contains = (innerAreaDesc, outerAreaDesc) => {
+    const inner = _areaStartAndEnd(innerAreaDesc);
+    const outer = _areaStartAndEnd(outerAreaDesc);
     return (
-        innerEnd[0]   <= outerEnd[0]   &&
-        innerStart[0] >= outerStart[0] &&
-        innerEnd[1]   <= outerEnd[1]   &&
-        innerStart[1] >= outerStart[1]
+        inner[0] >= outer[0] &&
+        inner[1] >= outer[1] &&
+        inner[2] <= outer[2] &&
+        inner[3] <= outer[3]
+    );
+};
+
+/**
+ * @see https://stackoverflow.com/questions/306316/determine-if-two-rectangles-overlap-each-other
+ * @private
+ */
+const _overlap = (areaDesc1, areaDesc2) => {
+    const area1 = _areaStartAndEnd(areaDesc1);
+    const area2 = _areaStartAndEnd(areaDesc2);
+    return (
+        area1[0] <= area2[2] &&
+        area2[0] <= area1[2] &&
+        area1[1] <= area2[3] &&
+        area2[1] <= area1[3]
     );
 };
 
@@ -206,6 +213,10 @@ export default function(instance, state) {
             contains: otherAreaDescription => {
                 _validateAreaDescription(otherAreaDescription);
                 return _contains(otherAreaDescription, api.description());
+            },
+            intersectsWith: otherAreaDescription => {
+                _validateAreaDescription(otherAreaDescription);
+                return _overlap(api.description(), otherAreaDescription);
             },
         };
         return api;
