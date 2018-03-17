@@ -15,18 +15,18 @@ lies with the plugin creator.
 
 ### <a name="write"></a>Writing plugins
 
-Plugins are registered via the static `gridl.fn` object. 
+Plugins are registered via the static `gridl.use(name, plugin)` function. 
 
 ```javascript
-gridl.fn.myAwesomePlugin = (gridlInstance, state) => {
-    // every plugin starts with a plugin factory function like this
+gridl.use('myAwesomePlugin', (gridlInstance, state) => {
+    // every plugin is implemented by using this plugin factory function
     
     // Parameters:
     // - gridlInstance: is a reference to the current gridl instance
     // - state: is the internal state object that you can manipulate
     
     // ...plugin implementation goes here
-}
+})
 ```
 
 #### <a name="write-single-function"></a>Single functions
@@ -37,34 +37,20 @@ To add a single function simply return the function implementation within the pl
 import gridl from 'gridl';
 
 // register the plugin function "setFirstCell" that simply sets the first cell to a given value.
-gridl.fn.setFirstCell = function(gridlInstance, state) {
-    
-    // the plugin factory function
-    
-    // return the actual plugin function directly 
+gridl.use('setFirstCell', function(gridlInstance, state) {
+    // create the plugin function
     return function(value) {
-        
-        // the plugin function
-        
-        // set the first cell in the grid to a given value by manipulating the internal state object
-        state.data[0] = value; 
-        
-        // return the current gridl instance to allow method chaining
-        return gridlInstance;
+        state.data[0] = value; // set the first cell in the grid
+        return gridlInstance;  // return the gridl instance to allow method chaining
     };
-};
-
-// usage
-
+});
 const data = [
     [6,6,6],
     [6,6,6],
 ];
-const result = gridl(data)
-    .setFirstCell(1)        // use the new plugin function and pass in 1 as value
-    .valueAt([0,0]);        // use the data() function via method chaining in order to get the updated grid data
+const newGrid = gridl(data).setFirstCell(1).data();
 
-// result looks like this
+// newGrid looks like this
 // [
 //     [1,6,6],
 //     [6,6,6],
@@ -86,32 +72,38 @@ const data = [
     [10,11,12],
     [13,14,15],
 ];
-gridl.fn.oddEvenPlugin = function(instance, state) {
+gridl.use('oddEvenPlugin', function(instance, state) {
 
-    // the filter functions to either filter odd or even rows
     const evenFilter = (row, index) => index % 2;
     const oddFilter = (row, index) => !evenFilter(row, index);
 
-    // commonly used function to manipulate the internal state
     function filter(filterMethod) {
-        const grid = utils.unflatten(state.data, state.columns, state.rows);    // get the internal state and convert it into a two dimensional grid array
-        const filteredData = grid.filter(filterMethod);             // filter the rows with the given filter method
-        state.rows = filteredData.length;                           // update the new number of rows
-        state.data = utils.flatten(filteredData);                   // update the internal data, flatten it to a one-dimensional grid 
-        return instance;                                            // return the gridl instance to allow method chaining
+        const grid = utils.unflatten(state.data, state.columns, state.rows);
+        const filteredData = grid.filter(filterMethod);
+        state.rows = filteredData.length;
+        state.data = utils.flatten(filteredData);
+        return instance;
     }
 
-    // return the plugin as object, all public functions are bundled in the methods fields
     return {
         methods: {
-            filterOddRows: filter.bind(this, oddFilter),    // filter function with oddFilter
-            filterEvenRows: filter.bind(this, evenFilter),  // filter function with evenFilter
+            filterOddRows: filter.bind(this, oddFilter),
+            filterEvenRows: filter.bind(this, evenFilter),
         },
     };
-};
+});
+expect(gridl(data).filterOddRows().data()).to.deep.equal([
+    [1,2,3],
+    [7,8,9],
+    [13,14,15],
+]);
+expect(gridl(data).filterEvenRows().data()).to.deep.equal([
+    [4,5,6],
+    [10,11,12],
+]);
 
 const theOddRows = gridl(data).filterOddRows().data();
-// theOddRows looks like this
+// result looks like this
 // [
 //     [1,2,3],
 //     [7,8,9],
@@ -119,7 +111,7 @@ const theOddRows = gridl(data).filterOddRows().data();
 // ]
 
 const theEvenRows = gridl(data).filterEvenRows().data();
-// theEvenRows looks like this
+// result looks like this
 // [
 //     [4,5,6],
 //     [10,11,12],
@@ -142,10 +134,7 @@ const data = [
     [10,11,12],
     [13,14,15],
 ];
-
-// the namespace is always named after the plugin, here `oddEven`
-gridl.fn.oddEven = function(instance, state) {
-
+gridl.use('oddEven', function(instance, state) {
     const evenFilter = (row, index) => index % 2;
     const oddFilter = (row, index) => !evenFilter(row, index);
 
@@ -158,16 +147,16 @@ gridl.fn.oddEven = function(instance, state) {
     }
 
     return {
-        namespace: true, // enable namespace
+        namespace: true,
         methods: {
             filterOddRows: filter.bind(this, oddFilter),
             filterEvenRows: filter.bind(this, evenFilter),
         },
     };
-};
+});
 
 const theEvenRows = gridl(data).oddEven.filterOddRows().data(); // you now need to use the `oddEven` namespace in front of your function 
-// theEvenRows looks like this
+// result looks like this
 //[
 //    [1,2,3],
 //    [7,8,9],
@@ -175,7 +164,7 @@ const theEvenRows = gridl(data).oddEven.filterOddRows().data(); // you now need 
 //]
 
 const theOddRows = gridl(data).oddEven.filterEvenRows().data(); // you now need to use the `oddEven` namespace in front of your function
-// theOddRows looks like this
+// result looks like this
 //[
 //    [4,5,6],
 //    [10,11,12],
@@ -184,14 +173,13 @@ const theOddRows = gridl(data).oddEven.filterEvenRows().data(); // you now need 
 
 ### <a name="state"></a>Internal state
 
-With plugins you are able manipulate the internal state. The internal state is an object with the following structure:
+With plugins you are able to manipulate the internal state. The internal state is an object with the following structure:
 
 ```javascript
 {
     rows,       // the number of rows
     columns,    // the number of columns
     data,       // the grid data as flat one-dimensional array
-    position,   // the current position
 }
 ```
 
@@ -205,7 +193,3 @@ one-dimensional array.
 
 The number of rows and columns. When manipulating `state.data` you have to make sure `state.rows` and `state.columns`
 are updated accordingly.
-
-#### <a name="state-position"></a>state.position
-
-The internal position that is used for navigating with `goto()` and `walk()`.

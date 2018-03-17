@@ -1,7 +1,3 @@
-* [Single cells](#cells)
-* [Rows](#rows)
-* [Columns](#columns)
-
 ### <a name="cells"></a>Single cells
 
 Move a cell from one position to another absolute position:
@@ -19,7 +15,6 @@ const grid = [
 const from = [2,1];
 const to = [3,4];
 const newGrid1 = gridl(grid).moveCell(from, to).data();
-const newGrid2 = gridl(grid).goto(from).moveAbs(to).data();
 
 // grids would both look like this:
 // [
@@ -31,31 +26,6 @@ const newGrid2 = gridl(grid).goto(from).moveAbs(to).data();
 // ]
 ```
 
-Move cells from a position ([1,2]) into a certain direction (3 steps left, 2 steps down):
-
-```javascript
-import gridl from 'gridl';
-
-const grid = [
-    [ 1, 2, 3, 4, 5, 6],
-    [ 7, 8, 9,10,11,12],
-    [13,14,15,16,17,18],
-    [19,20,21,22,23,24],
-    [25,26,27,28,29,30],
-];
-const position = [1,2];
-const direction = [3,2];
-const grid = gridl(grid).goto(position).moveRel(direction).data();
-
-// grid looks like this:
-// [
-//     [ 1, 2, 3, 4, 5, 6],
-//     [ 7, 8, 9,10,11,12],
-//     [13,15,16,17,18,19],
-//     [20,21,22,23,24,25],
-//     [26,27,28,29,14,30],
-// ]
-```
 
 ### <a name="rows"></a>Rows
 
