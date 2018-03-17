@@ -30,8 +30,6 @@ function registerPlugins(state) {
             });
         }
     };
-
-    // Object.entries(plugins).forEach(register);
     usedPlugins.forEach(register);
 }
 
@@ -42,13 +40,13 @@ function registerPlugins(state) {
 function gridl(data) {
 
     // validate incoming data
-    validateGridArray(data); // TODO: support no rows and columns, default to to [[]]
+    validateGridArray(data);
 
     // create initial state
     const initialState = {
         rows: countRows(data),
         columns: countColumns(data),
-        data: flatten(data), // TODO: if no data is provided default to [[]]
+        data: flatten(data),
     };
 
     // register plugins with initial state
