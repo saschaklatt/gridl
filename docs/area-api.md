@@ -21,7 +21,6 @@
     * flat list (to apply Array.filter)
     * data array (2d grid array)
 
-
 Optional:
 
 * Rotating (square only)
@@ -30,19 +29,11 @@ Optional:
 * Convert local to global positions and vice versa
 * Moving the subgrid within the main grid
 
-
-
 ### Restrictions
 
-* The size can never be changed (would lead to inconsistency with the main grid)
-* 
+* The size of an area can never be changed (would lead to inconsistency with the main grid)
 
 ### Proposal
-
-#### Area as sub grid
-
-
-
 
 #### Area description
 
@@ -90,7 +81,7 @@ makeAreaDescription(areaData, areaPosition, areaAnchor); // returns [2,3,1,4,0,0
 √ gridl(data).area(areaDescription).apply()
 √ gridl(data).area(areaDescription).parent()
 √ gridl(data).area(areaDescription).reduce((acc, val, pos, src) => {...})
-  gridl(data).area(areaDescription).map((val, pos, src) => {...})
+√ gridl(data).area(areaDescription).map((val,0 pos, src) => {...})
   gridl(data).area(areaDescription).fill((val, pos, src) => {...})
   gridl(data).area(areaDescription).find((val, pos, src) => {})
   gridl(data).area(areaDescription).fitsInto(otherArea) // former: areaFits(otherArea, anchor)
