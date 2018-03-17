@@ -115,6 +115,32 @@ var pos2index = exports.pos2index = function pos2index(position, columns) {
 };
 
 /**
+ * Count the number of rows in a two-dimensional array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.<Array.<any>>} array2D - The input array.
+ * @returns {number} The number of rows.
+ */
+var countRows = exports.countRows = function countRows(array2D) {
+    return array2D.length || 0;
+};
+
+/**
+ * Count the number of columns in a two-dimensional array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.<Array.<any>>} array2D - The input array.
+ * @returns {number} The number of columns.
+ */
+var countColumns = exports.countColumns = function countColumns(array2D) {
+    return array2D && array2D[0] && array2D[0].length || 0;
+};
+
+/**
  * Converts a two-dimensional grid array into a one-dimensional list array.
  *
  * @memberOf utils
@@ -137,17 +163,20 @@ var flatten = exports.flatten = function flatten(array2D) {
  *
  * @param {number[]} array1D - The one-dimensional array you want to convert.
  * @param {number} columns - The number of columns the new two-dimensional array should have.
+ * @param {number} rows - The number of rows the new two-dimensional array should have.
  * @returns {number[][]} - A two-dimensional array.
  */
-var unflatten = exports.unflatten = function unflatten(array1D, columns) {
-    return array1D.reduce(function (res, cell, index) {
-        var pos = index2pos(index, columns);
-        if (!res[pos[1]]) {
-            res[pos[1]] = [];
+var unflatten = exports.unflatten = function unflatten(array1D, columns, rows) {
+    var res = [];
+    for (var r = 0; r < rows; r++) {
+        res[r] = [];
+        for (var c = 0; c < columns; c++) {
+            var pos = [c, r];
+            var i = pos2index(pos, columns);
+            res[r][c] = array1D[i];
         }
-        res[pos[1]][pos[0]] = cell;
-        return res;
-    }, []);
+    }
+    return res;
 };
 
 /**
@@ -303,9 +332,9 @@ var validateGridArray = exports.validateGridArray = function validateGridArray(d
         if (i > 0 && data[i - 1].length !== row.length) {
             throw new Error('Trying to import data with inconsistent number of columns.');
         }
-        if (row.length < 1) {
-            throw new Error('Trying to import grid without any columns. You need to provide at least one column.');
-        }
+        // if (row.length < 1) {
+        //     throw new Error('Trying to import grid without any columns. You need to provide at least one column.');
+        // }
     });
 };
 
@@ -317,6 +346,8 @@ var validateGridArray = exports.validateGridArray = function validateGridArray(d
  * @type {Object}
  */
 var utils = {
+    countColumns: countColumns,
+    countRows: countRows,
     flatten: flatten,
     isValidPositionFormat: isValidPositionFormat,
     unflatten: unflatten,
@@ -366,20 +397,24 @@ var _directions = __webpack_require__(2);
 
 var _directions2 = _interopRequireDefault(_directions);
 
-var _adjacences = __webpack_require__(19);
+var _adjacences = __webpack_require__(18);
 
 var _adjacences2 = _interopRequireDefault(_adjacences);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var flatten = _utils2.default.flatten,
-    validateGridArray = _utils2.default.validateGridArray;
+    validateGridArray = _utils2.default.validateGridArray,
+    countColumns = _utils2.default.countColumns,
+    countRows = _utils2.default.countRows;
 
 
-function registerPlugins(plugins, state) {
+var usedPlugins = [];
+
+function registerPlugins(state) {
     var _this = this;
 
-    Object.entries(plugins).forEach(function (_ref) {
+    var register = function register(_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
             key = _ref2[0],
             pluginFactory = _ref2[1];
@@ -407,28 +442,30 @@ function registerPlugins(plugins, state) {
                         _this[k] = func;
                     });
                 }
-    });
+    };
+
+    // Object.entries(plugins).forEach(register);
+    usedPlugins.forEach(register);
 }
 
 /**
  * @class
  * @private
  */
-function gridl(plugins, data) {
+function gridl(data) {
 
     // validate incoming data
-    validateGridArray(data);
+    validateGridArray(data); // TODO: support no rows and columns, default to to [[]]
 
     // create initial state
     var initialState = {
-        rows: data.length,
-        columns: data[0].length,
-        data: flatten(data),
-        position: [0, 0]
+        rows: countRows(data),
+        columns: countColumns(data),
+        data: flatten(data) // TODO: if no data is provided default to [[]]
     };
 
     // register plugins with initial state
-    registerPlugins.call(this, plugins, initialState);
+    registerPlugins.call(this, initialState);
 
     return this;
 }
@@ -440,9 +477,27 @@ function gridl(plugins, data) {
  * @param {Array.<Array.<*>>} data - A two dimensional grid array. Every row needs to have the same number of columns.
  */
 var gridlFactory = function gridlFactory(data) {
-    return new gridl(_plugins2.default, data);
+    return new gridl(data);
 };
-gridlFactory.fn = _plugins2.default;
+
+/**
+ * Register a plugin.
+ *
+ * @param {string} id - An unique ID to identify the plugin.
+ * @param {Object} plugin - The plugin itself.
+ */
+gridlFactory.use = function (id, plugin) {
+    usedPlugins.push([id, plugin]);
+};
+
+// register core plugins
+Object.entries(_plugins2.default).forEach(function (_ref5) {
+    var _ref6 = _slicedToArray(_ref5, 2),
+        key = _ref6[0],
+        plugin = _ref6[1];
+
+    return gridlFactory.use(key, plugin);
+});
 
 exports.utils = _utils2.default;
 exports.generators = _generators2.default;
@@ -614,9 +669,9 @@ var _finding = __webpack_require__(9);
 
 var _finding2 = _interopRequireDefault(_finding);
 
-var _flip = __webpack_require__(10);
+var _flipping = __webpack_require__(10);
 
-var _flip2 = _interopRequireDefault(_flip);
+var _flipping2 = _interopRequireDefault(_flipping);
 
 var _iterator = __webpack_require__(11);
 
@@ -626,27 +681,23 @@ var _moving = __webpack_require__(12);
 
 var _moving2 = _interopRequireDefault(_moving);
 
-var _navigating = __webpack_require__(13);
-
-var _navigating2 = _interopRequireDefault(_navigating);
-
-var _rotating = __webpack_require__(14);
+var _rotating = __webpack_require__(13);
 
 var _rotating2 = _interopRequireDefault(_rotating);
 
-var _rows = __webpack_require__(15);
+var _rows = __webpack_require__(14);
 
 var _rows2 = _interopRequireDefault(_rows);
 
-var _state = __webpack_require__(16);
+var _state = __webpack_require__(15);
 
 var _state2 = _interopRequireDefault(_state);
 
-var _swapping = __webpack_require__(17);
+var _swapping = __webpack_require__(16);
 
 var _swapping2 = _interopRequireDefault(_swapping);
 
-var _value = __webpack_require__(18);
+var _value = __webpack_require__(17);
 
 var _value2 = _interopRequireDefault(_value);
 
@@ -658,10 +709,9 @@ exports.default = {
     clipping: _clipping2.default,
     columns: _columns2.default,
     finding: _finding2.default,
-    flip: _flip2.default,
+    flip: _flipping2.default,
     iterator: _iterator2.default,
     moving: _moving2.default,
-    navigating: _navigating2.default,
     rotating: _rotating2.default,
     rows: _rows2.default,
     state: _state2.default,
@@ -703,38 +753,12 @@ exports.default = function (context, state) {
             rows = state.rows;
 
         var gridSize = !includeOutsideValues && [columns, rows];
-        var grid = (0, _utils.unflatten)(data, columns);
-        return _adjacentCells(grid, position, adjacence, gridSize);
-    }
-
-    /**
-     * Get the values of all adjacent cells at the current position.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number[][]} [adjacence = [adjacents.ALL]{@link adjacences}] - A list of positions relative to the given position. These positions are considered as the adjacents.
-     * @param {boolean} [includeOutsideValues = false] - If <code>false</code>, adjacent cells that are outside the grid will be ignored, if <code>true</code>, <code>undefined</code> will be returned for them.
-     * @returns {Array.<*>} The values of the adjacent cells.
-     */
-    function adjacentCells() {
-        var adjacence = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _index.adjacences.ALL;
-        var includeOutsideValues = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows,
-            position = state.position;
-
-        var gridSize = !includeOutsideValues && [columns, rows];
-        var grid = (0, _utils.unflatten)(data, columns);
+        var grid = (0, _utils.unflatten)(data, columns, rows);
         return _adjacentCells(grid, position, adjacence, gridSize);
     }
 
     return {
         methods: {
-            adjacentCells: adjacentCells,
             adjacentCellsAt: adjacentCellsAt
         }
     };
@@ -777,215 +801,140 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (context, state) {
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-    /**
-     * Check if a given area would fit inside the grid at the current position.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<Array.<*>>} area - The area itself as a two-dimensional grid array
-     * @param {number[]} [anchor = [0, 0]] - The center of area.
-     * @returns {boolean} Whether the area fits or not.
-     */
-    function areaFits(area, anchor) {
-        var columns = state.columns,
-            rows = state.rows,
-            position = state.position;
+exports.default = function (instance, state) {
 
-        return _checkAreaFitsAt(columns, rows, position, area, anchor);
-    }
+    var area = function area(areaDescription) {
+        _validateAreaDescription(areaDescription);
 
-    /**
-     * Check if a given area would fit inside the grid at a given position.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number[]} position - The position where the area should be placed.
-     * @param {Array.<Array.<*>>} area - The area itself as a two-dimensional grid array
-     * @param {number[]} [anchor = [0, 0]] - The center of area.
-     * @returns {boolean} Whether the area fits or not.
-     */
-    function areaFitsAt(position, area, anchor) {
-        var columns = state.columns,
-            rows = state.rows;
+        // input values
 
-        return _checkAreaFitsAt(columns, rows, position, area, anchor);
-    }
+        var _areaDescription2 = _slicedToArray(areaDescription, 6),
+            _areaDescription2$ = _areaDescription2[0],
+            _columns = _areaDescription2$ === undefined ? 0 : _areaDescription2$,
+            _areaDescription2$2 = _areaDescription2[1],
+            _rows = _areaDescription2$2 === undefined ? 0 : _areaDescription2$2,
+            _areaDescription2$3 = _areaDescription2[2],
+            _x = _areaDescription2$3 === undefined ? 0 : _areaDescription2$3,
+            _areaDescription2$4 = _areaDescription2[3],
+            _y = _areaDescription2$4 === undefined ? 0 : _areaDescription2$4,
+            _areaDescription2$5 = _areaDescription2[4],
+            _ax = _areaDescription2$5 === undefined ? 0 : _areaDescription2$5,
+            _areaDescription2$6 = _areaDescription2[5],
+            _ay = _areaDescription2$6 === undefined ? 0 : _areaDescription2$6;
 
-    /**
-     * Exports the data grid array of a given array at the current position.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} size - The size fo the area as a two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
-     * @returns {Array.<Array.<*>>} The area.
-     */
-    function getArea(size, anchor) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows,
-            position = state.position;
+        var _position = [_x, _y];
+        var _anchor = [_ax, _ay];
+        var _size = [_columns, _rows];
 
-        return _getAreaAt(data, columns, rows, position, size, anchor);
-    }
+        // calculated values
+        var data = _getAreaAt(state.data, state.columns, state.rows, _position, _size, _anchor);
+        var columns = (0, _utils.countColumns)(data);
+        var rows = (0, _utils.countRows)(data);
+        var _size2 = [columns, rows];
 
-    /**
-     * Exports the data grid array of a given array at the given position.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} position - The position of the area.
-     * @param {Array.<number>} size - The size fo the area as a two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
-     * @returns {Array.<Array.<*>>} The area.
-     */
-    function getAreaAt(position, size, anchor) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows;
-
-        return _getAreaAt(data, columns, rows, position, size, anchor);
-    }
-
-    /**
-     * Overwrite the values of a given area at the current position.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} area - The area itself as two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
-     * @returns {gridl} The same gridl instance.
-     */
-    function setArea(area, anchor) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows,
-            position = state.position;
-
-        _setAreaAt(data, columns, rows, position, area, anchor);
-        return context;
-    }
-
-    /**
-     * Overwrite the values of a given area at a certain position.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} position - The position of the area.
-     * @param {Array.<number>} area - The area itself as two-dimensional grid array.
-     * @param {Array.<number>} [anchor = [0, 0]] - The center of area.
-     * @returns {gridl} The same gridl instance.
-     */
-    function setAreaAt(position, area, anchor) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows;
-
-        _setAreaAt(data, columns, rows, position, area, anchor);
-        return context;
-    }
-
-    /**
-     * Find the first occurrence of an element within a certain area.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array} position - The position of the area [x, y].
-     * @param {Array} size - The size of the area [columns, rows].
-     * @param {iteratorCallback} callback - The callback function that is called on each element within the defined area. Should return true if the element is found or false if not.
-     * @returns {(Array.<number>|undefined)} The position of the first element that is found or <code>undefined</code> if nothing was found.
-     */
-    function findInArea(position, size, callback) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows;
-
-        var area = _getAreaAt(data, columns, rows, position, size);
-        var flat = (0, _utils.flatten)(area);
-        var areaIndex = flat.findIndex(function (v, i) {
-            return callback(v, (0, _utils.index2pos)(i, columns), context);
-        });
-        if (areaIndex < 0) {
-            return;
-        }
-        var areaColumns = area[0].length;
-        var posInArea = (0, _utils.index2pos)(areaIndex, areaColumns);
-        return [position[0] + posInArea[0], position[1] + posInArea[1]];
-    }
-
-    /**
-     * Applies a function against an accumulator and each element in the area at a given position to reduce it to a single value.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number[][]} position - The position of the area within the grid.
-     * @param {number[][]} size - The size of the area within the grid.
-     * @param {reducerCallback} callback - The callback function that is executed on each cell within the grid.
-     * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
-     * @returns {*} The value that results from the reduction.
-     */
-    function reduceAreaAt(position, size, callback, initialValue) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows;
-
-        return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
-    }
-
-    /**
-     * Applies a function against an accumulator and each element in the area at the current position to reduce it to a single value.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {number[][]} size - The size of the area within the grid.
-     * @param {reducerCallback} callback - The callback function that is executed on each cell within the grid.
-     * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
-     * @returns {*} The value that results from the reduction.
-     */
-    function reduceArea(size, callback, initialValue) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows,
-            position = state.position;
-
-        return _reduceAreaAt(context, data, columns, rows, position, size, callback, initialValue, arguments.length === 1);
-    }
+        // area api
+        var subgrid = (0, _index2.default)(data);
+        var api = {
+            numRows: function numRows() {
+                return rows;
+            },
+            numColumns: function numColumns() {
+                return columns;
+            },
+            size: function size() {
+                return _size2;
+            },
+            position: function position() {
+                return _position;
+            },
+            anchor: function anchor() {
+                return _anchor;
+            },
+            localToGlobal: function localToGlobal(localPosition) {
+                return (0, _utils.addPositions)(api.position(), localPosition);
+            },
+            valueAt: function valueAt(localPosition, value) {
+                return arguments.length > 1 ? subgrid.valueAt(localPosition, value) : subgrid.valueAt(localPosition);
+            },
+            data: function data(value) {
+                if (arguments.length > 0) {
+                    var _newColumns = (0, _utils.countColumns)(value);
+                    var _newRows = (0, _utils.countRows)(value);
+                    if (_newRows !== rows || _newColumns !== columns) {
+                        throw new Error('New area data has an invalid size.');
+                    }
+                    subgrid.data(value);
+                    return api;
+                }
+                return subgrid.data();
+            },
+            apply: function apply() {
+                _setAreaAt(state.data, state.columns, state.rows, _position, subgrid.data(), _anchor);
+                return instance;
+            },
+            parent: function parent() {
+                return instance;
+            },
+            reduce: function reduce(callback, initialValue) {
+                var reducer = function reducer(acc, v, i) {
+                    var local = (0, _utils.index2pos)(i, columns);
+                    return callback(acc, v, local, api);
+                };
+                return arguments.length < 1 ? (0, _utils.flatten)(data).reduce(reducer) : (0, _utils.flatten)(data).reduce(reducer, initialValue);
+            },
+            map: function map(callback, thisArg) {
+                var mapper = function mapper(v, i) {
+                    var local = (0, _utils.index2pos)(i, columns);
+                    return callback.call(this, v, local, api);
+                };
+                // TODO: looks too complicated (flatten -> unflatten)
+                var newData = arguments.length < 2 ? (0, _utils.flatten)(data).map(mapper) : (0, _utils.flatten)(data).map(mapper, thisArg);
+                // return a copy with the new data
+                return area(areaDescription).data((0, _utils.unflatten)(newData, columns, rows));
+            },
+            fill: function fill(callbackOrValue, thisArg) {
+                if (typeof callbackOrValue === 'function') {
+                    subgrid.fill(function (v, pos) {
+                        return callbackOrValue.call(thisArg, v, pos, api);
+                    });
+                } else {
+                    subgrid.fill(callbackOrValue);
+                }
+                return api;
+            },
+            find: function find(callbackOrValue, thisArg) {
+                if (typeof callbackOrValue === 'function') {
+                    return subgrid.find(function (v, pos) {
+                        return callbackOrValue.call(thisArg, v, pos, api);
+                    });
+                }
+                return subgrid.find(function (v) {
+                    return v === callbackOrValue;
+                });
+            },
+            description: function description() {
+                return [columns, rows, _x, _y, _ax, _ay];
+            },
+            isInside: function isInside(otherAreaDescription) {
+                _validateAreaDescription(otherAreaDescription);
+                return _contains(api.description(), otherAreaDescription);
+            },
+            contains: function contains(otherAreaDescription) {
+                _validateAreaDescription(otherAreaDescription);
+                return _contains(otherAreaDescription, api.description());
+            },
+            intersectsWith: function intersectsWith(otherAreaDescription) {
+                _validateAreaDescription(otherAreaDescription);
+                return _overlap(api.description(), otherAreaDescription);
+            }
+        };
+        return api;
+    };
 
     return {
-        methods: {
-            areaFits: areaFits,
-            areaFitsAt: areaFitsAt,
-            getArea: getArea,
-            getAreaAt: getAreaAt,
-            setArea: setArea,
-            setAreaAt: setAreaAt,
-            findInArea: findInArea,
-            reduceArea: reduceArea,
-            reduceAreaAt: reduceAreaAt
-        }
+        methods: { area: area }
     };
 };
 
@@ -1017,15 +966,6 @@ var _getAreaAt = function _getAreaAt(data, columns, rows, position, size) {
     return area;
 };
 
-var _checkAreaFitsAt = function _checkAreaFitsAt(columns, rows, position, area) {
-    var anchor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [0, 0];
-
-    var pos = (0, _utils.subtractPositions)(position, anchor);
-    var fitsHorizontally = pos[0] >= 0 && pos[0] + area[0].length <= columns;
-    var fitsVertically = pos[1] >= 0 && pos[1] + area.length <= rows;
-    return fitsHorizontally && fitsVertically;
-};
-
 var _setAreaAt = function _setAreaAt(data, columns, rows, position, area) {
     var anchor = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : [0, 0];
 
@@ -1046,20 +986,78 @@ var _setAreaAt = function _setAreaAt(data, columns, rows, position, area) {
     return data;
 };
 
-var _reduceAreaAt = function _reduceAreaAt(api, data, columns, rows, position, size, callback, initialValue, hasInitialValue) {
-    if (!(0, _utils.isValidPositionFormat)(position)) {
-        throw new Error('Trying to reduce an area at an invalid position.');
+var _validateAreaMember = function _validateAreaMember(member) {
+    return member === undefined || typeof member === 'number';
+};
+
+var _validateAreaDescription = function _validateAreaDescription(areaDescription) {
+    if (areaDescription.length > 6) {
+        throw new Error('Invalid area description: too many fields');
     }
-    if (!(0, _utils.isValidPositionFormat)(size)) {
-        throw new Error('Trying to reduce an area with invalid size.');
+
+    var _areaDescription = _slicedToArray(areaDescription, 6),
+        _areaDescription$ = _areaDescription[0],
+        _columns = _areaDescription$ === undefined ? 0 : _areaDescription$,
+        _areaDescription$2 = _areaDescription[1],
+        _rows = _areaDescription$2 === undefined ? 0 : _areaDescription$2,
+        _areaDescription$3 = _areaDescription[2],
+        _x = _areaDescription$3 === undefined ? 0 : _areaDescription$3,
+        _areaDescription$4 = _areaDescription[3],
+        _y = _areaDescription$4 === undefined ? 0 : _areaDescription$4,
+        _areaDescription$5 = _areaDescription[4],
+        _ax = _areaDescription$5 === undefined ? 0 : _areaDescription$5,
+        _areaDescription$6 = _areaDescription[5],
+        _ay = _areaDescription$6 === undefined ? 0 : _areaDescription$6;
+
+    if (!_validateAreaMember(_columns)) {
+        throw new Error('Invalid area description: column is not a number');
     }
-    var reducer = function reducer(acc, v, i) {
-        var local = (0, _utils.index2pos)(i, size[0]);
-        var global = (0, _utils.addPositions)(local, position);
-        return callback(acc, v, global, api);
-    };
-    var flattenedArea = (0, _utils.flatten)(_getAreaAt(data, columns, rows, position, size));
-    return hasInitialValue ? flattenedArea.reduce(reducer) : flattenedArea.reduce(reducer, initialValue);
+    if (!_validateAreaMember(_rows)) {
+        throw new Error('Invalid area description: row is not a number');
+    }
+    if (!_validateAreaMember(_x)) {
+        throw new Error('Invalid area description: x is not a number');
+    }
+    if (!_validateAreaMember(_y)) {
+        throw new Error('Invalid area description: y is not a number');
+    }
+    if (!_validateAreaMember(_ax)) {
+        throw new Error('Invalid area description: anchorX is not a number');
+    }
+    if (!_validateAreaMember(_ay)) {
+        throw new Error('Invalid area description: anchorY is not a number');
+    }
+    if (_columns && _columns < 0) {
+        throw new Error('Invalid area description: columns cannot be negative');
+    }
+    if (_rows && _rows < 0) {
+        throw new Error('Invalid area description: rows cannot be negative');
+    }
+};
+
+var _areaStartAndEnd = function _areaStartAndEnd(areaDesc) {
+    var size = [areaDesc[0] || 0, areaDesc[1] || 0];
+    var pos = [areaDesc[2] || 0, areaDesc[3] || 0];
+    var anchor = [areaDesc[4] || 0, areaDesc[5] || 0];
+    var start = (0, _utils.subtractPositions)(pos, anchor);
+    var end = (0, _utils.addPositions)(start, size);
+    return [start[0], start[1], end[0] - 1, end[1] - 1];
+};
+
+var _contains = function _contains(innerAreaDesc, outerAreaDesc) {
+    var inner = _areaStartAndEnd(innerAreaDesc);
+    var outer = _areaStartAndEnd(outerAreaDesc);
+    return inner[0] >= outer[0] && inner[1] >= outer[1] && inner[2] <= outer[2] && inner[3] <= outer[3];
+};
+
+/**
+ * @see https://stackoverflow.com/questions/306316/determine-if-two-rectangles-overlap-each-other
+ * @private
+ */
+var _overlap = function _overlap(areaDesc1, areaDesc2) {
+    var area1 = _areaStartAndEnd(areaDesc1);
+    var area2 = _areaStartAndEnd(areaDesc2);
+    return area1[0] <= area2[2] && area2[0] <= area1[2] && area1[1] <= area2[3] && area2[1] <= area1[3];
 };
 
 module.exports = exports['default'];
@@ -1076,29 +1074,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (context, state) {
-
-    /**
-     * Clip an area out of the current grid. It removes all cells that are not inside the given area.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} size - The size of the area.
-     * @returns {gridl} The same gridl instance.
-     */
-    function clip(size) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows,
-            position = state.position;
-
-        var grid = _clip(data, columns, rows, position, size);
-        state.data = (0, _utils.flatten)(grid);
-        state.rows = grid.length;
-        state.columns = grid[0].length;
-        return context;
-    }
 
     /**
      * Clip an area out of the current grid. It removes all cells that are not inside the given area.
@@ -1124,7 +1099,7 @@ exports.default = function (context, state) {
     }
 
     return {
-        methods: { clip: clip, clipAt: clipAt }
+        methods: { clipAt: clipAt }
     };
 };
 
@@ -1135,7 +1110,7 @@ var _clip = function _clip(data, columns, rows, position, size) {
         throw new Error('Trying to clip data at an invalid position. Given: ' + position);
     }
     var endPoint = (0, _utils.addPositions)(position, size);
-    return (0, _utils.unflatten)(data, columns).filter(function (row, r) {
+    return (0, _utils.unflatten)(data, columns, rows).filter(function (row, r) {
         return r >= position[1] && r < endPoint[1];
     }).map(function (row) {
         return row.filter(function (cell, c) {
@@ -1183,9 +1158,10 @@ exports.default = function (context, state) {
      */
     function column(x) {
         var data = state.data,
-            columns = state.columns;
+            columns = state.columns,
+            rows = state.rows;
 
-        return (0, _utils.getColumn)((0, _utils.unflatten)(data, columns), x);
+        return (0, _utils.getColumn)((0, _utils.unflatten)(data, columns, rows), x);
     }
 
     /**
@@ -1210,7 +1186,7 @@ exports.default = function (context, state) {
         if (column.length !== rows) {
             throw new Error('Trying to add a column that contains an invalid amount of cells. Expected: ' + rows + ', Given: ' + column.length);
         }
-        var grid = _utils2.default.unflatten(data, columns).map(function (row, i) {
+        var grid = _utils2.default.unflatten(data, columns, rows).map(function (row, i) {
             row.splice(x, 0, column[i]);
             return row;
         });
@@ -1231,7 +1207,8 @@ exports.default = function (context, state) {
      */
     function removeColumn(x) {
         var data = state.data,
-            columns = state.columns;
+            columns = state.columns,
+            rows = state.rows;
 
         if (x < 0 || x >= columns) {
             throw new Error('Trying to remove a column at an invalid position. Given: ' + x);
@@ -1239,7 +1216,7 @@ exports.default = function (context, state) {
         if (columns <= 1) {
             throw new Error('Cannot remove column because the grid would be empty after it.');
         }
-        var grid = (0, _utils.unflatten)(data, columns).map(function (row) {
+        var grid = (0, _utils.unflatten)(data, columns, rows).map(function (row) {
             return row.filter(function (v, c) {
                 return c !== x;
             });
@@ -1291,16 +1268,24 @@ exports.default = function (context, state) {
      * @method
      * @instance
      *
-     * @param {iteratorCallback} callback - The callback function that is called on each element. Should return true if the element is found or false if not.
+     * @param {iteratorCallback} callbackOrValue - The callback function that is called on each element. Should return true if the element is found or false if not.
+     * @param {*} [thisArg] Optional. Object to use as <code>this</code> when executing <code>callback</code>.
      * @returns {(Array.<number>|undefined)} The position of the first element that is found or <code>undefined</code> if nothing was found.
      */
-    function find(callback) {
+    function find(callbackOrValue, thisArg) {
         var data = state.data,
             columns = state.columns;
 
-        var index = data.findIndex(function (v, i) {
-            return callback(v, (0, _utils.index2pos)(i, columns), context);
-        });
+        var index = void 0;
+        if (typeof callbackOrValue === 'function') {
+            index = data.findIndex(function (v, i) {
+                return callbackOrValue.call(thisArg, v, (0, _utils.index2pos)(i, columns), context);
+            }, thisArg);
+        } else {
+            index = data.findIndex(function (v) {
+                return v === callbackOrValue;
+            }, thisArg);
+        }
         return index >= 0 ? (0, _utils.index2pos)(index, columns) : undefined;
     }
 
@@ -1332,9 +1317,10 @@ exports.default = function (context, state) {
      */
     var flipX = function flipX(xPos) {
         var data = state.data,
-            columns = state.columns;
+            columns = state.columns,
+            rows = state.rows;
 
-        var grid = (0, _utils.unflatten)(data, columns);
+        var grid = (0, _utils.unflatten)(data, columns, rows);
         state.data = (0, _utils.flatten)(_flip(grid, xPos));
         return context;
     };
@@ -1347,9 +1333,10 @@ exports.default = function (context, state) {
      */
     function flipY(yPos) {
         var data = state.data,
-            columns = state.columns;
+            columns = state.columns,
+            rows = state.rows;
 
-        var grid = (0, _utils.unflatten)(data, columns);
+        var grid = (0, _utils.unflatten)(data, columns, rows);
         state.data = (0, _utils.flatten)(grid.map(function (row) {
             return _flip(row, yPos);
         }));
@@ -1406,12 +1393,13 @@ exports.default = function (instance, state) {
      */
     function map(callback) {
         var data = state.data,
-            columns = state.columns;
+            columns = state.columns,
+            rows = state.rows;
 
         var newData = data.map(function (v, i) {
             return callback(v, (0, _utils.index2pos)(i, columns), instance);
         });
-        return (0, _index2.default)((0, _utils.unflatten)(newData, columns));
+        return (0, _index2.default)((0, _utils.unflatten)(newData, columns, rows));
     }
 
     /**
@@ -1528,27 +1516,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (context, state) {
 
     /**
-     * Move the current cell to an absolute position.
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array} to - The position where the cell should be moved.
-     * @returns {gridl}
-     */
-    function moveAbs(to) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows,
-            position = state.position;
-
-        state.data = _moveCell(data, columns, rows, position, to);
-        return context;
-    }
-
-    /**
      * Move a cell from one position to another.
      *
      * @memberOf gridl
@@ -1581,7 +1548,8 @@ exports.default = function (context, state) {
      */
     function moveColumn(xFrom, xTo) {
         var data = state.data,
-            columns = state.columns;
+            columns = state.columns,
+            rows = state.rows;
 
         if (xFrom < 0 || xFrom >= columns) {
             throw new Error('Trying to move column from an invalid position. Given: ' + xFrom);
@@ -1589,30 +1557,9 @@ exports.default = function (context, state) {
         if (xTo < 0 || xTo >= columns) {
             throw new Error('Trying to move column to an invalid position. Given: ' + xTo);
         }
-        state.data = (0, _utils.flatten)((0, _utils.unflatten)(data, columns).map(function (row) {
+        state.data = (0, _utils.flatten)((0, _utils.unflatten)(data, columns, rows).map(function (row) {
             return _move(row, xFrom, xTo);
         }));
-        return context;
-    }
-
-    /**
-     * Move the current cell from the current position in a certain direction.
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array} direction - The direction in which to move from the current position.
-     * @returns {gridl} The current gridl instance.
-     */
-    function moveRel(direction) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows,
-            position = state.position;
-
-        state.data = _moveCell(data, columns, rows, position, (0, _utils.addPositions)(position, direction));
         return context;
     }
 
@@ -1638,16 +1585,14 @@ exports.default = function (context, state) {
         if (yTo < 0 || yTo >= rows) {
             throw new Error('Trying to move row to an invalid position. Given: ' + yTo);
         }
-        state.data = (0, _utils.flatten)(_move((0, _utils.unflatten)(data, columns), yFrom, yTo));
+        state.data = (0, _utils.flatten)(_move((0, _utils.unflatten)(data, columns, rows), yFrom, yTo));
         return context;
     }
 
     return {
         methods: {
-            moveAbs: moveAbs,
             moveCell: moveCell,
             moveColumn: moveColumn,
-            moveRel: moveRel,
             moveRow: moveRow
         }
     };
@@ -1691,88 +1636,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (context, state) {
 
     /**
-     * Get the current position.
-     *
-     * @returns {Array} The current position array [column, row].
-     */
-    function position() {
-        var position = state.position;
-
-        return [position[0], position[1]];
-    }
-
-    /**
-     * Go to an absolute position.
-     * The internal cursor will be set to this position and can then be used for further operations.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array} position - The new position.
-     * @returns {gridl}
-     */
-    function goto(position) {
-        if (!(0, _utils.isValidPositionFormat)(position)) {
-            throw new Error('Trying to go to an invalid position. Given: ' + position);
-        }
-        state.position = [position[0], position[1]];
-        return context;
-    }
-
-    /**
-     * Walk in a given direction based on the current position.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array} direction - The direction you want to go. (It's the position relative to the current position)
-     * @returns {gridl} The same gridl instance.
-     */
-    function walk(direction) {
-        var position = state.position;
-
-        if (!(0, _utils.isValidPositionFormat)(direction)) {
-            throw new Error('Trying to walk into an invalid direction. Given: ' + direction);
-        }
-        state.position = (0, _utils.addPositions)(position, direction);
-        return context;
-    }
-
-    return {
-        methods: {
-            goto: goto,
-            position: position,
-            walk: walk
-        }
-    };
-};
-
-var _index = __webpack_require__(1);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _utils = __webpack_require__(0);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-module.exports = exports['default'];
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function (context, state) {
-
-    /**
      * Rotate the array in a 90 degree steps. A positive step turns it clockwise, a negative step turns it counterclockwise.
      *
      * @memberOf gridl
@@ -1784,9 +1647,10 @@ exports.default = function (context, state) {
      */
     function rotate(steps) {
         var data = state.data,
-            columns = state.columns;
+            columns = state.columns,
+            rows = state.rows;
 
-        var grid = _rotate((0, _utils.unflatten)(data, columns), columns, steps);
+        var grid = _rotate((0, _utils.unflatten)(data, columns, rows), columns, steps);
         state.data = (0, _utils.flatten)(grid);
         state.rows = grid.length;
         state.columns = grid[0].length;
@@ -1824,7 +1688,7 @@ function _rotate(grid, columns, steps) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1860,9 +1724,10 @@ exports.default = function (context, state) {
      */
     function row(y) {
         var data = state.data,
-            columns = state.columns;
+            columns = state.columns,
+            rows = state.rows;
 
-        return getRow((0, _utils.unflatten)(data, columns), y);
+        return getRow((0, _utils.unflatten)(data, columns, rows), y);
     }
 
     /**
@@ -1887,7 +1752,7 @@ exports.default = function (context, state) {
         if (row.length !== columns) {
             throw new Error('Trying to add a row that contains an invalid amount of cells. Expected: ' + columns + ', Given: ' + row.length);
         }
-        var grid = (0, _utils.unflatten)(data, columns);
+        var grid = (0, _utils.unflatten)(data, columns, rows);
         grid.splice(y, 0, row);
         state.data = (0, _utils.flatten)(grid);
         state.rows = grid.length;
@@ -1915,7 +1780,7 @@ exports.default = function (context, state) {
         if (rows <= 1) {
             throw new Error('Cannot remove row because the grid would be empty after it.');
         }
-        var grid = (0, _utils.unflatten)(data, columns);
+        var grid = (0, _utils.unflatten)(data, columns, rows);
         grid.splice(y, 1);
         state.data = (0, _utils.flatten)(grid);
         state.rows = grid.length;
@@ -1947,7 +1812,7 @@ var getRow = function getRow(data, y) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1988,10 +1853,12 @@ exports.default = function (context, state) {
     function data(newData) {
         if (arguments.length) {
             (0, _utils.validateGridArray)(newData);
+            state.rows = (0, _utils.countRows)(newData);
+            state.columns = (0, _utils.countColumns)(newData);
             state.data = (0, _utils.flatten)(newData);
             return context;
         }
-        return (0, _utils.unflatten)(state.data, state.columns);
+        return (0, _utils.unflatten)(state.data, state.columns, state.rows);
     }
 
     /**
@@ -2019,9 +1886,9 @@ exports.default = function (context, state) {
     function clone() {
         var data = state.data,
             columns = state.columns,
-            position = state.position;
+            rows = state.rows;
 
-        return (0, _index2.default)((0, _utils.unflatten)(data, columns)).goto(position);
+        return (0, _index2.default)((0, _utils.unflatten)(data, columns, rows));
     }
 
     return {
@@ -2047,7 +1914,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 module.exports = exports['default'];
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2058,27 +1925,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (context, state) {
-
-    /**
-     * Swaps the values of the cell at the current position and another cell.<br>
-     * The current position can be defined by [goto(position)]{@link gridl#goto} or [walk(direction)]{@link gridl#walk}.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {Array.<number>} otherPosition - The position of the first cell.
-     * @returns {gridl} The same gridl instance.
-     */
-    function swapCell(otherPosition) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows,
-            position = state.position;
-
-        _swapCells(data, columns, rows, position, otherPosition);
-        return context;
-    }
 
     /**
      * Swaps the values of two cells.
@@ -2113,7 +1959,8 @@ exports.default = function (context, state) {
      */
     function swapColumns(x1, x2) {
         var data = state.data,
-            columns = state.columns;
+            columns = state.columns,
+            rows = state.rows;
 
         if (x1 < 0 || x1 >= columns) {
             throw new Error('Trying to swap columns from an invalid position. Given: ' + x1);
@@ -2121,7 +1968,7 @@ exports.default = function (context, state) {
         if (x2 < 0 || x2 >= columns) {
             throw new Error('Trying to swap columns to an invalid position. Given: ' + x2);
         }
-        var grid = (0, _utils.unflatten)(data, columns).map(function (row) {
+        var grid = (0, _utils.unflatten)(data, columns, rows).map(function (row) {
             _swap(row, x1, x2);
             return row;
         });
@@ -2151,13 +1998,12 @@ exports.default = function (context, state) {
         if (y2 < 0 || y2 >= rows) {
             throw new Error('Trying to swap rows to an invalid position. Given: ' + y2);
         }
-        state.data = (0, _utils.flatten)(_swap((0, _utils.unflatten)(data, columns), y1, y2));
+        state.data = (0, _utils.flatten)(_swap((0, _utils.unflatten)(data, columns, rows), y1, y2));
         return context;
     }
 
     return {
         methods: {
-            swapCell: swapCell,
             swapCells: swapCells,
             swapColumns: swapColumns,
             swapRows: swapRows
@@ -2187,7 +2033,7 @@ var _swapCells = function _swapCells(data, columns, rows, position1, position2) 
 module.exports = exports['default'];
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2198,30 +2044,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (context, state) {
-
-    /**
-     * Get or set the value at the current position.<br>
-     * It returns the cell's value if you provide no value and sets it if you do provide a value.
-     *
-     * @memberOf gridl
-     * @method
-     * @instance
-     *
-     * @param {*} [value] - The value you want to set or <code>undefined</code> if you want to get the value.
-     * @returns {*} The cell's value or the gridl instance if you use it as a setter.
-     */
-    function value(value) {
-        var data = state.data,
-            columns = state.columns,
-            rows = state.rows,
-            position = state.position;
-
-        if (arguments.length < 1) {
-            return (0, _utils.getValueAt)(data, columns, position);
-        }
-        (0, _utils.setValueAt)(data, columns, rows, position, value);
-        return context;
-    }
 
     /**
      * Get or set the value at a certain position.<br>
@@ -2240,6 +2062,9 @@ exports.default = function (context, state) {
             columns = state.columns,
             rows = state.rows;
 
+        if (!(0, _utils.isValidPositionFormat)(pos)) {
+            throw new Error('Trying to access value at an invalid position: ' + pos);
+        }
         if (arguments.length < 2) {
             return (0, _utils.getValueAt)(data, columns, pos);
         }
@@ -2247,7 +2072,7 @@ exports.default = function (context, state) {
         return context;
     }
 
-    return { methods: { value: value, valueAt: valueAt } };
+    return { methods: { valueAt: valueAt } };
 };
 
 var _utils = __webpack_require__(0);
@@ -2255,7 +2080,7 @@ var _utils = __webpack_require__(0);
 module.exports = exports['default'];
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

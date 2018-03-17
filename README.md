@@ -46,6 +46,10 @@ const flippedGrid = gridl(data)
 // ]
 ```
 
+## Attention!
+
+* The new version (v0.10.0) comes with a lot of api breaks - see the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for further information
+
 ## Documentation
 
 * You can find the API reference and tutorials in our documentation: [latest](https://klattiation.github.io/gridl/gridl/latest/index.html)
@@ -96,7 +100,7 @@ const flippedGrid = gridl(data)
 * [Cloning](docs/tutorials/cloning.md)
     * Make a clone of a gridl instance
 * [Plugins](docs/tutorials/plugins.md)
-    * Extend gridl to your custom needs
+    * Extend gridl to your needs by writing your own plugins
 
 ## Use cases
 
