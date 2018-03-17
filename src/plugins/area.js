@@ -151,17 +151,16 @@ export default function(instance, state) {
                     flatten(data).reduce(reducer, initialValue);
             },
             map: function(callback, thisArg) {
-                const mapper = (v, i) => {
+                const mapper = function(v, i) {
                     const local = index2pos(i, columns);
-                    return callback(v, local, api);
+                    return callback.call(this, v, local, api);
                 };
                 // TODO: looks too complicated (flatten -> unflatten)
-                const newData = arguments.length < 1 ?
+                const newData = arguments.length < 2 ?
                     flatten(data).map(mapper) :
                     flatten(data).map(mapper, thisArg);
-                // TODO: make a copy of the area
-                api.data(unflatten(newData, columns, rows));
-                return api;
+                // return a copy with the new data
+                return area(areaDescription).data(unflatten(newData, columns, rows));
             },
         };
         return api;

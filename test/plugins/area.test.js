@@ -433,14 +433,96 @@ describe('area', () => {
             ]);
         });
 
-        // TODO: should return a copy of the original area, should not change the original area
-        // TODO: should replace all values
-        // TODO: should provide the current value in the callback
-        // TODO: should provide the local position in the callback
-        // TODO: should provide the area in the callback
-        // TODO: should provide the thisArg as "this" in the callback
-        // TODO: should throw an error if no callback is provided
-        // TODO: should apply it to the main grid when using calling apply() on the area
+        it('should return a copy of the original area, should not change the original area', () => {
+            const area1 = gridl(mockData()).area([3,2,1,2]);
+            const area2 = area1.map(v => v);
+            expect(area2).to.not.deep.equal(area1);
+        });
+
+        it('should replace all values', () => {
+            const area = gridl(mockData()).area([3,2,1,2]);
+            expect(area.data()).to.deep.equal([
+                [6,6,6],
+                [6,6,6],
+            ]);
+            let i = 0;
+            expect(area.map(() => i++).data()).to.deep.equal([
+                [0,1,2],
+                [3,4,5],
+            ]);
+        });
+
+        it('should provide the current value in the callback', () => {
+            const expectedArea = [
+                [0,7,3],
+                [4,2,5],
+                [6,6,6],
+            ];
+            gridl(mockData()).area([3,3]).map((v, pos) => {
+                const [x,y] = pos;
+                expect(v).to.equal(expectedArea[y][x]);
+            });
+        });
+
+        it('should provide the local position in the callback', () => {
+            const expectedArea = [
+                ['0,0','1,0','2,0'],
+                ['0,1','1,1','2,1'],
+                ['0,2','1,2','2,2'],
+            ];
+            const result = gridl(mockData())
+                .area([3,3])
+                .map((v, pos) => `${pos[0]},${pos[1]}`)
+                .data();
+            expect(result).to.deep.equal(expectedArea);
+        });
+
+        it('should provide the area in the callback', () => {
+            let callCount = 0;
+            const area = gridl(mockData()).area([3,3]);
+            area.map((v, pos, src) => {
+                callCount++;
+                expect(src).to.deep.equal(area);
+            });
+            expect(callCount).to.equal(9); // just make sure callback was invoked
+        });
+
+        it('should provide the thisArg as "this" in the callback', () => {
+            let callCount = 0;
+            const thisMock = { saySomething: () => 'I like rusty spoons!' };
+            const area = gridl(mockData()).area([3,3]);
+            area.map(function() {
+                callCount++;
+                expect(this).to.deep.equal(thisMock);
+                expect(this.saySomething()).to.equal('I like rusty spoons!');
+            }, thisMock);
+            expect(callCount).to.equal(9); // just make sure callback was invoked
+        });
+
+        it('should throw an error if no callback is provided', () => {
+            expect(() => gridl(mockData()).area([3,3]).map()).to.throw();
+        });
+
+        it('should provide the origin gridl instance as parent', () => {
+            const g = gridl(mockData());
+            const area = g.area([3,3]).map(v => v);
+            expect(area.parent()).to.deep.equal(g);
+        });
+
+        it('should apply it to the main grid when using calling apply() on the area', () => {
+            const result = gridl(mockData())
+                .area([3,3,1,1])
+                .map(() => 0)
+                .apply()
+                .data();
+            expect(result).to.deep.equal([
+                [0,7,3,2,8,4,8],
+                [4,0,0,0,8,4,8],
+                [6,0,0,0,7,4,8],
+                [6,0,0,0,7,4,8],
+                [6,5,1,6,9,2,7],
+            ]);
+        });
 
     });
 
