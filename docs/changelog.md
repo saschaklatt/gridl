@@ -2,8 +2,8 @@
 
 **v0.10.0**
 
-* Refactored area API
-* Refactored plugin APIgit 
+* New area API
+* Refactored plugin API
     * replaced `gridl.fn` with `gridl.use(key, plugin)`
 * new `positionInArea()` function
 * removed navigation api to simplify things

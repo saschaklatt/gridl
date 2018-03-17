@@ -162,15 +162,21 @@ export default function(instance, state) {
                 // return a copy with the new data
                 return area(areaDescription).data(unflatten(newData, columns, rows));
             },
-            fill: (callbackOrValue) => {
+            fill: (callbackOrValue, thisArg) => {
                 if (typeof callbackOrValue === 'function') {
-                    subgrid.fill((v, pos) => callbackOrValue(v, pos, api));
+                    subgrid.fill((v, pos) => callbackOrValue.call(thisArg, v, pos, api));
                 }
                 else {
                     subgrid.fill(callbackOrValue);
                 }
                 return api;
-            }
+            },
+            find: (callbackOrValue, thisArg) => {
+                if (typeof callbackOrValue === 'function') {
+                    return subgrid.find((v, pos) => callbackOrValue.call(thisArg, v, pos, api));
+                }
+                return subgrid.find(v => v === callbackOrValue);
+            },
         };
         return api;
     };
