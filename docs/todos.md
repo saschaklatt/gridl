@@ -21,10 +21,6 @@
         * git tag <version number>
         * git push origin master --tags
         * npm publish
-* inconsistent getter/setter styles
-    * style 1: value(), row(), position()
-    * style 2: getAreaAt(), setAreaAt()
-    * solution through [area api](area-api.md)
 * error handling should be improved
     * throw error when area is not a 2d array
     * position error handling is inconsistent in some cases (throwing an error vs. returning undefined)
@@ -34,9 +30,9 @@
 ### v0.10
  
 * implement [area api](area-api.md) (subset of gridl api for inner areas)
-* fix plugins api
-* remove navigation api
-* importing empty data (no rows or columns)
+* ~~fix plugins api~~
+* ~~remove navigation api~~
+* ~~importing empty data (no rows or columns)~~
 
 ### v0.11
 

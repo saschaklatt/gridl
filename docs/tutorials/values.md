@@ -1,9 +1,3 @@
-`gridl` provides an easy way to access single cells.
-
-* [Getting values](#get)
-* [Setting values](#set)
-
-
 ### <a name="get"></a>Getting values
 
 Getting values at position `[1,2]`:
@@ -16,8 +10,7 @@ const data = [
     [4, 5, 6],
     [7, 8, 9],
 ];
-gridl(data).valueAt([1, 2]);      // would be 8
-gridl(data).goto([1, 2]).value(); // does the same
+gridl(data).valueAt([1, 2]); // would be 8
 ```
 
 ### <a name="set"></a>Setting values
@@ -32,10 +25,9 @@ const data = [
     [4, 5, 6],
     [7, 8, 9],
 ];
-const newGrid1 = gridl(data).valueAt([1, 2], 'Hi').data();    // sets the content of the cell at [1,2] to 'Hi'
-const newGrid2 = gridl(data).goto([1, 2]).value('Hi').data(); // does the same
+const newGrid = gridl(data).valueAt([1, 2], 'Hi').data(); // sets the content of the cell at [1,2] to 'Hi'
 
-// the grids would look like this:
+// newGrid would look like this:
 // [
 //     [1, 2, 3],
 //     [4, 5, 6],

@@ -51,7 +51,7 @@ const data = [
 const position = [4,1];
 const size = [3,2];
 
-const grid = gridl(data).goto(position).clip(size);
+const grid = gridl(data).clipAt(position, size);
 grid.numColumns(); // now returns 2
 grid.numRows(); // now returns 3
 

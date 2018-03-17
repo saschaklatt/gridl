@@ -59,9 +59,6 @@ const flippedGrid = gridl(data)
 * [Accessing data](docs/tutorials/data.md)
     * export data as two-dimensional grid array
     * export data as one-dimensional list array
-* [Navigating](docs/tutorials/navigating.md)
-    * go to absolute positions
-    * walk into directions
 * [Dimensions](docs/tutorials/size.md)
     * get the number of columns and rows  
 * [Work with cells](docs/tutorials/values.md)
@@ -73,14 +70,18 @@ const flippedGrid = gridl(data)
     * remove or add new columns and rows at any position
     * move them around
     * swap them
+* [Finding](docs/tutorials/finding.md)
+    * find values in the grid
+* [Iterating](docs/tutorials/iterating.md)
+    * map()
+    * reduce()
+    * forEach()
 * [Work with areas](docs/tutorials/areas.md)
     * manipulate areas
-    * use anchor points to define the center
-    * check if an area would fit into a grid at a certain position
-    * reduce areas
-* [Finding](docs/tutorials/finding.md)
-    * find values in the grid 
-    * find values within certain areas on the grid
+    * check for intersection with other areas
+    * iterate over areas by using map() and reduce()
+    * find values limited by the area boundaries
+    * use anchor points to position areas with an offset
 * [Adjacent cells](docs/tutorials/adjacent-cells.md)
     * find the adjacent cells of a certain cell
     * get orthogonal, diagonal or all cells
@@ -92,17 +93,10 @@ const flippedGrid = gridl(data)
     * rotate the entire grid clockwise or counterclockwise
 * [Flipping](docs/tutorials/flipping.md)
     * flip the grid on the x- or y-axis
-    * specify where the axis is located
-* [Iterating](docs/tutorials/iterating.md)
-    * map()
-    * reduce()
-    * forEach()
 * [Cloning](docs/tutorials/cloning.md)
     * Make a clone of a gridl instance
 * [Plugins](docs/tutorials/plugins.md)
     * Extend gridl to your custom needs
-* [Draw a cow](docs/tutorials/cow.md)
-    * just because
 
 ## Use cases
 
