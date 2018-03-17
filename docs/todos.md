@@ -34,6 +34,10 @@
 * ~~remove navigation api~~
 * ~~importing empty data (no rows or columns)~~
 
+## v0.10.x
+
+* further area functions
+
 ### v0.11
 
 

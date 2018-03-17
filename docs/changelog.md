@@ -1,8 +1,5 @@
 # Changelog
 
-**v0.10.x**
-
-* further area functions
 
 **v0.10.0**
 

@@ -65,7 +65,7 @@ const flippedGrid = gridl(data)
     * export data as one-dimensional list array
 * [Dimensions](docs/tutorials/size.md)
     * get the number of columns and rows  
-* [Work with cells](docs/tutorials/values.md)
+* [Working with cells](docs/tutorials/values.md)
     * get and set values at absolute or relative positions
     * move them around
     * swap them
@@ -80,7 +80,7 @@ const flippedGrid = gridl(data)
     * map()
     * reduce()
     * forEach()
-* [Work with areas](docs/tutorials/areas.md)
+* [Working with areas](docs/tutorials/areas.md)
     * manipulate areas
     * check for intersection with other areas
     * iterate over areas by using map() and reduce()
