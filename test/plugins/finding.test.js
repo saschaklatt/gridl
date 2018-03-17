@@ -6,7 +6,17 @@ describe('finding', () => {
 
     describe('find', () => {
 
-        it('should return the position of the first occurrence', () => {
+        it('should return the position of the first occurrence by using a fixed value', () => {
+            const data = [
+                [1,2,3],
+                [4,2,5],
+                [6,5,4],
+            ];
+            const position = gridl(data).find(5);
+            expect(position).to.deep.equal([2,1]);
+        });
+
+        it('should return the position of the first occurrence by using a callback function', () => {
             const data = [
                 [1,2,3],
                 [4,2,5],
