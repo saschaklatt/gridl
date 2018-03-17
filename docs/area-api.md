@@ -86,7 +86,7 @@ makeAreaDescription(areaData, areaPosition, areaAnchor); // returns [2,3,1,4,0,0
 √ gridl(data).area(areaDescription).find((val, pos, src) => {})
 √ gridl(data).area(areaDescription).description()
 √ gridl(data).area(areaDescription).isInside(otherArea) // former: areaFits(otherArea, anchor)
-  gridl(data).area(areaDescription).contains(otherArea) // former: areaFits(otherArea, anchor)
+√ gridl(data).area(areaDescription).contains(otherArea) // former: areaFits(otherArea, anchor)
   gridl(data).area(areaDescription).containsPosition(globalPosition) // former: positionInArea(area, position)
   gridl(data).area(areaDescription).intersectsWith(otherArea)
   gridl(data).area(areaDescription).intersectingArea(globalPosition)

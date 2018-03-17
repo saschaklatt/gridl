@@ -203,6 +203,10 @@ export default function(instance, state) {
                 _validateAreaDescription(otherAreaDescription);
                 return _contains(api.description(), otherAreaDescription);
             },
+            contains: otherAreaDescription => {
+                _validateAreaDescription(otherAreaDescription);
+                return _contains(otherAreaDescription, api.description());
+            },
         };
         return api;
     };
