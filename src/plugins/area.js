@@ -179,14 +179,12 @@ export default function(instance, state) {
                     flatten(data).reduce(reducer, initialValue);
             },
             map: function(callback, thisArg) {
-                const mapper = function(v, i) {
+                const mapper = (v, i) => {
                     const local = index2pos(i, columns);
-                    return callback.call(this, v, local, api);
+                    return callback.call(thisArg, v, local, api);
                 };
                 // TODO: looks too complicated (flatten -> unflatten)
-                const newData = arguments.length < 2 ?
-                    flatten(data).map(mapper) :
-                    flatten(data).map(mapper, thisArg);
+                const newData = flatten(data).map(mapper, thisArg);
                 // return a copy with the new data
                 return area(areaDescription).data(unflatten(newData, columns, rows));
             },
@@ -204,6 +202,14 @@ export default function(instance, state) {
                     return subgrid.find((v, pos) => callbackOrValue.call(thisArg, v, pos, api));
                 }
                 return subgrid.find(v => v === callbackOrValue);
+            },
+            forEach: (callback, thisArg) => {
+                const iterator = (v, i) => {
+                    const local = index2pos(i, columns);
+                    return callback.call(thisArg, v, local, api);
+                };
+                flatten(data).forEach(iterator, thisArg);
+                return api;
             },
             description: () => [columns, rows, _x, _y, _ax, _ay],
             isInside: otherAreaDescription => {

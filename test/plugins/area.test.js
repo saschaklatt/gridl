@@ -722,6 +722,67 @@ describe('area', () => {
 
     });
 
+    describe('forEach', () => {
+
+        it('should execute the callback on each cell within the area', () => {
+            let callCount = 0;
+            const expectedCells = [7,4,8,9,2,7];
+            gridl(mockData()).area([3,2,4,3]).forEach(value => {
+                expect(value).to.equal(expectedCells[callCount]);
+                callCount++;
+            });
+            expect(callCount).to.equal(6);
+        });
+
+        it('should return the original area', () => {
+            const area1 = gridl(mockData()).area([3,2,1,2]);
+            const area2 = area1.forEach(function() {});
+            expect(area2).to.deep.equal(area1);
+        });
+
+        it('should provide the local position in the callback', () => {
+            const expectedPositions = [
+                [0,7,3],
+                [4,2,5],
+                [6,6,6],
+            ];
+            let callCount = 0;
+            gridl(mockData()).area([3,3]).forEach((v, pos) => {
+                const [x,y] = pos;
+                expect(v).to.deep.equal(expectedPositions[y][x]);
+                callCount++;
+            });
+            expect(callCount).to.deep.equal(9);
+        });
+
+        it('should provide the area in the callback', () => {
+            let callCount = 0;
+            const area = gridl(mockData()).area([3,3]);
+            area.forEach((v, pos, src) => {
+                callCount++;
+                expect(src).to.deep.equal(area);
+            });
+            expect(callCount).to.equal(9);
+        });
+
+        it('should provide the thisArg as "this" in the callback', () => {
+            let callCount = 0;
+            const thisMock = { saySomething: () => 'I like rusty spoons!' };
+            const area = gridl(mockData()).area([3,3]);
+            area.forEach(function() {
+                callCount++;
+                expect(this).to.deep.equal(thisMock);
+                expect(this.saySomething()).to.equal('I like rusty spoons!');
+            }, thisMock);
+            expect(callCount).to.equal(9); // just make sure callback was invoked
+        });
+
+        it('should throw an error if no callback is provided', () => {
+            expect(() => gridl(mockData()).area([3,3]).forEach()).to.throw();
+        });
+
+    });
+
     describe('isInside', () => {
 
         it('should fit into a equally sized area', () => {
