@@ -1,19 +1,51 @@
 # Changelog
 
+**v0.10.x**
+
+* further area functions
+
 **v0.10.0**
 
-* New area API
-* Refactored plugin API
+* New area api
+    * areas are described by an area description array: `[width = 0, height = 0, x = 0, y = 0, anchorX = 0, anchorY = 0]`
+    * areas can be accessed by using `gridl(data).area(areaDescription)` 
+    * added new area functions
+        * `.area(areaDesc).numRows()`
+        * `.area(areaDesc).numColumns()`
+        * `.area(areaDesc).size()`
+        * `.area(areaDesc).position()`
+        * `.area(areaDesc).anchor()`
+        * `.area(areaDesc).valueAt(localPosition)`
+        * `.area(areaDesc).localToGlobal(localPosition)`
+        * `.area(areaDesc).data([areaData])`
+        * `.area(areaDesc).apply()`
+        * `.area(areaDesc).parent()`
+        * `.area(areaDesc).reduce((acc, val, pos, src) => {...})`
+        * `.area(areaDesc).map((val, pos, src) => {...})`
+        * `.area(areaDesc).fill((val, pos, src) => {...})`
+        * `.area(areaDesc).find((val, pos, src) => {})`
+        * `.area(areaDesc).description()`
+        * `.area(areaDesc).isInside(areaDesc)`
+        * `.area(areaDesc).contains(areaDesc)`
+        * `.area(areaDesc).intersectsWith(otherArea)`
+    * removed all former area functions
+        * ~~areaFitsAt()~~
+        * ~~getAreaAt()~~
+        * ~~setAreaAt()~~
+        * ~~findInArea()~~
+        * ~~positionInArea()~~
+        * ~~reduceAreaAt()~~
+* Refactored plugin api
     * replaced `gridl.fn` with `gridl.use(key, plugin)`
 * removed navigation api to simplify things
-    * removed internal position in gridl
+    * there's no more internal position inside of gridl
     * removed `goto()`, `walk()`, `position()`
     * removed all functions that were using the internal position
 * allow importing empty data (no rows and no columns)
 
 **v0.9.0**
 
-* Plugin API !!!
+* Plugin api !!!
     * You can now add custom functions to gridl and mess around with the internal state. Note: all responsibility lies with the plugin creator!
     * heavy internal refactoring (every public gridl function is now implemented via a core plugin)
     * support for namespaces: functions can be scoped with the name of the plugin
