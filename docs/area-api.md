@@ -82,7 +82,7 @@ makeAreaDescription(areaData, areaPosition, areaAnchor); // returns [2,3,1,4,0,0
 √ gridl(data).area(areaDescription).parent()
 √ gridl(data).area(areaDescription).reduce((acc, val, pos, src) => {...})
 √ gridl(data).area(areaDescription).map((val,0 pos, src) => {...})
-  gridl(data).area(areaDescription).fill((val, pos, src) => {...})
+√ gridl(data).area(areaDescription).fill((val, pos, src) => {...})
   gridl(data).area(areaDescription).find((val, pos, src) => {})
   gridl(data).area(areaDescription).fitsInto(otherArea) // former: areaFits(otherArea, anchor)
   gridl(data).area(areaDescription).includesPosition(position) // former: positionInArea(area, position)

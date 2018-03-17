@@ -162,6 +162,15 @@ export default function(instance, state) {
                 // return a copy with the new data
                 return area(areaDescription).data(unflatten(newData, columns, rows));
             },
+            fill: (callbackOrValue) => {
+                if (typeof callbackOrValue === 'function') {
+                    subgrid.fill((v, pos) => callbackOrValue(v, pos, api));
+                }
+                else {
+                    subgrid.fill(callbackOrValue);
+                }
+                return api;
+            }
         };
         return api;
     };

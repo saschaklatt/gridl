@@ -1,6 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import gridl from '../../src';
+import {checkApi} from '../testUtils';
 
 describe('area', () => {
 
@@ -465,16 +466,15 @@ describe('area', () => {
         });
 
         it('should provide the local position in the callback', () => {
-            const expectedArea = [
-                ['0,0','1,0','2,0'],
-                ['0,1','1,1','2,1'],
-                ['0,2','1,2','2,2'],
-            ];
             const result = gridl(mockData())
                 .area([3,3])
                 .map((v, pos) => `${pos[0]},${pos[1]}`)
                 .data();
-            expect(result).to.deep.equal(expectedArea);
+            expect(result).to.deep.equal([
+                ['0,0','1,0','2,0'],
+                ['0,1','1,1','2,1'],
+                ['0,2','1,2','2,2'],
+            ]);
         });
 
         it('should provide the area in the callback', () => {
@@ -513,6 +513,116 @@ describe('area', () => {
             const result = gridl(mockData())
                 .area([3,3,1,1])
                 .map(() => 0)
+                .apply()
+                .data();
+            expect(result).to.deep.equal([
+                [0,7,3,2,8,4,8],
+                [4,0,0,0,8,4,8],
+                [6,0,0,0,7,4,8],
+                [6,0,0,0,7,4,8],
+                [6,5,1,6,9,2,7],
+            ]);
+        });
+
+    });
+
+    describe('fill', () => {
+
+        it('should fill all cells with the same value', () => {
+            const res = gridl(mockData()).area([4,3]).fill('x').data();
+            expect(res).to.deep.equal([
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+            ]);
+        });
+
+        it('should fill all values with the same value, using a callback function', () => {
+            const res = gridl(mockData()).area([4,3]).fill(() => 'x').data();
+            expect(res).to.deep.equal([
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+                ['x','x','x','x'],
+            ]);
+        });
+
+        it('should fill all values with different values', () => {
+            const area = gridl(mockData()).area([4,3]);
+            area.fill((value, pos) => {
+                return pos[0] < 2 ? 'a' : 'b';
+            });
+            expect(area.data()).to.deep.equal([
+                ['a','a','b','b'],
+                ['a','a','b','b'],
+                ['a','a','b','b'],
+            ]);
+        });
+
+        it('should return the original area, no copy', () => {
+            const area1 = gridl(mockData()).area([3,2,1,2]);
+            const area2 = area1.fill('s');
+            expect(area2).to.deep.equal(area1);
+        });
+
+        it('should provide the current value in the callback', () => {
+            const expectedArea = [
+                [0,7,3],
+                [4,2,5],
+                [6,6,6],
+            ];
+            gridl(mockData()).area([3,3]).fill((v, pos) => {
+                const [x,y] = pos;
+                expect(v).to.equal(expectedArea[y][x]);
+            });
+        });
+
+        it('should provide the local position in the callback', () => {
+            const result = gridl(mockData())
+                .area([3,3])
+                .fill((v, pos) => `${pos[0]},${pos[1]}`)
+                .data();
+            expect(result).to.deep.equal([
+                ['0,0','1,0','2,0'],
+                ['0,1','1,1','2,1'],
+                ['0,2','1,2','2,2'],
+            ]);
+        });
+
+        it('should provide the area in the callback', () => {
+            let callCount = 0;
+            const area = gridl(mockData()).area([4,3]);
+            area.fill((v, pos, src) => {
+                expect(src).to.deep.equal(area);
+                callCount++;
+            });
+            expect(callCount).to.equal(12);
+        });
+
+        it('should fill all cells with undefined if no value is provided', () => {
+            const res = gridl(mockData()).area([4,3]).fill().data();
+            expect(res).to.deep.equal([
+                [undefined,undefined,undefined,undefined],
+                [undefined,undefined,undefined,undefined],
+                [undefined,undefined,undefined,undefined],
+            ]);
+        });
+
+        it('should return the area instance', () => {
+            const area = gridl(mockData()).area([4,3]);
+            const res = area.fill(v => v);
+            expect(res).to.deep.equal(area);
+        });
+
+        it('should return the original gridl instance as parent', () => {
+            const g = gridl(mockData());
+            const parent = g.area([4,3]).fill(v => v).parent();
+            expect(parent).to.deep.equal(g);
+        });
+
+        it('should apply it to the main grid when using calling apply() on the area', () => {
+            const result = gridl(mockData())
+                .area([3,3,1,1])
+                .fill(0)
                 .apply()
                 .data();
             expect(result).to.deep.equal([
