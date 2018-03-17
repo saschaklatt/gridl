@@ -634,6 +634,93 @@ describe('area', () => {
             ]);
         });
 
+        it('should provide the thisArg as "this" in the callback', () => {
+            let callCount = 0;
+            const thisMock = { saySomething: () => 'I like rusty spoons!' };
+            const area = gridl(mockData()).area([3,3]);
+            area.fill(function() {
+                callCount++;
+                expect(this).to.deep.equal(thisMock);
+                expect(this.saySomething()).to.equal('I like rusty spoons!');
+                return 'x';
+            }, thisMock);
+            expect(callCount).to.equal(9);
+        });
+
+    });
+
+    describe('find', () => {
+
+        it('should return the position of the first occurrence by value', () => {
+            const result = gridl(mockData()).area([4,3,1,1]).find(7);
+            expect(result).to.deep.equal([2,0]);
+        });
+
+        it('should return the position of the first occurrence by compare function', () => {
+            const result = gridl(mockData()).area([4,3,1,1]).find(v => v === 7);
+            expect(result).to.deep.equal([2,0]);
+        });
+
+        it('should return undefined if the are no findings', () => {
+            const result = gridl(mockData()).area([3,2,1,1]).find(v => v === 9);
+            expect(result).to.equal(undefined);
+        });
+
+        it('should provide the current value in the callback', () => {
+            const expectedArea = [
+                [0,7,3],
+                [4,2,5],
+                [6,6,6],
+            ];
+            let callCount = 0;
+            gridl(mockData()).area([3,3]).find((v, pos) => {
+                const [x,y] = pos;
+                expect(v).to.equal(expectedArea[y][x]);
+                callCount++;
+                return false;
+            });
+            expect(callCount).to.equal(9);
+        });
+
+        it('should provide the local position in the callback', () => {
+            const expectedPositions = [
+                [0,0], [1,0], [2,0],
+                [0,1], [1,1], [2,1],
+                [0,2], [1,2], [2,2],
+            ];
+            let callCount = 0;
+            gridl(mockData())
+                .area([3,3])
+                .find((v, pos) => {
+                    expect(pos).to.deep.equal(expectedPositions[callCount]);
+                    callCount++;
+                    return false;
+                });
+            expect(callCount).to.equal(9);
+        });
+
+        it('should provide the area in the callback', () => {
+            let callCount = 0;
+            const area = gridl(mockData()).area([4,3]);
+            area.find((v, pos, src) => {
+                expect(src).to.deep.equal(area);
+                callCount++;
+            });
+            expect(callCount).to.equal(12);
+        });
+
+        it('should provide the thisArg as "this" in the callback', () => {
+            let callCount = 0;
+            const thisMock = { saySomething: () => 'I like rusty spoons!' };
+            const area = gridl(mockData()).area([3,3]);
+            area.find(function() {
+                callCount++;
+                expect(this).to.deep.equal(thisMock);
+                expect(this.saySomething()).to.equal('I like rusty spoons!');
+            }, thisMock);
+            expect(callCount).to.equal(9);
+        });
+
     });
 
     // -----------------------------------------------------------------------------------------------------------------
