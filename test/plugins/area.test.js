@@ -777,6 +777,60 @@ describe('area', () => {
 
     });
 
+    describe('contains', () => {
+
+        it('should fit into a equally sized area', () => {
+            const result = gridl(mockData()).area([2,3,3,2]).contains([2,3,3,2]);
+            expect(result).to.equal(true);
+        });
+
+        it('should fit into a bigger area', () => {
+            const result = gridl(mockData()).area([4,4,3,2]).contains([2,3,3,2]);
+            expect(result).to.equal(true);
+        });
+
+        it('should not fit at the right', () => {
+            const result = gridl(mockData()).area([2,3,0,1]).contains([2,3,1,1]);
+            expect(result).to.equal(false);
+        });
+
+        it('should not fit at the bottom', () => {
+            const result = gridl(mockData()).area([2,3,1,0]).contains([2,3,1,1]);
+            expect(result).to.equal(false);
+        });
+
+        it('should not fit at the right and the bottom', () => {
+            const result = gridl(mockData()).area([2,3,0,0]).contains([2,3,1,1]);
+            expect(result).to.equal(false);
+        });
+
+        it('should fit with an anchor', () => {
+            const result = gridl(mockData()).area([4,4,3,2,2,2]).contains([2,3,3,2,1,1]);
+            expect(result).to.equal(true);
+        });
+
+        it('should not fit with an anchor at the top', () => {
+            const result = gridl(mockData()).area([2,3,3,2,0,-1]).contains([2,3,3,2,1,1]);
+            expect(result).to.equal(false);
+        });
+
+        it('should not fit with an anchor at the left', () => {
+            const result = gridl(mockData()).area([2,3,3,2,-1,0]).contains([2,3,3,2,1,1]);
+            expect(result).to.equal(false);
+        });
+
+        it('should not fit with an anchor at the right', () => {
+            const result = gridl(mockData()).area([2,3,3,2,1,0]).contains([2,3,3,2,1,1]);
+            expect(result).to.equal(false);
+        });
+
+        it('should not fit with an anchor at the bottom', () => {
+            const result = gridl(mockData()).area([2,3,3,2,0,1]).contains([2,3,3,2,1,1]);
+            expect(result).to.equal(false);
+        });
+
+    });
+
     // -----------------------------------------------------------------------------------------------------------------
 
     describe.skip('old stuff', () => {
