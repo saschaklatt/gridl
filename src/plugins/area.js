@@ -93,6 +93,27 @@ const _validateAreaDescription = areaDescription => {
     }
 };
 
+const _contains = (inner, outer) => {
+    const size1   = [inner[0] || 0, inner[1] || 0];
+    const pos1    = [inner[2] || 0, inner[3] || 0];
+    const anchor1 = [inner[4] || 0, inner[5] || 0];
+    const innerStart = subtractPositions(pos1, anchor1);
+    const innerEnd   = addPositions(innerStart, size1);
+
+    const size2   = [outer[0] || 0, outer[1] || 0];
+    const pos2    = [outer[2] || 0, outer[3] || 0];
+    const anchor2 = [outer[4] || 0, outer[5] || 0];
+    const outerStart = subtractPositions(pos2, anchor2);
+    const outerEnd   = addPositions(outerStart, size2);
+
+    return (
+        innerEnd[0]   <= outerEnd[0]   &&
+        innerStart[0] >= outerStart[0] &&
+        innerEnd[1]   <= outerEnd[1]   &&
+        innerStart[1] >= outerStart[1]
+    );
+};
+
 export default function(instance, state) {
 
     const area = areaDescription => {
@@ -176,6 +197,11 @@ export default function(instance, state) {
                     return subgrid.find((v, pos) => callbackOrValue.call(thisArg, v, pos, api));
                 }
                 return subgrid.find(v => v === callbackOrValue);
+            },
+            description: () => [columns, rows, _x, _y, _ax, _ay],
+            isInside: otherAreaDescription => {
+                _validateAreaDescription(otherAreaDescription);
+                return _contains(api.description(), otherAreaDescription);
             },
         };
         return api;
