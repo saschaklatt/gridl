@@ -99,8 +99,8 @@ const _contains = (innerAreaDesc, outerAreaDesc) => {
     const inner = _areaStartAndEnd(innerAreaDesc);
     const outer = _areaStartAndEnd(outerAreaDesc);
     return (
-        inner[0] >= outer[0] &&
-        inner[1] >= outer[1] &&
+        outer[0] <= inner[0] &&
+        outer[1] <= inner[1] &&
         inner[2] <= outer[2] &&
         inner[3] <= outer[3]
     );
