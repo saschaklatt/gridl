@@ -304,13 +304,33 @@ describe('area', () => {
             ]);
         });
 
-        it('should throw an error if the new area data has an invalid size', () => {
+        it('should skip values that are outside the actual area', () => {
             const newData = [
+                [1,1,1],
+                [2,2,2],
+                [3,3,3],
+            ];
+            const area = gridl(mockData()).area([2,2,1,1]).data(newData);
+            expect(area.data()).to.deep.equal([
                 [1,1],
                 [2,2],
+            ]);
+        });
+
+        it('should leave values untouched that are not set in the new data array', () => {
+            const newData = [
+                [1,1,1,1],
+                [2],
+                [3,3],
+                [4,4,4],
             ];
-            const area = gridl(mockData()).area([2,3,1,2]);
-            expect(() => area.data(newData)).to.throw('New area data has an invalid size.');
+            const area = gridl(mockData()).area([4,4,1,1]).data(newData);
+            expect(area.data()).to.deep.equal([
+                [1,1,1,1],
+                [2,6,6,7],
+                [3,3,6,7],
+                [4,4,4,9],
+            ]);
         });
 
         it('should return the area', () => {

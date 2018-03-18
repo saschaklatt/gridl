@@ -245,23 +245,24 @@ export default function(instance, state) {
             },
 
             /**
-             * Get or set the entire data of the area. When setting the area data, make sure the new data array has the correct size.
+             * Get or overwrite the data of the area. When using it as a setter, this method will not change the size of the area. Missing values or values that are outside of the area will be ignored.
              *
              * @memberOf gridl#area
              * @method
              * @instance
              *
              * @param {*} [array2D] - The value you want to set.
-             * @returns {area|Array.<Array.<*>>} The area when used as setter, the data array when used as getter.
+             * @returns {gridl#area|Array.<Array.<*>>} The area when used as setter, the data array when used as getter.
              */
             data: function(array2D) {
                 if (arguments.length > 0) {
-                    const _newColumns = countColumns(array2D);
-                    const _newRows = countRows(array2D);
-                    if (_newRows !== rows || _newColumns !== columns) {
-                        throw new Error('New area data has an invalid size.');
+                    const usedRows = Math.min(countRows(array2D), rows);
+                    for (let r = 0; r < usedRows; r++) {
+                        const usedColumns= Math.min(array2D[r].length, columns);
+                        for (let c = 0; c < usedColumns; c++) {
+                            subgrid.valueAt([c,r], array2D[r][c]);
+                        }
                     }
-                    subgrid.data(array2D);
                     return api;
                 }
                 return subgrid.data();
