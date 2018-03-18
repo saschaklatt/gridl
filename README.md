@@ -48,7 +48,7 @@ const flippedGrid = gridl(data)
 
 ## Attention!
 
-* The new version (v0.10.0) comes with a lot of api breaks - see the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for further information
+* The new version (v0.10.x) comes with a lot of api breaks - see the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for further information
 
 ## Documentation
 
