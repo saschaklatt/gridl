@@ -2,9 +2,12 @@
 
 #### v0.10.3
 
+* new area function
+    * `.area(areaDesc).intersection(areaDesc)` - returns the intersection of two areas as a new area  
+
 #### v0.10.2
 
-* `area.data(array2D)` just ignores values that don't fit instead of throwing an error
+* `.area(areaDesc).data(array2D)` ignores values that don't fit instead of throwing an error
 
 #### v0.10.1
 
