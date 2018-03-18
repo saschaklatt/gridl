@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: plugins</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: plugins</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>plugins</h2>
+</header>
+
+<article>
+    <ul>
+<li><a href="#write">Wrinting plugins</a><ul>
+<li><a href="#write-single-function">Single functions</a></li>
+<li><a href="#write-multiple-functions">Multiple functions</a></li>
+<li><a href="#write-namespaces">Namespaces</a></li>
+</ul>
+</li>
+<li><a href="#state">Internal state</a><ul>
+<li><a href="#state-data">state.data</a></li>
+<li><a href="#state-rows-columns">state.rows / state.columns</a></li>
+<li><a href="#state-position">state.position</a></li>
+</ul>
+</li>
+</ul>
+<p>You can extend <code>gridl</code> with you own functionality using plugins.</p>
+<p><strong>Attention</strong>: Note that when writing plugins you're working with the <a href="#state">internal state</a> of gridl. You can easily 
+break the functionality of other gridl functions by not using the <a href="#state">internal state</a> properly. All responsibility 
+lies with the plugin creator. </p>
+<h3><a name="write"></a>Writing plugins</h3><p>Plugins are registered via the static <code>gridl.use(name, plugin)</code> function. </p>
+<pre class="prettyprint source lang-javascript"><code>gridl.use('myAwesomePlugin', (gridlInstance, state) => {
+    // every plugin is implemented by using this plugin factory function
+
+    // Parameters:
+    // - gridlInstance: is a reference to the current gridl instance
+    // - state: is the internal state object that you can manipulate
+
+    // ...plugin implementation goes here
+})</code></pre><h4><a name="write-single-function"></a>Single functions</h4><p>To add a single function simply return the function implementation within the plugin factory function. </p>
+<pre class="prettyprint source lang-javascript"><code>import gridl from 'gridl';
+
+// register the plugin function &quot;setFirstCell&quot; that simply sets the first cell to a given value.
+gridl.use('setFirstCell', function(gridlInstance, state) {
+    // create the plugin function
+    return function(value) {
+        state.data[0] = value; // set the first cell in the grid
+        return gridlInstance;  // return the gridl instance to allow method chaining
+    };
+});
+const data = [
+    [6,6,6],
+    [6,6,6],
+];
+const newGrid = gridl(data).setFirstCell(1).data();
+
+// newGrid looks like this
+// [
+//     [1,6,6],
+//     [6,6,6],
+// ]</code></pre><h4><a name="write-multiple-functions"></a>Multiple functions</h4><p>In order to provide multiple functions within a plugin you can simply bundle all your plugin functions in an object that
+contains a <code>methods</code> field. This approach is useful if you want to share functionality throughout your functions.</p>
+<pre class="prettyprint source lang-javascript"><code>import gridl, { utils } from 'gridl';
+
+const data = [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+    [10,11,12],
+    [13,14,15],
+];
+gridl.use('oddEvenPlugin', function(instance, state) {
+
+    const evenFilter = (row, index) => index % 2;
+    const oddFilter = (row, index) => !evenFilter(row, index);
+
+    function filter(filterMethod) {
+        const grid = utils.unflatten(state.data, state.columns, state.rows);
+        const filteredData = grid.filter(filterMethod);
+        state.rows = filteredData.length;
+        state.data = utils.flatten(filteredData);
+        return instance;
+    }
+
+    return {
+        methods: {
+            filterOddRows: filter.bind(this, oddFilter),
+            filterEvenRows: filter.bind(this, evenFilter),
+        },
+    };
+});
+expect(gridl(data).filterOddRows().data()).to.deep.equal([
+    [1,2,3],
+    [7,8,9],
+    [13,14,15],
+]);
+expect(gridl(data).filterEvenRows().data()).to.deep.equal([
+    [4,5,6],
+    [10,11,12],
+]);
+
+const theOddRows = gridl(data).filterOddRows().data();
+// result looks like this
+// [
+//     [1,2,3],
+//     [7,8,9],
+//     [13,14,15],
+// ]
+
+const theEvenRows = gridl(data).filterEvenRows().data();
+// result looks like this
+// [
+//     [4,5,6],
+//     [10,11,12],
+// ]</code></pre><h4><a name="write-namespaces"></a>Namespaces</h4><p>You can scope your plugins methods by using a namespace. You achieve this by also returning a <code>namespace</code> field set to 
+<code>true</code> in the plugin factory function.</p>
+<pre class="prettyprint source lang-javascript"><code>import gridl, { utils } from 'gridl';
+
+// same example as above but with the `oddEven` namespace
+const data = [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+    [10,11,12],
+    [13,14,15],
+];
+gridl.use('oddEven', function(instance, state) {
+    const evenFilter = (row, index) => index % 2;
+    const oddFilter = (row, index) => !evenFilter(row, index);
+
+    function filter(filterMethod) {
+        const grid = utils.unflatten(state.data, state.columns, state.rows);
+        const filteredData = grid.filter(filterMethod);
+        state.rows = filteredData.length;
+        state.data = utils.flatten(filteredData);
+        return instance;
+    }
+
+    return {
+        namespace: true,
+        methods: {
+            filterOddRows: filter.bind(this, oddFilter),
+            filterEvenRows: filter.bind(this, evenFilter),
+        },
+    };
+});
+
+const theEvenRows = gridl(data).oddEven.filterOddRows().data(); // you now need to use the `oddEven` namespace in front of your function 
+// result looks like this
+//[
+//    [1,2,3],
+//    [7,8,9],
+//    [13,14,15],
+//]
+
+const theOddRows = gridl(data).oddEven.filterEvenRows().data(); // you now need to use the `oddEven` namespace in front of your function
+// result looks like this
+//[
+//    [4,5,6],
+//    [10,11,12],
+//]</code></pre><h3><a name="state"></a>Internal state</h3><p>With plugins you are able to manipulate the internal state. The internal state is an object with the following structure:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    rows,       // the number of rows
+    columns,    // the number of columns
+    data,       // the grid data as flat one-dimensional array
+}</code></pre><h4><a name="state-data"></a>state.data</h4><p>The data is stored as one-dimensional array <code>state.data</code>. That means two-dimensional grid data is flattened to a 
+one-dimensional array. You can use the <code>utils.flatten()</code> function to convert a two-dimensional array into a 
+one-dimensional array.</p>
+<h4><a name="state-rows-columns"></a>state.rows / state.columns</h4><p>The number of rows and columns. When manipulating <code>state.data</code> you have to make sure <code>state.rows</code> and <code>state.columns</code>
+are updated accordingly.</p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="gridl.html">gridl</a></li><li><a href="gridl_area.html">area</a></li></ul><h3>Namespaces</h3><ul><li><a href="adjacences.html">adjacences</a></li><li><a href="directions.html">directions</a></li><li><a href="generators.html">generators</a></li><li><a href="utils.html">utils</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-adjacent-cells.html">adjacent-cells</a></li><li><a href="tutorial-areas.html">areas</a></li><li><a href="tutorial-clipping.html">clipping</a></li><li><a href="tutorial-cloning.html">cloning</a></li><li><a href="tutorial-columns-and-rows.html">columns-and-rows</a></li><li><a href="tutorial-data.html">data</a></li><li><a href="tutorial-finding.html">finding</a></li><li><a href="tutorial-flipping.html">flipping</a></li><li><a href="tutorial-generating.html">generating</a></li><li><a href="tutorial-iterating.html">iterating</a></li><li><a href="tutorial-moving.html">moving</a></li><li><a href="tutorial-plugins.html">plugins</a></li><li><a href="tutorial-rotating.html">rotating</a></li><li><a href="tutorial-size.html">size</a></li><li><a href="tutorial-swapping.html">swapping</a></li><li><a href="tutorial-values.html">values</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Mar 18 2018 16:06:24 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

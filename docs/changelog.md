@@ -1,5 +1,8 @@
 # Changelog
 
+**v0.10.2**
+
+* `area.data(array2D)` just ignores values that don't fit instead of throwing an error
 
 **v0.10.1**
 
