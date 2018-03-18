@@ -106,7 +106,7 @@ const _contains = (innerAreaDesc, outerAreaDesc) => {
     );
 };
 
-const _overlap = (areaDesc1, areaDesc2) => {
+const _overlaps = (areaDesc1, areaDesc2) => {
     const area1 = _areaStartAndEnd(areaDesc1);
     const area2 = _areaStartAndEnd(areaDesc2);
     return (
@@ -115,6 +115,21 @@ const _overlap = (areaDesc1, areaDesc2) => {
         area1[1] <= area2[3] &&
         area2[1] <= area1[3]
     );
+};
+
+const _intersection = (areaDesc1, areaDesc2) => {
+    const area1 = _areaStartAndEnd(areaDesc1);
+    const area2 = _areaStartAndEnd(areaDesc2);
+
+    const left   = Math.max(area1[0], area2[0]);
+    const right  = Math.min(area1[2], area2[2]);
+    const top    = Math.max(area1[1], area2[1]);
+    const bottom = Math.min(area1[3], area2[3]);
+
+    const columns = right - left + 1;
+    const rows = bottom - top + 1;
+
+    return [columns, rows, left, top];
 };
 
 export default function(instance, state) {
@@ -447,7 +462,24 @@ export default function(instance, state) {
              */
             intersectsWith: otherAreaDescription => {
                 _validateAreaDescription(otherAreaDescription);
-                return _overlap(api.description(), otherAreaDescription);
+                return _overlaps(api.description(), otherAreaDescription);
+            },
+
+            /**
+             * Get the intersection of two areas as area or false if there is no intersection.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {Array.<number>} otherAreaDescription - The description of the other area.
+             * @returns {boolean|gridl#area} The area of overlapping values or false if there is no intersecting area.
+             */
+            intersection: otherAreaDescription => {
+                _validateAreaDescription(otherAreaDescription);
+                const intersectingDesc = _intersection(api.description(), otherAreaDescription);
+                const isIntersecting = intersectingDesc[0] > 0 || intersectingDesc[0] > 0;
+                return isIntersecting && area(intersectingDesc);
             },
         };
         return api;

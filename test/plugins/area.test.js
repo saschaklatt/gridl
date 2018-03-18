@@ -984,4 +984,44 @@ describe('area', () => {
 
     });
 
+    describe('intersection', () => {
+
+        it('should return the overlapping area', () => {
+            const area1 = [3,3,2,1];
+            const area2 = [5,3,3,2];
+            const intersection1 = gridl(mockData()).area(area1).intersection(area2).data();
+            const intersection2 = gridl(mockData()).area(area2).intersection(area1).data();
+            const expected = [
+                [6,7],
+                [6,7],
+            ];
+            expect(intersection1).to.deep.equal(expected);
+            expect(intersection2).to.deep.equal(expected);
+        });
+
+        it('should return the overlapping area by using anchor points', () => {
+            const area1 = [4,4,2,1,1,1];
+            const area2 = [7,4,4,2,2,1];
+            const intersection1 = gridl(mockData()).area(area1).intersection(area2).data();
+            const intersection2 = gridl(mockData()).area(area2).intersection(area1).data();
+            const expected = [
+                [5,7,8],
+                [6,6,7],
+                [6,6,7],
+            ];
+            expect(intersection1).to.deep.equal(expected);
+            expect(intersection2).to.deep.equal(expected);
+        });
+
+        it('should return undefined if there is no intersection', () => {
+            const area1 = [2,2,0,1];
+            const area2 = [3,2,4,3];
+            const intersection1 = gridl(mockData()).area(area1).intersection(area2);
+            const intersection2 = gridl(mockData()).area(area2).intersection(area1);
+            expect(intersection1).to.deep.equal(false);
+            expect(intersection2).to.deep.equal(false);
+        });
+
+    });
+
 });
