@@ -2,10 +2,11 @@
 
 ## Known bugs
 
-* BUG: plugins can't be used across multiple files
+* BUG: plugins can't be used across multiple files // is this still an issue? -> investigate
 
 ## Known issues
  
+* `.data(array2D)` function behaves differently on area and gridl instance - confusing, should be unified
 * publishing process should be improved
     * make sure distribution files are generated before publishing
     * consider testing against dist/ files
@@ -36,12 +37,14 @@
 
 ## v0.10.x
 
-* rename `intersectsWith()` to `overlapsWith()`
+* rename `intersectsWith()` to `overlapsWith()` and deprecate `intersectsWith()`
 * further area functions
 * webpack 4
 * ~~jsdoc for area api~~
 
 ### v0.11
+
+* remove `intersectsWith()` (replaced by `overlapsWith()`)
 
 
 ### pre release

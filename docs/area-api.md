@@ -102,7 +102,7 @@ makeAreaDescription(areaData, areaPosition, areaAnchor); // returns [2,3,1,4,0,0
   gridl(data).area(areaDescription).swapColumns()
   gridl(data).area(areaDescription).swapRows()
   gridl(data).area(areaDescription).list()
-  gridl(data).area(areaDescription).intersectingArea(areaDesc)
+  gridl(data).area(areaDescription).overlapsArea(areaDesc)
   gridl(data).area(areaDescription).containsPosition(globalPosition) // already possible by using contains(areaDesc), calculations could be simplified when checking just a point instead of an area
   gridl(data).area(areaDescription).moveTo(position)
 ```
