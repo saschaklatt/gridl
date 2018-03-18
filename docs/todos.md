@@ -30,15 +30,16 @@
 ### v0.10
  
 * implement [area api](area-api.md) (subset of gridl api for inner areas)
-* jsdoc for area api
 * ~~fix plugins api~~
 * ~~remove navigation api~~
 * ~~importing empty data (no rows or columns)~~
 
 ## v0.10.x
 
+* rename `intersectsWith()` to `overlapsWith()`
 * further area functions
 * webpack 4
+* ~~jsdoc for area api~~
 
 ### v0.11
 
