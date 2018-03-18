@@ -443,8 +443,6 @@ function registerPlugins(state) {
                     });
                 }
     };
-
-    // Object.entries(plugins).forEach(register);
     usedPlugins.forEach(register);
 }
 
@@ -455,13 +453,13 @@ function registerPlugins(state) {
 function gridl(data) {
 
     // validate incoming data
-    validateGridArray(data); // TODO: support no rows and columns, default to to [[]]
+    validateGridArray(data);
 
     // create initial state
     var initialState = {
         rows: countRows(data),
         columns: countColumns(data),
-        data: flatten(data) // TODO: if no data is provided default to [[]]
+        data: flatten(data)
     };
 
     // register plugins with initial state
@@ -805,7 +803,20 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 exports.default = function (instance, state) {
 
-    var area = function area(areaDescription) {
+    /**
+     * Select a subset area of the grid to perform actions only on this limited area.
+     *
+     * @memberOf gridl
+     * @method
+     * @instance
+     * @constructs area
+     *
+     * @param {Array.<number>} [areaDescription=[]] - Describes the size, position and anchor of area.<br><code>[columns=0, rows=0, positionX=0, positionY=0, anchorX=0, anchorY=0]</code>
+     * @returns {gridl#area} The area api.
+     */
+    var area = function area() {
+        var areaDescription = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
         _validateAreaDescription(areaDescription);
 
         // input values
@@ -837,46 +848,175 @@ exports.default = function (instance, state) {
         // area api
         var subgrid = (0, _index2.default)(data);
         var api = {
+            /**
+             * Get the number of rows.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {number} The number of rows.
+             */
             numRows: function numRows() {
                 return rows;
             },
+
+            /**
+             * Get the number of columns.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {number} The number of columns.
+             */
             numColumns: function numColumns() {
                 return columns;
             },
+
+            /**
+             * Get the number of columns and rows as a size array.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {Array.<number>} The area's size.
+             */
             size: function size() {
                 return _size2;
             },
+
+            /**
+             * The area's position on the main grid.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {Array.<number>} The position.
+             */
             position: function position() {
                 return _position;
             },
+
+            /**
+             * Get the anchor.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {Array.<number>} The anchor.
+             */
             anchor: function anchor() {
                 return _anchor;
             },
+
+            /**
+             * Convert a local position inside the area to a global position on the grid.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {Array.<number>} localPosition - The local position you want to convert.
+             * @returns {Array.<number>} The global position.
+             */
             localToGlobal: function localToGlobal(localPosition) {
                 return (0, _utils.addPositions)(api.position(), localPosition);
             },
+
+            /**
+             * Convert a global position on the grid to a local position inside the area.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {Array.<number>} globalPosition - The global position you want to convert.
+             * @returns {Array.<number>} The local position.
+             */
+            globalToLocal: function globalToLocal(globalPosition) {
+                return (0, _utils.subtractPositions)(globalPosition, api.position());
+            },
+
+            /**
+             * Get or set a value inside the area.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {Array.<number>} localPosition - The local position of the value.
+             * @param {*} [value] - The value you want to set.
+             * @returns {number} The number of rows.
+             */
             valueAt: function valueAt(localPosition, value) {
                 return arguments.length > 1 ? subgrid.valueAt(localPosition, value) : subgrid.valueAt(localPosition);
             },
-            data: function data(value) {
+
+            /**
+             * Get or set the entire data of the area. When setting the area data, make sure the new data array has the correct size.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {*} [array2D] - The value you want to set.
+             * @returns {area|Array.<Array.<*>>} The area when used as setter, the data array when used as getter.
+             */
+            data: function data(array2D) {
                 if (arguments.length > 0) {
-                    var _newColumns = (0, _utils.countColumns)(value);
-                    var _newRows = (0, _utils.countRows)(value);
+                    var _newColumns = (0, _utils.countColumns)(array2D);
+                    var _newRows = (0, _utils.countRows)(array2D);
                     if (_newRows !== rows || _newColumns !== columns) {
                         throw new Error('New area data has an invalid size.');
                     }
-                    subgrid.data(value);
+                    subgrid.data(array2D);
                     return api;
                 }
                 return subgrid.data();
             },
+
+            /**
+             * Applies the changes that are made on the area to the main grid.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {gridl} The main grid instance.
+             */
             apply: function apply() {
                 _setAreaAt(state.data, state.columns, state.rows, _position, subgrid.data(), _anchor);
                 return instance;
             },
+
+            /**
+             * Returns the main grid.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {gridl} The main grid.
+             */
             parent: function parent() {
                 return instance;
             },
+
+            /**
+             * Applies a function against an accumulator and each element in the area to reduce it to a single value.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {reducerCallback} callback - The callback function that is executed on each cell.<br><code>function(accumulator, cell, position, gridlInstance) { return ... }</code>
+             * @param {*} [initialValue=undefined] - Value to use as the first argument to the first call of the <code>callback</code>. If no initial value is supplied, the first element in the grid will be used.
+             * @returns {*} The value that results from the reduction.
+             */
             reduce: function reduce(callback, initialValue) {
                 var reducer = function reducer(acc, v, i) {
                     var local = (0, _utils.index2pos)(i, columns);
@@ -884,6 +1024,17 @@ exports.default = function (instance, state) {
                 };
                 return arguments.length < 1 ? (0, _utils.flatten)(data).reduce(reducer) : (0, _utils.flatten)(data).reduce(reducer, initialValue);
             },
+
+            /**
+             * Map over all cells of area. It's the equivalent of Array.map just for the grid.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {iteratorCallback} callback - The callback function that is called on each cell of the area.<br><code>function(cell, position, gridlInstance) { return ... }</code>
+             * @returns {gridl#area} A new area instance.
+             */
             map: function map(callback, thisArg) {
                 var mapper = function mapper(v, i) {
                     var local = (0, _utils.index2pos)(i, columns);
@@ -894,6 +1045,18 @@ exports.default = function (instance, state) {
                 // return a copy with the new data
                 return area(areaDescription).data((0, _utils.unflatten)(newData, columns, rows));
             },
+
+            /**
+             * Iterates over all cells of the area and replaces it with either a fixed value or a value returned by a callback function.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {*|iteratorCallback} callbackOrValue - A fixed value or a callback function that is executed on each cell.<br><code>function(cell, position, gridlInstance) { return ... }</code>
+             * @param {*} [thisArg] Optional. Object to use as <code>this</code> when executing <code>callback</code>.
+             * @returns {gridl#area} The same area instance.
+             */
             fill: function fill(callbackOrValue, thisArg) {
                 if (typeof callbackOrValue === 'function') {
                     subgrid.fill(function (v, pos) {
@@ -904,6 +1067,18 @@ exports.default = function (instance, state) {
                 }
                 return api;
             },
+
+            /**
+             * Find the first occurrence of an element within the area.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {iteratorCallback} callbackOrValue - The callback function that is called on each element. Should return true if the element is found or false if not.
+             * @param {*} [thisArg] Optional. Object to use as <code>this</code> when executing <code>callback</code>.
+             * @returns {(Array.<number>|undefined)} The local position of the first element that is found or <code>undefined</code> if nothing was found.
+             */
             find: function find(callbackOrValue, thisArg) {
                 if (typeof callbackOrValue === 'function') {
                     return subgrid.find(function (v, pos) {
@@ -914,6 +1089,18 @@ exports.default = function (instance, state) {
                     return v === callbackOrValue;
                 });
             },
+
+            /**
+             * Iterate over all cells in the area. It's the equivalent of Array.forEach just for the grid.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {iteratorCallback} callback - The callback function is executed on each cell in the area.<br><code>function(cell, position, gridlInstance) { return ... }</code>
+             * @param {*} [thisArg] Optional. Object to use as <code>this</code> when executing <code>callback</code>.
+             * @returns {gridl#area} The same area instance.
+             */
             forEach: function forEach(callback, thisArg) {
                 var iterator = function iterator(v, i) {
                     var local = (0, _utils.index2pos)(i, columns);
@@ -922,17 +1109,60 @@ exports.default = function (instance, state) {
                 (0, _utils.flatten)(data).forEach(iterator, thisArg);
                 return api;
             },
+
+            /**
+             * Generate the area description for the current area.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {Array.<number>} The area description.
+             */
             description: function description() {
                 return [columns, rows, _x, _y, _ax, _ay];
             },
+
+            /**
+             * Check if the current area is completely covered inside another area.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {Array.<number>} otherAreaDescription - The description of the other area.
+             * @returns {boolean} Whether or not current area is covered.
+             */
             isInside: function isInside(otherAreaDescription) {
                 _validateAreaDescription(otherAreaDescription);
                 return _contains(api.description(), otherAreaDescription);
             },
+
+            /**
+             * Check if the current area completely covers another area.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {Array.<number>} otherAreaDescription - The description of the other area.
+             * @returns {boolean} Whether or not the other area is covered.
+             */
             contains: function contains(otherAreaDescription) {
                 _validateAreaDescription(otherAreaDescription);
                 return _contains(otherAreaDescription, api.description());
             },
+
+            /**
+             * Check if the current area overlaps with another area.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {Array.<number>} otherAreaDescription - The description of the other area.
+             * @returns {boolean} Whether or not the areas intersect.
+             */
             intersectsWith: function intersectsWith(otherAreaDescription) {
                 _validateAreaDescription(otherAreaDescription);
                 return _overlap(api.description(), otherAreaDescription);
@@ -1055,13 +1285,9 @@ var _areaStartAndEnd = function _areaStartAndEnd(areaDesc) {
 var _contains = function _contains(innerAreaDesc, outerAreaDesc) {
     var inner = _areaStartAndEnd(innerAreaDesc);
     var outer = _areaStartAndEnd(outerAreaDesc);
-    return inner[0] >= outer[0] && inner[1] >= outer[1] && inner[2] <= outer[2] && inner[3] <= outer[3];
+    return outer[0] <= inner[0] && outer[1] <= inner[1] && inner[2] <= outer[2] && inner[3] <= outer[3];
 };
 
-/**
- * @see https://stackoverflow.com/questions/306316/determine-if-two-rectangles-overlap-each-other
- * @private
- */
 var _overlap = function _overlap(areaDesc1, areaDesc2) {
     var area1 = _areaStartAndEnd(areaDesc1);
     var area2 = _areaStartAndEnd(areaDesc2);

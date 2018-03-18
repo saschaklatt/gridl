@@ -1,6 +1,12 @@
 # Changelog
 
 
+**v0.10.1**
+
+* new area functions
+    * `.area(areaDesc).forEach((val, pos, src) => {...})`
+    * `.area(areaDesc).globalToLocal(globalPosition)`
+
 **v0.10.0**
 
 * New area api

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utils.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utils.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Calculates the position according to an index.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {number} index - The index on a one-dimensional list array.
+ * @param {number} columns - The number of columns of the two-dimensional grid array.
+ * @returns {number[]} The position according to the index.
+ */
+export const index2pos = (index, columns) => [index % columns, Math.floor(index / columns)];
+
+/**
+ * Calculates the index according to the position.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {number[]} position - The position on a two-dimensional array.
+ * @param {number} columns - The number of columns of the two-dimensional array.
+ * @returns {number} The index according to the position.
+ */
+export const pos2index = (position, columns) => position &amp;&amp; position[0] + position[1] * columns;
+
+/**
+ * Count the number of rows in a two-dimensional array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.&lt;Array.&lt;any>>} array2D - The input array.
+ * @returns {number} The number of rows.
+ */
+export const countRows = array2D => array2D.length || 0;
+
+/**
+ * Count the number of columns in a two-dimensional array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.&lt;Array.&lt;any>>} array2D - The input array.
+ * @returns {number} The number of columns.
+ */
+export const countColumns = array2D => (array2D &amp;&amp; array2D[0] &amp;&amp; array2D[0].length) || 0;
+
+/**
+ * Converts a two-dimensional grid array into a one-dimensional list array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {number[][]} array2D - The two-dimensional array that should be converted.
+ * @returns {number[]} A one-dimensional array.
+ */
+export const flatten = array2D => array2D.reduce((res, row) => [...res, ...row], []);
+
+/**
+ * Converts a one-dimensional list array into a two dimensional grid array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {number[]} array1D - The one-dimensional array you want to convert.
+ * @param {number} columns - The number of columns the new two-dimensional array should have.
+ * @param {number} rows - The number of rows the new two-dimensional array should have.
+ * @returns {number[][]} - A two-dimensional array.
+ */
+export const unflatten = (array1D, columns, rows) => {
+    const res = [];
+    for (let r = 0; r &lt; rows; r++) {
+        res[r] = [];
+        for (let c = 0; c &lt; columns; c++) {
+            const pos = [c, r];
+            const i = pos2index(pos, columns);
+            res[r][c] = array1D[i];
+        }
+    }
+    return res;
+};
+
+/**
+ * Adds the x and y values of two positions.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {number[]} p1 - The first position.
+ * @param {number[]} p2 - The second position.
+ * @returns {number[]} The sum of both positions.
+ */
+export const addPositions = (p1, p2) => [
+    p1[0] + p2[0],
+    p1[1] + p2[1],
+];
+
+/**
+ * Subtracts the x and y value of two positions.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {number[]} p1 - The first position.
+ * @param {number[]} p2 - The second position.
+ * @returns {number[]} - The difference of both positions.
+ */
+export const subtractPositions = (p1, p2) => [
+    p1[0] - p2[0],
+    p1[1] - p2[1],
+];
+
+/**
+ * Limits a value to be between a minimum and maximum value.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {number} value - The value that should be limited.
+ * @param {number} min - The minimum value.
+ * @param {number} max - The maximum value.
+ * @returns {number} The limited value.
+ */
+export const limit = (value, min, max) => Math.max(Math.min(value, max), min);
+
+/**
+ * Determines if a position is located within in an area.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {number[]} areaSize - The size of the area.
+ * @param {number[]} position - The position.
+ * @returns {boolean} Whether or not the position is located within the area.
+ */
+export const isNotInArea = (areaSize, position) => (
+    position[0] &lt; 0 || position[0] >= areaSize[0] ||
+    position[1] &lt; 0 || position[1] >= areaSize[1]
+);
+
+/**
+ * Get a value at a given position. This method is operating on a one-dimensional array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.&lt;*>} data - The one-dimensional source array.
+ * @param {number} columns - The number of columns.
+ * @param {number[]} pos - The position where to get the value
+ * @returns {*} - The value at the given position.
+ */
+export const getValueAt = (data, columns, pos) => {
+    const index = pos2index(pos, columns);
+    if (isNaN(index)) {
+        return;
+    }
+    return data[index];
+};
+
+/**
+ * Set the value at a given position. This method is operating on a one-dimensional array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.&lt;*>} data - The one-dimensional source array.
+ * @param {number} columns - The number of columns.
+ * @param {number} rows - The number of rows.
+ * @param {number[]} pos - The position where to set the value.
+ * @param {*} value - The value to set.
+ * @returns {boolean} - Whether or not the value was set successfully.
+ */
+export const setValueAt = (data, columns, rows, pos, value) => {
+    if (isNotInArea([columns, rows], pos)) {
+        return false;
+    }
+    const index = pos2index(pos, columns);
+    if (!isNaN(index)) {
+        data[index] = value;
+    }
+    return true;
+};
+
+/**
+ * Extracts a column at a given x position. This method operates on a one-dimensional grid array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.&lt;*>} data - The one-dimensional source array.
+ * @param {number} x - The x position of the column.
+ * @returns {Array.&lt;*>} - The column.
+ */
+export const getColumn = (data, x) => {
+    if (x >= 0 &amp;&amp; x &lt; data[0].length) {
+        return data.map(row => row[x]);
+    }
+};
+
+/**
+ * Check if the position is in a valid format.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.&lt;number>} position - The position to validate.
+ * @returns {boolean} Whether or not it has a valid position format.
+ */
+export const isValidPositionFormat = position => {
+    if (!Array.isArray(position) || position.length !== 2) {
+        return false;
+    }
+    return (Number.isSafeInteger(position[0]) &amp;&amp; Number.isSafeInteger(position[1]));
+};
+
+/**
+ * Checks if the given data is a valid two-dimensional grid array.
+ *
+ * @memberOf utils
+ * @method
+ *
+ * @param {Array.&lt;Array.&lt;*>>} data - The data to validate.
+ */
+export const validateGridArray = data => {
+    if (!Array.isArray(data)) {
+        throw new Error('Trying to import data that is not an array.');
+    }
+    data.forEach((row, i) => {
+        if (!Array.isArray(row)) {
+            throw new Error('Trying to import data that is not an array.');
+        }
+        if (i > 0 &amp;&amp; data[i - 1].length !== row.length) {
+            throw new Error('Trying to import data with inconsistent number of columns.');
+        }
+        // if (row.length &lt; 1) {
+        //     throw new Error('Trying to import grid without any columns. You need to provide at least one column.');
+        // }
+    });
+};
+
+/**
+ * Utility functions. These methods are useful when working with gridl's internal data. You could find them helpful when
+ * developing your own plugins.
+ *
+ * @namespace
+ * @type {Object}
+ */
+const utils = {
+    countColumns,
+    countRows,
+    flatten,
+    isValidPositionFormat,
+    unflatten,
+    index2pos,
+    pos2index,
+    addPositions,
+    subtractPositions,
+    limit,
+    isNotInArea,
+    getColumn,
+    getValueAt,
+    setValueAt,
+    validateGridArray,
+};
+
+export default utils;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="gridl.html">gridl</a></li><li><a href="gridl_area.html">area</a></li></ul><h3>Namespaces</h3><ul><li><a href="adjacences.html">adjacences</a></li><li><a href="directions.html">directions</a></li><li><a href="generators.html">generators</a></li><li><a href="utils.html">utils</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-adjacent-cells.html">adjacent-cells</a></li><li><a href="tutorial-areas.html">areas</a></li><li><a href="tutorial-clipping.html">clipping</a></li><li><a href="tutorial-cloning.html">cloning</a></li><li><a href="tutorial-columns-and-rows.html">columns-and-rows</a></li><li><a href="tutorial-data.html">data</a></li><li><a href="tutorial-finding.html">finding</a></li><li><a href="tutorial-flipping.html">flipping</a></li><li><a href="tutorial-generating.html">generating</a></li><li><a href="tutorial-iterating.html">iterating</a></li><li><a href="tutorial-moving.html">moving</a></li><li><a href="tutorial-plugins.html">plugins</a></li><li><a href="tutorial-rotating.html">rotating</a></li><li><a href="tutorial-size.html">size</a></li><li><a href="tutorial-swapping.html">swapping</a></li><li><a href="tutorial-values.html">values</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Mar 18 2018 12:28:23 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
