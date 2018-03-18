@@ -384,6 +384,20 @@ describe('area', () => {
 
     });
 
+    describe('globalToLocal', () => {
+
+        it('should convert the local position to a global position', () => {
+            const area = gridl(mockData()).area([3,3,2,1]);
+            expect(area.globalToLocal([3,3])).to.deep.equal([1,2]);
+        });
+
+        it('should not be affected by usage of an anchor', () => {
+            const area = gridl(mockData()).area([3,3,3,2,1,2]);
+            expect(area.localToGlobal([1,2])).to.deep.equal([4,4]);
+        });
+
+    });
+
     describe('reduce', () => {
 
         it('should execute the callback on each cell within the area', () => {

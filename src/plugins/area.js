@@ -216,6 +216,18 @@ export default function(instance, state) {
             localToGlobal: (localPosition) => addPositions(api.position(), localPosition),
 
             /**
+             * Convert a global position on the grid to a local position inside the area.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {Array.<number>} globalPosition - The global position you want to convert.
+             * @returns {Array.<number>} The local position.
+             */
+            globalToLocal: (globalPosition) => subtractPositions(globalPosition, api.position()),
+
+            /**
              * Get or set a value inside the area.
              *
              * @memberOf gridl#area
