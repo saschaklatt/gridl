@@ -1166,7 +1166,24 @@ exports.default = function (instance, state) {
              */
             intersectsWith: function intersectsWith(otherAreaDescription) {
                 _validateAreaDescription(otherAreaDescription);
-                return _overlap(api.description(), otherAreaDescription);
+                return _overlaps(api.description(), otherAreaDescription);
+            },
+
+            /**
+             * Get the intersection of two areas as area or false if there is no intersection.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {Array.<number>} otherAreaDescription - The description of the other area.
+             * @returns {boolean|gridl#area} The area of overlapping values or false if there is no intersecting area.
+             */
+            intersection: function intersection(otherAreaDescription) {
+                _validateAreaDescription(otherAreaDescription);
+                var intersectingDesc = _intersection(api.description(), otherAreaDescription);
+                var isIntersecting = intersectingDesc[0] > 0 || intersectingDesc[0] > 0;
+                return isIntersecting && area(intersectingDesc);
             }
         };
         return api;
@@ -1289,10 +1306,25 @@ var _contains = function _contains(innerAreaDesc, outerAreaDesc) {
     return outer[0] <= inner[0] && outer[1] <= inner[1] && inner[2] <= outer[2] && inner[3] <= outer[3];
 };
 
-var _overlap = function _overlap(areaDesc1, areaDesc2) {
+var _overlaps = function _overlaps(areaDesc1, areaDesc2) {
     var area1 = _areaStartAndEnd(areaDesc1);
     var area2 = _areaStartAndEnd(areaDesc2);
     return area1[0] <= area2[2] && area2[0] <= area1[2] && area1[1] <= area2[3] && area2[1] <= area1[3];
+};
+
+var _intersection = function _intersection(areaDesc1, areaDesc2) {
+    var area1 = _areaStartAndEnd(areaDesc1);
+    var area2 = _areaStartAndEnd(areaDesc2);
+
+    var left = Math.max(area1[0], area2[0]);
+    var right = Math.min(area1[2], area2[2]);
+    var top = Math.max(area1[1], area2[1]);
+    var bottom = Math.min(area1[3], area2[3]);
+
+    var columns = right - left + 1;
+    var rows = bottom - top + 1;
+
+    return [columns, rows, left, top];
 };
 
 module.exports = exports['default'];

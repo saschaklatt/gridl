@@ -1,16 +1,18 @@
 # Changelog
 
-**v0.10.2**
+#### v0.10.3
+
+#### v0.10.2
 
 * `area.data(array2D)` just ignores values that don't fit instead of throwing an error
 
-**v0.10.1**
+#### v0.10.1
 
 * new area functions
     * `.area(areaDesc).forEach((val, pos, src) => {...})`
     * `.area(areaDesc).globalToLocal(globalPosition)`
 
-**v0.10.0**
+### v0.10.0
 
 * New area api
     * areas are described by an area description array: `[width = 0, height = 0, x = 0, y = 0, anchorX = 0, anchorY = 0]`
@@ -49,7 +51,7 @@
     * removed all functions that were using the internal position
 * allow importing empty data (no rows and no columns)
 
-**v0.9.0**
+### v0.9.0
 
 * Plugin api !!!
     * You can now add custom functions to gridl and mess around with the internal state. Note: all responsibility lies with the plugin creator!
@@ -76,11 +78,11 @@
 * don't throw error when `walk()` outside the grid
 * integrated tutorials into JSDoc
 
-**v0.8.7**
+#### v0.8.7
 
 * added reduceArea() and reduceAreaAt() functions
 
-**v0.8.6**
+#### v0.8.6
 
 * added more predefined adjacence sets
     * adjacences.ALL_CW
@@ -91,7 +93,7 @@
     * adjacences.HORIZONTAL_CCW
 * made all adjacence and direction constants immutable
 
-**v0.8.5**
+#### v0.8.5
 
 * implemented reduce() method
 * added a changelog :)
