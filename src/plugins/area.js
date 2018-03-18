@@ -127,10 +127,10 @@ export default function(instance, state) {
      * @instance
      * @constructs area
      *
-     * @param {Array.<number>} [areaDescription=[0,0,0,0,0,0]] - Describes the size, position and anchor of area.<br><code>[columns=0, rows=0, positionX=0, positionY=0, anchorX=0, anchorY=0]</code>
+     * @param {Array.<number>} [areaDescription=[]] - Describes the size, position and anchor of area.<br><code>[columns=0, rows=0, positionX=0, positionY=0, anchorX=0, anchorY=0]</code>
      * @returns {gridl#area} The area api.
      */
-    const area = areaDescription => {
+    const area = (areaDescription = []) => {
         _validateAreaDescription(areaDescription);
 
         // input values
