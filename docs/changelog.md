@@ -1,5 +1,9 @@
 # Changelog
 
+#### v0.10.4
+
+* fix bug in `area(areaDesc).intersection(otherAreaDesc)` function
+
 #### v0.10.3
 
 * new area function
