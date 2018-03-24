@@ -44,7 +44,8 @@
 
 ### v0.11
 
-* remove `intersectsWith()` (replaced by `overlapsWith()`)
+* add a function to remove plugins? such as: `gridl.remove(pluginName)`
+* hasSameSize helper function `.hasSameSize(dataOrGridOrArea)`
 
 
 ### pre release

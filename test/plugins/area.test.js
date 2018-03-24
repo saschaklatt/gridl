@@ -1013,13 +1013,31 @@ describe('area', () => {
             expect(intersection2).to.deep.equal(expected);
         });
 
-        it('should return undefined if there is no intersection', () => {
+        it('should return false if there is no intersection', () => {
             const area1 = [2,2,0,1];
             const area2 = [3,2,4,3];
             const intersection1 = gridl(mockData()).area(area1).intersection(area2);
             const intersection2 = gridl(mockData()).area(area2).intersection(area1);
-            expect(intersection1).to.deep.equal(false);
-            expect(intersection2).to.deep.equal(false);
+            expect(intersection1).to.equal(false);
+            expect(intersection2).to.equal(false);
+        });
+
+        it('should return false if there is a vertical but no horizontal intersection', () => {
+            const area1 = [2,2,0,1];
+            const area2 = [3,2,1,4];
+            const intersection1 = gridl(mockData()).area(area1).intersection(area2);
+            const intersection2 = gridl(mockData()).area(area2).intersection(area1);
+            expect(intersection1).to.equal(false);
+            expect(intersection2).to.equal(false);
+        });
+
+        it('should return false if there is a horizontal but no vertical intersection', () => {
+            const area1 = [2,2,0,1];
+            const area2 = [3,2,3,2];
+            const intersection1 = gridl(mockData()).area(area1).intersection(area2);
+            const intersection2 = gridl(mockData()).area(area2).intersection(area1);
+            expect(intersection1).to.equal(false);
+            expect(intersection2).to.equal(false);
         });
 
     });

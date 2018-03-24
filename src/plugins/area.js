@@ -478,8 +478,9 @@ export default function(instance, state) {
             intersection: otherAreaDescription => {
                 _validateAreaDescription(otherAreaDescription);
                 const intersectingDesc = _intersection(api.description(), otherAreaDescription);
-                const isIntersecting = intersectingDesc[0] > 0 || intersectingDesc[0] > 0;
-                return isIntersecting && area(intersectingDesc);
+                const isPositiveSized = intersectingDesc[0] >= 0 && intersectingDesc[1] >= 0;
+                const isIntersecting = intersectingDesc[0] > 0 || intersectingDesc[1] > 0;
+                return isPositiveSized && isIntersecting && area(intersectingDesc);
             },
         };
         return api;
