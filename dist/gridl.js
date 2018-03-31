@@ -1185,7 +1185,43 @@ exports.default = function (instance, state) {
                 var isPositiveSized = intersectingDesc[0] >= 0 && intersectingDesc[1] >= 0;
                 var isIntersecting = intersectingDesc[0] > 0 || intersectingDesc[1] > 0;
                 return isPositiveSized && isIntersecting && area(intersectingDesc);
-            }
+            },
+
+            /**
+             * Get the column of an area at a certain x-position.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {number} x - The x-position of the column you want to get.
+             * @returns {Array.<*>}
+             */
+            column: subgrid.column,
+
+            /**
+             * Get the row of an area at a certain y-position.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {number} y - The y-position of the row you want to get.
+             * @returns {Array.<*>}
+             */
+            row: subgrid.row,
+
+            /**
+             * Make a clone of the current area instance.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {gridl#area} A new area instance.
+             */
+            clone: subgrid.clone
+
         };
         return api;
     };

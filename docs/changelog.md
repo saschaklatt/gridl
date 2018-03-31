@@ -1,5 +1,12 @@
 # Changelog
 
+#### v0.10.5
+
+* new area functions:
+    * `.area(areaDesc).clone()`
+    * `.area(areaDesc).column(x)`
+    * `.area(areaDesc).row(y)`
+
 #### v0.10.4
 
 * fix bug in `area(areaDesc).intersection(otherAreaDesc)` function
