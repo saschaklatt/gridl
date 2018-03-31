@@ -91,10 +91,10 @@ makeAreaDescription(areaData, areaPosition, areaAnchor); // returns [2,3,1,4,0,0
 √ gridl(data).area(areaDescription).forEach((val, pos, src) => {...})
 √ gridl(data).area(areaDescription).globalToLocal(globalPosition)
 √ gridl(data).area(areaDescription).intersection(areaDesc)
------- v0.10.4 -------
-  gridl(data).area(areaDescription).column(x)
-  gridl(data).area(areaDescription).row(y)
-  gridl(data).area(areaDescription).clone()
+√ gridl(data).area(areaDescription).column(x)
+√ gridl(data).area(areaDescription).row(y)
+√ gridl(data).area(areaDescription).clone()
+------ v0.10.5 -------
   gridl(data).area(areaDescription).flipX()
   gridl(data).area(areaDescription).flipY()
   gridl(data).area(areaDescription).swapCell()

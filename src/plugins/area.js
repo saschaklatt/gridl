@@ -493,7 +493,7 @@ export default function(instance, state) {
              * @param {number} x - The x-position of the column you want to get.
              * @returns {Array.<*>}
              */
-            column: x => subgrid.column(x),
+            column: subgrid.column,
 
             /**
              * Get the row of an area at a certain y-position.
@@ -505,7 +505,18 @@ export default function(instance, state) {
              * @param {number} y - The y-position of the row you want to get.
              * @returns {Array.<*>}
              */
-            row: y => subgrid.row(y),
+            row: subgrid.row,
+
+            /**
+             * Make a clone of the current area instance.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @returns {gridl#area} A new area instance.
+             */
+            clone: subgrid.clone,
 
         };
         return api;

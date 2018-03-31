@@ -1123,4 +1123,33 @@ describe('area', () => {
 
     });
 
+    describe('clone', () => {
+
+        it('should make a copy', () => {
+            const master = gridl(mockData()).area([3,4]);
+            const copy = master.clone();
+            expect(master === copy).to.equal(false);
+            expect(copy.data()).to.deep.equal(copy.data());
+        });
+
+        it('should not affect the original area when changing the cloned area', () => {
+            const master = gridl(mockData()).area([3,4]);
+            const copy = master.clone();
+            copy.valueAt([0,0], 'bla');
+            expect(master.data()).to.deep.equal([
+                [0,7,3],
+                [4,2,5],
+                [6,6,6],
+                [6,6,6],
+            ]);
+            expect(copy.data()).to.deep.equal([
+                ['bla',7,3],
+                [4,2,5],
+                [6,6,6],
+                [6,6,6],
+            ]);
+        });
+
+    });
+
 });
