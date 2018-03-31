@@ -494,6 +494,19 @@ export default function(instance, state) {
              * @returns {Array.<*>}
              */
             column: x => subgrid.column(x),
+
+            /**
+             * Get the row of an area at a certain y-position.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {number} y - The y-position of the row you want to get.
+             * @returns {Array.<*>}
+             */
+            row: y => subgrid.row(y),
+
         };
         return api;
     };
