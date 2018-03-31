@@ -482,6 +482,18 @@ export default function(instance, state) {
                 const isIntersecting = intersectingDesc[0] > 0 || intersectingDesc[1] > 0;
                 return isPositiveSized && isIntersecting && area(intersectingDesc);
             },
+
+            /**
+             * Get the column of an area at a certain x-position.
+             *
+             * @memberOf gridl#area
+             * @method
+             * @instance
+             *
+             * @param {number} x - The x-position of the column you want to get.
+             * @returns {Array.<*>}
+             */
+            column: x => subgrid.column(x),
         };
         return api;
     };

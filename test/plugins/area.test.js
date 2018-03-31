@@ -1042,4 +1042,44 @@ describe('area', () => {
 
     });
 
+    describe('column', () => {
+
+        it('should be a function', () => {
+            const area = gridl(mockData()).area([3,3,2,2]);
+            expect(typeof area.column).to.equal('function');
+        });
+
+        it('should return a certain column within the area', () => {
+            const area = gridl(mockData()).area([3,4,2,1]);
+            expect(area.column(0)).to.deep.equal([5,6,6,1]);
+            expect(area.column(1)).to.deep.equal([7,6,6,6]);
+            expect(area.column(2)).to.deep.equal([8,7,7,9]);
+        });
+
+        it('should cut off rows outside the area (bottom)', () => {
+            const area = gridl(mockData()).area([3,4,2,3]);
+            expect(area.column(0)).to.deep.equal([6,1]);
+            expect(area.column(1)).to.deep.equal([6,6]);
+            expect(area.column(2)).to.deep.equal([7,9]);
+        });
+
+        it('should cut off rows outside the area (top using an anchor)', () => {
+            const area = gridl(mockData()).area([3,4,2,1,0,2]);
+            expect(area.column(0)).to.deep.equal([3,5,6]);
+            expect(area.column(1)).to.deep.equal([2,7,6]);
+            expect(area.column(2)).to.deep.equal([8,8,7]);
+        });
+
+        it('should return undefined for columns outside the area', () => {
+            const area = gridl(mockData()).area([3,4,2,2]);
+            expect(area.column(-1)).to.equal(undefined);
+            expect(area.column(-2)).to.equal(undefined);
+            expect(area.column(-999)).to.equal(undefined);
+            expect(area.column(3)).to.equal(undefined);
+            expect(area.column(4)).to.equal(undefined);
+            expect(area.column(9999)).to.equal(undefined);
+        });
+
+    });
+
 });

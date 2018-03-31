@@ -2,8 +2,6 @@
 
 ## Known bugs
 
-* BUG: plugins can't be used across multiple files // is this still an issue? -> investigate
-
 ## Known issues
  
 * `.data(array2D)` function behaves differently on area and gridl instance - confusing, should be unified
@@ -30,7 +28,7 @@
 
 ### v0.10
  
-* implement [area api](area-api.md) (subset of gridl api for inner areas)
+* ~~implement [area api](area-api.md) (subset of gridl api for inner areas)~~
 * ~~fix plugins api~~
 * ~~remove navigation api~~
 * ~~importing empty data (no rows or columns)~~
@@ -45,6 +43,12 @@
 ### v0.11
 
 * add a function to remove plugins? such as: `gridl.remove(pluginName)`
+* add a function to list all plugins, such as: `gridl.listPlugins()`
+* support anchors in `.localToGlobal(pos, anchor)` and `.globalToLocal(pos, anchor)` 
+* add extractor functions for area descriptions, such as:
+    * `extractAnchor(areaDesc)`
+    * `extractPosition(areaDesc)`
+    * `extractSize(areaDesc)`
 * hasSameSize helper function `.hasSameSize(dataOrGridOrArea)`
 
 
