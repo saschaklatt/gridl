@@ -35,6 +35,10 @@
 
 ## v0.10.x
 
+* helper function to compare...
+    * positions `positionsEqual(pos1, pos2)`
+    * areaDescriptions `areaDescriptionsEqual(areaDesc1, areaDesc2)`
+    * grids `gridsDataEqual(grid1, grid2)` (grid can be 2d-grids, areas or gridl instances)
 * rename `intersectsWith()` to `overlapsWith()` and deprecate `intersectsWith()`
 * further area functions
 * webpack 4
