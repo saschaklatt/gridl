@@ -1,0 +1,237 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>gridl</title>
+	<meta name="description" content="Documentation for gridl">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">gridl</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="modules.html">Globals</a>
+				</li>
+			</ul>
+			<h1>gridl</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#gridl" id="gridl" style="color: inherit; text-decoration: none;">
+					<h1>gridl</h1>
+				</a>
+				<p>A functional toolbox for grid-based data.</p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<p><strong>Using npm</strong></p>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">gridl</span><span style="color: #000000">@</span><span style="color: #001080">next</span>
+</code></pre>
+				<p><strong>Using yarn</strong></p>
+				<pre><code><span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> </span><span style="color: #001080">gridl</span><span style="color: #000000">@</span><span style="color: #001080">next</span>
+</code></pre>
+				<p><strong>ES6 modules</strong></p>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">createGrid</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/core&quot;</span><span style="color: #000000">;</span>
+</code></pre>
+				<p><strong>Nodejs</strong></p>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> {</span><span style="color: #0070C1">createGrid</span><span style="color: #000000">} = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;gridl/_umd&quot;</span><span style="color: #000000">);</span>
+</code></pre>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h2>Documentation</h2>
+				</a>
+				<ul>
+					<li><a href="https://klattiation.github.io/gridl/gridl/latest/index.html">Docs latest</a></li>
+					<li><a href="https://klattiation.github.io/gridl/gridl/0.10.5/index.html">Docs legacy (v0.10.5)</a></li>
+					<li><a href="https://github.com/klattiation/gridl/wiki/Changelog">Changelog</a></li>
+				</ul>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<p>A quick overview. See the <a href="https://klattiation.github.io/gridl/gridl/latest/index.html">docs</a> for more details.</p>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">createGrid</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/core/grid&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">DiagonalDirections</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/core/directions&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">walkEWNS</span><span style="color: #000000">, </span><span style="color: #001080">walkNSWE</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/core/walker&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">selectCell</span><span style="color: #000000">, </span><span style="color: #001080">selectColumn</span><span style="color: #000000">, </span><span style="color: #001080">selectRow</span><span style="color: #000000">, </span><span style="color: #001080">selectSubGrid</span><span style="color: #000000">, </span><span style="color: #001080">selectNeighbours</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/core/selectors&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">addColumnLeft</span><span style="color: #000000">, </span><span style="color: #001080">mirrorX</span><span style="color: #000000">, </span><span style="color: #001080">removeRow</span><span style="color: #000000">, </span><span style="color: #001080">rotate90</span><span style="color: #000000">, </span><span style="color: #001080">transform</span><span style="color: #000000">, </span><span style="color: #001080">transformArea</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/transformers&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">forEachCell</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/sideEffects&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">reduce</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/reducers&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">findCells</span><span style="color: #000000">, </span><span style="color: #001080">findPositions</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/search&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">getNeighbourCells</span><span style="color: #000000">, </span><span style="color: #001080">getNeighbourPositions</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/neighbours&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// create a new grid</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">grid</span><span style="color: #000000"> = </span><span style="color: #795E26">createGrid</span><span style="color: #000000">({</span>
+<span style="color: #000000">    </span><span style="color: #001080">columnCount:</span><span style="color: #000000"> </span><span style="color: #098658">12</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">rowCount:</span><span style="color: #000000"> </span><span style="color: #098658">30</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #795E26">createCell</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">pos</span><span style="color: #000000">, </span><span style="color: #001080">idx</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">pos</span><span style="color: #000000">.</span><span style="color: #001080">y</span><span style="color: #000000"> &lt; </span><span style="color: #098658">2</span><span style="color: #000000"> ? </span><span style="color: #001080">idx</span><span style="color: #000000"> : </span><span style="color: #098658">2</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #008000">// access data with properties</span>
+<span style="color: #001080">grid</span><span style="color: #000000">.</span><span style="color: #001080">columnCount</span><span style="color: #000000">; </span><span style="color: #008000">// =&gt; 12</span>
+<span style="color: #001080">grid</span><span style="color: #000000">.</span><span style="color: #001080">rowCount</span><span style="color: #000000">;    </span><span style="color: #008000">// =&gt; 30</span>
+<span style="color: #001080">grid</span><span style="color: #000000">.</span><span style="color: #001080">cellCount</span><span style="color: #000000">;   </span><span style="color: #008000">// =&gt; 360</span>
+<span style="color: #001080">grid</span><span style="color: #000000">.</span><span style="color: #001080">x</span><span style="color: #000000">;           </span><span style="color: #008000">// =&gt; 0</span>
+<span style="color: #001080">grid</span><span style="color: #000000">.</span><span style="color: #001080">y</span><span style="color: #000000">;           </span><span style="color: #008000">// =&gt; 0</span>
+
+<span style="color: #008000">// access data with selectors</span>
+<span style="color: #795E26">selectCell</span><span style="color: #000000">({</span><span style="color: #001080">grid</span><span style="color: #000000">, </span><span style="color: #001080">x:</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #001080">y:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">});</span>
+<span style="color: #795E26">selectColumn</span><span style="color: #000000">({</span><span style="color: #001080">grid</span><span style="color: #000000">, </span><span style="color: #001080">x:</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000">});</span>
+<span style="color: #795E26">selectRow</span><span style="color: #000000">({</span><span style="color: #001080">grid</span><span style="color: #000000">, </span><span style="color: #001080">y:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">});</span>
+<span style="color: #795E26">selectSubGrid</span><span style="color: #000000">({</span><span style="color: #001080">grid</span><span style="color: #000000">, </span><span style="color: #001080">x:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #001080">y:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #001080">columnCount:</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #001080">rowCount:</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000">});</span>
+<span style="color: #795E26">selectNeighbours</span><span style="color: #000000">({</span><span style="color: #001080">grid</span><span style="color: #000000">, </span><span style="color: #001080">origin:</span><span style="color: #000000"> {</span><span style="color: #001080">x:</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #001080">y:</span><span style="color: #000000"> </span><span style="color: #098658">9</span><span style="color: #000000">}});</span>
+
+<span style="color: #008000">// apply simple transformations</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">rotatedGrid</span><span style="color: #000000"> = </span><span style="color: #795E26">rotate90</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">)(</span><span style="color: #001080">grid</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// apply complex transformations</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">transformedGrid</span><span style="color: #000000"> = </span><span style="color: #795E26">transform</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #795E26">addColumnLeft</span><span style="color: #000000">(),</span>
+<span style="color: #000000">    </span><span style="color: #795E26">rotate90</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">),</span>
+<span style="color: #000000">    </span><span style="color: #795E26">mirrorX</span><span style="color: #000000">(),</span>
+<span style="color: #000000">    </span><span style="color: #795E26">removeRow</span><span style="color: #000000">(</span><span style="color: #098658">2</span><span style="color: #000000">),</span>
+<span style="color: #000000">    </span><span style="color: #795E26">transformArea</span><span style="color: #000000">({</span><span style="color: #001080">x:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #001080">y:</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #001080">columnCount:</span><span style="color: #000000"> </span><span style="color: #098658">10</span><span style="color: #000000">, </span><span style="color: #001080">rowCount:</span><span style="color: #000000"> </span><span style="color: #098658">6</span><span style="color: #000000">}, [</span>
+<span style="color: #000000">        </span><span style="color: #795E26">mirrorX</span><span style="color: #000000">(),</span>
+<span style="color: #000000">        </span><span style="color: #795E26">rotate90</span><span style="color: #000000">(</span><span style="color: #098658">2</span><span style="color: #000000">),</span>
+<span style="color: #000000">    ])</span>
+<span style="color: #000000">)(</span><span style="color: #001080">grid</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// search</span>
+<span style="color: #795E26">findCell</span><span style="color: #000000">(</span><span style="color: #001080">grid</span><span style="color: #000000">, (</span><span style="color: #001080">value</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">value</span><span style="color: #000000"> &gt; </span><span style="color: #098658">2</span><span style="color: #000000">);</span>
+<span style="color: #795E26">findPosition</span><span style="color: #000000">(</span><span style="color: #001080">grid</span><span style="color: #000000">, (</span><span style="color: #001080">value</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">value</span><span style="color: #000000"> &gt; </span><span style="color: #098658">2</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// reducers</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">sum</span><span style="color: #000000"> = </span><span style="color: #795E26">reduceGrid</span><span style="color: #000000">(</span><span style="color: #001080">grid</span><span style="color: #000000">, (</span><span style="color: #001080">acc</span><span style="color: #000000">, </span><span style="color: #001080">cellValue</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">acc</span><span style="color: #000000"> + </span><span style="color: #001080">cellValue</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// sideEffects</span>
+<span style="color: #795E26">forEachCell</span><span style="color: #000000">(</span><span style="color: #001080">grid</span><span style="color: #000000">, (</span><span style="color: #001080">cell</span><span style="color: #000000">, </span><span style="color: #001080">position</span><span style="color: #000000">, </span><span style="color: #001080">index</span><span style="color: #000000">, </span><span style="color: #001080">src</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">cell</span><span style="color: #000000">, </span><span style="color: #001080">position</span><span style="color: #000000">, </span><span style="color: #001080">index</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #008000">// traverse in different directions</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">forEachCellCallback</span><span style="color: #000000"> = (</span><span style="color: #001080">cell</span><span style="color: #000000">, </span><span style="color: #001080">position</span><span style="color: #000000">, </span><span style="color: #001080">index</span><span style="color: #000000">, </span><span style="color: #001080">src</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">cell</span><span style="color: #000000">, </span><span style="color: #001080">position</span><span style="color: #000000">, </span><span style="color: #001080">index</span><span style="color: #000000">);</span>
+<span style="color: #000000">}</span>
+<span style="color: #795E26">forEachCell</span><span style="color: #000000">(</span><span style="color: #001080">grid</span><span style="color: #000000">, </span><span style="color: #001080">forEachCellCallback</span><span style="color: #000000">, </span><span style="color: #001080">walkEWNS</span><span style="color: #000000">); </span><span style="color: #008000">// EWNS: east -&gt; west, north -&gt; south</span>
+<span style="color: #795E26">forEachCell</span><span style="color: #000000">(</span><span style="color: #001080">grid</span><span style="color: #000000">, </span><span style="color: #001080">forEachCellCallback</span><span style="color: #000000">, </span><span style="color: #001080">walkNSWE</span><span style="color: #000000">); </span><span style="color: #008000">// NSWE: north -&gt; south, west -&gt; east</span>
+<span style="color: #795E26">findCell</span><span style="color: #000000">(</span><span style="color: #001080">grid</span><span style="color: #000000">, (</span><span style="color: #001080">value</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">value</span><span style="color: #000000"> &gt; </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #001080">walkNSWE</span><span style="color: #000000">);</span>
+<span style="color: #795E26">reduceGrid</span><span style="color: #000000">(</span><span style="color: #001080">grid</span><span style="color: #000000">, (</span><span style="color: #001080">acc</span><span style="color: #000000">, </span><span style="color: #001080">cellValue</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">acc</span><span style="color: #000000"> + </span><span style="color: #001080">cellValue</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #001080">walkNSWE</span><span style="color: #000000">);</span>
+</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="pages/Guides/basics.html">Basics</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="pages/Guides/neighbours.html">Neighbours</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="pages/Guides/transformers.html">Transformers</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="pages/Guides/walkers.html">Walkers</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
+					<li class=" ">
+						<a href="modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/core.html">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/reducers.html">reducers</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/search.html">search</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/sideeffects.html">side<wbr>Effects</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/transformers.html">transformers</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>

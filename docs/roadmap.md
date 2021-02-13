@@ -1,0 +1,71 @@
+# Roadmap
+
+## v0.11.x
+
+- Features
+    - option to fill up selected values that are outside the grid with `undefined` cells, so that result dimensions equal the requested dimensions (e.g. in `getSubGrid()`, `crop()`, ...)
+    - rotate around an anchor point
+    - search
+        - `findFirst(grid, searchValue, walk): GridCell`
+        - `findLast(grid, searchValue, walk): GridCell`
+        - `firstPosition(grid, searchValue, walk): GridPosition`
+        - `lastPosition(grid, searchValue, walk): GridPosition`
+        - `max(comparator: (valueA: T, valueB: T) => number): GridCell`
+        - `min(comparator: (valueA: T, valueB: T) => number): GridCell`
+        - `includes(value): boolean`
+    - reducers
+        - `every()`
+        - `some()`
+        - `isEmpty()`
+    - transformers
+        - `setCells([pos, value], [pos, value], ...)` set multiple cells at once
+        - `setRows([y, row], [y, row], ...)` set multiple cells at once
+        - `setColumns([x, column], [x, column], ...)` set multiple cells at once
+        - `shiftColumn(y, steps)`
+        - `shiftRow(y, steps)`
+        - `addColumnBlock(x, listOfColumns)`
+        - `addColumnBlockLeft(listOfColumns)`
+        - `addColumnBlockRight(listOfColumns)`
+        - `addRowBlock(y, listOfRows)`
+        - `addRowBlockLeft(listOfRows)`
+        - `addRowBlockRight(listOfRows)`
+        - `reshape(newShape)` sets a new shape, where the number of cells must remain the same
+        - `morph` that is like `reduce` but must return a new valid grid, so that it's a valid grid-transformer
+        - `swapSubGrids(area1, area2)`
+        - `moveSubGrid(subGridArea, targetPosition)`
+    - selectors
+        - outline: `selectOutline(subGrid)`
+        - edge: `selectEdges()` (like outline but inside the grid instead of outside)
+        - corners: `selectCorners()`
+- Docs
+    - add [badges](https://github.com/dwyl/repo-badges)
+    - find out minimal nodejs version and set it in package.engines
+    - encourage contribution (add badge)
+
+## far future
+
+- Features
+    - Sorting
+    - walkers
+        - provide walkers for `createGrid`
+        - should be able to iterate just over a subset of cells
+        - provide more walkers
+    - performance
+        - measure & improve
+    - path module
+        - path search algorithms
+        - weighted paths
+    - intersection of three or more areas
+    - support typed arrays
+    - infinite iterators (outside values/indexes are mapped to inside ones, e.g. x = columnCount -> x = 0, x = columnCount + 1 -> x = 1, ...)
+- Docs
+    - add examples folder with real examples
+    - provide advanced tutorials
+    - add imports to `@example`
+    - provide Q&A section
+- Tooling
+    - add [snyk](https://snyk.io/)
+    - create index.html that holds links to docs / stats / coverage
+    - test bundles, see [Run tests agains compiled bundles](https://stackoverflow.com/questions/51799300/run-tests-against-compiled-bundles)
+    - add benchmark/performance tests to detect bottlenecks and inefficient algorithms
+    - lint that tests import only from `src/index.ts` or `src/types.ts`

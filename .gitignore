@@ -1,13 +1,12 @@
-# Mac OS
+*.log
 .DS_Store
-
-# IDEA files
-*.iml
-.idea
-
-# NPM
 node_modules
 
-# project specific
-reports/
-.nyc_output
+# generated
+dist
+stats
+coverage
+
+# package manager
+package-lock.json
+yarn-error.log

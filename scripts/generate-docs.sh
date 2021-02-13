@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
-INDEX_FILE="README.md"
-LATEST_DIR="latest"
-PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+PKG_VERSION=$(node -p -e "require('./package.json').version")
+DOCS_PATH="./docs/gridl"
+DOCS_PATH_VERSION="${DOCS_PATH}/${PKG_VERSION}"
+LATEST_FOLDER="latest"
 
-echo "generate docs for gridl ${PACKAGE_VERSION}"
+echo "generating docs v${PKG_VERSION}"
 
-rm -rf "./docs/gridl/${PACKAGE_VERSION}"
-jsdoc src -r --package package.json -d ./docs -u ./docs/tutorials
+rm -rf $DOCS_PATH_VERSION
+typedoc --out $DOCS_PATH_VERSION
 
-cd docs/gridl
+cd $DOCS_PATH
 
-[ -e ${LATEST_DIR} ] && rm -rf ${LATEST_DIR}
-ln -s "./${PACKAGE_VERSION}" ${LATEST_DIR}
+[ -e $LATEST_FOLDER ] && rm -rf $LATEST_FOLDER
+ln -s "./${PKG_VERSION}" $LATEST_FOLDER
 
 echo "docs generated successfully"

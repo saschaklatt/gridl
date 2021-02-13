@@ -1,0 +1,120 @@
+/**
+ * Describes the number of rows and columns of grid.
+ */
+export interface Shape {
+    /** The number of columns of the grid. */
+    columnCount: number,
+
+    /** The number of rows of the grid. */
+    rowCount: number,
+}
+
+/**
+ * A {@link Shape} with an additional cellCount property.
+ */
+export interface AdvancedShape extends Shape {
+    /** The number of cells of a grid. */
+    cellCount: number,
+}
+
+/**
+ * A position on the grid with an x- and a y-value.
+ */
+export interface Position {
+    x: number,
+    y: number,
+}
+
+/**
+ * A position on the grid with optional x- and a y-value.
+ */
+export interface OptionalPosition {
+    x?: number,
+    y?: number,
+}
+
+/**
+ * Describes the position and shape of an area on the grid.
+ */
+export interface Area extends Position, Shape {}
+
+/**
+ * Properties to create a grid.
+ */
+export interface CreateGridProps<T> extends Shape {
+    createCell: CellFactory<T>,
+    x?: number,
+    y?: number,
+}
+
+/**
+ * Properties to create a grid from a grid array.
+ */
+export interface CreateGridFromArray2DProps<T> {
+    array2D: T[][],
+    x?: number,
+    y?: number,
+}
+
+/**
+ * A plain grid object, which can be considered as a {@link Grid} instance without getter functions.
+ * @template T The cell type.
+ */
+export interface GridObject<T = any> extends Area, AdvancedShape {
+    /** The two-dimensional grid data array that stores the cells. */
+    _array2D: T[][],
+}
+
+/**
+ * An immutable grid object with additional getter methods.
+ * @template T The cell type.
+ */
+export type Grid<T = any> = Readonly<GridObject<T>>;
+
+/**
+ * The grid position and cell index of the current iteration.
+ */
+export interface GridIterationResult {
+    /** The position of the current iteration step. */
+    readonly position: Position,
+
+    /** The index of the current iteration step. */
+    readonly index: number,
+}
+
+/**
+ * Takes the shape of a grid and the current iteration step (or index) and calculates the respective position.
+ */
+export interface GridWalker {
+    /**
+     * @param shape The shape of the grid to traverse.
+     * @param index The current iteration step (index).
+     * @returns The position for the given iteration step (index).
+     */
+    (shape: AdvancedShape, index: number): Position
+}
+
+/**
+ * Creates a new cell value, based on the position and index.
+ * @template T The type of the cell.
+ */
+export interface CellFactory<T> {
+    /**
+     * @param position The position of the cell to create.
+     * @param index The index of the cell to create.
+     * @returns The new cell.
+     */
+    (position: Position, idx: number): T
+}
+
+/**
+ * Creates a grid walker to iterate over a grid.
+ */
+export interface WalkerFactory {
+    /**
+     * @param shape The size of the grid.
+     * @param walk The walker function that calculates the positions for the iteration steps.
+     * @returns A new grid iterator.
+     */
+    (shape: AdvancedShape, walk?: GridWalker): Generator<GridIterationResult>
+}

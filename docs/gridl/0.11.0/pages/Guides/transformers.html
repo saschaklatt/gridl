@@ -1,0 +1,253 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Transformers | gridl</title>
+	<meta name="description" content="Documentation for gridl">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../../assets/css/main.css">
+	<link rel="stylesheet" href="../../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../../assets/js/search.json" data-base="../..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../../index.html" class="title">gridl</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../../modules.html">Globals</a>
+				</li>
+				<li>
+					<a href="basics.html">Guides</a>
+				</li>
+				<li>
+					<a href="transformers.html">Transformers</a>
+				</li>
+			</ul>
+			<h1>Transformers</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#what-are-transformers" id="what-are-transformers" style="color: inherit; text-decoration: none;">
+					<h2>What are transformers?</h2>
+				</a>
+				<p>As the name suggests, transformer functions are used to change grid instances. Since a grid instance is shallowly frozen, the data structure can&#39;t be changed. Instead, transformer functions return a new transformed instance.</p>
+				<p>For details see the <a href="../../modules/transformers.html">full list of transformers</a>.</p>
+				<a href="#using-a-single-transformer" id="using-a-single-transformer" style="color: inherit; text-decoration: none;">
+					<h2>Using a single transformer</h2>
+				</a>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">createGridFromArray2D</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/core&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span><span style="color: #001080">addRowTop</span><span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;gridl/transformers&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">grid</span><span style="color: #000000"> = </span><span style="color: #795E26">createGridFromArray2D</span><span style="color: #000000">([</span>
+<span style="color: #000000">    [</span><span style="color: #098658">0</span><span style="color: #000000">,  </span><span style="color: #098658">1</span><span style="color: #000000">,  </span><span style="color: #098658">2</span><span style="color: #000000">,  </span><span style="color: #098658">3</span><span style="color: #000000">],</span>
+<span style="color: #000000">    [</span><span style="color: #098658">4</span><span style="color: #000000">,  </span><span style="color: #098658">5</span><span style="color: #000000">,  </span><span style="color: #098658">6</span><span style="color: #000000">,  </span><span style="color: #098658">7</span><span style="color: #000000">],</span>
+<span style="color: #000000">    [</span><span style="color: #098658">8</span><span style="color: #000000">,  </span><span style="color: #098658">9</span><span style="color: #000000">, </span><span style="color: #098658">10</span><span style="color: #000000">, </span><span style="color: #098658">11</span><span style="color: #000000">],</span>
+<span style="color: #000000">]);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">newGrid</span><span style="color: #000000"> = </span><span style="color: #795E26">addRowTop</span><span style="color: #000000">([</span><span style="color: #A31515">&quot;x&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;x&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;x&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;x&quot;</span><span style="color: #000000">])(</span><span style="color: #001080">grid</span><span style="color: #000000">);</span>
+<span style="color: #008000">// resulting grid:</span>
+<span style="color: #008000">// {</span>
+<span style="color: #008000">//     x: 0,</span>
+<span style="color: #008000">//     y: 0,</span>
+<span style="color: #008000">//     cellCount: 12,</span>
+<span style="color: #008000">//     columnCount: 4,</span>
+<span style="color: #008000">//     rowCount: 4,</span>
+<span style="color: #008000">//     _array2D: [</span>
+<span style="color: #008000">//         [&quot;x&quot;, &quot;x&quot;, &quot;x&quot;, &quot;x&quot;],</span>
+<span style="color: #008000">//         [  0,   1,   2,   3],</span>
+<span style="color: #008000">//         [  4,   5,   6,   7],</span>
+<span style="color: #008000">//         [  8,   9,  10,  11],</span>
+<span style="color: #008000">//     ],</span>
+<span style="color: #008000">// }</span>
+</code></pre>
+				<a href="#composing-transformers" id="composing-transformers" style="color: inherit; text-decoration: none;">
+					<h2>Composing transformers</h2>
+				</a>
+				<p>To combine multiple transfomers, use the <a href="../../modules/transformers.html#transform">transform</a> function.</p>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">oldGrid</span><span style="color: #000000"> = </span><span style="color: #795E26">createGridFromArray2D</span><span style="color: #000000">([</span>
+<span style="color: #000000">    [</span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">],</span>
+<span style="color: #000000">    [</span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">],</span>
+<span style="color: #000000">    [</span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">],</span>
+<span style="color: #000000">]);</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">newGrid</span><span style="color: #000000"> = </span><span style="color: #795E26">transform</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #795E26">map</span><span style="color: #000000">((</span><span style="color: #001080">_cell</span><span style="color: #000000">, </span><span style="color: #001080">pos</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">pos</span><span style="color: #000000">.</span><span style="color: #001080">x</span><span style="color: #000000"> &lt; </span><span style="color: #098658">2</span><span style="color: #000000"> ? </span><span style="color: #098658">1</span><span style="color: #000000"> : </span><span style="color: #098658">2</span><span style="color: #000000">), </span><span style="color: #008000">// 1. apply map transformer</span>
+<span style="color: #000000">    </span><span style="color: #795E26">setCell</span><span style="color: #000000">({</span><span style="color: #001080">x:</span><span style="color: #000000"> </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #001080">y:</span><span style="color: #000000"> </span><span style="color: #098658">1</span><span style="color: #000000">}, </span><span style="color: #098658">666</span><span style="color: #000000">),             </span><span style="color: #008000">// 2. apply setCell transformer</span>
+<span style="color: #000000">    </span><span style="color: #795E26">rotate90</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">),                            </span><span style="color: #008000">// 3. apply rotate90 transformer</span>
+<span style="color: #000000">    </span><span style="color: #795E26">removeRow</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">),                           </span><span style="color: #008000">// 4. apply removeRow transformer</span>
+<span style="color: #000000">)(</span><span style="color: #001080">oldGrid</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// =&gt; resulting grid</span>
+<span style="color: #008000">// {</span>
+<span style="color: #008000">//     x: 0,</span>
+<span style="color: #008000">//     y: 0,</span>
+<span style="color: #008000">//     cellCount: 9,</span>
+<span style="color: #008000">//     columnCount: 3,</span>
+<span style="color: #008000">//     rowCount: 3,</span>
+<span style="color: #008000">//     _array2D: [</span>
+<span style="color: #008000">//         [1, 1, 1],</span>
+<span style="color: #008000">//         [2, 666, 2],</span>
+<span style="color: #008000">//         [2, 2, 2],</span>
+<span style="color: #008000">//     ],</span>
+<span style="color: #008000">// }</span>
+</code></pre>
+				<a href="#custom-transformers" id="custom-transformers" style="color: inherit; text-decoration: none;">
+					<h2>Custom transformers</h2>
+				</a>
+				<p>If you can&#39;t find an existing transformer that suits your needs, you can easily write your own one.</p>
+				<pre><code class="language-js"><span style="color: #008000">// custom transformer</span>
+<span style="color: #008000">// removes odd rows and fills the remaining cells with a given fillValue</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">removeOddRowsAndFillWith</span><span style="color: #000000"> = (</span><span style="color: #001080">fillValue</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> (</span><span style="color: #001080">grid</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">array2D</span><span style="color: #000000"> = [];</span>
+<span style="color: #000000">        </span><span style="color: #001080">grid</span><span style="color: #000000">.</span><span style="color: #001080">_array2D</span><span style="color: #000000">.</span><span style="color: #795E26">forEach</span><span style="color: #000000">((</span><span style="color: #001080">row</span><span style="color: #000000">, </span><span style="color: #001080">y</span><span style="color: #000000">)) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">            </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">y</span><span style="color: #000000"> % </span><span style="color: #098658">2</span><span style="color: #000000"> === </span><span style="color: #098658">0</span><span style="color: #000000">) {</span>
+<span style="color: #000000">                </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">filledRow</span><span style="color: #000000"> = </span><span style="color: #001080">row</span><span style="color: #000000">.</span><span style="color: #795E26">map</span><span style="color: #000000">(() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">fillValue</span><span style="color: #000000">);</span>
+<span style="color: #000000">                </span><span style="color: #001080">array2D</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">(</span><span style="color: #001080">filledRow</span><span style="color: #000000">);</span>
+<span style="color: #000000">            }</span>
+<span style="color: #000000">        };</span>
+<span style="color: #000000">        </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #795E26">createGridFromArray2D</span><span style="color: #000000">({</span><span style="color: #001080">x:</span><span style="color: #000000"> </span><span style="color: #001080">grid</span><span style="color: #000000">.</span><span style="color: #001080">x</span><span style="color: #000000">, </span><span style="color: #001080">y:</span><span style="color: #000000"> </span><span style="color: #001080">grid</span><span style="color: #000000">.</span><span style="color: #001080">y</span><span style="color: #000000">, </span><span style="color: #001080">array2D</span><span style="color: #000000">});</span>
+<span style="color: #000000">    };</span>
+<span style="color: #000000">};</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">grid</span><span style="color: #000000"> = </span><span style="color: #795E26">createGridFromArray2D</span><span style="color: #000000">([</span>
+<span style="color: #000000">    [</span><span style="color: #098658">0</span><span style="color: #000000">,  </span><span style="color: #098658">1</span><span style="color: #000000">,  </span><span style="color: #098658">2</span><span style="color: #000000">,  </span><span style="color: #098658">3</span><span style="color: #000000">],</span>
+<span style="color: #000000">    [</span><span style="color: #098658">4</span><span style="color: #000000">,  </span><span style="color: #098658">5</span><span style="color: #000000">,  </span><span style="color: #098658">6</span><span style="color: #000000">,  </span><span style="color: #098658">7</span><span style="color: #000000">],</span>
+<span style="color: #000000">    [</span><span style="color: #098658">8</span><span style="color: #000000">,  </span><span style="color: #098658">9</span><span style="color: #000000">, </span><span style="color: #098658">10</span><span style="color: #000000">, </span><span style="color: #098658">11</span><span style="color: #000000">],</span>
+<span style="color: #000000">]);</span>
+
+<span style="color: #008000">// apply your custom transformer to the grid</span>
+<span style="color: #795E26">removeOddRowsAndFillWith</span><span style="color: #000000">(</span><span style="color: #098658">7</span><span style="color: #000000">)(</span><span style="color: #001080">grid</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// or alternatively, apply your custom transformer with transform()</span>
+<span style="color: #795E26">transform</span><span style="color: #000000">(</span><span style="color: #795E26">removeOddRowsAndFillWith</span><span style="color: #000000">(</span><span style="color: #098658">7</span><span style="color: #000000">))(</span><span style="color: #001080">grid</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// =&gt; resulting grid</span>
+<span style="color: #008000">// {</span>
+<span style="color: #008000">//     x: 0,</span>
+<span style="color: #008000">//     y: 0,</span>
+<span style="color: #008000">//     cellCount: 8,</span>
+<span style="color: #008000">//     columnCount: 4,</span>
+<span style="color: #008000">//     rowCount: 2,</span>
+<span style="color: #008000">//     _array2D: [</span>
+<span style="color: #008000">//         [7, 7, 7, 7],</span>
+<span style="color: #008000">//         [7, 7, 7, 7],</span>
+<span style="color: #008000">//     ],</span>
+<span style="color: #008000">// }</span>
+</code></pre>
+				<p>Note that <code>removeOddRows()</code> in the example is a transformer creator function, which means that it must return a <a href="../../interfaces/transformers.gridtransformer.html">GridTransformer</a> - another function, that takes the orginal grid as single parameter and returns the new transformed grid instance. This general transformer pattern is necessary, so that the transformer can be used together with the <a href="../../modules/transformers.html#transform">transform</a> function.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="basics.html">Basics</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="neighbours.html">Neighbours</a>
+					</li>
+					<li class="current pp-nav pp-page">
+						<a href="transformers.html">Transformers</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="walkers.html">Walkers</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
+					<li class=" ">
+						<a href="../../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/core.html">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/reducers.html">reducers</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/search.html">search</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/sideeffects.html">side<wbr>Effects</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/transformers.html">transformers</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="../../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>

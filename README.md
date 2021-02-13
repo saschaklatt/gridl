@@ -1,112 +1,109 @@
 # gridl
 
-Fast, lightweight, extendable and easy to use library to handle 2d grid data.
+A functional toolbox for grid-based data.
 
 ## Installation
 
-Using npm:
+**Using npm**
 
-`npm i --save gridl`
-
-**node.js**
-
-```javascript
-var gridl = require("gridl");
+```
+npm install gridl@next
 ```
 
-**ES6**
+**Using yarn**
 
-```javascript
-import gridl from "gridl";
+```
+yarn add gridl@next
 ```
 
-**In a browser**
+**ES6 modules**
 
-```html
-<script src="gridl.min.js"></script>
+```js
+import {createGrid} from "gridl/core";
 ```
 
-**Usage**
+**Nodejs**
 
-```javascript
-const data = [
-  [1, 2, 3, 4, 5],
-  [6, 7, 8, 9, 10],
-  [11, 12, 13, 14, 15]
-];
-const flippedGrid = gridl(data)
-  .flipY() // mirror the grid on the y-axis
-  .data(); // export the data array
-
-// flippedGrid looks like this:
-// [
-//     [ 5, 4, 3, 2, 1],
-//     [10, 9, 8, 7, 6],
-//     [15,14,13,12,11],
-// ]
+```js
+const {createGrid} = require("gridl/_umd");
 ```
-
-## Attention!
-
-- The new version (v0.10.x) comes with a lot of api breaks - see the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for further information
 
 ## Documentation
 
-- You can find the API reference and tutorials in our documentation: [latest](https://klattiation.github.io/gridl/gridl/latest/index.html)
-- See the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for updates in each version
+- [Docs latest](https://klattiation.github.io/gridl/gridl/latest/index.html)
+- [Docs legacy (v0.10.5)](https://klattiation.github.io/gridl/gridl/0.10.5/index.html)
+- [Changelog](https://github.com/klattiation/gridl/wiki/Changelog)
 
-## Features
+## Usage
 
-- [Generate grids](docs/tutorials/generating.md)
-  - specify the number of rows and columns
-  - generate 2d grids with a generator callback function
-- [Accessing data](docs/tutorials/data.md)
-  - export data as two-dimensional grid array
-  - export data as one-dimensional list array
-- [Dimensions](docs/tutorials/size.md)
-  - get the number of columns and rows
-- [Working with cells](docs/tutorials/values.md)
-  - get and set values at absolute or relative positions
-  - move them around
-  - swap them
-- [Columns and rows](docs/tutorials/columns-and-rows.md)
-  - easily access columns and rows
-  - remove or add new columns and rows at any position
-  - move them around
-- [Finding](docs/tutorials/finding.md)
-  - find values in the grid
-- [Iterating](docs/tutorials/iterating.md)
-  - map()
-  - reduce()
-  - forEach()
-- [Working with areas](docs/tutorials/areas.md)
-  - manipulate areas
-  - check for intersection with other areas
-  - iterate over areas by using map() and reduce()
-  - find values limited by the area boundaries
-  - use anchor points to position areas with an offset
-- [Adjacent cells](docs/tutorials/adjacent-cells.md)
-  - find the adjacent cells of a certain cell
-  - get orthogonal, diagonal or all cells
-- [Clipping](docs/tutorials/clipping.md)
-  - define an area and remove everything around
-- [Swapping](docs/tutorials/swapping.md)
-  - swap columns, rows or single cells
-- [Rotating](docs/tutorials/rotating.md)
-  - rotate the entire grid clockwise or counterclockwise
-- [Flipping](docs/tutorials/flipping.md)
-  - flip the grid on the x- or y-axis
-- [Cloning](docs/tutorials/cloning.md)
-  - Make a clone of a gridl instance
-- [Plugins](docs/tutorials/plugins.md)
-  - Extend gridl to your needs by writing your own plugins
+A quick overview. See the [docs](https://klattiation.github.io/gridl/gridl/latest/index.html) for more details.
 
-## Use cases
+```js
+import {createGrid} from "gridl/core/grid";
+import {DiagonalDirections} from "gridl/core/directions";
+import {walkEWNS, walkNSWE} from "gridl/core/walker";
+import {selectCell, selectColumn, selectRow, selectSubGrid, selectNeighbours} from "gridl/core/selectors";
+import {addColumnLeft, mirrorX, removeRow, rotate90, transform, transformArea} from "gridl/transformers";
+import {forEachCell} from "gridl/sideEffects";
+import {reduce} from "gridl/reducers";
+import {findCells, findPositions} from "gridl/search";
+import {getNeighbourCells, getNeighbourPositions} from "gridl/neighbours";
 
-As a basis for:
+// create a new grid
+const grid = createGrid({
+    columnCount: 12,
+    rowCount: 30,
+    createCell: (pos, idx) => pos.y < 2 ? idx : 2
+});
 
-- grid based games or applications
-- handle table data
-- tile maps
-- path finding
-- and many more...
+// access data with properties
+grid.columnCount; // => 12
+grid.rowCount;    // => 30
+grid.cellCount;   // => 360
+grid.x;           // => 0
+grid.y;           // => 0
+
+// access data with selectors
+selectCell({grid, x: 2, y: 1});
+selectColumn({grid, x: 2});
+selectRow({grid, y: 1});
+selectSubGrid({grid, x: 1, y: 1, columnCount: 2, rowCount: 2});
+selectNeighbours({grid, origin: {x: 2, y: 9}});
+
+// apply simple transformations
+const rotatedGrid = rotate90(1)(grid);
+
+// apply complex transformations
+const transformedGrid = transform(
+    addColumnLeft(),
+    rotate90(1),
+    mirrorX(),
+    removeRow(2),
+    transformArea({x: 1, y: 2, columnCount: 10, rowCount: 6}, [
+        mirrorX(),
+        rotate90(2),
+    ])
+)(grid);
+
+// search
+findCell(grid, (value) => value > 2);
+findPosition(grid, (value) => value > 2);
+
+// reducers
+const sum = reduceGrid(grid, (acc, cellValue) => acc + cellValue, 0);
+
+// sideEffects
+forEachCell(grid, (cell, position, index, src) => {
+    console.log(cell, position, index);
+});
+
+// traverse in different directions
+const forEachCellCallback = (cell, position, index, src) => {
+    console.log(cell, position, index);
+}
+forEachCell(grid, forEachCellCallback, walkEWNS); // EWNS: east -> west, north -> south
+forEachCell(grid, forEachCellCallback, walkNSWE); // NSWE: north -> south, west -> east
+findCell(grid, (value) => value > 2, walkNSWE);
+reduceGrid(grid, (acc, cellValue) => acc + cellValue, 0, walkNSWE);
+```
+
