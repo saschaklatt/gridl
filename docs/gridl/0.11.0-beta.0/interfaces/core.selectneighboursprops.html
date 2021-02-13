@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GridObject | gridl</title>
+	<title>SelectNeighboursProps | gridl</title>
 	<meta name="description" content="Documentation for gridl">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -60,10 +60,10 @@
 					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="core.gridobject.html">GridObject</a>
+					<a href="core.selectneighboursprops.html">SelectNeighboursProps</a>
 				</li>
 			</ul>
-			<h1>Interface GridObject&lt;T&gt;</h1>
+			<h1>Interface SelectNeighboursProps&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A plain grid object, which can be considered as a <a href="../modules/core.html#grid">Grid</a> instance without getter functions.</p>
+						<p>Properties for <a href="../modules/core.html#selectneighbours">selectNeighbours</a>.</p>
 					</div>
 				</div>
 			</section>
@@ -94,15 +94,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="core.area.html" class="tsd-signature-type">Area</a>
-					</li>
-					<li>
-						<a href="core.advancedshape.html" class="tsd-signature-type">AdvancedShape</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">GridObject</span>
-							</li>
-						</ul>
+						<span class="target">SelectNeighboursProps</span>
 					</li>
 				</ul>
 			</section>
@@ -113,12 +105,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.gridobject.html#_array2d" class="tsd-kind-icon">_array2D</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.gridobject.html#cellcount" class="tsd-kind-icon">cell<wbr>Count</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.gridobject.html#columncount" class="tsd-kind-icon">column<wbr>Count</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.gridobject.html#rowcount" class="tsd-kind-icon">row<wbr>Count</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.gridobject.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.gridobject.html#y" class="tsd-kind-icon">y</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.selectneighboursprops.html#grid" class="tsd-kind-icon">grid</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.selectneighboursprops.html#origin" class="tsd-kind-icon">origin</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.selectneighboursprops.html#positions" class="tsd-kind-icon">positions</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.selectneighboursprops.html#skipoutsiders" class="tsd-kind-icon">skip<wbr>Outsiders</a></li>
 							</ul>
 						</section>
 					</div>
@@ -127,89 +117,64 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="_array2d" class="tsd-anchor"></a>
-					<h3>_array2D</h3>
-					<div class="tsd-signature tsd-kind-icon">_array2D<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="grid" class="tsd-anchor"></a>
+					<h3>grid</h3>
+					<div class="tsd-signature tsd-kind-icon">grid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="core.gridobject.html" class="tsd-signature-type">GridObject</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L65">core/types.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/selectors.ts#L111">core/selectors.ts:111</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The two-dimensional grid data array that stores the cells.</p>
+							<p>The grid.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="cellcount" class="tsd-anchor"></a>
-					<h3>cell<wbr>Count</h3>
-					<div class="tsd-signature tsd-kind-icon">cell<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="origin" class="tsd-anchor"></a>
+					<h3>origin</h3>
+					<div class="tsd-signature tsd-kind-icon">origin<span class="tsd-signature-symbol">:</span> <a href="core.position.html" class="tsd-signature-type">Position</a></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.advancedshape.html">AdvancedShape</a>.<a href="core.advancedshape.html#cellcount">cellCount</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L17">core/types.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/selectors.ts#L114">core/selectors.ts:114</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The number of cells of a grid.</p>
+							<p>The origin position from which to select the neighbours.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="columncount" class="tsd-anchor"></a>
-					<h3>column<wbr>Count</h3>
-					<div class="tsd-signature tsd-kind-icon">column<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="positions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> positions</h3>
+					<div class="tsd-signature tsd-kind-icon">positions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type">Position</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.advancedshape.html">AdvancedShape</a>.<a href="core.advancedshape.html#columncount">columnCount</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L6">core/types.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/selectors.ts#L105">core/selectors.ts:105</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The number of columns of the grid.</p>
+							<p>The positions of the cell you are particularly interested in, relative to the given cell. This can be any position relative to the given position. Duplicate positions are possible as well.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="rowcount" class="tsd-anchor"></a>
-					<h3>row<wbr>Count</h3>
-					<div class="tsd-signature tsd-kind-icon">row<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="skipoutsiders" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> skip<wbr>Outsiders</h3>
+					<div class="tsd-signature tsd-kind-icon">skip<wbr>Outsiders<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.advancedshape.html">AdvancedShape</a>.<a href="core.advancedshape.html#rowcount">rowCount</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L9">core/types.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/selectors.ts#L108">core/selectors.ts:108</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The number of rows of the grid.</p>
+							<p>If <code>true</code>, no entry for neighbour cells that are outside the grid is returned, if <code>false</code>, <code>undefined</code> is returned instead of the cell&#39;s value.</p>
 						</div>
 					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="x" class="tsd-anchor"></a>
-					<h3>x</h3>
-					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.area.html">Area</a>.<a href="core.area.html#x">x</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L24">core/types.ts:24</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="y" class="tsd-anchor"></a>
-					<h3>y</h3>
-					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.area.html">Area</a>.<a href="core.area.html#y">y</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L25">core/types.ts:25</a></li>
-						</ul>
-					</aside>
 				</section>
 			</section>
 		</div>
@@ -259,25 +224,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="core.gridobject.html" class="tsd-kind-icon">Grid<wbr>Object</a>
+						<a href="core.selectneighboursprops.html" class="tsd-kind-icon">Select<wbr>Neighbours<wbr>Props</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.gridobject.html#_array2d" class="tsd-kind-icon">_array2D</a>
+								<a href="core.selectneighboursprops.html#grid" class="tsd-kind-icon">grid</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="core.gridobject.html#cellcount" class="tsd-kind-icon">cell<wbr>Count</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="core.selectneighboursprops.html#origin" class="tsd-kind-icon">origin</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="core.gridobject.html#columncount" class="tsd-kind-icon">column<wbr>Count</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="core.selectneighboursprops.html#positions" class="tsd-kind-icon">positions</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="core.gridobject.html#rowcount" class="tsd-kind-icon">row<wbr>Count</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="core.gridobject.html#x" class="tsd-kind-icon">x</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="core.gridobject.html#y" class="tsd-kind-icon">y</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="core.selectneighboursprops.html#skipoutsiders" class="tsd-kind-icon">skip<wbr>Outsiders</a>
 							</li>
 						</ul>
 					</li>

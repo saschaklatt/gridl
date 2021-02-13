@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SelectNeighboursResult | gridl</title>
+	<title>ForEachCellCallback | gridl</title>
 	<meta name="description" content="Documentation for gridl">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,13 +57,13 @@
 					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/core.html">core</a>
+					<a href="../modules/sideeffects.html">sideEffects</a>
 				</li>
 				<li>
-					<a href="core.selectneighboursresult.html">SelectNeighboursResult</a>
+					<a href="sideeffects.foreachcellcallback.html">ForEachCellCallback</a>
 				</li>
 			</ul>
-			<h1>Interface SelectNeighboursResult&lt;T&gt;</h1>
+			<h1>Interface ForEachCellCallback&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A neighbour cell and its position on the grid.</p>
+						<p>Callback function of <a href="../modules/sideeffects.html#foreachcell">forEachCell</a> that is called on each cell.</p>
 					</div>
 				</div>
 			</section>
@@ -94,56 +94,57 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SelectNeighboursResult</span>
+						<span class="target">ForEachCellCallback</span>
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.selectneighboursresult.html#cell" class="tsd-kind-icon">cell</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.selectneighboursresult.html#position" class="tsd-kind-icon">position</a></li>
+			<section class="tsd-panel">
+				<h3 class="tsd-before-signature">Callable</h3>
+				<ul class="tsd-signatures tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
+					<li class="tsd-signature tsd-kind-icon">For<wbr>Each<wbr>Cell<wbr>Callback<span class="tsd-signature-symbol">(</span>cell<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, position<span class="tsd-signature-symbol">: </span><a href="core.position.html" class="tsd-signature-type">Position</a>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, src<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="core.gridobject.html" class="tsd-signature-type">GridObject</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/sideEffects/forEachCell.ts#L10">sideEffects/forEachCell.ts:10</a></li>
 							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="cell" class="tsd-anchor"></a>
-					<h3>cell</h3>
-					<div class="tsd-signature tsd-kind-icon">cell<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/selectors.ts#L126">core/selectors.ts:126</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The neighbour cell.</p>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Callback function of <a href="../modules/sideeffects.html#foreachcell">forEachCell</a> that is called on each cell.</p>
+							</div>
 						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="position" class="tsd-anchor"></a>
-					<h3>position</h3>
-					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="core.position.html" class="tsd-signature-type">Position</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/selectors.ts#L123">core/selectors.ts:123</a></li>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>cell: <span class="tsd-signature-type">T</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The cell value of the current iteration step.</p>
+								</div>
+							</li>
+							<li>
+								<h5>position: <a href="core.position.html" class="tsd-signature-type">Position</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The position of the current iteration step.</p>
+								</div>
+							</li>
+							<li>
+								<h5>index: <span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The index of the current iteration step, starting at 0.</p>
+								</div>
+							</li>
+							<li>
+								<h5>src: <span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="core.gridobject.html" class="tsd-signature-type">GridObject</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The grid that&#39;s being traversed.</p>
+								</div>
+							</li>
 						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The position of the neighbour cell.</p>
-						</div>
-					</div>
-				</section>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -170,7 +171,7 @@
 					<li class=" ">
 						<a href="../modules.html">Modules</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/core.html">core</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -179,7 +180,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/search.html">search</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/sideeffects.html">side<wbr>Effects</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -192,18 +193,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="core.selectneighboursresult.html" class="tsd-kind-icon">Select<wbr>Neighbours<wbr>Result</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.selectneighboursresult.html#cell" class="tsd-kind-icon">cell</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.selectneighboursresult.html#position" class="tsd-kind-icon">position</a>
-							</li>
-						</ul>
+						<a href="sideeffects.foreachcellcallback.html" class="tsd-kind-icon">For<wbr>Each<wbr>Cell<wbr>Callback</a>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/sideeffects.html#foreachcell" class="tsd-kind-icon">for<wbr>Each<wbr>Cell</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -222,7 +218,6 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 		</div>
 	</div>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GridIterationResult | gridl</title>
+	<title>Shape | gridl</title>
 	<meta name="description" content="Documentation for gridl">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -60,10 +60,10 @@
 					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="core.griditerationresult.html">GridIterationResult</a>
+					<a href="core.shape.html">Shape</a>
 				</li>
 			</ul>
-			<h1>Interface GridIterationResult</h1>
+			<h1>Interface Shape</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The grid position and cell index of the current iteration.</p>
+						<p>Describes the number of rows and columns of grid.</p>
 					</div>
 				</div>
 			</section>
@@ -81,7 +81,18 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">GridIterationResult</span>
+						<span class="target">Shape</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<a href="core.advancedshape.html" class="tsd-signature-type">AdvancedShape</a>
+							</li>
+							<li>
+								<a href="core.area.html" class="tsd-signature-type">Area</a>
+							</li>
+							<li>
+								<a href="core.creategridprops.html" class="tsd-signature-type">CreateGridProps</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -92,8 +103,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.griditerationresult.html#index" class="tsd-kind-icon">index</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.griditerationresult.html#position" class="tsd-kind-icon">position</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.shape.html#columncount" class="tsd-kind-icon">column<wbr>Count</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.shape.html#rowcount" class="tsd-kind-icon">row<wbr>Count</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,32 +113,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="index" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> index</h3>
-					<div class="tsd-signature tsd-kind-icon">index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="columncount" class="tsd-anchor"></a>
+					<h3>column<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">column<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L82">core/types.ts:82</a></li>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/types.ts#L6">core/types.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The index of the current iteration step.</p>
+							<p>The number of columns of the grid.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="position" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> position</h3>
-					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="core.position.html" class="tsd-signature-type">Position</a></div>
+					<a name="rowcount" class="tsd-anchor"></a>
+					<h3>row<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">row<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L79">core/types.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/types.ts#L9">core/types.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The position of the current iteration step.</p>
+							<p>The number of rows of the grid.</p>
 						</div>
 					</div>
 				</section>
@@ -179,13 +190,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="core.griditerationresult.html" class="tsd-kind-icon">Grid<wbr>Iteration<wbr>Result</a>
+						<a href="core.shape.html" class="tsd-kind-icon">Shape</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.griditerationresult.html#index" class="tsd-kind-icon">index</a>
+								<a href="core.shape.html#columncount" class="tsd-kind-icon">column<wbr>Count</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.griditerationresult.html#position" class="tsd-kind-icon">position</a>
+								<a href="core.shape.html#rowcount" class="tsd-kind-icon">row<wbr>Count</a>
 							</li>
 						</ul>
 					</li>

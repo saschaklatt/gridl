@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CreateGridFromArray2DProps | gridl</title>
+	<title>CreateGridProps | gridl</title>
 	<meta name="description" content="Documentation for gridl">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -60,10 +60,10 @@
 					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="core.creategridfromarray2dprops.html">CreateGridFromArray2DProps</a>
+					<a href="core.creategridprops.html">CreateGridProps</a>
 				</li>
 			</ul>
-			<h1>Interface CreateGridFromArray2DProps&lt;T&gt;</h1>
+			<h1>Interface CreateGridProps&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Properties to create a grid from a grid array.</p>
+						<p>Properties to create a grid.</p>
 					</div>
 				</div>
 			</section>
@@ -89,7 +89,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">CreateGridFromArray2DProps</span>
+						<a href="core.shape.html" class="tsd-signature-type">Shape</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">CreateGridProps</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -100,9 +105,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.creategridfromarray2dprops.html#array2d" class="tsd-kind-icon">array2D</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.creategridfromarray2dprops.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.creategridfromarray2dprops.html#y" class="tsd-kind-icon">y</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.creategridprops.html#columncount" class="tsd-kind-icon">column<wbr>Count</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.creategridprops.html#createcell" class="tsd-kind-icon">create<wbr>Cell</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.creategridprops.html#rowcount" class="tsd-kind-icon">row<wbr>Count</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.creategridprops.html#x" class="tsd-kind-icon">x</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.creategridprops.html#y" class="tsd-kind-icon">y</a></li>
 							</ul>
 						</section>
 					</div>
@@ -110,15 +117,47 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="array2d" class="tsd-anchor"></a>
-					<h3>array2D</h3>
-					<div class="tsd-signature tsd-kind-icon">array2D<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="columncount" class="tsd-anchor"></a>
+					<h3>column<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">column<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="core.shape.html">Shape</a>.<a href="core.shape.html#columncount">columnCount</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L54">core/types.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/types.ts#L6">core/types.ts:6</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The number of columns of the grid.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="createcell" class="tsd-anchor"></a>
+					<h3>create<wbr>Cell</h3>
+					<div class="tsd-signature tsd-kind-icon">create<wbr>Cell<span class="tsd-signature-symbol">:</span> <a href="core.cellfactory.html" class="tsd-signature-type">CellFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/types.ts#L45">core/types.ts:45</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="rowcount" class="tsd-anchor"></a>
+					<h3>row<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">row<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="core.shape.html">Shape</a>.<a href="core.shape.html#rowcount">rowCount</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/types.ts#L9">core/types.ts:9</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The number of rows of the grid.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="x" class="tsd-anchor"></a>
@@ -126,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L55">core/types.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/types.ts#L46">core/types.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,7 +175,7 @@
 					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L56">core/types.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/core/types.ts#L47">core/types.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -188,16 +227,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="core.creategridfromarray2dprops.html" class="tsd-kind-icon">Create<wbr>Grid<wbr>From<wbr>Array2DProps</a>
+						<a href="core.creategridprops.html" class="tsd-kind-icon">Create<wbr>Grid<wbr>Props</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.creategridfromarray2dprops.html#array2d" class="tsd-kind-icon">array2D</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="core.creategridprops.html#columncount" class="tsd-kind-icon">column<wbr>Count</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.creategridfromarray2dprops.html#x" class="tsd-kind-icon">x</a>
+								<a href="core.creategridprops.html#createcell" class="tsd-kind-icon">create<wbr>Cell</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="core.creategridprops.html#rowcount" class="tsd-kind-icon">row<wbr>Count</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="core.creategridfromarray2dprops.html#y" class="tsd-kind-icon">y</a>
+								<a href="core.creategridprops.html#x" class="tsd-kind-icon">x</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="core.creategridprops.html#y" class="tsd-kind-icon">y</a>
 							</li>
 						</ul>
 					</li>

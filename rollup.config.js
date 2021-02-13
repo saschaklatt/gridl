@@ -42,20 +42,7 @@ const buildEsmFiles = () => ({
                 module: basePkg.module,
                 funding: basePkg.funding,
                 main: "index.js",
-                typings: "index.d.ts",
-                files: [
-                    "_umd/",
-                    "LICENSE",
-                    "index.js",
-                    "core/index.js",
-                    "neighbours/index.js",
-                    "reducers/index.js",
-                    "search/index.js",
-                    "sideEffects/index.js",
-                    "transformers/index.js",
-                    "index.d.js",
-                    "README.md",
-                ],
+                typings: "index.d.ts"
             }),
         }),
         copy({

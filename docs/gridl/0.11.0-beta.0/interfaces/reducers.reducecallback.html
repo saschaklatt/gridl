@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CellFactory | gridl</title>
+	<title>ReduceCallback | gridl</title>
 	<meta name="description" content="Documentation for gridl">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,13 +57,13 @@
 					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/core.html">core</a>
+					<a href="../modules/reducers.html">reducers</a>
 				</li>
 				<li>
-					<a href="core.cellfactory.html">CellFactory</a>
+					<a href="reducers.reducecallback.html">ReduceCallback</a>
 				</li>
 			</ul>
-			<h1>Interface CellFactory&lt;T&gt;</h1>
+			<h1>Interface ReduceCallback&lt;T, U&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Creates a new cell value, based on the position and index.</p>
+						<p>Callback function that is called from the <a href="../modules/reducers.html#reducegrid">reduceGrid</a> function on each cell. It returns the result
+						of the current iteration.</p>
 					</div>
 				</div>
 			</section>
@@ -84,7 +85,15 @@
 						<h4>T</h4>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>The type of the cell.</p>
+								<p>The cell type.</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<h4>U</h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>The result type.</p>
 							</div>
 						</div>
 					</li>
@@ -94,41 +103,59 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">CellFactory</span>
+						<span class="target">ReduceCallback</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3 class="tsd-before-signature">Callable</h3>
 				<ul class="tsd-signatures tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-					<li class="tsd-signature tsd-kind-icon">Cell<wbr>Factory<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><a href="core.position.html" class="tsd-signature-type">Position</a>, idx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+					<li class="tsd-signature tsd-kind-icon">Reduce<wbr>Callback<span class="tsd-signature-symbol">(</span>acc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">U</span>, cellValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, position<span class="tsd-signature-symbol">: </span><a href="core.position.html" class="tsd-signature-type">Position</a>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, srcGrid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="core.gridobject.html" class="tsd-signature-type">GridObject</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">U</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/klattiation/gridl/blob/1507d5b/src/core/types.ts#L101">core/types.ts:101</a></li>
+								<li>Defined in <a href="https://github.com/klattiation/gridl/blob/644435c/src/reducers/reduceGrid.ts#L12">reducers/reduceGrid.ts:12</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Creates a new cell value, based on the position and index.</p>
+								<p>Callback function that is called from the <a href="../modules/reducers.html#reducegrid">reduceGrid</a> function on each cell. It returns the result
+								of the current iteration.</p>
 							</div>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>position: <a href="core.position.html" class="tsd-signature-type">Position</a></h5>
+								<h5>acc: <span class="tsd-signature-type">U</span></h5>
 								<div class="tsd-comment tsd-typography">
-									<p>The position of the cell to create.</p>
+									<p>The accumulator accumulates callback&#39;s return values. It is the accumulated value previously returned in the last invocation of the callback—or initialValue, if it was supplied.</p>
 								</div>
 							</li>
 							<li>
-								<h5>idx: <span class="tsd-signature-type">number</span></h5>
+								<h5>cellValue: <span class="tsd-signature-type">T</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The current cell being processed in the grid.</p>
+								</div>
+							</li>
+							<li>
+								<h5>position: <a href="core.position.html" class="tsd-signature-type">Position</a></h5>
+							</li>
+							<li>
+								<h5>index: <span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The index of the current cell being processed in the grid, starting from 0.</p>
+								</div>
+							</li>
+							<li>
+								<h5>srcGrid: <span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="core.gridobject.html" class="tsd-signature-type">GridObject</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The grid <a href="../modules/reducers.html#reducegrid">reduceGrid</a> was called upon.</p>
+								</div>
 							</li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
-						<p>The new cell.</p>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">U</span></h4>
 					</li>
 				</ul>
 			</section>
@@ -157,10 +184,10 @@
 					<li class=" ">
 						<a href="../modules.html">Modules</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/core.html">core</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/reducers.html">reducers</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -179,10 +206,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="core.cellfactory.html" class="tsd-kind-icon">Cell<wbr>Factory</a>
+						<a href="reducers.reducecallback.html" class="tsd-kind-icon">Reduce<wbr>Callback</a>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/reducers.html#reducegrid" class="tsd-kind-icon">reduce<wbr>Grid</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
