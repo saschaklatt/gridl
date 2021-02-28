@@ -14,14 +14,16 @@ const createFrozenGrid = <T>(array2D: T[][], position?: OptionalPosition): Reado
 /**
  * Creates a new immutable grid instance.
  *
- * @param columnCount The number of columns the new grid should have.
- * @param rowCount The number of rows the new grid should have.
- * @param x The x-position the new grid should have.
- * @param y The y-position the new grid should have.
- * @param createCell The callback function that creates to ne cell, which is called for each position of the new grid.
+ * @param props The properties to create a new grid.
  * @template T The cell type.
  * @example ```js
- * const grid = createGrid({columnCount: 4, rowCount: 3, x: 1, y: 2}, (_pos, idx) => idx);
+ * const grid = createGrid({
+ *     columnCount: 3,
+ *     rowCount: 4,
+ *     x: 1,
+ *     y: 2,
+ *     createCell: (_pos, idx) => idx}
+ * );
  * // => {
  * //     x: 1,
  * //     y: 2,
@@ -44,9 +46,7 @@ export function createGrid<T>(props: CreateGridProps<T>): Grid<T> {
 /**
  * Creates a new grid instance from an existing two-dimensional grid array and adds a position.
  *
- * @param array2D The array from which to create the new grid instance.
- * @param x The x-position of the new grid.
- * @param y The y-position of the new grid.
+ * @param props The props to create a grid from an 2d array.
  * @template T The cell type.
  * @example ```js
  * const grid = createGridFromArray2D({
@@ -78,8 +78,6 @@ export function createGridFromArray2D<T>(props: CreateGridFromArray2DProps<T>): 
  * Creates a new grid instance from an existing two-dimensional grid array and adds a position.
  *
  * @param array2D The array from which to create the new grid instance.
- * @param x The x-position of the new grid.
- * @param y The y-position of the new grid.
  * @template T The cell type.
  * @example ```js
  * const grid = createGridFromArray2D([

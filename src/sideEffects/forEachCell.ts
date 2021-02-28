@@ -3,7 +3,7 @@ import {createWalker} from "../core/walker";
 import {selectCell} from "../core/selectors";
 
 /**
- * Callback function of {@link forEachCell} that is called on each cell.
+ * Callback function of forEachCell that is called on each cell.
  *
  * @template T The cell type.
  */
@@ -26,6 +26,7 @@ export interface ForEachCellCallback<T> {
  * @template T The cell type.
  *
  * @example ```js
+ * import {createGridFromArray2D} from "gridl/core";
  * import {forEachCell} from "gridl/sideEffects";
  *
  * const grid = createGridFromArray2D([

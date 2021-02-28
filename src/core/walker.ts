@@ -3,7 +3,7 @@ import {GridWalker, WalkerFactory} from './types';
 /**
  * Converts a grid index into a grid position, going from east to west and north to south (EWNS).
  *
- * @param shape - The shape to iterate over. Note that since a grid implements the {@link Shape} interface, you can just pass in the grid as well.
+ * @param shape - The shape to iterate over. Note that since a grid implements the Shape interface, you can just pass in the grid as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
  *
@@ -38,7 +38,7 @@ export const walkEWNS: GridWalker = (shape, index) => {
 /**
  * Converts a grid index into a grid position, going from east to west and south to north (EWSN).
  *
- * @param shape - The grid shape to iterate. Note that since a grid implements the {@link Shape} interface, you can just provide a grid instance as well.
+ * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
  *
@@ -74,7 +74,7 @@ export const walkEWSN: GridWalker = (shape, index) => {
 /**
  * Converts a grid index into a grid position, going from north to south and east to west (NSEW).
  *
- * @param shape - The grid shape to iterate. Note that since a grid implements the {@link Shape} interface, you can just provide a grid instance as well.
+ * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
  *
@@ -109,7 +109,7 @@ export const walkNSEW: GridWalker = (shape, index) => {
 /**
  * Converts a grid index into a grid position, going from north to south and west to east (NSWE).
  *
- * @param shape - The grid shape to iterate. Note that since a grid implements the {@link Shape} interface, you can just provide a grid instance as well.
+ * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
  *
@@ -144,7 +144,7 @@ export const walkNSWE: GridWalker = (shape, index) => {
 /**
  * Converts a grid index into a grid position, going from south to north and east to west (SNEW).
  *
- * @param shape - The grid shape to iterate. Note that since a grid implements the {@link Shape} interface, you can just provide a grid instance as well.
+ * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
  *
@@ -180,7 +180,7 @@ export const walkSNEW: GridWalker = (shape, index) => {
 /**
  * Converts a grid index into a grid position, going from south to north and west to east (SNWE).
  *
- * @param shape - The grid shape to iterate. Note that since a grid implements the {@link Shape} interface, you can just provide a grid instance as well.
+ * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
  *
@@ -216,7 +216,7 @@ export const walkSNWE: GridWalker = (shape, index) => {
 /**
  * Converts an index to a grid position, going from west to east and north to south (WENS).
  *
- * @param shape - The grid shape to iterate. Note that since a grid implements the {@link Shape} interface, you can just provide a grid instance as well.
+ * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
  */
@@ -230,7 +230,7 @@ export const walkWENS: GridWalker = (shape, index) => {
 /**
  * Converts a grid index into a grid position, going from west to east and south to north (WESN).
  *
- * @param shape - The grid shape to iterate. Note that since a grid implements the {@link Shape} interface, you can just provide a grid instance as well.
+ * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
  *
@@ -264,7 +264,7 @@ export const walkWESN: GridWalker = (shape, index) => {
 };
 
 /**
- * Alias of {@link walkWENS}
+ * Alias of walkWENS
  */
 export const walkDefault: GridWalker = walkWENS;
 
@@ -272,7 +272,7 @@ export const walkDefault: GridWalker = walkWENS;
  * Creates a walker that iterates over all cells with an index starting from `0` to `cellCount - 1`.
  *
  * @param shape The shape of the grid that is traversed.
- * @param walk Function that converts the iteration index into a grid position and thus determines the order in which the iterator traverses the cells. If the function is omitted the default walker {@link walkDefault} is used.
+ * @param walk Function that converts the iteration index into a grid position and thus determines the order in which the iterator traverses the cells. If the function is omitted the default walker walkDefault is used.
  *
  * @example ```js
  * const shape = {columnCount: 3, rowCount: 2, cellCount: 6};

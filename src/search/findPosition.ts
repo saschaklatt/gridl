@@ -12,7 +12,7 @@ const createCallbackWrapper = <T>(searchValue: T) => (value: T) => value === sea
  *
  * @param grid The grid in which to search.
  * @param valueOrCallback Cell value to find or callback function that is called on each cell. Should return true if the element is found or false if not.
- * @param walk This function calculates the grid position based on the iteration index and therefore defines the order in which the cells are iterated. If no walker is defined {@link walkDefault} is used.
+ * @param walk This function calculates the grid position based on the iteration index and therefore defines the order in which the cells are iterated. If no walker is defined walkDefault is used.
  * @template T The cell type.
  * @example ```js
  * const grid = createGridFromArray2D([

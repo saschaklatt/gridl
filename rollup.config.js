@@ -41,8 +41,9 @@ const buildEsmFiles = () => ({
                 license: basePkg.license,
                 module: basePkg.module,
                 funding: basePkg.funding,
+                homepage: basePkg.homepage,
                 main: "index.js",
-                typings: "index.d.ts"
+                typings: "index.d.ts",
             }),
         }),
         copy({

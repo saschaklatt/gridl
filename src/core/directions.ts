@@ -55,19 +55,19 @@ export const SouthWest = Object.freeze({x: -1, y:  1} as Position);
 export const West = Object.freeze({x: -1, y:  0} as Position);
 
 /**
- * A list of all orthogonal neighbours in form of relative positions ({@link North}, {@link East}, {@link South}, {@link West}).
+ * A list of all orthogonal neighbours in form of relative positions North, East, South, West).
  * @category neighbour-positions
  */
 export const OrthogonalDirections = Object.freeze([North, East, South, West]);
 
 /**
- * A list of all diagonal neighbours in form of relative positions ({@link NorthEast}, {@link SouthEast}, {@link SouthWest}, {@link NorthWest}).
+ * A list of all diagonal neighbours in form of relative positions (NorthEast, SouthEast, SouthWest, NorthWest).
  * @category neighbour-positions
  */
 export const DiagonalDirections = Object.freeze([NorthEast, SouthEast, SouthWest, NorthWest]);
 
 /**
- * A list of all surrounding neighbours in form of relative positions ({@link North}, {@link NorthEast}, {@link East}, {@link SouthEast}, {@link South}, {@link SouthWest}, {@link West}, {@link NorthWest}).
+ * A list of all surrounding neighbours in form of relative positions (North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest).
  * @category neighbour-positions
  */
 export const SurroundingDirections = Object.freeze([North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest]);

@@ -10,7 +10,7 @@ export interface Shape {
 }
 
 /**
- * A {@link Shape} with an additional cellCount property.
+ * A Shape with an additional cellCount property.
  */
 export interface AdvancedShape extends Shape {
     /** The number of cells of a grid. */
@@ -42,8 +42,11 @@ export interface Area extends Position, Shape {}
  * Properties to create a grid.
  */
 export interface CreateGridProps<T> extends Shape {
+    /** The callback function that creates to ne cell, which is called for each position of the new grid. */
     createCell: CellFactory<T>,
+    /** The x-position the new grid should have. */
     x?: number,
+    /** The y-position the new grid should have. */
     y?: number,
 }
 
@@ -51,13 +54,16 @@ export interface CreateGridProps<T> extends Shape {
  * Properties to create a grid from a grid array.
  */
 export interface CreateGridFromArray2DProps<T> {
+    /** The array from which to create the new grid instance. */
     array2D: T[][],
+    /** The x-position of the new grid. */
     x?: number,
+    /** The y-position of the new grid. */
     y?: number,
 }
 
 /**
- * A plain grid object, which can be considered as a {@link Grid} instance without getter functions.
+ * A plain grid object, which can be considered as a Grid instance without getter functions.
  * @template T The cell type.
  */
 export interface GridObject<T = any> extends Area, AdvancedShape {

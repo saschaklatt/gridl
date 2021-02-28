@@ -6,6 +6,21 @@
         "name": "Sascha Klatt",
         "url": "https://saschaklatt.dev"
     },
+    "homepage": "https://gridl.dev",
+    "keywords": [
+        "grid",
+        "matrix",
+        "es6",
+        "javascript",
+        "typescript",
+        "2d",
+        "tile",
+        "map",
+        "data",
+        "structure",
+        "rows",
+        "columns"
+    ],
     "main": "index.js",
     "scripts": {
         "build": "yarn build:clean && yarn build:declarations && yarn build:rollup && yarn build:docs",
@@ -13,6 +28,7 @@
         "build:declarations": "tsc --project tsconfig.declarations.json",
         "build:rollup": "rollup -c --no-treeshake",
         "build:docs": "./scripts/generate-docs.sh",
+        "build:docs:json": "typedoc --json docs/typedoc.json",
         "lint": "eslint src/**/* test/**/*",
         "lint:fix": "eslint src/**/* test/**/* --fix",
         "test": "yarn jest",
@@ -53,7 +69,7 @@
     },
     "funding": {
         "type": "individual",
-        "url": "https://buymeacoffee.com/saschaklatt"
+        "url": "https://buymeacoffee.com/i62xdOZF3"
     },
     "husky": {
         "hooks": {

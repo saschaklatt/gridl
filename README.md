@@ -2,6 +2,8 @@
 
 A functional toolbox for grid-based data.
 
+[![NPM](https://img.shields.io/npm/v/gridl.svg)](https://www.npmjs.com/package/gridl)
+
 ## Installation
 
 **Using npm**
@@ -107,3 +109,12 @@ findCell(grid, (value) => value > 2, walkNSWE);
 reduceGrid(grid, (acc, cellValue) => acc + cellValue, 0, walkNSWE);
 ```
 
+## Issues
+
+Issues, bugs and feature request at [github issues page](https://github.com/klattiation/gridl/issues)
+
+-----------------------------------------------------------------------------------------------------------
+
+## License
+
+MIT © [klattiation](https://github.com/klattiation)

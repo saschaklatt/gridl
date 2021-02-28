@@ -4,7 +4,7 @@ import {Area, Grid, Position} from "./types";
 import {addPositions, clamp, createArray, cropArray2D, isOutOfShape, isOutOfRange, getColumnCount, getRowCount} from "./utils";
 
 /**
- * Props for {@link selectCell}.
+ * Props for the selectCell selector.
  * @template T The cell type.
  */
 interface SelectCellProps<T> extends Position {
@@ -23,7 +23,7 @@ export const selectCell = <T>(props: SelectCellProps<T>) => {
 };
 
 /**
- * Properties for {@link selectRow}.
+ * Props for the selectRow selector.
  * @template T The cell type.
  */
 interface SelectRowProps<T> {
@@ -39,13 +39,13 @@ interface SelectRowProps<T> {
  * @param props The properties.
  * @template T The cell type.
  */
-export const selectRow = <T>(props: SelectRowProps<T>) => {
+export const selectRow = <T>(props: SelectRowProps<T>): T[] | undefined => {
     const {grid, y} = props;
     return grid && grid._array2D && grid._array2D[y] && [...grid._array2D[y]] || undefined;
 };
 
 /**
- * Properties for {@link selectColumn}.
+ * Props for the selectColumn selector.
  * @template T The cell type.
  */
 interface SelectColumnProps<T> {
@@ -70,7 +70,7 @@ export const selectColumn = <T>(props: SelectColumnProps<T>) => {
 };
 
 /**
- * Properties for {@link selectSubGrid}.
+ * Props for the selectSubGrid selector.
  * @template T The cell type.
  */
 interface SelectSubGridProps<T> {
@@ -97,7 +97,7 @@ export const selectSubGrid = <T>(props: SelectSubGridProps<T>) => {
 };
 
 /**
- * Properties for {@link selectNeighbours}.
+ * Props for the selectNeighbours selector.
  * @template T The cell type.
  */
 export interface SelectNeighboursProps<T> {

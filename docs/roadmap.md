@@ -2,6 +2,7 @@
 
 ## v0.11.x
 
+- Look at [Linear Algebra with JS](https://medium.com/swlh/linear-algebra-basic-matrix-operations-13a019633c15)
 - Features
     - option to fill up selected values that are outside the grid with `undefined` cells, so that result dimensions equal the requested dimensions (e.g. in `getSubGrid()`, `crop()`, ...)
     - rotate around an anchor point
@@ -41,6 +42,8 @@
     - add [badges](https://github.com/dwyl/repo-badges)
     - find out minimal nodejs version and set it in package.engines
     - encourage contribution (add badge)
+- Spread the word
+    - register at https://openbase.com/
 
 ## far future
 

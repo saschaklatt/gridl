@@ -39,10 +39,12 @@
     - [x] ~~README~~
         - [x] ~~installation~~
         - [x] ~~basic usage~~
+    - [ ] add `@since` tag to all functions
+    - [ ] remove typedoc links (not yet supported by website)
 1. next branch
     - [x] ~~migrate code to new next branch in gridl repo~~
-    - [ ] release gridl version @next
-        - [Mike Bostok about npm prereleases](https://medium.com/@mbostock/prereleases-and-npm-e778fc5e2420)
+    - [x] ~~release gridl version @next
+        - [Mike Bostok about npm prereleases](https://medium.com/@mbostock/prereleases-and-npm-e778fc5e2420)~~
     - [ ] setup [jsdelivr](https://www.jsdelivr.com/) for umd bundle
 1. CI/CD
     - [ ] consider using [semantic-release](https://github.com/semantic-release/semantic-release)
@@ -54,7 +56,7 @@
     - [ ] build docs
 1. QA
     - [ ] review code
-    - [ ] check docs for correctness
+    - [ ] double check docs for correctness
     - [ ] add tests for readme/guides examples
 1. Website
     - [x] ~~make mock-ups with Adboe XD~~

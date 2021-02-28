@@ -6,6 +6,7 @@ node_modules
 dist
 stats
 coverage
+docs/typedoc.json
 
 # package manager
 package-lock.json

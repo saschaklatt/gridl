@@ -26,7 +26,7 @@ export interface MapCallback<T, U = T> {
  * with the value returned by the callback function.
  *
  * @param callback The callback function that is called for each cell.
- * @param walk This function calculates the grid position based on the iteration step and therefore defines the order in which the cells are iterated. If no walker is defined {@link walkDefault} is used.
+ * @param walk This function calculates the grid position based on the iteration step and therefore defines the order in which the cells are iterated. If no walker is defined walkDefault is used.
  * @template T The type of the original cell values.
  * @template U The type of the new cell values.
  * @example ```js
