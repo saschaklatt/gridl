@@ -1,0 +1,25 @@
+{
+    "groups": [
+        {
+            "title": "Guides",
+            "pages": [
+                {
+                    "title": "Basics",
+                    "source": "./docs/tutorials/basics.md"
+                },
+                {
+                    "title": "Neighbours",
+                    "source": "./docs/tutorials/neighbours.md"
+                },
+                {
+                    "title": "Transformers",
+                    "source": "./docs/tutorials/transformers.md"
+                },
+                {
+                    "title": "Walkers",
+                    "source": "./docs/tutorials/walkers.md"
+                }
+            ]
+        }
+    ]
+}

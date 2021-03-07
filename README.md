@@ -1,112 +1,150 @@
 # gridl
 
-Fast, lightweight, extendable and easy to use library to handle 2d grid data.
+A functional toolbox for grid-based data.
 
-## Installation
-
-Using npm:
-
-`npm i --save gridl`
-
-**node.js**
-
-```javascript
-var gridl = require("gridl");
-```
-
-**ES6**
-
-```javascript
-import gridl from "gridl";
-```
-
-**In a browser**
-
-```html
-<script src="gridl.min.js"></script>
-```
-
-**Usage**
-
-```javascript
-const data = [
-  [1, 2, 3, 4, 5],
-  [6, 7, 8, 9, 10],
-  [11, 12, 13, 14, 15]
-];
-const flippedGrid = gridl(data)
-  .flipY() // mirror the grid on the y-axis
-  .data(); // export the data array
-
-// flippedGrid looks like this:
-// [
-//     [ 5, 4, 3, 2, 1],
-//     [10, 9, 8, 7, 6],
-//     [15,14,13,12,11],
-// ]
-```
-
-## Attention!
-
-- The new version (v0.10.x) comes with a lot of api breaks - see the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for further information
+[![NPM](https://img.shields.io/npm/v/gridl.svg)](https://www.npmjs.com/package/gridl)
 
 ## Documentation
 
-- You can find the API reference and tutorials in our documentation: [latest](https://klattiation.github.io/gridl/gridl/latest/index.html)
-- See the [changelog](https://github.com/klattiation/gridl/wiki/Changelog) for updates in each version
+- [Website](https://gridl.dev)
+- [Changelog](https://github.com/klattiation/gridl/wiki/Changelog)
 
-## Features
+## Installation
 
-- [Generate grids](docs/tutorials/generating.md)
-  - specify the number of rows and columns
-  - generate 2d grids with a generator callback function
-- [Accessing data](docs/tutorials/data.md)
-  - export data as two-dimensional grid array
-  - export data as one-dimensional list array
-- [Dimensions](docs/tutorials/size.md)
-  - get the number of columns and rows
-- [Working with cells](docs/tutorials/values.md)
-  - get and set values at absolute or relative positions
-  - move them around
-  - swap them
-- [Columns and rows](docs/tutorials/columns-and-rows.md)
-  - easily access columns and rows
-  - remove or add new columns and rows at any position
-  - move them around
-- [Finding](docs/tutorials/finding.md)
-  - find values in the grid
-- [Iterating](docs/tutorials/iterating.md)
-  - map()
-  - reduce()
-  - forEach()
-- [Working with areas](docs/tutorials/areas.md)
-  - manipulate areas
-  - check for intersection with other areas
-  - iterate over areas by using map() and reduce()
-  - find values limited by the area boundaries
-  - use anchor points to position areas with an offset
-- [Adjacent cells](docs/tutorials/adjacent-cells.md)
-  - find the adjacent cells of a certain cell
-  - get orthogonal, diagonal or all cells
-- [Clipping](docs/tutorials/clipping.md)
-  - define an area and remove everything around
-- [Swapping](docs/tutorials/swapping.md)
-  - swap columns, rows or single cells
-- [Rotating](docs/tutorials/rotating.md)
-  - rotate the entire grid clockwise or counterclockwise
-- [Flipping](docs/tutorials/flipping.md)
-  - flip the grid on the x- or y-axis
-- [Cloning](docs/tutorials/cloning.md)
-  - Make a clone of a gridl instance
-- [Plugins](docs/tutorials/plugins.md)
-  - Extend gridl to your needs by writing your own plugins
+**Using npm**
 
-## Use cases
+```
+npm install gridl@next
+```
 
-As a basis for:
+**Using yarn**
 
-- grid based games or applications
-- handle table data
-- tile maps
-- path finding
-- and many more...
+```
+yarn add gridl@next
+```
+
+**ES6 modules**
+
+```js
+import {createGrid} from "gridl/core";
+```
+
+**Nodejs**
+
+```js
+const {createGrid} = require("gridl/_umd");
+```
+
+## Usage
+
+See the [website](https://gridl.dev) for detailed information and getting started guides.
+
+```js
+import {createGrid} from "gridl/core";
+
+const grid = createGrid({
+    columnCount: 4,
+    rowCount: 3,
+    createCell: (pos, idx) => pos.y < 2 ? idx : "x",
+});
+
+// creates the following data object
+// => {
+//     x: 0,
+//     y: 0,
+//     cellCount: 12,
+//     columnCount: 4,
+//     rowCount: 3,
+//     _array2D: [
+//         [  0,   1,   2,   3],
+//         [  4,   5,   6,   7],
+//         ["x", "x", "x", "x"],
+//     ],
+// }
+```
+
+## Selectors
+
+Easily select cells, columns, rows, sub grids or neighbouring cells with selector functions. Read more about selectors in the [getting started](https://gridl.dev/getting-started/grid-selectors) section or have a look at the [API docs](https://gridl.dev/api-docs/).
+
+```js
+import {createGridFromArray2D, selectCell} from "gridl/core";
+
+const grid = createGridFromArray2D([
+    [0,  1,  2,  3],
+    [4,  5,  6,  7],
+    [8,  9, 10, 11],
+]);
+
+// get the cell value at position = {x: 1, y: 2}
+selectCell({grid, x: 2, y: 1}); // => 6
+
+// get the column at x = 2
+selectColumn({grid, x: 2}); // => [2, 6, 10]
+
+// get the row at y = 1
+selectRow({grid, y: 1}); // => [4, 5, 6, 7];
+```
+
+## Transformers
+
+Perform all kinds of data transformations on your grid, such as add, remove, rotate, swap, mirror and more. Read more about transformers in the [getting started](https://gridl.dev/getting-started/grid-transformers) section or have a look at the [API docs](https://gridl.dev/api-docs/#transformers).
+
+```js
+import {createGridFromArray2D} from "gridl/core";
+import {addRowTop} from "gridl/transformers";
+
+const grid = createGridFromArray2D([
+    [0,  1,  2,  3],
+    [4,  5,  6,  7],
+    [8,  9, 10, 11],
+]);
+const newGrid = addRowTop(["x", "x", "x", "x"])(grid);
+// resulting grid:
+// {
+//     x: 0,
+//     y: 0,
+//     cellCount: 12,
+//     columnCount: 4,
+//     rowCount: 4,
+//     _array2D: [
+//         ["x", "x", "x", "x"],
+//         [  0,   1,   2,   3],
+//         [  4,   5,   6,   7],
+//         [  8,   9,  10,  11],
+//     ],
+// }
+```
+
+## Walkers
+
+Traverse over your grid in variety of ways. Choose from a predefined set of iterators or just come up with your own one. Read more about walkers in the [getting started](https://gridl.dev/getting-started/grid-walkers) section or have a look at the [API docs](https://gridl.dev/api-docs/).
+
+```js
+import {createWalker} from "gridl/core";
+
+const grid = createGridFromArray2D([
+    [1, 1, 1],
+    [1, 1, 1],
+]);
+const walker = createWalker(grid);
+walker.next(); // => {value: {index: 0, position: {x: 0, y: 0}}, done: false}
+walker.next(); // => {value: {index: 1, position: {x: 1, y: 0}}, done: false}
+walker.next(); // => {value: {index: 2, position: {x: 2, y: 0}}, done: false}
+walker.next(); // => {value: {index: 3, position: {x: 0, y: 1}}, done: false}
+walker.next(); // => {value: {index: 4, position: {x: 1, y: 1}}, done: false}
+walker.next(); // => {value: {index: 5, position: {x: 2, y: 1}}, done: false}
+walker.next(); // => {value: undefined, done: true}
+````
+
+
+
+## Issues
+
+Report issues, bugs and feature request on the [github issues page](https://github.com/klattiation/gridl/issues).
+
+-----------------------------------------------------------------------------------------------------------
+
+## License
+
+MIT © [Sascha Klatt](https://github.com/klattiation)

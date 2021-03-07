@@ -1,0 +1,13 @@
+{
+    "entryPoints": [
+        "./src/core/index.ts",
+        "./src/reducers/index.ts",
+        "./src/search/index.ts",
+        "./src/sideEffects/index.ts",
+        "./src/transformers/index.ts"
+    ],
+    "listInvalidSymbolLinks": true,
+    "excludeInternal": true,
+    "hideGenerator": true,
+    "theme": "pages-plugin"
+}

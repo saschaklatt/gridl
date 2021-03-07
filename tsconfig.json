@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "allowJs": false,
+        "declaration": false,
+        "declarationMap": false,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": ["ESNext"],
+        "importHelpers": true,
+        "module": "ESNext",
+        "removeComments": true,
+        "rootDir": "src",
+        "skipLibCheck": true,
+        "sourceMap": false,
+        "strict": true,
+        "target": "ES6",
+        "moduleResolution": "node",
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "outDir": "dist"
+    },
+    "include": ["src"]
+}
