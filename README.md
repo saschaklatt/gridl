@@ -4,6 +4,11 @@ A functional toolbox for grid-based data.
 
 [![NPM](https://img.shields.io/npm/v/gridl.svg)](https://www.npmjs.com/package/gridl)
 
+## Documentation
+
+- [Website](https://gridl.dev)
+- [Changelog](https://github.com/klattiation/gridl/wiki/Changelog)
+
 ## Installation
 
 **Using npm**
@@ -30,91 +35,116 @@ import {createGrid} from "gridl/core";
 const {createGrid} = require("gridl/_umd");
 ```
 
-## Documentation
-
-- [Docs latest](https://klattiation.github.io/gridl/gridl/latest/index.html)
-- [Docs legacy (v0.10.5)](https://klattiation.github.io/gridl/gridl/0.10.5/index.html)
-- [Changelog](https://github.com/klattiation/gridl/wiki/Changelog)
-
 ## Usage
 
-A quick overview. See the [docs](https://klattiation.github.io/gridl/gridl/latest/index.html) for more details.
+See the [website](https://gridl.dev) for detailed information and getting started guides.
 
 ```js
-import {createGrid} from "gridl/core/grid";
-import {DiagonalDirections} from "gridl/core/directions";
-import {walkEWNS, walkNSWE} from "gridl/core/walker";
-import {selectCell, selectColumn, selectRow, selectSubGrid, selectNeighbours} from "gridl/core/selectors";
-import {addColumnLeft, mirrorX, removeRow, rotate90, transform, transformArea} from "gridl/transformers";
-import {forEachCell} from "gridl/sideEffects";
-import {reduce} from "gridl/reducers";
-import {findCells, findPositions} from "gridl/search";
-import {getNeighbourCells, getNeighbourPositions} from "gridl/neighbours";
+import {createGrid} from "gridl/core";
 
-// create a new grid
 const grid = createGrid({
-    columnCount: 12,
-    rowCount: 30,
-    createCell: (pos, idx) => pos.y < 2 ? idx : 2
+    columnCount: 4,
+    rowCount: 3,
+    createCell: (pos, idx) => pos.y < 2 ? idx : "x",
 });
 
-// access data with properties
-grid.columnCount; // => 12
-grid.rowCount;    // => 30
-grid.cellCount;   // => 360
-grid.x;           // => 0
-grid.y;           // => 0
-
-// access data with selectors
-selectCell({grid, x: 2, y: 1});
-selectColumn({grid, x: 2});
-selectRow({grid, y: 1});
-selectSubGrid({grid, x: 1, y: 1, columnCount: 2, rowCount: 2});
-selectNeighbours({grid, origin: {x: 2, y: 9}});
-
-// apply simple transformations
-const rotatedGrid = rotate90(1)(grid);
-
-// apply complex transformations
-const transformedGrid = transform(
-    addColumnLeft(),
-    rotate90(1),
-    mirrorX(),
-    removeRow(2),
-    transformArea({x: 1, y: 2, columnCount: 10, rowCount: 6}, [
-        mirrorX(),
-        rotate90(2),
-    ])
-)(grid);
-
-// search
-findCell(grid, (value) => value > 2);
-findPosition(grid, (value) => value > 2);
-
-// reducers
-const sum = reduceGrid(grid, (acc, cellValue) => acc + cellValue, 0);
-
-// sideEffects
-forEachCell(grid, (cell, position, index, src) => {
-    console.log(cell, position, index);
-});
-
-// traverse in different directions
-const forEachCellCallback = (cell, position, index, src) => {
-    console.log(cell, position, index);
-}
-forEachCell(grid, forEachCellCallback, walkEWNS); // EWNS: east -> west, north -> south
-forEachCell(grid, forEachCellCallback, walkNSWE); // NSWE: north -> south, west -> east
-findCell(grid, (value) => value > 2, walkNSWE);
-reduceGrid(grid, (acc, cellValue) => acc + cellValue, 0, walkNSWE);
+// creates the following data object
+// => {
+//     x: 0,
+//     y: 0,
+//     cellCount: 12,
+//     columnCount: 4,
+//     rowCount: 3,
+//     _array2D: [
+//         [  0,   1,   2,   3],
+//         [  4,   5,   6,   7],
+//         ["x", "x", "x", "x"],
+//     ],
+// }
 ```
+
+## Selectors
+
+Easily select cells, columns, rows, sub grids or neighbouring cells with selector functions. Read more about selectors in the [getting started](https://gridl.dev/getting-started/grid-selectors) section or have a look at the [API docs](https://gridl.dev/api-docs/).
+
+```js
+import {createGridFromArray2D, selectCell} from "gridl/core";
+
+const grid = createGridFromArray2D([
+    [0,  1,  2,  3],
+    [4,  5,  6,  7],
+    [8,  9, 10, 11],
+]);
+
+// get the cell value at position = {x: 1, y: 2}
+selectCell({grid, x: 2, y: 1}); // => 6
+
+// get the column at x = 2
+selectColumn({grid, x: 2}); // => [2, 6, 10]
+
+// get the row at y = 1
+selectRow({grid, y: 1}); // => [4, 5, 6, 7];
+```
+
+## Transformers
+
+Perform all kinds of data transformations on your grid, such as add, remove, rotate, swap, mirror and more. Read more about transformers in the [getting started](https://gridl.dev/getting-started/grid-transformers) section or have a look at the [API docs](https://gridl.dev/api-docs/#transformers).
+
+```js
+import {createGridFromArray2D} from "gridl/core";
+import {addRowTop} from "gridl/transformers";
+
+const grid = createGridFromArray2D([
+    [0,  1,  2,  3],
+    [4,  5,  6,  7],
+    [8,  9, 10, 11],
+]);
+const newGrid = addRowTop(["x", "x", "x", "x"])(grid);
+// resulting grid:
+// {
+//     x: 0,
+//     y: 0,
+//     cellCount: 12,
+//     columnCount: 4,
+//     rowCount: 4,
+//     _array2D: [
+//         ["x", "x", "x", "x"],
+//         [  0,   1,   2,   3],
+//         [  4,   5,   6,   7],
+//         [  8,   9,  10,  11],
+//     ],
+// }
+```
+
+## Walkers
+
+Traverse over your grid in variety of ways. Choose from a predefined set of iterators or just come up with your own one. Read more about walkers in the [getting started](https://gridl.dev/getting-started/grid-walkers) section or have a look at the [API docs](https://gridl.dev/api-docs/).
+
+```js
+import {createWalker} from "gridl/core";
+
+const grid = createGridFromArray2D([
+    [1, 1, 1],
+    [1, 1, 1],
+]);
+const walker = createWalker(grid);
+walker.next(); // => {value: {index: 0, position: {x: 0, y: 0}}, done: false}
+walker.next(); // => {value: {index: 1, position: {x: 1, y: 0}}, done: false}
+walker.next(); // => {value: {index: 2, position: {x: 2, y: 0}}, done: false}
+walker.next(); // => {value: {index: 3, position: {x: 0, y: 1}}, done: false}
+walker.next(); // => {value: {index: 4, position: {x: 1, y: 1}}, done: false}
+walker.next(); // => {value: {index: 5, position: {x: 2, y: 1}}, done: false}
+walker.next(); // => {value: undefined, done: true}
+````
+
+
 
 ## Issues
 
-Issues, bugs and feature request at [github issues page](https://github.com/klattiation/gridl/issues)
+Report issues, bugs and feature request on the [github issues page](https://github.com/klattiation/gridl/issues).
 
 -----------------------------------------------------------------------------------------------------------
 
 ## License
 
-MIT © [klattiation](https://github.com/klattiation)
+MIT © [Sascha Klatt](https://github.com/klattiation)

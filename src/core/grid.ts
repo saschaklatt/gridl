@@ -75,7 +75,7 @@ export function createGrid<T>(props: CreateGridProps<T>): Grid<T> {
 export function createGridFromArray2D<T>(props: CreateGridFromArray2DProps<T>): Grid<T>;
 
 /**
- * Creates a new grid instance from an existing two-dimensional grid array and adds a position.
+ * Creates a new grid instance from an existing two-dimensional grid array and sets the position to the default values of {x: 0, y: 0}.
  *
  * @param array2D The array from which to create the new grid instance.
  * @template T The cell type.
