@@ -1,4 +1,4 @@
-import {getIntersectingArea} from "../../src/core/utils";
+import {getIntersectingArea, getRowCount} from "../../src/core/utils";
 
 describe("utils", () => {
     describe("getIntersectingArea", () => {
@@ -17,5 +17,11 @@ describe("utils", () => {
             expect(getIntersectingArea(area1, area2)).toEqual({columnCount: 2, rowCount: 2, x: 3, y: 3});
             expect(getIntersectingArea(area2, area1)).toEqual({columnCount: 2, rowCount: 2, x: 3, y: 3});
         });
+    });
+
+    describe("getRowCount", () => {
+        const array2D = [[]];
+        const rowCount = getRowCount(array2D);
+        expect(rowCount).toBe(0);
     });
 });

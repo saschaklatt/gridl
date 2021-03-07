@@ -96,6 +96,34 @@ describe("grid", () => {
                     });
                     expect(grid.array2D).not.toBe(array2D);
                 });
+
+                it("works with one empty row", () => {
+                    const array2D = [
+                        [],
+                    ];
+                    const grid = createGridFromArray2D(array2D);
+                    expect(grid).toEqual({
+                        x: 0,
+                        y: 0,
+                        cellCount: 0,
+                        columnCount: 0,
+                        rowCount: 0,
+                        array2D: [],
+                    });
+                });
+
+                it("works with an empty array", () => {
+                    const array2D = [] as any[];
+                    const grid = createGridFromArray2D(array2D);
+                    expect(grid).toEqual({
+                        x: 0,
+                        y: 0,
+                        cellCount: 0,
+                        columnCount: 0,
+                        rowCount: 0,
+                        array2D: [],
+                    });
+                });
             });
         });
 
