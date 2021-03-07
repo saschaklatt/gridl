@@ -14,13 +14,13 @@ A functional toolbox for grid-based data.
 **Using npm**
 
 ```
-npm install gridl@next
+npm install gridl
 ```
 
 **Using yarn**
 
 ```
-yarn add gridl@next
+yarn add gridl
 ```
 
 **ES6 modules**
