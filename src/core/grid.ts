@@ -1,14 +1,14 @@
 import {Grid, GridObject, CreateGridProps, OptionalPosition, CreateGridFromArray2DProps} from "./types";
 import {cloneArray2D, correctEmptyArray2D, createArray2D, getColumnCount, getRowCount, shallowFreezeArray2D} from "./utils";
 
-const createFrozenGrid = <T>(array2D: T[][], position?: OptionalPosition): Readonly<GridObject<T>> => {
+const createFrozenGrid = <T>(originalArray2D: T[][], position?: OptionalPosition): Readonly<GridObject<T>> => {
     const x = position && position.x || 0;
     const y = position && position.y || 0;
-    const _array2D = shallowFreezeArray2D(correctEmptyArray2D(cloneArray2D(array2D))) as T[][];
+    const array2D = shallowFreezeArray2D(correctEmptyArray2D(cloneArray2D(originalArray2D))) as T[][];
     const columnCount = getColumnCount(array2D);
     const rowCount = getRowCount(array2D);
     const cellCount = columnCount * rowCount;
-    return Object.freeze({_array2D, cellCount, columnCount, rowCount, x, y});
+    return Object.freeze({array2D, cellCount, columnCount, rowCount, x, y});
 };
 
 /**
@@ -22,15 +22,15 @@ const createFrozenGrid = <T>(array2D: T[][], position?: OptionalPosition): Reado
  *     rowCount: 4,
  *     x: 1,
  *     y: 2,
- *     createCell: (_pos, idx) => idx}
- * );
+ *     createCell: (_pos, idx) => idx,
+ * });
  * // => {
  * //     x: 1,
  * //     y: 2,
  * //     cellCount: 12,
  * //     columnCount: 4,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [0, 1, 2, 3],
  * //         [4, 5, 6, 7],
  * //         [8, 9, 10, 11],
@@ -64,7 +64,7 @@ export function createGrid<T>(props: CreateGridProps<T>): Grid<T> {
  * //     cellCount: 12,
  * //     columnCount: 4,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [0, 1, 2, 3],
  * //         [4, 5, 6, 7],
  * //         [8, 9, 10, 11],
@@ -91,7 +91,7 @@ export function createGridFromArray2D<T>(props: CreateGridFromArray2DProps<T>): 
  * //     cellCount: 12,
  * //     columnCount: 4,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [0, 1, 2, 3],
  * //         [4, 5, 6, 7],
  * //         [8, 9, 10, 11],

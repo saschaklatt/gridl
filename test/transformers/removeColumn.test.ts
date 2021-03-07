@@ -17,7 +17,7 @@ describe("removeColumn", () => {
             cellCount: 6,
             columnCount: 2,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [1, 3],
                 [4, 6],
                 [7, 9],
@@ -27,8 +27,8 @@ describe("removeColumn", () => {
 
     it("should do nothing when removing from an invalid y-position", () => {
         const grid = mockGrid();
-        expect(removeColumn(-1)(grid)._array2D).toEqual(grid._array2D);
-        expect(removeColumn(10)(grid)._array2D).toEqual(grid._array2D);
-        expect(removeColumn(10)(grid)._array2D).not.toBe(grid._array2D);
+        expect(removeColumn(-1)(grid).array2D).toEqual(grid.array2D);
+        expect(removeColumn(10)(grid).array2D).toEqual(grid.array2D);
+        expect(removeColumn(10)(grid).array2D).not.toBe(grid.array2D);
     });
 });

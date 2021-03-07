@@ -15,7 +15,7 @@ describe("removeColumnLeft", () => {
             cellCount: 6,
             columnCount: 2,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [2, 3],
                 [5, 6],
                 [8, 9],
@@ -25,6 +25,6 @@ describe("removeColumnLeft", () => {
 
     it("does nothing on an empty grid", () => {
         const result = removeColumnLeft()(createGridFromArray2D([]));
-        expect(result._array2D).toEqual([]);
+        expect(result.array2D).toEqual([]);
     });
 });

@@ -17,7 +17,7 @@ describe("setColumn", () => {
             cellCount: 9,
             columnCount: 3,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [6, 0, 0],
                 [6, 0, 0],
                 [6, 0, 0],
@@ -31,7 +31,7 @@ describe("setColumn", () => {
         const newColumn = createArray(rowCount, () => 6);
         const result = setColumn(1, newColumn)(grid);
 
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [0, 6, 0],
             [0, 6, 0],
             [0, 6, 0],
@@ -44,7 +44,7 @@ describe("setColumn", () => {
         const newColumn = createArray(rowCount, () => 6);
         const result = setColumn(2, newColumn)(grid);
 
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [0, 0, 6],
             [0, 0, 6],
             [0, 0, 6],
@@ -56,7 +56,7 @@ describe("setColumn", () => {
         const newColumn = createArray(3, () => 6);
         const result = setColumn(-1, newColumn)(grid);
 
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [0, 0, 0],
             [0, 0, 0],
             [0, 0, 0],
@@ -68,7 +68,7 @@ describe("setColumn", () => {
         const newColumn = createArray(2, () => 6);
         const result = setColumn(0, newColumn)(grid);
 
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [6, 0, 0],
             [6, 0, 0],
             [0, 0, 0],
@@ -80,7 +80,7 @@ describe("setColumn", () => {
         const newColumn = createArray(4, () => 6);
         const result = setColumn(0, newColumn)(grid);
 
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [6, 0, 0],
             [6, 0, 0],
             [6, 0, 0],
@@ -94,7 +94,7 @@ describe("setColumn", () => {
             const newColumn = createArray(2, () => 6);
             const result = setColumn(0, newColumn, yOffset)(grid);
 
-            expect(result._array2D).toEqual([
+            expect(result.array2D).toEqual([
                 [0, 0, 0],
                 [6, 0, 0],
                 [6, 0, 0],
@@ -108,7 +108,7 @@ describe("setColumn", () => {
             const newColumn = createArray(8, () => 6);
             const result = setColumn(0, newColumn, yOffset)(grid);
 
-            expect(result._array2D).toEqual([
+            expect(result.array2D).toEqual([
                 [0, 0, 0],
                 [0, 0, 0],
                 [6, 0, 0],
@@ -123,7 +123,7 @@ describe("setColumn", () => {
             const newColumn = createArray(rowCount, () => 6);
             const result = setColumn(0, newColumn, yOffset)(grid);
 
-            expect(result._array2D).toEqual([
+            expect(result.array2D).toEqual([
                 [0, 0, 0],
                 [0, 0, 0],
                 [6, 0, 0],
@@ -138,7 +138,7 @@ describe("setColumn", () => {
             const newColumn = createArray(rowCount, () => 6);
             const result = setColumn(0, newColumn, yOffset)(grid);
 
-            expect(result._array2D).toEqual([
+            expect(result.array2D).toEqual([
                 [6, 0, 0],
                 [6, 0, 0],
                 [0, 0, 0],

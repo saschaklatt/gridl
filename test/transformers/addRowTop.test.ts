@@ -15,7 +15,7 @@ describe("addRowTop", () => {
             cellCount: 9,
             columnCount: 3,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [7, 8, 9],
                 [1, 2, 3],
                 [4, 5, 6],
@@ -28,7 +28,7 @@ describe("addRowTop", () => {
         const newRow = [7, 8, 9];
         const res = addRowTop(newRow)(grid);
 
-        expect(res._array2D).toEqual([
+        expect(res.array2D).toEqual([
             [7, 8, 9],
         ]);
     });

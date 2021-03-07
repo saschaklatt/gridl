@@ -27,7 +27,7 @@ import {selectSubGrid} from "../core/selectors";
  * //     cellCount: 6,
  * //     columnCount: 2,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [ 9, 10],
  * //         [13, 14],
  * //         [17, 18],
@@ -63,7 +63,7 @@ export function crop<T>(area: Area): GridTransformer<T>;
  * //     cellCount: 6,
  * //     columnCount: 2,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [ 9, 10],
  * //         [13, 14],
  * //         [17, 18],

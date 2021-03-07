@@ -26,7 +26,7 @@ describe("transformArea", () => {
             cellCount: 30,
             columnCount: 6,
             rowCount: 5,
-            _array2D: [
+            array2D: [
                 [ 0,  1,  2,   3,  4,  5],
                 [ 6,  7,  1,   1, 10, 11],
                 [12, 13,  2, 666, 16, 17],
@@ -44,7 +44,7 @@ describe("transformArea", () => {
             mirrorVertically(),
         ])(grid);
 
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [ 0,  1,  2,  3,  4,  5],
             [ 6,  7, 21, 20, 10, 11],
             [12, 13, 15, 14, 16, 17],
@@ -61,7 +61,7 @@ describe("transformArea", () => {
             mirrorVertically(),
         ])(grid);
 
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [ 7,  6,  2,  3,  4,  5],
             [ 1,  0,  8,  9, 10, 11],
             [12, 13, 14, 15, 16, 17],
@@ -78,7 +78,7 @@ describe("transformArea", () => {
             mirrorVertically(),
         ])(grid);
 
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [ 0,  1,  2,  3,  4,  5],
             [ 6,  7,  8,  9, 10, 11],
             [12, 13, 14, 15, 16, 17],

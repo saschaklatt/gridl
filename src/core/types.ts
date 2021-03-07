@@ -68,7 +68,7 @@ export interface CreateGridFromArray2DProps<T> {
  */
 export interface GridObject<T = any> extends Area, AdvancedShape {
     /** The two-dimensional grid data array that stores the cells. */
-    _array2D: T[][],
+    array2D: T[][],
 }
 
 /**

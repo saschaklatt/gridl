@@ -22,7 +22,7 @@ import {createGridFromArray2D} from "../core/grid";
  * //     cellCount: 6,
  * //     columnCount: 3,
  * //     rowCount: 2,
- * //     _array2D: [
+ * //     array2D: [
  * //         [1, 2, 3],
  * //         [7, 8, 9],
  * //     ],
@@ -34,6 +34,6 @@ export const removeRow = <T>(y: number): GridTransformer<T> => {
         if (isOutOfRange(y, grid.rowCount)) {
             return grid;
         }
-        return createGridFromArray2D({...grid, array2D: grid._array2D.filter((_row, idx) => idx !== y)});
+        return createGridFromArray2D({...grid, array2D: grid.array2D.filter((_row, idx) => idx !== y)});
     };
 };

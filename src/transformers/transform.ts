@@ -24,7 +24,7 @@ import {GridTransformer} from "./types";
  * //     cellCount: 9,
  * //     columnCount: 3,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [1, 1, 1],
  * //         [2, 666, 2],
  * //         [2, 2, 2],

@@ -26,7 +26,7 @@ import {selectCell} from "../core/selectors";
  * //     cellCount: 9,
  * //     columnCount: 3,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [0, 8, 2],
  * //         [3, 4, 5],
  * //         [6, 7, 1],

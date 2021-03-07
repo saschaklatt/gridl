@@ -19,7 +19,7 @@ import {GridTransformer} from "./types";
  * //     cellCount: 6,
  * //     columnCount: 2,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [1, 3],
  * //         [4, 6],
  * //         [7, 9],
@@ -30,7 +30,7 @@ import {GridTransformer} from "./types";
 export function removeColumn<T>(x: number): GridTransformer<T> {
     return (grid) => createGridFromArray2D({
         ...grid,
-        array2D: grid._array2D.map((row) => (
+        array2D: grid.array2D.map((row) => (
             row.filter((_row: any, idx: number) => idx !== x)
         )),
     });

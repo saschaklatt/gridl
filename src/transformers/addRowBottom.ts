@@ -19,7 +19,7 @@ import {addRow} from "./addRow";
  * //     cellCount: 9,
  * //     columnCount: 3,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [1, 2, 3],
  * //         [4, 5, 6],
  * //         [7, 8, 9],

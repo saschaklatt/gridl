@@ -17,7 +17,7 @@ describe("swapCells", () => {
             cellCount: 9,
             columnCount: 3,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [0, 8, 2],
                 [3, 4, 5],
                 [6, 7, 1],
@@ -33,7 +33,7 @@ describe("swapCells", () => {
         ]);
         const pos1 = {x: 2, y: 2};
         const pos2 = {x: 1, y: 0};
-        expect(swapCells(pos1, pos2)(grid)._array2D).toEqual([
+        expect(swapCells(pos1, pos2)(grid).array2D).toEqual([
             [{value: 0}, {value: 8}, {value: 2}],
             [{value: 3}, {value: 4}, {value: 5}],
             [{value: 6}, {value: 7}, {value: 1}],

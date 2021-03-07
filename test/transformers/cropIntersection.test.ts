@@ -20,7 +20,7 @@ describe("cropIntersection", () => {
             rowCount: 3,
             x: 2,
             y: 1,
-            _array2D: [
+            array2D: [
                 [ 7,  8,  9],
                 [12, 13, 14],
                 [17, 18, 19],
@@ -39,7 +39,7 @@ describe("cropIntersection", () => {
             rowCount: 2,
             x: 3,
             y: 3,
-            _array2D: [
+            array2D: [
                 [18, 19],
                 [23, 24],
             ],

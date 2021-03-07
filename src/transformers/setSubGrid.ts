@@ -40,7 +40,7 @@ import {selectCell} from "../core/selectors";
  * //     cellCount: 30,
  * //     columnCount: 6,
  * //     rowCount: 5,
- * //     _array2D: [
+ * //     array2D: [
  * //         [ 0,  1,  2,  3,  4,  5],
  * //         [ 6,  7,  8,  9, 10, 11],
  * //         [12,  6,  6,  6, 16, 17],
@@ -53,7 +53,7 @@ import {selectCell} from "../core/selectors";
 export function setSubGrid<T>(subGrid: Grid<T>): GridTransformer<T> {
     return (grid) => {
         const walker = createWalker(subGrid);
-        const array2D = cloneArray2D(grid._array2D);
+        const array2D = cloneArray2D(grid.array2D);
 
         let iteration = walker.next();
 

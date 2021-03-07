@@ -21,7 +21,7 @@ import {GridTransformer} from "./types";
  * //     cellCount: 9,
  * //     columnCount: 3,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [1, 2, 3],
  * //         [7, 8, 9],
  * //         [4, 5, 6],
@@ -38,11 +38,11 @@ export function addRow<T>(y: number, row: T[]): GridTransformer<T> {
         }
 
         if (y <= 0) {
-            return createGridFromArray2D({...grid, array2D: [row, ...grid._array2D]});
+            return createGridFromArray2D({...grid, array2D: [row, ...grid.array2D]});
         }
 
         if (y >= grid.rowCount) {
-            return createGridFromArray2D({...grid, array2D: [...grid._array2D, row]});
+            return createGridFromArray2D({...grid, array2D: [...grid.array2D, row]});
         }
 
         return createGrid({

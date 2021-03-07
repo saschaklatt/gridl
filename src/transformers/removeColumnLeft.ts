@@ -18,7 +18,7 @@ import {removeColumn} from "./removeColumn";
  * //     cellCount: 6,
  * //     columnCount: 2,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [2, 3],
  * //         [5, 6],
  * //         [8, 9],

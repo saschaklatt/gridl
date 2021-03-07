@@ -23,7 +23,7 @@ import {GridTransformer} from "./types";
  * //     cellCount: 9,
  * //     columnCount: 3,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [3, 4, 5],
  * //         [0, 1, 2],
  * //         [6, 7, 8],
@@ -43,7 +43,7 @@ export function swapRows<T>(y1: number, y2: number): GridTransformer<T> {
         const row1 = selectRow({grid, y: y1}) as T[];
         const row2 = selectRow({grid, y: y2}) as T[];
 
-        const array2D = grid._array2D.map((row, y) => {
+        const array2D = grid.array2D.map((row, y) => {
             if (y === y1) {
                 return row2;
             }

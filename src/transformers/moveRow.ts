@@ -24,7 +24,7 @@ import {selectRow} from "../core/selectors";
  * //     cellCount: 12,
  * //     columnCount: 3,
  * //     rowCount: 4,
- * //     _array2D: [
+ * //     array2D: [
  * //         [ 4,  5,  6],
  * //         [ 7,  8,  9],
  * //         [10, 11, 12],

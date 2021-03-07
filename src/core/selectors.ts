@@ -19,7 +19,7 @@ interface SelectCellProps<T> extends Position {
  */
 export const selectCell = <T>(props: SelectCellProps<T>) => {
     const {x, y, grid} = props;
-    return isOutOfShape(props, grid) ? undefined : grid._array2D[y][x];
+    return isOutOfShape(props, grid) ? undefined : grid.array2D[y][x];
 };
 
 /**
@@ -41,7 +41,7 @@ interface SelectRowProps<T> {
  */
 export const selectRow = <T>(props: SelectRowProps<T>): T[] | undefined => {
     const {grid, y} = props;
-    return grid && grid._array2D && grid._array2D[y] && [...grid._array2D[y]] || undefined;
+    return grid && grid.array2D && grid.array2D[y] && [...grid.array2D[y]] || undefined;
 };
 
 /**
@@ -63,10 +63,10 @@ interface SelectColumnProps<T> {
  */
 export const selectColumn = <T>(props: SelectColumnProps<T>) => {
     const {x, grid} = props;
-    const maxX = getColumnCount(grid._array2D);
+    const maxX = getColumnCount(grid.array2D);
     return isOutOfRange(x, maxX)
         ? undefined
-        : createArray(getRowCount(grid._array2D), (y) => selectCell({x, y, grid}) as T);
+        : createArray(getRowCount(grid.array2D), (y) => selectCell({x, y, grid}) as T);
 };
 
 /**
@@ -92,7 +92,7 @@ export const selectSubGrid = <T>(props: SelectSubGridProps<T>) => {
     const yMin = clamp(0, grid.rowCount, area.y);
     const xMax = clamp(0, grid.columnCount, area.x + area.columnCount);
     const yMax = clamp(0, grid.rowCount, area.y + area.rowCount);
-    const array2D = cropArray2D<T>(xMin, yMin, xMax, yMax)(grid._array2D);
+    const array2D = cropArray2D<T>(xMin, yMin, xMax, yMax)(grid.array2D);
     return createGridFromArray2D({array2D, x: xMin, y: yMin});
 };
 

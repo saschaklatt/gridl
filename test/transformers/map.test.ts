@@ -19,7 +19,7 @@ describe("map", () => {
             cellCount: 12,
             columnCount: 4,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [1,  2,  3,  4],
                 [5,  6,  7,  8],
                 [9, 10, 11, 12],
@@ -33,7 +33,7 @@ describe("map", () => {
         const increaseAllByOne = map(increaseByOne, walkSNEW);
         const mappedGrid = increaseAllByOne(grid);
 
-        expect(mappedGrid._array2D).toEqual([
+        expect(mappedGrid.array2D).toEqual([
             [1,  2,  3,  4],
             [5,  6,  7,  8],
             [9, 10, 11, 12],
@@ -46,7 +46,7 @@ describe("map", () => {
         const increaseAllByOne = map(increaseByOne);
         const mappedGrid = increaseAllByOne(grid);
 
-        expect(mappedGrid._array2D).toEqual([
+        expect(mappedGrid.array2D).toEqual([
             ["1",  "2",  "3",  "4"],
             ["5",  "6",  "7",  "8"],
             ["9", "10", "11", "12"],

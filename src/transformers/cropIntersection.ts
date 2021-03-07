@@ -24,7 +24,7 @@ import {getIntersectingArea} from "../core/utils";
  * //     rowCount: 3,
  * //     x: 2,
  * //     y: 1,
- * //     _array2D: [
+ * //     array2D: [
  * //         [ 7,  8,  9],
  * //         [12, 13, 14],
  * //         [17, 18, 19],

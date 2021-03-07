@@ -18,7 +18,7 @@ describe("swapColumns", () => {
             cellCount: 12,
             columnCount: 3,
             rowCount: 4,
-            _array2D: [
+            array2D: [
                 [0,  2,  1],
                 [3,  5,  4],
                 [6,  8,  7],
@@ -29,10 +29,10 @@ describe("swapColumns", () => {
 
     it("ignores columns outside the grid", () => {
         const grid = mockGrid();
-        expect(swapColumns(-1,  1)(grid)._array2D).toEqual(mockGrid()._array2D);
-        expect(swapColumns( 1, -1)(grid)._array2D).toEqual(mockGrid()._array2D);
-        expect(swapColumns( 1,  3)(grid)._array2D).toEqual(mockGrid()._array2D);
-        expect(swapColumns( 3,  1)(grid)._array2D).toEqual(mockGrid()._array2D);
-        expect(swapColumns(-1,  3)(grid)._array2D).toEqual(mockGrid()._array2D);
+        expect(swapColumns(-1,  1)(grid).array2D).toEqual(mockGrid().array2D);
+        expect(swapColumns( 1, -1)(grid).array2D).toEqual(mockGrid().array2D);
+        expect(swapColumns( 1,  3)(grid).array2D).toEqual(mockGrid().array2D);
+        expect(swapColumns( 3,  1)(grid).array2D).toEqual(mockGrid().array2D);
+        expect(swapColumns(-1,  3)(grid).array2D).toEqual(mockGrid().array2D);
     });
 });

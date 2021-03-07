@@ -53,7 +53,7 @@ describe("selectors", () => {
                 cellCount : 15,
                 rowCount: 3,
                 columnCount: 5,
-                _array2D: [
+                array2D: [
                     [42, 43, 44, 45, 46],
                     [52, 53, 54, 55, 56],
                     [62, 63, 64, 65, 66],
@@ -71,7 +71,7 @@ describe("selectors", () => {
                 rowCount: 2,
                 x: 8,
                 y: 8,
-                _array2D: [
+                array2D: [
                     [88, 89],
                     [98, 99],
                 ],
@@ -88,7 +88,7 @@ describe("selectors", () => {
                 cellCount: 4,
                 x: 0,
                 y: 0,
-                _array2D: [
+                array2D: [
                     [0, 1],
                     [10, 11],
                 ],

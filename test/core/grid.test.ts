@@ -17,7 +17,7 @@ describe("grid", () => {
                         cellCount: columnCount * rowCount,
                         columnCount: columnCount,
                         rowCount: rowCount,
-                        _array2D: [
+                        array2D: [
                             [0, 1, 2, 3],
                             [4, 5, 6, 7],
                             [8, 9, 10, 11],
@@ -37,7 +37,7 @@ describe("grid", () => {
                         cellCount: columnCount * rowCount,
                         columnCount,
                         rowCount,
-                        _array2D: [
+                        array2D: [
                             [0, 1, 2, 3],
                             [4, 5, 6, 7],
                             [8, 9, 10, 11],
@@ -53,7 +53,7 @@ describe("grid", () => {
                         cellCount: 0,
                         columnCount: 0,
                         rowCount: 0,
-                        _array2D: [],
+                        array2D: [],
                     });
                 });
             });
@@ -72,9 +72,9 @@ describe("grid", () => {
                         cellCount: 12,
                         columnCount: 4,
                         rowCount: 3,
-                        _array2D: array2D,
+                        array2D: array2D,
                     });
-                    expect(grid._array2D).not.toBe(array2D);
+                    expect(grid.array2D).not.toBe(array2D);
                 });
 
                 it("creates a grid from array2D with position values", () => {
@@ -92,9 +92,9 @@ describe("grid", () => {
                         cellCount: 12,
                         columnCount: 4,
                         rowCount: 3,
-                        _array2D: array2D,
+                        array2D: array2D,
                     });
-                    expect(grid._array2D).not.toBe(array2D);
+                    expect(grid.array2D).not.toBe(array2D);
                 });
             });
         });
@@ -109,7 +109,7 @@ describe("grid", () => {
                     cellCount: 12,
                     columnCount: 3,
                     rowCount: 4,
-                    _array2D: [
+                    array2D: [
                         [0, 1, 2],
                         [3, 4, 5],
                         [6, 7, 8],
@@ -120,9 +120,9 @@ describe("grid", () => {
                 expect(() => grid.cellCount = 12).toThrow();
                 expect(() => grid.columnCount = 12).toThrow();
                 expect(() => grid.rowCount = 12).toThrow();
-                expect(() => grid._array2D = [[0,1,2], [2,3,4]]).toThrow();
-                expect(() => grid._array2D[0] = [0,1,2]).toThrow();
-                expect(() => grid._array2D[0][0] = 12).toThrow();
+                expect(() => grid.array2D = [[0,1,2], [2,3,4]]).toThrow();
+                expect(() => grid.array2D[0] = [0,1,2]).toThrow();
+                expect(() => grid.array2D[0][0] = 12).toThrow();
             });
 
             it("treats [[]] as []", () => {
@@ -130,8 +130,8 @@ describe("grid", () => {
 
                 expect(grid.columnCount).toBe(0);
                 expect(grid.rowCount).toBe(0);
-                expect(grid._array2D).toEqual([]);
-                expect(grid._array2D).not.toEqual([[]]);
+                expect(grid.array2D).toEqual([]);
+                expect(grid.array2D).not.toEqual([[]]);
             });
         });
 
@@ -148,7 +148,7 @@ describe("grid", () => {
                     rowCount: rowCount,
                     columnCount: columnCount,
                     cellCount: rowCount * columnCount,
-                    _array2D: [
+                    array2D: [
                         [0, 1, 2],
                         [3, 4, 5],
                     ],
@@ -160,7 +160,7 @@ describe("grid", () => {
                     rowCount: rowCount,
                     columnCount: columnCount,
                     cellCount: rowCount * columnCount,
-                    _array2D: [
+                    array2D: [
                         [0, 1, 2],
                         [3, 4, 5],
                     ],
@@ -189,7 +189,7 @@ describe("grid", () => {
                     rowCount: 3,
                     columnCount: 3,
                     cellCount: 9,
-                    _array2D: [
+                    array2D: [
                         [0, 1, 2],
                         [3, 4, 5],
                         [6, 7, 8],
@@ -205,7 +205,7 @@ describe("grid", () => {
                     rowCount: 2,
                     columnCount: 3,
                     cellCount: 6,
-                    _array2D: [
+                    array2D: [
                         [0, 1, 2],
                         [6, 7, 8],
                     ],

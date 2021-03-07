@@ -15,7 +15,7 @@ describe("addColumnRight", () => {
             cellCount: 8,
             columnCount: 4,
             rowCount: 2,
-            _array2D: [
+            array2D: [
                 [1, 2, 3, 8],
                 [4, 5, 6, 9],
             ],
@@ -27,7 +27,7 @@ describe("addColumnRight", () => {
         const newColumn = [7, 8, 9];
         const res = addColumnRight(newColumn)(grid);
 
-        expect(res._array2D).toEqual([
+        expect(res.array2D).toEqual([
             [7],
             [8],
             [9],

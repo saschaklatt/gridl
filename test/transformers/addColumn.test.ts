@@ -16,7 +16,7 @@ describe("addColumn", () => {
             cellCount: 8,
             rowCount: 2,
             columnCount: 4,
-            _array2D: [
+            array2D: [
                 [1, 8, 2, 3],
                 [4, 9, 5, 6],
             ],
@@ -27,7 +27,7 @@ describe("addColumn", () => {
         const grid = createGridFromArray2D<number>([]);
         const newColumn = [7, 8, 9];
         const res = addColumn(0, newColumn)(grid);
-        expect(res._array2D).toEqual([
+        expect(res.array2D).toEqual([
             [7],
             [8],
             [9],
@@ -42,11 +42,11 @@ describe("addColumn", () => {
         const newCol = [8, 9];
         const newGrid = addColumn(-1, newCol)(oldGrid);
 
-        expect(newGrid._array2D).toEqual([
+        expect(newGrid.array2D).toEqual([
             [8, 1, 2, 3],
             [9, 4, 5, 6],
         ]);
-        expect(oldGrid._array2D).toEqual([
+        expect(oldGrid.array2D).toEqual([
             [1, 2, 3],
             [4, 5, 6],
         ]);
@@ -60,11 +60,11 @@ describe("addColumn", () => {
         const newCol = [8, 9];
         const newGrid = addColumn(6, newCol)(oldGrid);
 
-        expect(newGrid._array2D).toEqual([
+        expect(newGrid.array2D).toEqual([
             [1, 2, 3, 8],
             [4, 5, 6, 9],
         ]);
-        expect(oldGrid._array2D).toEqual([
+        expect(oldGrid.array2D).toEqual([
             [1, 2, 3],
             [4, 5, 6],
         ]);

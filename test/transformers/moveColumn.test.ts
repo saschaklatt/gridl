@@ -17,7 +17,7 @@ describe("moveColumn", () => {
             cellCount: 12,
             columnCount: 4,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [0,  2, 1,  3],
                 [4,  6, 5,  7],
                 [8, 10, 9, 11],
@@ -32,7 +32,7 @@ describe("moveColumn", () => {
             [6, 7, 8],
         ]);
         const res = moveColumn(0, 2)(grid);
-        expect(res._array2D).toEqual([
+        expect(res.array2D).toEqual([
             [1, 2, 0],
             [4, 5, 3],
             [7, 8, 6],
@@ -46,7 +46,7 @@ describe("moveColumn", () => {
             [6, 7, 8],
         ]);
         const res = moveColumn(2, 0)(grid);
-        expect(res._array2D).toEqual([
+        expect(res.array2D).toEqual([
             [2, 0, 1],
             [5, 3, 4],
             [8, 6, 7],

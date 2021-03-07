@@ -22,7 +22,7 @@ describe("moveRow", () => {
             cellCount: 12,
             columnCount: 3,
             rowCount: 4,
-            _array2D: [
+            array2D: [
                 [ 4,  5,  6],
                 [ 7,  8,  9],
                 [10, 11, 12],
@@ -41,7 +41,7 @@ describe("moveRow", () => {
     it("moves the last row to the top", () => {
         const grid = mockGrid();
         const res = moveRow(3, 0)(grid);
-        expect(res._array2D).toEqual([
+        expect(res.array2D).toEqual([
             [10, 11, 12],
             [ 1,  2,  3],
             [ 4,  5,  6],
@@ -52,7 +52,7 @@ describe("moveRow", () => {
     it("moves row from a lower y to a higher y position", () => {
         const grid = mockGrid();
         const res = moveRow(1, 2)(grid);
-        expect(res._array2D).toEqual([
+        expect(res.array2D).toEqual([
             [ 1,  2,  3],
             [ 7,  8,  9],
             [ 4,  5,  6],
@@ -63,7 +63,7 @@ describe("moveRow", () => {
     it("moves a row from a higher y to a lower y position", () => {
         const grid = mockGrid();
         const res = moveRow(3, 1)(grid);
-        expect(res._array2D).toEqual([
+        expect(res.array2D).toEqual([
             [ 1,  2,  3],
             [10, 11, 12],
             [ 4,  5,  6],

@@ -19,7 +19,7 @@ describe("setCell", () => {
             cellCount: 12,
             columnCount: 4,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [0, 1, 2, 3],
                 [4, 5, "moin", 7],
                 [8, 9, 10, 11],
@@ -31,9 +31,9 @@ describe("setCell", () => {
         const grid = createGrid({columnCount: 10, rowCount: 12, createCell: (_pos, idx) => idx});
 
         setCell({x: 100, y: 4}, 666)(grid);
-        expect(grid._array2D[4][100]).toBe(undefined);
+        expect(grid.array2D[4][100]).toBe(undefined);
 
         setCell({x: 4, y: 100}, 666)(grid);
-        expect(grid._array2D[100]).toBe(undefined);
+        expect(grid.array2D[100]).toBe(undefined);
     });
 });

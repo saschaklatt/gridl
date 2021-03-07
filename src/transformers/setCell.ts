@@ -23,7 +23,7 @@ import {selectCell} from "../core/selectors";
  * //     cellCount: 12,
  * //     columnCount: 4,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [0, 1, 2, 3],
  * //         [4, 5, "moin", 7],
  * //         [8, 9, 10, 11],

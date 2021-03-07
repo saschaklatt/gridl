@@ -14,7 +14,7 @@ const addFirstColumn = <T>(column: T[]): T[][] => {
 };
 
 const addNthColumn = <T>(column: T[], x: number, grid: Grid<T>): T[][] => {
-    return grid._array2D.map((row, i) => {
+    return grid.array2D.map((row, i) => {
         const newRow = [...row];
         newRow.splice(x, 0, column[i]);
         return newRow;
@@ -46,7 +46,7 @@ const addNthColumn = <T>(column: T[], x: number, grid: Grid<T>): T[][] => {
  * //    cellCount: 8,
  * //    rowCount: 2,
  * //    columnCount: 4,
- * //    _array2D: [
+ * //    array2D: [
  * //        [1, 8, 2, 3],
  * //        [4, 9, 5, 6],
  * //    ],

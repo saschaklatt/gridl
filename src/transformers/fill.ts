@@ -16,7 +16,7 @@ import {map} from "./map";
  * //     cellCount: 20,
  * //     columnCount: 4,
  * //     rowCount: 5,
- * //     _array2D: [
+ * //     array2D: [
  * //         [6, 6, 6, 6],
  * //         [6, 6, 6, 6],
  * //         [6, 6, 6, 6],

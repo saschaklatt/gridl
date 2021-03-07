@@ -34,7 +34,7 @@ import {transform} from "./transform";
  * //     cellCount: 30,
  * //     columnCount: 6,
  * //     rowCount: 5,
- * //     _array2D: [
+ * //     array2D: [
  * //         [ 0,  1,  2,   3,  4,  5],
  * //         [ 6,  7,  1,   1, 10, 11],
  * //         [12, 13,  2, 666, 16, 17],
@@ -55,6 +55,6 @@ export function transformArea<T>(area: Area, transformerList: GridTransformer<T,
             ...transformerList,
             moveGrid(pos),
         ])(subGrid);
-        return setSubGrid(createGridFromArray2D({...pos, array2D: transformedSubGrid._array2D}))(grid);
+        return setSubGrid(createGridFromArray2D({...pos, array2D: transformedSubGrid.array2D}))(grid);
     };
 }

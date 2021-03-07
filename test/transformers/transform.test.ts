@@ -23,7 +23,7 @@ describe("transform", () => {
             cellCount: 9,
             columnCount: 3,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [1, 1, 1],
                 [2, 666, 2],
                 [2, 2, 2],
@@ -43,8 +43,8 @@ describe("transform", () => {
         const newValue = 666;
         const oldGrid = createGrid({columnCount: 10, rowCount: 10, createCell: () => 0});
         const newGrid = transform(setCell({x, y}, newValue))(oldGrid);
-        expect(oldGrid._array2D[y][x]).toBe(0);
-        expect(newGrid._array2D[y][x]).toBe(newValue);
+        expect(oldGrid.array2D[y][x]).toBe(0);
+        expect(newGrid.array2D[y][x]).toBe(newValue);
     });
 
     it("applies mutliple transformer functions", () => {
@@ -54,11 +54,11 @@ describe("transform", () => {
             removeRow<number>(1),
         )(oldGrid);
 
-        expect(oldGrid._array2D[3][5]).toBe(0);
+        expect(oldGrid.array2D[3][5]).toBe(0);
         expect(oldGrid.columnCount).toBe(10);
         expect(oldGrid.rowCount).toBe(10);
 
-        expect(newGrid._array2D[3][5]).toBe(666);
+        expect(newGrid.array2D[3][5]).toBe(666);
         expect(newGrid.columnCount).toBe(10);
         expect(newGrid.rowCount).toBe(9);
     });
@@ -70,11 +70,11 @@ describe("transform", () => {
             removeRow<number>(1),
         )(oldGrid);
 
-        expect(oldGrid._array2D[3][5]).toBe(0);
+        expect(oldGrid.array2D[3][5]).toBe(0);
         expect(oldGrid.columnCount).toBe(10);
         expect(oldGrid.rowCount).toBe(10);
 
-        expect(newGrid._array2D[3][5]).toBe(666);
+        expect(newGrid.array2D[3][5]).toBe(666);
         expect(newGrid.columnCount).toBe(10);
         expect(newGrid.rowCount).toBe(9);
     });

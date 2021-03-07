@@ -15,7 +15,7 @@ describe("removeRowTop", () => {
             cellCount: 6,
             columnCount: 3,
             rowCount: 2,
-            _array2D: [
+            array2D: [
                 [4, 5, 6],
                 [7, 8, 9],
             ],

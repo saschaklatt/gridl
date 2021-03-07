@@ -28,7 +28,7 @@ describe("rotate90", () => {
                 cellCount: 12,
                 columnCount: 3,
                 rowCount: 4,
-                _array2D: [
+                array2D: [
                     [ 8, 4, 0],
                     [ 9, 5, 1],
                     [10, 6, 2],
@@ -43,7 +43,7 @@ describe("rotate90", () => {
             const rotatedGrid = rotate90(2)(grid);
             expect(rotatedGrid.x).toBe(1);
             expect(rotatedGrid.y).toBe(2);
-            expect(rotatedGrid._array2D).toEqual([
+            expect(rotatedGrid.array2D).toEqual([
                 [11, 10, 9, 8],
                 [ 7,  6, 5, 4],
                 [ 3,  2, 1, 0],
@@ -56,7 +56,7 @@ describe("rotate90", () => {
             const rotatedGrid = rotate90(3)(grid);
             expect(rotatedGrid.x).toBe(1);
             expect(rotatedGrid.y).toBe(2);
-            expect(rotatedGrid._array2D).toEqual([
+            expect(rotatedGrid.array2D).toEqual([
                 [3, 7, 11],
                 [2, 6, 10],
                 [1, 5,  9],
@@ -75,7 +75,7 @@ describe("rotate90", () => {
 
         it("rotates 5 times", () => {
             const grid = mockGrid();
-            expect(rotate90(5)(grid)._array2D).toEqual([
+            expect(rotate90(5)(grid).array2D).toEqual([
                 [ 8, 4, 0],
                 [ 9, 5, 1],
                 [10, 6, 2],
@@ -85,7 +85,7 @@ describe("rotate90", () => {
 
         it("rotates 6 times", () => {
             const grid = mockGrid();
-            expect(rotate90(6)(grid)._array2D).toEqual([
+            expect(rotate90(6)(grid).array2D).toEqual([
                 [11, 10, 9, 8],
                 [ 7,  6, 5, 4],
                 [ 3,  2, 1, 0],
@@ -94,7 +94,7 @@ describe("rotate90", () => {
 
         it("rotates 7 times", () => {
             const grid = mockGrid();
-            expect(rotate90(7)(grid)._array2D).toEqual([
+            expect(rotate90(7)(grid).array2D).toEqual([
                 [3, 7, 11],
                 [2, 6, 10],
                 [1, 5,  9],
@@ -106,7 +106,7 @@ describe("rotate90", () => {
     describe("counterclockwise", () => {
         it("rotates -1 time", () => {
             const grid = mockGrid();
-            expect(rotate90(-1)(grid)._array2D).toEqual([
+            expect(rotate90(-1)(grid).array2D).toEqual([
                 [3, 7, 11],
                 [2, 6, 10],
                 [1, 5,  9],
@@ -116,7 +116,7 @@ describe("rotate90", () => {
 
         it("rotates -2 times", () => {
             const grid = mockGrid();
-            expect(rotate90(-2)(grid)._array2D).toEqual([
+            expect(rotate90(-2)(grid).array2D).toEqual([
                 [11, 10, 9, 8],
                 [ 7,  6, 5, 4],
                 [ 3,  2, 1, 0],
@@ -125,7 +125,7 @@ describe("rotate90", () => {
 
         it("rotates -3 times", () => {
             const grid = mockGrid();
-            expect(rotate90(-3)(grid)._array2D).toEqual([
+            expect(rotate90(-3)(grid).array2D).toEqual([
                 [ 8, 4, 0],
                 [ 9, 5, 1],
                 [10, 6, 2],
@@ -135,12 +135,12 @@ describe("rotate90", () => {
 
         it("rotates -4 times", () => {
             const grid = mockGrid();
-            expect(rotate90(-4)(grid)._array2D).toEqual(grid._array2D);
+            expect(rotate90(-4)(grid).array2D).toEqual(grid.array2D);
         });
 
         it("rotates -5 times", () => {
             const grid = mockGrid();
-            expect(rotate90(-5)(grid)._array2D).toEqual([
+            expect(rotate90(-5)(grid).array2D).toEqual([
                 [3, 7, 11],
                 [2, 6, 10],
                 [1, 5,  9],
@@ -150,7 +150,7 @@ describe("rotate90", () => {
 
         it("rotates -6 times", () => {
             const grid = mockGrid();
-            expect(rotate90(-6)(grid)._array2D).toEqual([
+            expect(rotate90(-6)(grid).array2D).toEqual([
                 [11, 10, 9, 8],
                 [ 7,  6, 5, 4],
                 [ 3,  2, 1, 0],
@@ -159,7 +159,7 @@ describe("rotate90", () => {
 
         it("rotates -7 times", () => {
             const grid = mockGrid();
-            expect(rotate90(-7)(grid)._array2D).toEqual([
+            expect(rotate90(-7)(grid).array2D).toEqual([
                 [ 8, 4, 0],
                 [ 9, 5, 1],
                 [10, 6, 2],

@@ -15,7 +15,7 @@ describe("removeRowBottom", () => {
             cellCount: 6,
             columnCount: 3,
             rowCount: 2,
-            _array2D: [
+            array2D: [
                 [1, 2, 3],
                 [4, 5, 6],
             ],
@@ -24,6 +24,6 @@ describe("removeRowBottom", () => {
 
     it("does nothing on an empty grid", () => {
         const result = removeRowBottom()(createGridFromArray2D([]));
-        expect(result._array2D).toEqual([]);
+        expect(result.array2D).toEqual([]);
     });
 });

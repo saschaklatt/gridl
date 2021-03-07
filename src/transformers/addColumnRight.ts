@@ -19,7 +19,7 @@ import {GridTransformer} from "./types";
  * //     cellCount: 8,
  * //     columnCount: 4,
  * //     rowCount: 2,
- * //     _array2D: [
+ * //     array2D: [
  * //         [1, 2, 3, 8],
  * //         [4, 5, 6, 9],
  * //     ],

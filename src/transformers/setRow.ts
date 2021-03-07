@@ -23,7 +23,7 @@ import {GridTransformer} from "./types";
  * //     cellCount: 9,
  * //     columnCount: 3,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [6, 6, 6],
  * //         [0, 0, 0],
  * //         [0, 0, 0],
@@ -37,7 +37,7 @@ export function setRow<T>(y: number, newRow: T[], xOffset = 0): GridTransformer<
             return grid;
         }
 
-        const array2D = grid._array2D.map((oldRow, idx) => {
+        const array2D = grid.array2D.map((oldRow, idx) => {
             if (idx !== y) {
                 return oldRow;
             }

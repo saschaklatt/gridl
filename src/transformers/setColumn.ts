@@ -22,7 +22,7 @@ import {createGridFromArray2D} from "../core/grid";
  * //     cellCount: 9,
  * //     columnCount: 3,
  * //     rowCount: 3,
- * //     _array2D: [
+ * //     array2D: [
  * //         [6, 0, 0],
  * //         [6, 0, 0],
  * //         [6, 0, 0],
@@ -36,7 +36,7 @@ export function setColumn<T>(x: number, column: T[], yOffset = 0): GridTransform
             return grid;
         }
 
-        const array2D = grid._array2D.map((row, y) => {
+        const array2D = grid.array2D.map((row, y) => {
             return row.map((oldCell, curX) => {
                 // different column
                 if (curX !== x) {

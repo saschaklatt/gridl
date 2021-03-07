@@ -21,7 +21,7 @@ describe("crop", () => {
             cellCount: 6,
             columnCount: 2,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [ 9, 10],
                 [13, 14],
                 [17, 18],
@@ -39,7 +39,7 @@ describe("crop", () => {
             cellCount: 6,
             columnCount: 2,
             rowCount: 3,
-            _array2D: [
+            array2D: [
                 [ 9, 10],
                 [13, 14],
                 [17, 18],
@@ -50,7 +50,7 @@ describe("crop", () => {
     it("ignores outside west positions", () => {
         const grid = mockGrid();
         const result = crop(-1, 2, 0, 4)(grid);
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [ 8],
             [12],
             [16],
@@ -60,7 +60,7 @@ describe("crop", () => {
     it("ignores outside north positions", () => {
         const grid = mockGrid();
         const result = crop(0, -1, 2, 2)(grid);
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [0, 1,  2],
             [4, 5,  6],
             [8, 9, 10],
@@ -70,7 +70,7 @@ describe("crop", () => {
     it("ignores outside south positions", () => {
         const grid = mockGrid();
         const result = crop(1, 5, 3, 8)(grid);
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [21, 22, 23],
             [25, 26, 27],
         ]);
@@ -79,7 +79,7 @@ describe("crop", () => {
     it("ignores outside east positions", () => {
         const grid = mockGrid();
         const result = crop(2, 1, 5, 2)(grid);
-        expect(result._array2D).toEqual([
+        expect(result.array2D).toEqual([
             [ 6,  7],
             [10, 11],
         ]);

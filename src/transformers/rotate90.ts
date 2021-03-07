@@ -18,7 +18,7 @@ const _rotateClockwiseOneTime = <T>(grid: Grid<T>): Grid<T> => {
 
 /** @internal */
 const _rotateClockwiseTwoTimes = <T>(grid: Grid<T>) => {
-    const array2D = reverseArray(grid._array2D.map((row) => reverseArray(row)));
+    const array2D = reverseArray(grid.array2D.map((row) => reverseArray(row)));
     return createGridFromArray2D({...grid, array2D});
 };
 
@@ -58,7 +58,7 @@ const _rotationFunctions = [
  * //     cellCount: 12,
  * //     columnCount: 3,
  * //     rowCount: 4,
- * //     _array2D: [
+ * //     array2D: [
  * //         [ 8, 4, 0],
  * //         [ 9, 5, 1],
  * //         [10, 6, 2],

@@ -16,7 +16,7 @@ describe("mirrorHorizontally", () => {
             cellCount: 12,
             columnCount: 3,
             rowCount: 4,
-            _array2D: [
+            array2D: [
                 [9, 10, 11],
                 [6,  7,  8],
                 [3,  4,  5],
@@ -33,21 +33,21 @@ describe("mirrorHorizontally", () => {
             [0, 10, 11],
         ]);
         const mirroredGrid = mirrorHorizontally()(grid);
-        expect(mirroredGrid._array2D[0]).not.toBe(grid._array2D[3]);
-        expect(mirroredGrid._array2D[1]).not.toBe(grid._array2D[2]);
-        expect(mirroredGrid._array2D[2]).not.toBe(grid._array2D[1]);
-        expect(mirroredGrid._array2D[3]).not.toBe(grid._array2D[0]);
+        expect(mirroredGrid.array2D[0]).not.toBe(grid.array2D[3]);
+        expect(mirroredGrid.array2D[1]).not.toBe(grid.array2D[2]);
+        expect(mirroredGrid.array2D[2]).not.toBe(grid.array2D[1]);
+        expect(mirroredGrid.array2D[3]).not.toBe(grid.array2D[0]);
     });
 
     it("mirrors an empty grid", () => {
         const grid = createGridFromArray2D([[]]);
         const mirroredGrid = mirrorHorizontally()(grid);
-        expect(mirroredGrid._array2D).toEqual([]);
+        expect(mirroredGrid.array2D).toEqual([]);
     });
 
     it("mirrors an empty array", () => {
         const grid = createGridFromArray2D([]);
         const mirroredGrid = mirrorHorizontally()(grid);
-        expect(mirroredGrid._array2D).toEqual([]);
+        expect(mirroredGrid.array2D).toEqual([]);
     });
 });

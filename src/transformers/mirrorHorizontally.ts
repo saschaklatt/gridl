@@ -20,7 +20,7 @@ import {GridTransformer} from "./types";
  * //     cellCount: 12,
  * //     columnCount: 3,
  * //     rowCount: 4,
- * //     _array2D: [
+ * //     array2D: [
  * //         [9, 10, 11],
  * //         [6,  7,  8],
  * //         [3,  4,  5],
@@ -30,6 +30,6 @@ import {GridTransformer} from "./types";
  * ```
  */
 export function mirrorHorizontally<T>(): GridTransformer<T> {
-    return (grid) => createGridFromArray2D({...grid, array2D: reverseArray(grid._array2D)});
+    return (grid) => createGridFromArray2D({...grid, array2D: reverseArray(grid.array2D)});
 }
 

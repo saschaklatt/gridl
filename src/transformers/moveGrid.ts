@@ -17,5 +17,5 @@ import {GridTransformer} from "./types";
  * ```
  */
 export function moveGrid<T>(position: Position): GridTransformer<T> {
-    return (grid) => createGridFromArray2D({...position, array2D: grid._array2D});
+    return (grid) => createGridFromArray2D({...position, array2D: grid.array2D});
 }
