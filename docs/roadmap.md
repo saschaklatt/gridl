@@ -2,6 +2,20 @@
 
 ## v0.11.x
 
+- CI/CD
+    - consider using [semantic-release](https://github.com/semantic-release/semantic-release)
+    - use github ci or travis or similar
+    - build dist
+    - publish to npm
+    - publish to cdn?
+    - tag commit
+    - build docs
+-  QA
+    - review code
+    - double check docs for correctness
+    - add tests for readme/guides examples
+- setup [jsdelivr](https://www.jsdelivr.com/) for umd bundle
+- add `@since` tag to all functions
 - Look at [Linear Algebra with JS](https://medium.com/swlh/linear-algebra-basic-matrix-operations-13a019633c15)
 - Features
     - option to fill up selected values that are outside the grid with `undefined` cells, so that result dimensions equal the requested dimensions (e.g. in `getSubGrid()`, `crop()`, ...)

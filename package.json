@@ -1,6 +1,6 @@
 {
     "name": "gridl",
-    "version": "0.11.0-beta.0",
+    "version": "0.11.0",
     "license": "MIT",
     "author": {
         "name": "Sascha Klatt",
@@ -23,19 +23,17 @@
     ],
     "main": "index.js",
     "scripts": {
-        "build": "yarn build:clean && yarn build:declarations && yarn build:rollup && yarn build:docs",
+        "build": "yarn build:clean && yarn build:declarations && yarn build:rollup",
         "build:clean": "rm -rf dist/*",
         "build:declarations": "tsc --project tsconfig.declarations.json",
         "build:rollup": "rollup -c --no-treeshake",
-        "build:docs": "./scripts/generate-docs.sh",
-        "build:docs:json": "typedoc --json docs/typedoc.json",
+        "build:typedoc": "typedoc --json docs/typedoc.json",
         "lint": "eslint src/**/* test/**/*",
         "lint:fix": "eslint src/**/* test/**/* --fix",
         "test": "yarn jest",
         "test:coverage": "yarn jest --coverage",
         "start": "yarn test --watch",
         "serve:coverage": "cd coverage/lcov-report/ && http-server",
-        "serve:docs": "cd docs/gridl/latest && http-server",
         "serve:stats": "cd stats/ && http-server"
     },
     "dependencies": {},
