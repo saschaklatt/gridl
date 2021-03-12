@@ -1,7 +1,7 @@
 import {Grid} from "../core/types";
 
 /**
- * Returns true if the includes no values.
+ * Returns true if the grid includes no values.
  *
  * @param grid The grid to be checked.
  * @template T The cell type.

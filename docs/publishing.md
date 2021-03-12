@@ -6,4 +6,4 @@ Steps
 - `yarn test`
 - `yarn build`
 - `cd dist`
-- `npm publish --tag next`
+- `npm publish --tag latest`
