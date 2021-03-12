@@ -28,9 +28,6 @@
         - `max(comparator: (valueA: T, valueB: T) => number): GridCell`
         - `min(comparator: (valueA: T, valueB: T) => number): GridCell`
         - `includes(value): boolean`
-    - reducers
-        - `every()`
-        - `some()`
     - transformers
         - `setCells([pos, value], [pos, value], ...)` set multiple cells at once
         - `setRows([y, row], [y, row], ...)` set multiple cells at once
