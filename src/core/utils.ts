@@ -6,14 +6,14 @@ import {Area, CellFactory, Position, Shape} from "./types";
 const checkIsOneEmptyRow = (arr2D: any[][]) => arr2D && arr2D[0] && !arr2D[0].length;
 
 /**
- * The getColumnCount function provided by the grid proxy.
+ * Get the number of columns from an 2d array.
  *
  * @param arr2D The grid array.
  */
 export const getColumnCount = (arr2D: any[][]) => arr2D && arr2D[0] && arr2D[0].length || 0;
 
 /**
- * The getRowCount function provided by the grid proxy.
+ * The get number of rows from an array 2d.
  *
  * @param arr2D The grid array.
  */

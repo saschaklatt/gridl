@@ -31,7 +31,6 @@
     - reducers
         - `every()`
         - `some()`
-        - `isEmpty()`
     - transformers
         - `setCells([pos, value], [pos, value], ...)` set multiple cells at once
         - `setRows([y, row], [y, row], ...)` set multiple cells at once

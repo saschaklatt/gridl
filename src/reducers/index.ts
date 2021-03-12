@@ -5,4 +5,5 @@
  * @module reducers
  */
 
+export * from "./isEmptyGrid";
 export * from "./reduceGrid";
