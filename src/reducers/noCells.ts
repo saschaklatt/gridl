@@ -12,7 +12,7 @@ export interface NoCellsPredicate<T> {
 }
 
 /**
- * True if `predicate` returns true for all cells in the grid.
+ * True if `predicate` returns false for all cells in the grid.
  *
  * @param grid The grid to be checked.
  * @param predicate The callback function to be matched.
