@@ -35,15 +35,18 @@ const buildEsmFiles = () => ({
         generatePackageJson({
             outputFolder: outputDir,
             baseContents: (basePkg) => ({
-                name: basePkg.name,
-                version: basePkg.version,
                 author: basePkg.author,
-                license: basePkg.license,
-                module: basePkg.module,
+                bugs: basePkg.bugs,
                 funding: basePkg.funding,
                 homepage: basePkg.homepage,
+                keywords: basePkg.keywords,
+                license: basePkg.license,
                 main: "index.js",
+                module: basePkg.module,
+                name: basePkg.name,
+                repository: basePkg.repository,
                 typings: "index.d.ts",
+                version: basePkg.version,
             }),
         }),
         copy({

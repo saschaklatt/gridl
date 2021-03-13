@@ -65,6 +65,13 @@
         "doc": "docs/",
         "test": "test/"
     },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:klattiation/gridl.git"
+    },
+    "bugs": {
+        "url": "https://github.com/klattiation/gridl/issues"
+    },
     "funding": {
         "type": "individual",
         "url": "https://buymeacoffee.com/i62xdOZF3"
