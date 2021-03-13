@@ -25,11 +25,11 @@ export interface EveryCellPredicate<T> {
  *     [4, 5, 6],
  * ]);
  *
- * const allLessThan10 = (cell: number) => cell < 10;
- * everyCell(grid, allLessThan10); // => true
+ * const lessThan10 = (cell: number) => cell < 10;
+ * everyCell(grid, lessThan10); // => true
  *
- * const allEqual5 = (cell: number) => cell === 5;
- * everyCell(grid, allEqual5); // => false
+ * const equal5 = (cell: number) => cell === 5;
+ * everyCell(grid, equal5); // => false
  * ```
  */
 export function everyCell<T>(grid: Grid<T>, predicate: EveryCellPredicate<T>): boolean {

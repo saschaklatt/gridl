@@ -7,8 +7,8 @@ describe("everyCell", () => {
             [1, 2, 3],
             [4, 5, 6],
         ]);
-        const allLessThan10: EveryCellPredicate<number> = (cell) => cell < 10;
-        expect(everyCell(grid, allLessThan10)).toBe(true);
+        const lessThan10: EveryCellPredicate<number> = (cell) => cell < 10;
+        expect(everyCell(grid, lessThan10)).toBe(true);
     });
 
     it("returns false if not all values meet the criteria", () => {
@@ -16,7 +16,7 @@ describe("everyCell", () => {
             [10, 2, 3],
             [4, 5, 6],
         ]);
-        const allLessThan10: EveryCellPredicate<number> = (cell) => cell < 10;
-        expect(everyCell(grid, allLessThan10)).toBe(false);
+        const lessThan10: EveryCellPredicate<number> = (cell) => cell < 10;
+        expect(everyCell(grid, lessThan10)).toBe(false);
     });
 });
