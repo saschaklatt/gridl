@@ -6,6 +6,7 @@ import {_findWinner} from "./_helpers";
  *
  * @param grid The grid in which to search.
  * @template T The cell type.
+ * @since 0.11.4
  *
  * @example ```js
  * const grid = createGridFromArray2D([
