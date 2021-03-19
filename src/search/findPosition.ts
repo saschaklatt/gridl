@@ -20,8 +20,8 @@ const createCallbackWrapper = <T>(searchValue: T) => (value: T) => value === sea
  *     [5, 6, "test", 8],
  *     [1, "test", 3, 4],
  * ]);
- * findPosition((v) => v > 2, grid); // => {x: 3, y: 0}
- * findPosition((v) => typeof v === "string", grid); // => {x: 2, y: 1}
+ * findPosition(grid, (v) => v > 2); // => {x: 3, y: 0}
+ * findPosition(grid, (v) => typeof v === "string"); // => {x: 2, y: 1}
  * ```
  */
 export const findPosition = <T>(grid: Grid<T>, valueOrCallback: FindCallback<T> | T, walk?: GridWalker): Position | undefined => {

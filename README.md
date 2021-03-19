@@ -1,8 +1,15 @@
 # gridl
 
-A functional toolbox for grid-based data.
+<p>
+  <a aria-label="npm version" href="https://www.npmjs.com/package/gridl">
+    <img alt="" src="https://img.shields.io/npm/v/gridl">
+  </a>
+  <a aria-label="MIT License" href="https://img.shields.io/npm/l/gridl">
+    <img alt="" src="https://img.shields.io/npm/l/gridl">
+  </a>
+</p>
 
-[![NPM](https://img.shields.io/npm/v/gridl.svg)](https://www.npmjs.com/package/gridl)
+A functional toolbox for grid-based data.
 
 ## Documentation
 

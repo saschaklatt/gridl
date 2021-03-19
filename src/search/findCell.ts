@@ -19,7 +19,7 @@ import {selectCell} from "../core/selectors";
  *     [5, 6, 2, 8],
  *     [0, 2, 3, 4],
  * ]);
- * findCell((v) => v > 2, grid); // => 4
+ * findCell(grid, (v) => v > 2); // => 4
  * ```
  */
 export const findCell = <T>(grid: Grid<T>, callback: FindCallback<T>, walk?: GridWalker): T | undefined => {
