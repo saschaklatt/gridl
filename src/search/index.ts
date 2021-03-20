@@ -9,4 +9,6 @@ export {findCell} from "./findCell";
 export {findMax} from "./findMax";
 export {findMin} from "./findMin";
 export {findPosition} from "./findPosition";
+export {includes} from "./includes";
+export {includesWhere} from "./includesWhere";
 export * from "./types";
