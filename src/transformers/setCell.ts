@@ -10,6 +10,7 @@ import {selectCell} from "../core/selectors";
  * @param position The position of the cell to update.
  * @param value The value to set.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [0, 1, 2, 3],

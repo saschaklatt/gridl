@@ -4,10 +4,10 @@ import {selectCell} from "../core/selectors";
 import {FindCallback} from "./types";
 
 /**
- * Returns true if the grid includes the given cell.
+ * Returns true if at least one cell in the grid satisfies the given callback function.
  *
  * @param grid The grid in which to search.
- * @param cell The value of the cell to search for.
+ * @param callback The callback function used to search for a cell. It is called on each cell and has to return true if the cell was found or false if not.
  * @param walk This function calculates the grid position based on the iteration step and therefore defines the order in which the cells are iterated. If no walker is defined walkDefault is used.
  * @template T The cell type.
  * @since 0.11.5

@@ -10,6 +10,7 @@ import {selectColumn} from "../core/selectors";
  * @param fromX Defines the x-position of the column that should be moved.
  * @param toX Defines the x-position of where the column is to be moved.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [0, 1,  2,  3],

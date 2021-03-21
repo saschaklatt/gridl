@@ -9,6 +9,7 @@ import {GridTransformer} from "./types";
  * @param newRow The new row to replace to old one.
  * @param xOffset An optional offset to shift the new row on the x-axis.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```ts
  * const grid = createGridFromArray2D([
  *     [0, 0, 0],

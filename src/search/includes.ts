@@ -3,7 +3,7 @@ import {createWalker} from "../core/walker";
 import {selectCell} from "../core/selectors";
 
 /**
- * Returns true if the grid includes the given cell.
+ * Returns true if the grid includes the given cell and false otherwise.
  *
  * @param grid The grid in which to search.
  * @param cell The value of the cell to search for.

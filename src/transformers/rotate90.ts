@@ -4,10 +4,8 @@ import {createArray, reverseArray} from "../core/utils";
 import {createGridFromArray2D} from "../core/grid";
 import {selectColumn} from "../core/selectors";
 
-/** @internal */
 const _rotateNone = <T>(grid: Grid<T>) => grid;
 
-/** @internal */
 const _rotateClockwiseOneTime = <T>(grid: Grid<T>): Grid<T> => {
     const array2D = createArray(grid.columnCount, (y) => {
         const column = selectColumn({grid, x: y}) as T[];
@@ -16,13 +14,11 @@ const _rotateClockwiseOneTime = <T>(grid: Grid<T>): Grid<T> => {
     return createGridFromArray2D({...grid, array2D});
 };
 
-/** @internal */
 const _rotateClockwiseTwoTimes = <T>(grid: Grid<T>) => {
     const array2D = reverseArray(grid.array2D.map((row) => reverseArray(row)));
     return createGridFromArray2D({...grid, array2D});
 };
 
-/** @internal */
 const _rotateClockwiseThreeTimes = <T>(grid: Grid<T>) => {
     const array2D = createArray(grid.columnCount, (y) => {
         return selectColumn({grid, x: grid.columnCount - y - 1}) as T[];
@@ -30,7 +26,6 @@ const _rotateClockwiseThreeTimes = <T>(grid: Grid<T>) => {
     return createGridFromArray2D({...grid, array2D});
 };
 
-/** @internal */
 const _rotationFunctions = [
     _rotateNone,
     _rotateClockwiseOneTime,
@@ -43,6 +38,7 @@ const _rotationFunctions = [
  *
  * @param times The number of times to rotate the array by 90 degrees. Positives integers rotate clockwise, whereas negative rotate counterclockwise.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [0, 1,  2,  3],

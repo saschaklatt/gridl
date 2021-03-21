@@ -1,5 +1,6 @@
 /**
  * Describes the number of rows and columns of grid.
+ * @since 0.11.1
  */
 export interface Shape {
     /** The number of columns of the grid. */
@@ -11,6 +12,7 @@ export interface Shape {
 
 /**
  * A Shape with an additional cellCount property.
+ * @since 0.11.1
  */
 export interface AdvancedShape extends Shape {
     /** The number of cells of a grid. */
@@ -19,6 +21,7 @@ export interface AdvancedShape extends Shape {
 
 /**
  * A position on the grid with an x- and a y-value.
+ * @since 0.11.1
  */
 export interface Position {
     x: number,
@@ -27,6 +30,7 @@ export interface Position {
 
 /**
  * A position on the grid with optional x- and a y-value.
+ * @since 0.11.1
  */
 export interface OptionalPosition {
     x?: number,
@@ -35,11 +39,13 @@ export interface OptionalPosition {
 
 /**
  * Describes the position and shape of an area on the grid.
+ * @since 0.11.1
  */
 export interface Area extends Position, Shape {}
 
 /**
  * Properties to create a grid.
+ * @since 0.11.1
  */
 export interface CreateGridProps<T> extends Shape {
     /** The callback function that creates to ne cell, which is called for each position of the new grid. */
@@ -52,6 +58,7 @@ export interface CreateGridProps<T> extends Shape {
 
 /**
  * Properties to create a grid from a grid array.
+ * @since 0.11.1
  */
 export interface CreateGridFromArray2DProps<T> {
     /** The array from which to create the new grid instance. */
@@ -65,6 +72,7 @@ export interface CreateGridFromArray2DProps<T> {
 /**
  * A plain grid object, which can be considered as a Grid instance without getter functions.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export interface GridObject<T = any> extends Area, AdvancedShape {
     /** The two-dimensional grid data array that stores the cells. */
@@ -74,11 +82,13 @@ export interface GridObject<T = any> extends Area, AdvancedShape {
 /**
  * An immutable grid object with additional getter methods.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export type Grid<T = any> = Readonly<GridObject<T>>;
 
 /**
  * The grid position and cell index of the current iteration.
+ * @since 0.11.1
  */
 export interface GridIterationResult {
     /** The position of the current iteration step. */
@@ -90,6 +100,7 @@ export interface GridIterationResult {
 
 /**
  * Takes the shape of a grid and the current iteration step (or index) and calculates the respective position.
+ * @since 0.11.1
  */
 export interface GridWalker {
     /**
@@ -103,6 +114,7 @@ export interface GridWalker {
 /**
  * Creates a new cell value, based on the position and index.
  * @template T The type of the cell.
+ * @since 0.11.1
  */
 export interface CellFactory<T> {
     /**
@@ -115,6 +127,7 @@ export interface CellFactory<T> {
 
 /**
  * Creates a grid walker to iterate over a grid.
+ * @since 0.11.1
  */
 export interface WalkerFactory {
     /**

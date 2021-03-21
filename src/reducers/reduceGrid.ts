@@ -8,6 +8,7 @@ import {createWalker} from "../core/walker";
  *
  * @template T The cell type.
  * @template U The result type.
+ * @since 0.11.1
  */
 export interface ReduceCallback<T, U> {
     /**
@@ -15,6 +16,7 @@ export interface ReduceCallback<T, U> {
      * @param cellValue The current cell being processed in the grid.
      * @param index The index of the current cell being processed in the grid, starting from 0.
      * @param srcGrid The grid reduceGrid was called upon.
+     * @since 0.11.1
      */
     (acc: U, cellValue: T, position: Position, index: number, srcGrid: Grid<T>): U
 }
@@ -28,7 +30,7 @@ export interface ReduceCallback<T, U> {
  * @param walk This function calculates the grid position based on the iteration step and therefore defines the order in which the cells are iterated. If no walker is defined walkDefault is used.
  * @template T The cell type.
  * @template U The result type.
- *
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [1, 2, 3],

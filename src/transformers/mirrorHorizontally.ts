@@ -6,6 +6,7 @@ import {GridTransformer} from "./types";
  * Creates a transformer that mirrors the grid horizontally.
  *
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [0,  1,  2],

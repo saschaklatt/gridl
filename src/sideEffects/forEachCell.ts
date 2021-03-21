@@ -6,6 +6,7 @@ import {selectCell} from "../core/selectors";
  * Callback function of forEachCell that is called on each cell.
  *
  * @template T The cell type.
+ * @since 0.11.1
  */
 export interface ForEachCellCallback<T> {
     /**
@@ -24,6 +25,7 @@ export interface ForEachCellCallback<T> {
  * @param callback The callback function that is called on each cell.
  * @param walk This function calculates the grid position based on the iteration step and therefore defines the order in which the cells are iterated.
  * @template T The cell type.
+ * @since 0.11.1
  *
  * @example ```js
  * import {createGridFromArray2D} from "gridl/core";

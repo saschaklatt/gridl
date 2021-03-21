@@ -9,6 +9,7 @@ import {selectSubGrid} from "../core/selectors";
  *
  * @param area The area which defines the subgrid to be extracted.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [ 0,  1,  2,  3],

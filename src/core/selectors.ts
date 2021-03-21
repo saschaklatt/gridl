@@ -6,6 +6,7 @@ import {addPositions, clamp, createArray, cropArray2D, isOutOfShape, isOutOfRang
 /**
  * Props for the selectCell selector.
  * @template T The cell type.
+ * @since 0.11.1
  */
 interface SelectCellProps<T> extends Position {
     /** The grid that contains the cell value. */
@@ -16,6 +17,7 @@ interface SelectCellProps<T> extends Position {
  * Returns the cell value at the given position.
  * @param props The properties.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export const selectCell = <T>(props: SelectCellProps<T>) => {
     const {x, y, grid} = props;
@@ -25,6 +27,7 @@ export const selectCell = <T>(props: SelectCellProps<T>) => {
 /**
  * Props for the selectRow selector.
  * @template T The cell type.
+ * @since 0.11.1
  */
 interface SelectRowProps<T> {
     /** The y-position of the row to select. */
@@ -38,6 +41,7 @@ interface SelectRowProps<T> {
  * Returns the row at the given y-position or undefined if the row doesn't exist.
  * @param props The properties.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export const selectRow = <T>(props: SelectRowProps<T>): T[] | undefined => {
     const {grid, y} = props;
@@ -47,6 +51,7 @@ export const selectRow = <T>(props: SelectRowProps<T>): T[] | undefined => {
 /**
  * Props for the selectColumn selector.
  * @template T The cell type.
+ * @since 0.11.1
  */
 interface SelectColumnProps<T> {
     /** The x-position of the column to select. */
@@ -60,6 +65,7 @@ interface SelectColumnProps<T> {
  * Returns the column at the given x-position or undefined if the column doesn't exist.
  * @param props The properties.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export const selectColumn = <T>(props: SelectColumnProps<T>) => {
     const {x, grid} = props;
@@ -72,6 +78,7 @@ export const selectColumn = <T>(props: SelectColumnProps<T>) => {
 /**
  * Props for the selectSubGrid selector.
  * @template T The cell type.
+ * @since 0.11.1
  */
 interface SelectSubGridProps<T> {
     /** The grid. */
@@ -85,6 +92,7 @@ interface SelectSubGridProps<T> {
  * Returns a subset of the grid defined by given coordinates.
  * @param props The properties.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export const selectSubGrid = <T>(props: SelectSubGridProps<T>) => {
     const {grid, area} = props;
@@ -99,6 +107,7 @@ export const selectSubGrid = <T>(props: SelectSubGridProps<T>) => {
 /**
  * Props for the selectNeighbours selector.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export interface SelectNeighboursProps<T> {
     /** The positions of the cell you are particularly interested in, relative to the given cell. This can be any position relative to the given position. Duplicate positions are possible as well. */
@@ -117,6 +126,7 @@ export interface SelectNeighboursProps<T> {
 /**
  * A neighbour cell and its position on the grid.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export interface SelectNeighboursResult<T> {
     /** The position of the neighbour cell. */
@@ -132,6 +142,7 @@ export interface SelectNeighboursResult<T> {
  * @param origin The position of the cell whose neighbours you want to have.
  * @param options Further options.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export const selectNeighbours = <T>(props: SelectNeighboursProps<T>): SelectNeighboursResult<T | undefined>[] => {
     const {grid, origin} = props;

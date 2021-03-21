@@ -16,6 +16,7 @@ const createFrozenGrid = <T>(originalArray2D: T[][], position?: OptionalPosition
  *
  * @param props The properties to create a new grid.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGrid({
  *     columnCount: 3,
@@ -48,6 +49,7 @@ export function createGrid<T>(props: CreateGridProps<T>): Grid<T> {
  *
  * @param props The props to create a grid from an 2d array.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D({
  *     x: 5,
@@ -79,6 +81,7 @@ export function createGridFromArray2D<T>(props: CreateGridFromArray2DProps<T>): 
  *
  * @param array2D The array from which to create the new grid instance.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [0, 1, 2, 3],

@@ -9,6 +9,7 @@ const checkIsOneEmptyRow = (arr2D: any[][]) => arr2D && arr2D[0] && !arr2D[0].le
  * Get the number of columns from an 2d array.
  *
  * @param arr2D The grid array.
+ * @since 0.11.1
  */
 export const getColumnCount = (arr2D: any[][]) => arr2D && arr2D[0] && arr2D[0].length || 0;
 
@@ -16,6 +17,7 @@ export const getColumnCount = (arr2D: any[][]) => arr2D && arr2D[0] && arr2D[0].
  * The get number of rows from an array 2d.
  *
  * @param arr2D The grid array.
+ * @since 0.11.1
  */
 export const getRowCount = (arr2D: any[][]) => checkIsOneEmptyRow(arr2D) ? 0 : arr2D && arr2D.length || 0;
 
@@ -24,6 +26,7 @@ export const getRowCount = (arr2D: any[][]) => checkIsOneEmptyRow(arr2D) ? 0 : a
  * A value of `[[]]` is replaced by `[]`.
  *
  * @param arr2D
+ * @since 0.11.1
  */
 export const correctEmptyArray2D = <T>(arr2D: T[][]) => {
     return (arr2D && arr2D[0] && arr2D[0].length === 0) ? [] : arr2D;
@@ -33,6 +36,7 @@ export const correctEmptyArray2D = <T>(arr2D: T[][]) => {
  * Checks whether the value is a number or not.
  *
  * @param value The value to check.
+ * @since 0.11.1
  */
 export const isNumber = (value: any) => typeof value === "number";
 
@@ -40,6 +44,7 @@ export const isNumber = (value: any) => typeof value === "number";
  * Checks whether the value is a function or not.
  *
  *  @param value The value to check.
+ * @since 0.11.1
  */
 export const isFunction = (value: any) => typeof value === "function";
 
@@ -48,6 +53,7 @@ export const isFunction = (value: any) => typeof value === "function";
  *
  * @param length The number of elements the array should have.
  * @param createElement The element factory function to create a new single element.
+ * @since 0.11.1
  */
 export function createArray<T>(length: number, createElement: (idx: number) => T): T[] {
     const result = new Array<T>(length);
@@ -63,6 +69,7 @@ export function createArray<T>(length: number, createElement: (idx: number) => T
  * @param value The value to check.
  * @param max The range's maximum value.
  * @param min The range's minimum value.
+ * @since 0.11.1
  */
 export function isOutOfRange(value: number, max: number, min = 0) {
     return value < min || value >= max;
@@ -73,6 +80,7 @@ export function isOutOfRange(value: number, max: number, min = 0) {
  *
  * @param position The position to check.
  * @param shape The shape to check against.
+ * @since 0.11.1
  */
 export function isOutOfShape(position: Position, shape: Shape) {
     return isOutOfRange(position.x, shape.columnCount) || isOutOfRange(position.y, shape.rowCount);
@@ -84,6 +92,7 @@ export function isOutOfShape(position: Position, shape: Shape) {
  * @param columnCount The number of columns, the grid array should have.
  * @param rowCount The number of row, the grid array should have.
  * @param createCell The factory function to create a single cell.
+ * @since 0.11.1
  */
 export function createArray2D<T>(columnCount: number, rowCount: number, createCell: CellFactory<T>): T[][] {
     return createArray(rowCount, (y) => createArray(columnCount, (x) => {
@@ -97,6 +106,7 @@ export function createArray2D<T>(columnCount: number, rowCount: number, createCe
  * Clones a two-dimensional grid array.
  * @param src The array to clone.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export function cloneArray2D<T = any>(src: T[][]) {
     const rows = src && src.length || 0;
@@ -107,6 +117,7 @@ export function cloneArray2D<T = any>(src: T[][]) {
 /**
  * Freezes a 2D array.
  * @param array2D The array to be frozen.
+ * @since 0.11.1
  */
 export function shallowFreezeArray2D<T>(array2D: T[][]) {
     const rowCount = array2D.length;
@@ -119,6 +130,7 @@ export function shallowFreezeArray2D<T>(array2D: T[][]) {
 /**
  * Extracts the values of the given area from a two-dimensional grid array.
  * Positions that are outside the grid are ignored.
+ * @since 0.11.1
  */
 export function cropArray2D<T>(xMin: number, yMin: number, xMax: number, yMax: number) {
     return (array2D: T[][]): T[][] => {

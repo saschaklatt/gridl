@@ -6,7 +6,7 @@ import {GridWalker, WalkerFactory} from './types';
  * @param shape - The shape to iterate over. Note that since a grid implements the Shape interface, you can just pass in the grid as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
- *
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [ 2,  1, 0],
@@ -41,7 +41,7 @@ export const walkEWNS: GridWalker = (shape, index) => {
  * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
- *
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [11, 10, 9],
@@ -77,7 +77,7 @@ export const walkEWSN: GridWalker = (shape, index) => {
  * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
- *
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [ 8, 4, 0],
@@ -112,7 +112,7 @@ export const walkNSEW: GridWalker = (shape, index) => {
  * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
- *
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [0, 4,  8],
@@ -147,7 +147,7 @@ export const walkNSWE: GridWalker = (shape, index) => {
  * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
- *
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [11, 7, 3],
@@ -183,7 +183,7 @@ export const walkSNEW: GridWalker = (shape, index) => {
  * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
- *
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [3, 7, 11],
@@ -219,6 +219,7 @@ export const walkSNWE: GridWalker = (shape, index) => {
  * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
+ * @since 0.11.1
  */
 export const walkWENS: GridWalker = (shape, index) => {
     const {columnCount} = shape;
@@ -233,7 +234,7 @@ export const walkWENS: GridWalker = (shape, index) => {
  * @param shape - The grid shape to iterate. Note that since a grid implements the Shape interface, you can just provide a grid instance as well.
  * @param index - The index to be converted.
  * @returns The grid position according to the given index.
- *
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [9, 10, 11],
@@ -273,7 +274,7 @@ export const walkDefault: GridWalker = walkWENS;
  *
  * @param shape The shape of the grid that is traversed.
  * @param walk Function that converts the iteration index into a grid position and thus determines the order in which the iterator traverses the cells. If the function is omitted the default walker walkDefault is used.
- *
+ * @since 0.11.1
  * @example ```js
  * const shape = {columnCount: 3, rowCount: 2, cellCount: 6};
  * const walker = createWalker(shape);

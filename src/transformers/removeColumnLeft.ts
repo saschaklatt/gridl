@@ -5,6 +5,7 @@ import {removeColumn} from "./removeColumn";
  * Creates a transformer that removes the most left column.
  *
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [1, 2, 3],

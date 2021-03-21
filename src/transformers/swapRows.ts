@@ -9,6 +9,7 @@ import {GridTransformer} from "./types";
  * @param y1 The y-position of the first row.
  * @param y2 The y-position of the second row.
  * @template T The cell type.
+ * @since 0.11.1
  *
  * @example ```js
  * const grid = createGridFromArray2D([

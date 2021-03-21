@@ -7,6 +7,7 @@ import {map} from "./map";
  * @param value The value to fill the grid with.
  * @template T The type of the original cell values.
  * @template U The type of the new cell values.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGrid({columnCount: 4, rowCount: 5, createCell: () => 0});
  * const newGrid = fill(6)(grid);

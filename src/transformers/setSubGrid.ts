@@ -11,6 +11,7 @@ import {selectCell} from "../core/selectors";
  * @param subGridPosition The position of the upper left corner of the subgrid on the main grid.
  * @param subGrid The subgrid that contains the values to be applied to the main grid.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * // create base grid
  * const grid = createGridFromArray2D([

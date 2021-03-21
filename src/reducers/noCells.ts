@@ -7,6 +7,7 @@ export interface NoCellsPredicate<T> {
      * @param position The position of the current cell being processed in the grid, starting from 0.
      * @param index The index of the current cell being processed in the grid, starting from 0.
      * @param srcGrid The grid `someCells` was called upon.
+     * @since 0.11.3
      */
      (cellValue: T, position: Position, index: number, srcGrid: Grid<T>): boolean
 }

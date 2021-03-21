@@ -6,6 +6,7 @@ import {GridTransformer} from "./types";
  *
  * @param x The x-position of the column to be removed. Invalid positions are ignored.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [1, 2, 3],

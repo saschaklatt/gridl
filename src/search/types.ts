@@ -8,6 +8,7 @@ import {Grid, Position} from "../core/types";
  * @param index The index of the current iteration step.
  * @param src The grid that is currently being traversed.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export interface FindCallback<T> {
     (cellValue: T, position: Position, index: number, src: Grid<T>): boolean;
@@ -21,6 +22,7 @@ export interface FindCallback<T> {
  * @param index The index of the current iteration step.
  * @param src The grid that is currently being traversed.
  * @template T The cell type.
+ * @since 0.11.1
  */
 export interface CompareCallback<T> {
     (prevCell: T, cell: T): number;

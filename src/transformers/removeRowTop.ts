@@ -5,6 +5,7 @@ import {removeRow} from "./removeRow";
  * Creates a transformer that removes the top row.
  *
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [1, 2, 3],

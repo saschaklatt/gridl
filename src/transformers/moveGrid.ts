@@ -7,6 +7,7 @@ import {GridTransformer} from "./types";
  *
  * @param position The position of where to move the grid.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [1, 2, 3],

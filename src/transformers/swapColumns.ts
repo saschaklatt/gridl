@@ -10,6 +10,7 @@ import {selectColumn} from "../core/selectors";
  * @param x1 The x-position of the first column.
  * @param x2 The x-position of the second column.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [0,  1,  2],

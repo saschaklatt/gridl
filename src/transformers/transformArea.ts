@@ -12,6 +12,7 @@ import {transform} from "./transform";
  * @param area The area to be transformed.
  * @param transformerList The list of transformer function to be applied.
  * @template T The cell type.
+ * @since 0.11.1
  *
  * @example ```js
  * const grid = createGridFromArray2D([

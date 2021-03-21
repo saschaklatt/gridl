@@ -8,6 +8,7 @@ import {getIntersectingArea} from "../core/utils";
  *
  * @param area The other grid to intersect with.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [ 0,  1,  2,  3,  4],

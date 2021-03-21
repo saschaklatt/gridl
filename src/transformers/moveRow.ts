@@ -10,6 +10,7 @@ import {selectRow} from "../core/selectors";
  * @param fromY Defines the y-position of the row that should be moved.
  * @param toY Defines the y-position of where the row is to be moved.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * createGridFromArray2D([
  *     [ 1,  2,  3],

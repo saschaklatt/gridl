@@ -27,6 +27,7 @@ const addNthColumn = <T>(column: T[], x: number, grid: Grid<T>): T[][] => {
  * @param x The x-position of where to add the column.
  * @param column The column to add.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```js
  * const x = 1;
  * const y = 2;

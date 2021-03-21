@@ -8,6 +8,7 @@ import {createGridFromArray2D} from "../core/grid";
  * @param column The new column to replace the old one.
  * @param yOffset An optional offset to shift the new column on the y-axis.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```ts
  * const grid = createGridFromArray2D([
  *     [0, 0, 0],

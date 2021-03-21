@@ -7,6 +7,7 @@ import {createGridFromArray2D} from "../core/grid";
  *
  * @param y The y-position of the column to be removed. Invalid positions are ignored.
  * @template T The cell value.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGrid({
  *     createCell: (_pos, idx) => idx + 1

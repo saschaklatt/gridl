@@ -6,6 +6,7 @@ import {GridTransformer} from "./types";
  *
  * @param column The column to add.
  * @template T The cell type.
+ * @since 0.11.1
  * @example ```ts
  * const grid = createGridFromArray2D([
  *     [1, 2, 3],

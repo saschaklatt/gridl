@@ -9,6 +9,7 @@ import {selectCell} from "../core/selectors";
  * Callback function that is called on each cell and returns the new value for this cell.
  * @template T The cell type of the original grid.
  * @template U The cell type of the new grid.
+ * @since 0.11.1
  */
 export interface MapCallback<T, U = T> {
     /**
@@ -17,6 +18,7 @@ export interface MapCallback<T, U = T> {
      * @param index The index of the current cell.
      * @param src The grid that is mapped.
      * @returns The new cell value.
+     * @since 0.11.1
      */
     (cellValue: T, position: Position, index: number, src: Grid<T>): U
 }
@@ -29,6 +31,7 @@ export interface MapCallback<T, U = T> {
  * @param walk This function calculates the grid position based on the iteration step and therefore defines the order in which the cells are iterated. If no walker is defined walkDefault is used.
  * @template T The type of the original cell values.
  * @template U The type of the new cell values.
+ * @since 0.11.1
  * @example ```js
  * const grid = createGridFromArray2D([
  *     [0, 1,  2,  3],
