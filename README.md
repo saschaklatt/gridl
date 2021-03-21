@@ -1,13 +1,8 @@
 # gridl
 
 <p>
-  <a aria-label="npm version" href="https://www.npmjs.com/package/gridl">
-    <img alt="" src="https://img.shields.io/npm/v/gridl">
-  </a>
-  <a aria-label="MIT License" href="https://img.shields.io/npm/l/gridl">
-    <img alt="" src="https://img.shields.io/npm/l/gridl">
-  </a>
-  
+  <img alt="" src="https://img.shields.io/npm/v/gridl">
+  <img alt="" src="https://img.shields.io/npm/l/gridl">
   <img alt="" src="./docs/badge-coverage.svg">
 </p>
 

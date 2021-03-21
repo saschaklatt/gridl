@@ -31,6 +31,8 @@ export * from "./setCell";
 export * from "./setColumn";
 export * from "./setRow";
 export * from "./setSubGrid";
+export * from "./shiftColumn";
+export * from "./shiftRow";
 export * from "./swapCells";
 export * from "./swapColumns";
 export * from "./swapRows";
