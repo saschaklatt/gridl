@@ -7,6 +7,8 @@
   <a aria-label="MIT License" href="https://img.shields.io/npm/l/gridl">
     <img alt="" src="https://img.shields.io/npm/l/gridl">
   </a>
+  
+  <img alt="" src="./docs/badge-coverage.svg">
 </p>
 
 A functional toolbox for grid-based data.
