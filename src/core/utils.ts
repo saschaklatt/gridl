@@ -87,6 +87,33 @@ export function isOutOfShape(position: Position, shape: Shape) {
 }
 
 /**
+ * Checks whether the given position is outside the given area or not.
+ *
+ * @param position The position to check.
+ * @param area The area to check against.
+ * @since 0.11.7
+ */
+export function isOutOfArea(position: Position, area: Area) {
+    return (
+        position.x < area.x ||
+        position.x >= area.x + area.columnCount ||
+        position.y < area.y ||
+        position.y >= area.y + area.rowCount
+    );
+}
+
+/**
+ * Checks whether the given position is within the given area or not.
+ *
+ * @param position The position to check.
+ * @param area The area to check against.
+ * @since 0.11.7
+ */
+export function isWithinArea(position: Position, area: Area) {
+    return !isOutOfArea(position, area);
+}
+
+/**
  * Create a two-dimensional grid array.
  *
  * @param columnCount The number of columns, the grid array should have.
@@ -241,5 +268,18 @@ export function addPositions(pos1: Position, pos2: Position): Position {
     return {
         x: pos1.x + pos2.x,
         y: pos1.y + pos2.y,
+    };
+}
+
+/**
+ * Subtracts the x- and y-components of two positions.
+ *
+ * @param pos1 The first position.
+ * @param pos2 The second position.
+ */
+export function subtractPositions(pos1: Position, pos2: Position): Position {
+    return {
+        x: pos1.x - pos2.x,
+        y: pos1.y - pos2.y,
     };
 }

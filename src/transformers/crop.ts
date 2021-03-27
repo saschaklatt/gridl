@@ -1,4 +1,4 @@
-import {Area} from "../core/types";
+import {Area, Grid} from "../core/types";
 import {GridTransformer} from "./types";
 import {coordinatesToArea, isNumber} from "../core/utils";
 import {selectSubGrid} from "../core/selectors";
@@ -76,6 +76,6 @@ export function crop<T>(x1: number, y1: number, x2: number, y2: number): GridTra
 export function crop<T>(this: any, ...args: any): GridTransformer<T> {
     return (grid) => {
         const area: Area = isNumber(args[0]) ? coordinatesToArea.apply(this, args as any) : args[0];
-        return selectSubGrid({grid, area});
+        return selectSubGrid({grid, area}) as Grid<T>;
     };
 }

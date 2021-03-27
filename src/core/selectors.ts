@@ -1,5 +1,5 @@
 import {SurroundingDirections} from "./directions";
-import {createGridFromArray2D} from "./grid";
+import {createGrid, createGridFromArray2D} from "./grid";
 import {Area, Grid, Position} from "./types";
 import {addPositions, clamp, createArray, cropArray2D, isOutOfShape, isOutOfRange, getColumnCount, getRowCount} from "./utils";
 
@@ -86,7 +86,27 @@ interface SelectSubGridProps<T> {
 
     /** The x-position of the column to select. */
     area: Area,
+
+    /** If true, values that are outside the grid will be included as undefined. If false, outside values will be ignored and the size of the grid will be smaller accordingly. Default value is false. */
+    includeOutsideValues?: boolean
 }
+
+const getSubGridExcludingOutsiders = <T>(grid: Grid<T>, area: Area) => {
+    const xMin = clamp(0, grid.columnCount, area.x);
+    const yMin = clamp(0, grid.rowCount, area.y);
+    const xMax = clamp(0, grid.columnCount, area.x + area.columnCount);
+    const yMax = clamp(0, grid.rowCount, area.y + area.rowCount);
+    const array2D = cropArray2D<T>(xMin, yMin, xMax, yMax)(grid.array2D);
+    return createGridFromArray2D({array2D, x: xMin, y: yMin});
+};
+
+const getSubGridIncludingOutsiders = <T>(grid: Grid<T>, area: Area) => {
+    return createGrid({...area, createCell: (position) => {
+        return selectCell({
+            grid, ...addPositions(position, area),
+        });
+    }});
+};
 
 /**
  * Returns a subset of the grid defined by given coordinates.
@@ -95,13 +115,10 @@ interface SelectSubGridProps<T> {
  * @since 0.11.1
  */
 export const selectSubGrid = <T>(props: SelectSubGridProps<T>) => {
-    const {grid, area} = props;
-    const xMin = clamp(0, grid.columnCount, area.x);
-    const yMin = clamp(0, grid.rowCount, area.y);
-    const xMax = clamp(0, grid.columnCount, area.x + area.columnCount);
-    const yMax = clamp(0, grid.rowCount, area.y + area.rowCount);
-    const array2D = cropArray2D<T>(xMin, yMin, xMax, yMax)(grid.array2D);
-    return createGridFromArray2D({array2D, x: xMin, y: yMin});
+    const {grid, area, includeOutsideValues = false} = props;
+    return includeOutsideValues
+        ? getSubGridIncludingOutsiders(grid, area)
+        : getSubGridExcludingOutsiders(grid, area);
 };
 
 /**

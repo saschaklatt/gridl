@@ -1,9 +1,9 @@
 # gridl
 
 <p>
-  <img alt="" src="https://img.shields.io/npm/v/gridl">
-  <img alt="" src="https://img.shields.io/npm/l/gridl">
-  <img alt="" src="./docs/badge-coverage.svg">
+    <img alt="" src="https://img.shields.io/npm/v/gridl">
+    <img alt="" src="https://img.shields.io/npm/l/gridl">
+    <img alt="" src="https://raw.githubusercontent.com/klattiation/gridl/master/docs/badge-coverage.svg">
 </p>
 
 A functional toolbox for grid-based data.
@@ -59,7 +59,7 @@ const grid = createGrid({
 //     cellCount: 12,
 //     columnCount: 4,
 //     rowCount: 3,
-//     _array2D: [
+//     array2D: [
 //         [  0,   1,   2,   3],
 //         [  4,   5,   6,   7],
 //         ["x", "x", "x", "x"],
@@ -111,7 +111,7 @@ const newGrid = addRowTop(["x", "x", "x", "x"])(grid);
 //     cellCount: 12,
 //     columnCount: 4,
 //     rowCount: 4,
-//     _array2D: [
+//     array2D: [
 //         ["x", "x", "x", "x"],
 //         [  0,   1,   2,   3],
 //         [  4,   5,   6,   7],
@@ -151,4 +151,4 @@ Report issues, bugs and feature request on the [github issues page](https://gith
 
 ## License
 
-MIT © [Sascha Klatt](https://github.com/klattiation)
+MIT © [Sascha Klatt](https://saschaklatt.dev)

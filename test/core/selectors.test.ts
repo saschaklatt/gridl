@@ -29,7 +29,7 @@ describe("selectors", () => {
         });
     });
 
-    describe("getColumn()", () => {
+    describe("selectColumn()", () => {
         it("returns the columns", () => {
             const grid = createGrid({columnCount: 4, rowCount: 3, createCell: (_pos, idx) => idx});
             expect(selectColumn({grid, x: 0})).toEqual([0, 4, 8]);
@@ -41,7 +41,7 @@ describe("selectors", () => {
         });
     });
 
-    describe("getSubGrid()", () => {
+    describe("selectSubGrid()", () => {
         it("selects an area", () => {
             const grid = createGrid({columnCount: 10, rowCount: 10, createCell: (_pos, idx) => idx});
 
@@ -94,9 +94,46 @@ describe("selectors", () => {
                 ],
             });
         });
+
+        it("includes positive outside values", () => {
+            const grid = createGrid({columnCount: 10, rowCount: 10, createCell: (_pos, idx) => idx});
+            const area = {x: 8, y: 8, columnCount: 4, rowCount: 3};
+            const result = selectSubGrid({grid, area, includeOutsideValues: true});
+            expect(result).toEqual({
+                cellCount: 12,
+                columnCount: 4,
+                rowCount: 3,
+                x: 8,
+                y: 8,
+                array2D: [
+                    [88, 89, undefined, undefined],
+                    [98, 99, undefined, undefined],
+                    [undefined, undefined, undefined, undefined],
+                ],
+            });
+        });
+
+        it("includes negative outside values", () => {
+            const grid = createGrid({columnCount: 10, rowCount: 10, createCell: (_pos, idx) => idx});
+            const area = {x: -2, y: -2, columnCount: 4, rowCount: 4};
+            const result = selectSubGrid({grid, area, includeOutsideValues: true});
+            expect(result).toEqual({
+                rowCount: 4,
+                columnCount: 4,
+                cellCount: 16,
+                x: -2,
+                y: -2,
+                array2D: [
+                    [undefined, undefined, undefined, undefined],
+                    [undefined, undefined, undefined, undefined],
+                    [undefined, undefined,  0,  1],
+                    [undefined, undefined, 10, 11],
+                ],
+            });
+        });
     });
 
-    describe("getNeighbours", () => {
+    describe("selectNeighbours", () => {
         const mockGrid = () => createGridFromArray2D([
             [ 1, 2, 3, 4, 5],
             [ 6, 7, 8, 9,10],

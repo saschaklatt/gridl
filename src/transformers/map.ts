@@ -55,7 +55,7 @@ export interface MapCallback<T, U = T> {
  * // }
  * ```
  */
-export function map<T, U = T>(callback:MapCallback<T, U>, walk?: GridWalker): GridTransformer<T, U> {
+export function map<T, U = T>(callback: MapCallback<T, U>, walk?: GridWalker): GridTransformer<T, U> {
     return (grid) => {
         const array2D = createArray2D<U | null>(grid.columnCount, grid.rowCount, () => null);
         const walker = createWalker(grid, walk);
