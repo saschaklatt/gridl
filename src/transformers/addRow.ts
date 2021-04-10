@@ -33,9 +33,10 @@ import {GridTransformer} from "./types";
 export function addRow<T>(y: number, row: T[]): GridTransformer<T> {
     return (grid) => {
         const gridHasRows = grid.rowCount > 0;
+        const incompatibleColumnCount = grid.columnCount !== row.length;
 
-        if (gridHasRows && grid.columnCount !== row.length) {
-            throw new TypeError();
+        if (gridHasRows && incompatibleColumnCount) {
+            throw new TypeError("Incompatible number of columns");
         }
 
         if (y <= 0) {

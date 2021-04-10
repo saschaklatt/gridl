@@ -9,6 +9,7 @@ export * from "./addColumn";
 export * from "./addColumnLeft";
 export * from "./addColumnRight";
 export * from "./addRow";
+export * from "./addRows";
 export * from "./addRowBottom";
 export * from "./addRowTop";
 export * from "./crop";

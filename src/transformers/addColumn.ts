@@ -57,8 +57,10 @@ const addNthColumn = <T>(column: T[], x: number, grid: Grid<T>): T[][] => {
 export function addColumn<T>(x: number, column: T[]): GridTransformer<T> {
     return (grid) => {
         const hasRows = grid.rowCount > 0;
-        if (hasRows && column.length !== grid.rowCount) {
-            throw new TypeError();
+        const incompatibleRowCount = column.length !== grid.rowCount;
+
+        if (hasRows && incompatibleRowCount) {
+            throw new TypeError("Incompatible number of rows");
         }
 
         const sanitizedX = clamp(0, grid.columnCount, x);
