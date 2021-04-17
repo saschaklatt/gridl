@@ -3,28 +3,28 @@ import {addRows} from "../../src/transformers";
 
 describe("addRows", () => {
     it("adds new rows in the middle of a prefilled grid", () => {
-const grid = createGridFromArray2D([
-    [1, 2, 3],
-    [4, 5, 6],
-]);
-const newRows = [
-    [ 7,  8,  9],
-    [10, 11, 12],
-];
-const newGrid = addRows(1, newRows)(grid);
-expect(newGrid).toEqual({
-    x: 0,
-    y: 0,
-    cellCount: 12,
-    columnCount: 3,
-    rowCount: 4,
-    array2D: [
-        [ 1,  2,  3],
-        [ 7,  8,  9],
-        [10, 11, 12],
-        [ 4,  5,  6],
-    ],
-});
+        const grid = createGridFromArray2D([
+            [1, 2, 3],
+            [4, 5, 6],
+        ]);
+        const newRows = [
+            [ 7,  8,  9],
+            [10, 11, 12],
+        ];
+        const newGrid = addRows(1, newRows)(grid);
+        expect(newGrid).toEqual({
+            x: 0,
+            y: 0,
+            cellCount: 12,
+            columnCount: 3,
+            rowCount: 4,
+            array2D: [
+                [ 1,  2,  3],
+                [ 7,  8,  9],
+                [10, 11, 12],
+                [ 4,  5,  6],
+            ],
+        });
     });
 
     it("adds new rows to the start of a grid", () => {
@@ -100,7 +100,7 @@ expect(newGrid).toEqual({
         ]);
     });
 
-    it("does nothing with en empty rows array", () => {
+    it("does nothing with an empty rows array", () => {
         const grid = createGridFromArray2D([
             [1, 2, 3],
             [4, 5, 6],
@@ -116,16 +116,16 @@ expect(newGrid).toEqual({
             [4, 5, 6],
         ]);
 
-        const tooManyColumns = [
+        const rowsWithTooManyColumns = [
             [1, 2, 3, 4],
             [5, 6, 7],
         ];
-        const tooFewColumns = [
+        const rowsWithTooFewColumns = [
             [1, 2, 3],
             [5, 6],
         ];
 
-        expect(() => addRows(1, tooManyColumns)(grid)).toThrow();
-        expect(() => addRows(1, tooFewColumns)(grid)).toThrow();
+        expect(() => addRows(1, rowsWithTooManyColumns)(grid)).toThrow();
+        expect(() => addRows(1, rowsWithTooFewColumns)(grid)).toThrow();
     });
 });

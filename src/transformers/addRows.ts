@@ -2,9 +2,9 @@ import {createGrid, createGridFromArray2D} from "../core/grid";
 import {selectCell} from "../core/selectors";
 import {GridTransformer} from "./types";
 
-const validateColumnSizes = <T>(rows: T[][], columnCount: number) => {
+const validateColumnSizes = <T>(rows: T[][], gridColumnCount: number) => {
     for (const row of rows) {
-        if (columnCount !== row.length) {
+        if (gridColumnCount !== row.length) {
             return false;
         }
     }
