@@ -20,6 +20,28 @@ const validateRowSizes = <T>(columns: T[][], gridRowCount: number) => {
  * @template T The cell type.
  * @since 0.11.9
  * @example ```ts
+ * const grid = createGridFromArray2D([
+ *     [0, 0, 0],
+ *     [0, 0, 0],
+ *     [0, 0, 0],
+ * ]);
+ * const newColumns = [
+ *     [ 7,  8,  9],
+ *     [10, 11, 12],
+ * ];
+ * const newGrid = addColumns(1, newColumns)(grid);
+ * // => {
+ * //    x: 0,
+ * //    y: 0,
+ * //    cellCount: 15,
+ * //    columnCount: 5,
+ * //    rowCount: 3,
+ * //    array2D: [
+ * //        [0, 7, 10, 0, 0],
+ * //        [0, 8, 11, 0, 0],
+ * //        [0, 9, 12, 0, 0],
+ * //    ],
+ * // }
  * ```
  */
 export function addColumns<T>(x: number, columns: T[][]): GridTransformer<T> {
