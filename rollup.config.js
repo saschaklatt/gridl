@@ -30,7 +30,7 @@ const buildEsmFiles = () => ({
     ],
     preserveModules: true,
     plugins: [
-        visualizer({template: "treemap", filename: `stats/esm.html`}),
+        visualizer({template: "treemap", filename: "stats/esm.html"}),
         typescript(),
         generatePackageJson({
             outputFolder: outputDir,
@@ -51,8 +51,8 @@ const buildEsmFiles = () => ({
         }),
         copy({
             targets: [
-                {src: './LICENSE', dest: outputDir},
-                {src: './README.md', dest: outputDir},
+                {src: "./LICENSE", dest: outputDir},
+                {src: "./README.md", dest: outputDir},
             ],
         }),
     ],
@@ -65,7 +65,7 @@ const buildUmdBundle = () => ({
         getOutputFileConf("umd"),
     ],
     plugins: [
-        visualizer({template: "treemap", filename: `stats/umd.html`}),
+        visualizer({template: "treemap", filename: "stats/umd.html"}),
         typescript(),
     ],
 });
