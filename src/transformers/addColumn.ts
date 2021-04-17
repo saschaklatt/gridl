@@ -1,25 +1,5 @@
-import {createGridFromArray2D} from "../core/grid";
-import {clamp} from "../core/utils";
-import {Grid} from "../core/types";
 import {GridTransformer} from "./types";
-
-const addFirstColumn = <T>(column: T[]): T[][] => {
-    return column.reduce((newGrid, cell) => {
-        const newRow = [cell];
-        return [
-            ...newGrid,
-            newRow,
-        ];
-    }, [] as T[][]);
-};
-
-const addNthColumn = <T>(column: T[], x: number, grid: Grid<T>): T[][] => {
-    return grid.array2D.map((row, i) => {
-        const newRow = [...row];
-        newRow.splice(x, 0, column[i]);
-        return newRow;
-    });
-};
+import {addColumns} from "./addColumns";
 
 /**
  * Creates a transformer that adds the given column at the given x-position.
@@ -55,16 +35,5 @@ const addNthColumn = <T>(column: T[], x: number, grid: Grid<T>): T[][] => {
  * ```
  */
 export function addColumn<T>(x: number, column: T[]): GridTransformer<T> {
-    return (grid) => {
-        const hasRows = grid.rowCount > 0;
-        const incompatibleRowCount = column.length !== grid.rowCount;
-
-        if (hasRows && incompatibleRowCount) {
-            throw new TypeError("Incompatible number of rows");
-        }
-
-        const sanitizedX = clamp(0, grid.columnCount, x);
-        const array2D = hasRows ? addNthColumn(column, sanitizedX, grid) : addFirstColumn(column);
-        return createGridFromArray2D({...grid, array2D});
-    };
+    return addColumns(x, [column]);
 }

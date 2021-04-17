@@ -1,5 +1,4 @@
-import {createGrid, createGridFromArray2D} from "../core/grid";
-import {selectCell} from "../core/selectors";
+import {addRows} from "./addRows";
 import {GridTransformer} from "./types";
 
 /**
@@ -31,32 +30,5 @@ import {GridTransformer} from "./types";
  * ```
  */
 export function addRow<T>(y: number, row: T[]): GridTransformer<T> {
-    return (grid) => {
-        const gridHasRows = grid.rowCount > 0;
-        const incompatibleColumnCount = grid.columnCount !== row.length;
-
-        if (gridHasRows && incompatibleColumnCount) {
-            throw new TypeError("Incompatible number of columns");
-        }
-
-        if (y <= 0) {
-            return createGridFromArray2D({...grid, array2D: [row, ...grid.array2D]});
-        }
-
-        if (y >= grid.rowCount) {
-            return createGridFromArray2D({...grid, array2D: [...grid.array2D, row]});
-        }
-
-        return createGrid({
-            ...grid,
-            rowCount: grid.rowCount + 1,
-            createCell: (pos) => {
-                return pos.y < y
-                    ? selectCell({...pos, grid}) as T
-                    : pos.y > y
-                    ? selectCell({x: pos.x, y: pos.y - 1, grid}) as T
-                    : row[pos.x];
-            },
-        });
-    };
+    return addRows(y, [row]);
 }
