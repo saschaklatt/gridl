@@ -1,98 +1,98 @@
 {
-    "name": "gridl",
-    "version": "0.11.10",
-    "license": "MIT",
-    "author": {
-        "name": "Sascha Klatt",
-        "url": "https://saschaklatt.dev"
-    },
-    "homepage": "https://gridl.dev",
-    "keywords": [
-        "grid",
-        "matrix",
-        "cell",
-        "2d",
-        "tile",
-        "map",
-        "data",
-        "structure",
-        "rows",
-        "columns",
-        "transformation",
-        "swap",
-        "rotate",
-        "move",
-        "mirror",
-        "flip",
-        "shift",
-        "reduce",
-        "search",
-        "find",
-        "traverse",
-        "walk",
-        "es6",
-        "typescript",
-        "functional"
-    ],
-    "main": "index.js",
-    "scripts": {
-        "build": "yarn build:clean && yarn build:declarations && yarn build:rollup",
-        "build:clean": "rm -rf dist/*",
-        "build:declarations": "tsc --project tsconfig.declarations.json",
-        "build:rollup": "rollup -c --no-treeshake",
-        "build:typedoc": "typedoc --json docs/typedoc.json",
-        "lint": "eslint src/**/* test/**/*",
-        "lint:fix": "eslint src/**/* test/**/* --fix",
-        "test": "jest",
-        "test:coverage": "yarn test:coverage:report && yarn test:coverage:badge",
-        "test:coverage:report": "yarn jest --coverage",
-        "test:coverage:badge": "make-coverage-badge --output-path ./docs/badge-coverage.svg",
-        "start": "yarn test --watch",
-        "serve:coverage": "cd coverage/lcov-report/ && http-server",
-        "serve:stats": "cd stats/ && http-server",
-        "qa": "yarn test && yarn lint"
-    },
-    "dependencies": {},
-    "peerDependencies": {},
-    "devDependencies": {
-        "@rollup/plugin-typescript": "^8.2.1",
-        "@types/jest": "^26.0.22",
-        "@types/redux": "^3.6.0",
-        "@typescript-eslint/eslint-plugin": "^4.22.0",
-        "@typescript-eslint/parser": "^4.22.0",
-        "eslint": "^7.24.0",
-        "husky": "^4.3.8",
-        "jest": "^27.3.1",
-        "make-coverage-badge": "^1.2.0",
-        "redux": "^4.0.5",
-        "rollup": "^2.45.2",
-        "rollup-plugin-copy": "^3.4.0",
-        "rollup-plugin-generate-package-json": "^3.2.0",
-        "rollup-plugin-terser": "^7.0.2",
-        "rollup-plugin-typescript2": "^0.30.0",
-        "rollup-plugin-visualizer": "^5.3.6",
-        "ts-jest": "^27.0.7",
-        "tslib": "^2.2.0",
-        "typedoc": "^0.20.35",
-        "typedoc-plugin-pages": "^1.1.0",
-        "typescript": "^4.2.4"
-    },
-    "directories": {
-        "lib": "src/",
-        "doc": "docs/",
-        "test": "test/"
-    },
-    "repository": "github:klattiation/gridl",
-    "bugs": {
-        "url": "https://github.com/klattiation/gridl/issues"
-    },
-    "funding": {
-        "type": "individual",
-        "url": "https://buymeacoffee.com/i62xdOZF3"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "yarn lint"
-        }
+  "name": "gridl",
+  "version": "0.11.10",
+  "license": "MIT",
+  "author": {
+    "name": "Sascha Klatt",
+    "url": "https://saschaklatt.dev"
+  },
+  "homepage": "https://js.gridl.org",
+  "keywords": [
+    "grid",
+    "matrix",
+    "cell",
+    "2d",
+    "tile",
+    "map",
+    "data",
+    "structure",
+    "rows",
+    "columns",
+    "transformation",
+    "swap",
+    "rotate",
+    "move",
+    "mirror",
+    "flip",
+    "shift",
+    "reduce",
+    "search",
+    "find",
+    "traverse",
+    "walk",
+    "es6",
+    "typescript",
+    "functional"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "build": "yarn build:clean && yarn build:declarations && yarn build:rollup",
+    "build:clean": "rm -rf dist/*",
+    "build:declarations": "tsc --project tsconfig.declarations.json",
+    "build:rollup": "rollup -c --no-treeshake",
+    "build:typedoc": "typedoc --json docs/typedoc.json",
+    "lint": "eslint src/**/* test/**/*",
+    "lint:fix": "eslint src/**/* test/**/* --fix",
+    "test": "jest",
+    "test:coverage": "yarn test:coverage:report && yarn test:coverage:badge",
+    "test:coverage:report": "yarn jest --coverage",
+    "test:coverage:badge": "make-coverage-badge --output-path ./docs/badge-coverage.svg",
+    "start": "yarn test --watch",
+    "serve:coverage": "cd coverage/lcov-report/ && http-server",
+    "serve:stats": "cd stats/ && http-server",
+    "qa": "yarn test && yarn lint"
+  },
+  "dependencies": {},
+  "peerDependencies": {},
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.2.1",
+    "@types/jest": "^26.0.22",
+    "@types/redux": "^3.6.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.24.0",
+    "husky": "^4.3.8",
+    "jest": "^27.3.1",
+    "make-coverage-badge": "^1.2.0",
+    "redux": "^4.0.5",
+    "rollup": "^2.45.2",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-generate-package-json": "^3.2.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-visualizer": "^5.3.6",
+    "ts-jest": "^27.0.7",
+    "tslib": "^2.2.0",
+    "typedoc": "^0.20.35",
+    "typedoc-plugin-pages": "^1.1.0",
+    "typescript": "^4.2.4"
+  },
+  "directories": {
+    "lib": "src/",
+    "doc": "docs/",
+    "test": "test/"
+  },
+  "repository": "github:klattiation/gridl",
+  "bugs": {
+    "url": "https://github.com/klattiation/gridl/issues"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://buymeacoffee.com/i62xdOZF3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
     }
+  }
 }
