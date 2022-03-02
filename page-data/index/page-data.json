@@ -1,5 +1,5 @@
 {
     "componentChunkName": "component---src-pages-index-tsx",
     "path": "/",
-    "result": {"data":{"site":{"siteMetadata":{"title":"gridl","description":"A modern Javascript toolbox for grid-based data.","author":{"name":"Sascha Klatt","web":"https://saschaklatt.dev"},"gridl":{"latestVersion":"0.11.10"}}}},"pageContext":{}},
+    "result": {"data":{"site":{"siteMetadata":{"title":"gridl","description":"A modern Javascript toolbox for grid-based data.","author":{"name":"Sascha Klatt","web":"https://saschaklatt.dev"},"gridl":{"latestVersion":"0.11.12"}}}},"pageContext":{}},
     "staticQueryHashes": ["2467390232","4144279431"]}
